@@ -43,6 +43,8 @@ src/
   app/
     [lang]/layout.tsx         <html lang>, font, metadata (title, description, OG, hreflang)
     [lang]/page.tsx           ghép các section của trang
+    [lang]/features/[slug]/   5 trang tính năng (/vi/features/ai-planning…)
+    [lang]/[page]/            7 trang còn lại (/vi/getting-started, /vi/privacy…)
     [lang]/opengraph-image.tsx  ảnh chia sẻ mạng xã hội cho từng ngôn ngữ (tạo lúc build)
     [lang]/not-found.tsx      trang 404 song ngữ
     globals.css               design tokens (@theme) + style nền
@@ -50,7 +52,9 @@ src/
     robots.ts, sitemap.ts
   proxy.ts                    "/" → /vi hoặc /en (cookie → Accept-Language → mặc định vi)
   content/vi.ts, en.ts        TOÀN BỘ nội dung chữ, có kiểu dữ liệu chung (types.ts)
-  config/site.ts              URL trang, URL đăng ký/đăng nhập, quy tắc index
+  content/pages/vi.ts, en.ts  nội dung các trang con
+  lib/pages.ts                danh sách trang con, nhóm cột footer, đường dẫn
+  config/site.ts              URL trang, URL đăng ký/đăng nhập, email liên hệ, quy tắc index
   config/media.ts             chỗ khai báo video/ảnh sản phẩm thật
   lib/analytics.ts            hàm track() + danh sách sự kiện
   lib/reveal.ts               hiệu ứng trượt khi cuộn: reveal() + script khởi động
@@ -60,6 +64,7 @@ src/
     visuals/                  minh họa sản phẩm: SentenceToTask, PlanDraft, TodayView,
                               DelegatedView và ProjectWorkspace (dựng lại từ giao diện beta)
     layout/                   SiteHeader, SiteFooter, LanguageSwitch, AnalyticsListener, RevealObserver
+    subpage/                  SubpageView (giao diện chung của trang con), CookieReset
     ui/, brand/               nút, khung minh họa, avatar, logo, Testimonials (tường thẻ trượt)
 public/brand/                 logo gốc được cung cấp (.webp) + bản SVG dựng lại
 assets/fonts/                 font dùng để vẽ ảnh Open Graph (SIL OFL)
@@ -68,6 +73,8 @@ assets/fonts/                 font dùng để vẽ ảnh Open Graph (SIL OFL)
 ## Chỉnh sửa thường gặp
 
 **Nội dung chữ** — sửa `src/content/vi.ts` và `src/content/en.ts`. Hai file dùng chung kiểu `Dictionary`, nên nếu một ngôn ngữ thiếu nội dung thì `npm run typecheck` sẽ báo lỗi.
+
+**Footer và trang con** — footer có 4 cột: Sản phẩm, Tài nguyên, Công ty, Pháp lý. Mỗi liên kết dẫn tới một trang con riêng có đủ hai ngôn ngữ. Khi đổi ngôn ngữ, trang con vẫn giữ nguyên (ví dụ `/vi/privacy` ↔ `/en/privacy`). Để thêm một trang: khai báo khóa trong `src/lib/pages.ts` (mảng `featurePageKeys` hoặc `infoPageKeys`, và cột trong `pageGroups`), rồi viết nội dung trong `src/content/pages/vi.ts` và `en.ts`. Typecheck sẽ báo nếu thiếu một ngôn ngữ. Trang tính năng tự dùng lại hình minh họa của trang chủ; title, canonical, hreflang và sitemap được tạo tự động.
 
 **Màu sắc, bóng đổ** — sửa token trong khối `@theme` của `src/app/globals.css`. Component chỉ dùng tên token (`bg-brand`, `text-ink-muted`…), không ghi mã màu trực tiếp. Màu navy `#142D47` được lấy mẫu từ logo. Các màu khác là bảng màu tạm, chưa phải bộ màu thương hiệu chính thức.
 
@@ -78,6 +85,7 @@ assets/fonts/                 font dùng để vẽ ảnh Open Graph (SIL OFL)
 | `NEXT_PUBLIC_SIGNUP_URL` | `https://beta.elynto.io` | Đích của mọi nút “Dùng thử miễn phí” |
 | `NEXT_PUBLIC_LOGIN_URL` | `https://beta.elynto.io` | Đích của nút “Đăng nhập” |
 | `NEXT_PUBLIC_SITE_URL` | `https://elynto.io` | Canonical, sitemap, Open Graph |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | (trống) | Email hiện trên trang Liên hệ. Để trống thì trang ghi “sẽ được cập nhật” |
 | `SITE_INDEXABLE` | chỉ `true` trên Vercel Production | Cho phép công cụ tìm kiếm index |
 
 Biến `NEXT_PUBLIC_*` được đóng vào bản build. Sau khi đổi, cần build lại (trên Vercel: Redeploy).

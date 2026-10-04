@@ -509,5 +509,34 @@ export const en: Dictionary = {
     navLabel: "Footer links",
     rights: "Elynto.",
     languageLabel: "Language",
+    groups: {
+      product: "Product",
+      resources: "Resources",
+      company: "Company",
+      legal: "Legal",
+    },
+    legalLabel: "Legal",
+  },
+  subpage: {
+    breadcrumbLabel: "Breadcrumb",
+    home: "Home",
+    related: {
+      product: "More features",
+      resources: "More resources",
+      company: "More about Elynto",
+      legal: "More legal information",
+    },
+    updated: "Last updated: 4 October 2026",
+    step: "Step",
+    contact: {
+      emailLabel: "Email",
+      pending: "Our official contact channel will be listed here.",
+      helpTitle: "Your answer may already be here",
+      helpBody: "Many questions about getting started and using Elynto are covered on these pages.",
+    },
+    cookies: {
+      clear: "Clear my saved language",
+      cleared: "Done. The website no longer stores your language choice.",
+    },
   },
 };

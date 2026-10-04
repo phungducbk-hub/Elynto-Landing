@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n";
+import type { PageGroup } from "@/lib/pages";
 
 /** Parts of a natural-language request that become task fields. */
 export type FieldKey = "task" | "assignee" | "due";
@@ -242,6 +243,26 @@ export type Dictionary = {
     navLabel: string;
     rights: string;
     languageLabel: string;
+    groups: Record<PageGroup, string>;
+    legalLabel: string;
+  };
+  subpage: {
+    breadcrumbLabel: string;
+    home: string;
+    /** Heading above the other pages of the same group. */
+    related: Record<PageGroup, string>;
+    updated: string;
+    step: string;
+    contact: {
+      emailLabel: string;
+      pending: string;
+      helpTitle: string;
+      helpBody: string;
+    };
+    cookies: {
+      clear: string;
+      cleared: string;
+    };
   };
 };
 

@@ -509,5 +509,34 @@ export const vi: Dictionary = {
     navLabel: "Liên kết chân trang",
     rights: "Elynto.",
     languageLabel: "Ngôn ngữ",
+    groups: {
+      product: "Sản phẩm",
+      resources: "Tài nguyên",
+      company: "Công ty",
+      legal: "Pháp lý",
+    },
+    legalLabel: "Thông tin pháp lý",
+  },
+  subpage: {
+    breadcrumbLabel: "Đường dẫn",
+    home: "Trang chủ",
+    related: {
+      product: "Tính năng khác",
+      resources: "Tài nguyên khác",
+      company: "Thông tin khác",
+      legal: "Thông tin pháp lý khác",
+    },
+    updated: "Cập nhật lần cuối: 04/10/2026",
+    step: "Bước",
+    contact: {
+      emailLabel: "Email",
+      pending: "Kênh liên hệ chính thức sẽ được cập nhật tại đây.",
+      helpTitle: "Có thể bạn tìm thấy câu trả lời ở đây",
+      helpBody: "Nhiều câu hỏi về cách bắt đầu và cách dùng Elynto đã có trong các trang sau.",
+    },
+    cookies: {
+      clear: "Xóa lựa chọn ngôn ngữ đã lưu",
+      cleared: "Đã xóa. Website không còn lưu lựa chọn ngôn ngữ của bạn.",
+    },
   },
 };

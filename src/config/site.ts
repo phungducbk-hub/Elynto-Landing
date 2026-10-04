@@ -27,6 +27,8 @@ export const siteConfig = {
   signupUrl: envOr(process.env.NEXT_PUBLIC_SIGNUP_URL, "https://beta.elynto.io"),
   /** Log-in entry point. Same note as above. */
   loginUrl: envOr(process.env.NEXT_PUBLIC_LOGIN_URL, "https://beta.elynto.io"),
+  /** Shown on the Contact page. No address has been confirmed yet, so it stays empty until set. */
+  contactEmail: envOr(process.env.NEXT_PUBLIC_CONTACT_EMAIL, ""),
 };
 
 /**

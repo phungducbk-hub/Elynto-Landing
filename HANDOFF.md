@@ -5,8 +5,9 @@
 - Trang đang dùng **thiết kế và câu chữ của bản đầu** (Be Vietnam Pro, nền trắng ấm, hero chia đôi có demo), cộng thêm **hai hình dựng lại từ giao diện beta thật**: “Việc đã giao” và trang dự án (Danh sách / Lịch / Gantt).
 - Các bản khác vẫn còn trong lịch sử git để tham khảo hoặc lấy lại từng phần: `580dae7` (thiết kế lại theo skill frontend-design), `cc03398` (câu chữ theo nghiên cứu khách hàng + toàn bộ hình dựng lại).
 - Đã thêm khối **“Nghe có quen không?”** dùng component testimonial bạn gửi, đặt sau “Dành cho ai”, cùng **hiệu ứng trượt** cho chữ và hình trên toàn trang (xem mục 3).
+- Đã thêm **footer 4 cột** và **12 trang con** song ngữ cho từng mục trong footer (xem mục 4).
 - Đủ hai bản **Tiếng Việt** (`/vi`) và **English** (`/en`). Cách chạy và cấu hình xem [`README.md`](./README.md).
-- Build production thành công. Lint và typecheck không lỗi. **47** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
+- Build production thành công. Lint và typecheck không lỗi. **59** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
 - Chưa triển khai lên Vercel, chưa đổi DNS, chưa công khai.
 
 ## 2. Hai hình dựa trên giao diện thật
@@ -44,11 +45,33 @@ Dữ liệu trong hình là dữ liệu mẫu: không có “Phong Du”, “ALE
 - **Nhịp:** chữ dùng đường cong chậm dần (`cubic-bezier(0.16, 1, 0.3, 1)`), dài 0,7–1 giây; hình dùng đường cong mềm hơn (`cubic-bezier(0.22, 1, 0.36, 1)`), dài 1,4–2,2 giây. Mỗi phần tử chỉ chạy một lần, không lặp lại khi cuộn lên.
 - **An toàn:** chỉ ẩn trước khi hiện nếu trình duyệt cho phép chuyển động. Không có JavaScript, bật giảm chuyển động, in trang, hoặc JavaScript chưa chạy sau 4 giây thì nội dung đều hiện đầy đủ. Không gây tràn ngang và không ảnh hưởng SEO, vì nội dung vẫn nằm trong HTML.
 
-## 4. Kiểm tra sản phẩm
+## 4. Footer và trang con
+
+Footer làm theo bố cục mẫu: logo, câu vision và nút dùng thử ở bên trái, các cột liên kết ở bên phải, hàng dưới cùng có bản quyền, liên kết pháp lý và nút đổi ngôn ngữ. Mỗi liên kết dẫn tới một trang con, có đủ tiếng Việt và tiếng Anh.
+
+| Cột | Trang | Nội dung |
+| --- | --- | --- |
+| Sản phẩm | Tạo việc bằng câu nói · Lập kế hoạch với AI (nhãn “AI”) · Theo dõi việc đã giao · Hôm nay & Việc của tôi · Danh sách, Lịch, Gantt | Mỗi trang có phần giới thiệu, hình minh họa dùng lại từ trang chủ và 3–4 ý chính |
+| Tài nguyên | Hướng dẫn bắt đầu · Viết yêu cầu hiệu quả · Câu hỏi thường gặp | 6 bước làm quen; cách viết câu để Elynto hiểu đúng; FAQ của trang chủ |
+| Công ty | Về Elynto · Liên hệ | Tầm nhìn, cách Elynto được làm ra, dành cho ai, giai đoạn beta; trang liên hệ lấy email từ `NEXT_PUBLIC_CONTACT_EMAIL` |
+| Pháp lý | Quyền riêng tư · Cookie | Mô tả đúng những gì website này lưu (một cookie `elynto-lang`); trang Cookie có nút xóa lựa chọn đã lưu |
+
+**Đã lược bỏ so với mẫu:**
+- Time Tracking, Resource Allocation, Automation: chưa thấy trong beta.
+- Blog, Webinars, Case Studies, Documentation: chưa có nội dung; case study sẽ phải bịa.
+- Careers, Partners, Press: không có thông tin.
+- Terms of Service, Security: cần văn bản pháp lý thật hoặc thông tin bảo mật đã xác minh.
+- Cả cột Community.
+- Nhãn “Pro” / “New” / “Hiring”: chưa có thông tin gói giá hay tuyển dụng.
+- Biểu tượng mạng xã hội: chưa biết tài khoản chính thức.
+
+Ở vị trí biểu tượng mạng xã hội, footer đặt nút “Dùng thử miễn phí” và “Đăng nhập”.
+
+## 5. Kiểm tra sản phẩm
 
 Phiên này vẫn không truy cập được `beta.elynto.io` (proxy từ chối). Thông tin về giao diện thật lấy từ 5 ảnh chụp bạn gửi. Không chỉnh sửa gì ở app beta.
 
-## 5. Cần xác minh trước khi công khai
+## 6. Cần xác minh trước khi công khai
 
 ### Bắt buộc (ảnh hưởng luồng chuyển đổi)
 
@@ -58,6 +81,9 @@ Phiên này vẫn không truy cập được `beta.elynto.io` (proxy từ chối
 | 2 | **Có thật sự cho dùng thử miễn phí và tự đăng ký?** | CTA ghi “Dùng thử miễn phí / Start free trial” theo brief. Không nêu thời hạn, thẻ thanh toán hay giới hạn | Nếu beta chưa mở tự đăng ký hoặc chưa miễn phí, phải sửa CTA hoặc mở luồng đăng ký trước khi công khai |
 | 3 | Route đăng nhập | “Đăng nhập” dẫn tới `https://beta.elynto.io` | Đặt `NEXT_PUBLIC_LOGIN_URL` nếu có route riêng |
 | 4 | **“Chỉ trong 10 giây”** ở tiêu đề phần lập kế hoạch AI | Thêm theo yêu cầu | Đo thời gian AI tạo bản nháp kế hoạch trên beta. Nếu thường lâu hơn 10 giây, nên đổi con số hoặc bỏ |
+| 5 | **Email liên hệ** | Trang Liên hệ ghi “Kênh liên hệ chính thức sẽ được cập nhật tại đây” | Cung cấp email chính thức → đặt `NEXT_PUBLIC_CONTACT_EMAIL` |
+| 6 | **Trang Quyền riêng tư và Cookie** | Mô tả đúng hành vi hiện tại của website (chỉ cookie ngôn ngữ, không công cụ đo lường bên thứ ba) | Nhờ người phụ trách pháp lý rà soát. Nếu sau này gắn Google Tag Manager hay công cụ đo lường, phải cập nhật hai trang này |
+| 7 | **Điều khoản sử dụng, chính sách của ứng dụng** | Chưa có trên website | Khi có văn bản chính thức, thêm trang vào cột Pháp lý |
 
 ### Đã thấy trong ảnh giao diện
 
@@ -89,7 +115,7 @@ Tự sắp lịch, AI tự ưu tiên hoặc tự điều phối, chat/video call
 
 Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu.
 
-## 6. Lựa chọn thiết kế và thông điệp (bản đầu)
+## 7. Lựa chọn thiết kế và thông điệp (bản đầu)
 
 - **5 giây đầu**: H1 gồm dòng mô tả theo ngôn ngữ đang chọn (“Elynto — Quản lý công việc bằng AI”) và câu vision tiếng Anh nổi bật “The interface between you and your work”. Ngay dưới là câu giải thích lợi ích và hai CTA. Bên phải là demo đang hiển thị sẵn kết quả: một công việc có tên, người phụ trách, thời hạn.
 - **Gộp “Demo chủ đạo” vào hero**: demo chính nằm ngay trong màn hình đầu thay vì lặp lại thành một section riêng. “Xem Elynto hoạt động” cuộn tới demo và phát lại từ đầu. Trên mobile, demo nằm ngay sau CTA.
@@ -100,11 +126,11 @@ Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu.
 - **Câu chữ**: đổi “Nói việc cần làm” thành “Chỉ cần mô tả việc cần làm” để không gợi ý nhập bằng giọng nói. Giữ “Một câu nói. Công việc rõ người, rõ hạn.” vì demo cho thấy rõ là gõ chữ. Thêm mẹo “nêu rõ việc gì, ai làm, khi nào xong” để không ngụ ý AI hiểu mọi yêu cầu.
 - **Typography**: Be Vietnam Pro, tăng nhẹ khoảng cách giữa từ (font gốc có khoảng trắng hẹp, dễ dính chữ ở những từ như “thử miễn”).
 
-## 7. Đã kiểm tra
+## 8. Đã kiểm tra
 
 - `npm run build` thành công; `/vi`, `/en` và ảnh Open Graph được tạo tĩnh lúc build.
 - `npm run lint`: 0 lỗi, 0 cảnh báo. `npm run typecheck`: đạt.
-- `npm run test:e2e`: 47 test đạt, 1 test chỉ dành cho mobile được bỏ qua trên desktop:
+- `npm run test:e2e`: 59 test đạt, 1 test chỉ dành cho mobile được bỏ qua trên desktop:
   - chuyển hướng `/` theo Accept-Language, lựa chọn đã lưu thắng ngôn ngữ trình duyệt, trang 404 song ngữ;
   - hero chứa định vị và vision, mọi CTA đăng ký trỏ đúng URL, demo có nhãn minh họa;
   - metadata và ảnh OG theo từng ngôn ngữ;
@@ -112,13 +138,15 @@ Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu.
   - sự kiện CTA được đẩy vào `dataLayer`;
   - khối tình huống: có dòng ghi chú, trình đọc màn hình chỉ thấy 9 thẻ, nút tạm dừng làm dừng chuyển động;
   - hiệu ứng trượt: phần tử chưa tới thì ẩn, cuộn tới thì hiện; khi bật giảm chuyển động thì mọi thứ hiện ngay, tường thẻ đứng yên;
-  - axe: không có lỗi truy cập mức *serious/critical*, kiểm tra trên toàn bộ trang sau khi mọi phần tử đã hiện;
+  - footer: đủ 4 cột, 12 liên kết; mọi trang con trả về 200 ở cả hai ngôn ngữ, trang không tồn tại trả 404, sitemap có trang con;
+  - trang con có title và canonical riêng, đổi ngôn ngữ vẫn ở đúng trang, nút xóa lựa chọn ngôn ngữ trên trang Cookie hoạt động;
+  - axe: không có lỗi truy cập mức *serious/critical* trên trang chủ và 3 trang con, kiểm tra sau khi mọi phần tử đã hiện;
   - không tràn ngang, không lỗi console.
 - Đã xem ảnh chụp toàn trang desktop và mobile cho cả hai ngôn ngữ, hai hình mới ở cả hai cỡ màn hình, và từng tab Danh sách/Lịch/Gantt.
 - Không có lỗi hay cảnh báo console ở chế độ dev (kiểm tra hydration).
 - JS tải lần đầu khoảng 222 KB gzip, phần lớn là React/Next. Khối tình huống cùng phần lõi framer-motion chiếm khoảng 16 KB; phần hiệu ứng của framer (~20 KB) được tải sau, không chặn trang. Hiệu ứng trượt chạy bằng CSS và chỉ thêm một script rất nhỏ. Các section bên dưới không dùng ảnh nặng.
 
-## 8. Ghi chú kỹ thuật
+## 9. Ghi chú kỹ thuật
 
 - `npm audit` báo 5 lỗ hổng mức *high* trong chuỗi công cụ lint chỉ dùng khi phát triển (`eslint-config-next` → `fast-glob` → `micromatch` → `braces`). Không đi vào code chạy trên trình duyệt. Có thể nâng cấp khi `eslint-config-next` phát hành bản sửa.
 - `next/font/google` tải font lúc build. Vercel làm được việc này; build ở máy không có mạng sẽ lỗi.

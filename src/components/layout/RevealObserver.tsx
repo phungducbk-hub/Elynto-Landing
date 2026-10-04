@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useLayoutEffect } from "react";
 
 declare global {
@@ -11,7 +12,10 @@ declare global {
 
 /** Marks [data-reveal] elements as revealed when they scroll into view, so they slide in once. */
 export function RevealObserver() {
+  const pathname = usePathname();
+
   // Layout effect: re-arm before paint (dev Strict Mode resets <html> attributes on remount).
+  // Runs again on each route change, so pages reached by client-side navigation are observed too.
   useLayoutEffect(() => {
     const root = document.documentElement;
     window.clearTimeout(window.__revealTimer);
@@ -36,7 +40,7 @@ export function RevealObserver() {
     root.setAttribute("data-motion", "live");
 
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   return null;
 }

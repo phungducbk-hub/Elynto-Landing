@@ -10,6 +10,7 @@ import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Voices } from "@/components/sections/Voices";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
+import { getPages } from "@/content/pages";
 import { isLocale } from "@/lib/i18n";
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
@@ -59,6 +60,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <SiteFooter
         lang={lang}
         dict={dict}
+        pages={getPages(lang)}
         vision={siteConfig.vision}
         signupUrl={siteConfig.signupUrl}
         loginUrl={siteConfig.loginUrl}

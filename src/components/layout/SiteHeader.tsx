@@ -15,18 +15,20 @@ type Props = {
   nav: Dictionary["nav"];
   signupUrl: string;
   loginUrl: string;
+  /** Set on subpages (e.g. "/vi") so section links lead back to the home page. */
+  homePath?: string;
 };
 
-export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
+export function SiteHeader({ lang, nav, signupUrl, loginUrl, homePath = "" }: Props) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   const links = [
-    { href: "#benefits", label: nav.benefits },
-    { href: "#how-it-works", label: nav.howItWorks },
-    { href: "#faq", label: nav.faq },
-  ];
+    { id: "benefits", label: nav.benefits },
+    { id: "how-it-works", label: nav.howItWorks },
+    { id: "faq", label: nav.faq },
+  ].map((link) => ({ ...link, href: `${homePath}#${link.id}` }));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -67,7 +69,7 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
       )}
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <a href="#top" className="-m-1 shrink-0 rounded-md p-1 text-brand" aria-label={nav.home}>
+        <a href={homePath || "#top"} className="-m-1 shrink-0 rounded-md p-1 text-brand" aria-label={nav.home}>
           <Logo className="h-7 w-auto sm:h-8" title={null} />
         </a>
 
@@ -78,7 +80,7 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
                 <a
                   href={link.href}
                   data-track="nav_click"
-                  data-track-target={link.href.slice(1)}
+                  data-track-target={link.id}
                   data-track-location="header"
                   className="rounded-md px-3 py-2 text-[0.9375rem] font-medium text-ink-muted transition-colors hover:text-ink"
                 >
@@ -133,7 +135,7 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
                   href={link.href}
                   onClick={() => setOpen(false)}
                   data-track="nav_click"
-                  data-track-target={link.href.slice(1)}
+                  data-track-target={link.id}
                   data-track-location="mobile_menu"
                   className="flex min-h-12 items-center text-base font-medium text-ink"
                 >

@@ -252,3 +252,59 @@ test("respects reduced motion: demo starts paused, nothing waits to slide in", a
   await expect(page.locator("#voices").getByRole("button", { name: "Tạm dừng chuyển động" })).toBeHidden();
   await context.close();
 });
+
+test.describe("footer and subpages", () => {
+  test("footer links every subpage, in both languages", async ({ page, request }) => {
+    await page.goto("/vi");
+    const footer = page.locator("footer");
+    for (const heading of ["Sản phẩm", "Tài nguyên", "Công ty", "Pháp lý"]) {
+      await expect(footer.getByRole("heading", { name: heading })).toBeVisible();
+    }
+    const hrefs = await footer.locator("nav a").evaluateAll((links) => links.map((a) => a.getAttribute("href")!));
+    expect(hrefs).toHaveLength(12);
+    for (const href of hrefs) {
+      for (const path of [href, href.replace(/^\/vi\//, "/en/")]) {
+        const res = await request.get(path);
+        expect(res.status(), path).toBe(200);
+      }
+    }
+    expect((await request.get("/vi/features/unknown")).status()).toBe(404);
+
+    const sitemap = await (await request.get("/sitemap.xml")).text();
+    expect(sitemap).toContain("/en/features/ai-planning");
+  });
+
+  test("a subpage has its own metadata and keeps its path when switching language", async ({ page }) => {
+    await page.goto("/vi/privacy");
+    await expect(page).toHaveTitle("Quyền riêng tư — Elynto");
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/vi\/privacy$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quyền riêng tư trên website Elynto");
+    await expect(page.locator("footer").getByRole("link", { name: "Quyền riêng tư" }).first()).toHaveAttribute("aria-current", "page");
+
+    await page.locator("footer").getByRole("link", { name: "English" }).click();
+    await expect(page).toHaveURL(/\/en\/privacy$/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  });
+
+  test("the cookies page clears the saved language", async ({ page, context }) => {
+    await page.goto("/vi");
+    await page.locator("footer").getByRole("link", { name: "English" }).click();
+    await expect(page).toHaveURL(/\/en$/);
+    expect((await context.cookies()).some((c) => c.name === "elynto-lang")).toBe(true);
+
+    await page.goto("/en/cookies");
+    await page.getByRole("button", { name: "Clear my saved language" }).click();
+    await expect(page.getByRole("status")).toHaveText(/no longer stores/);
+    expect((await context.cookies()).some((c) => c.name === "elynto-lang")).toBe(false);
+  });
+
+  for (const path of ["/vi/features/project-views", "/en/getting-started", "/vi/cookies"]) {
+    test(`${path} has no serious accessibility violations`, async ({ page }) => {
+      await page.goto(path);
+      await revealAll(page);
+      const results = await new AxeBuilder({ page }).analyze();
+      const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
+      expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
+    });
+  }
+});

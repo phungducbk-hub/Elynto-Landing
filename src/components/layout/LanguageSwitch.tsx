@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { LOCALE_COOKIE, localeNames, locales, type Locale } from "@/lib/i18n";
@@ -21,6 +22,9 @@ type Props = {
 };
 
 export function LanguageSwitch({ current, label, location, className }: Props) {
+  // Keep the visitor on the same page: /vi/privacy ↔ /en/privacy.
+  const rest = usePathname().replace(new RegExp(`^/${current}(?=/|$)`), "");
+
   return (
     <div role="group" aria-label={label} className={cn("inline-flex rounded-lg bg-sunken p-0.5 ring-1 ring-line ring-inset", className)}>
       {locales.map((locale) => {
@@ -28,7 +32,7 @@ export function LanguageSwitch({ current, label, location, className }: Props) {
         return (
           <a
             key={locale}
-            href={`/${locale}`}
+            href={`/${locale}${rest}`}
             lang={locale}
             hrefLang={locale}
             aria-current={active ? "true" : undefined}
@@ -42,7 +46,7 @@ export function LanguageSwitch({ current, label, location, className }: Props) {
               track("language_switch", { from: current, to: locale, location });
               // Plain link navigation (full page load) so <html lang> and metadata switch too.
               // Keep the visitor on the same section.
-              event.currentTarget.href = `/${locale}${window.location.hash}`;
+              event.currentTarget.href = `/${locale}${rest}${window.location.hash}`;
             }}
             className={cn(
               "inline-flex h-8 min-w-10 items-center justify-center rounded-md px-2 text-xs font-semibold tracking-wide transition-colors",
