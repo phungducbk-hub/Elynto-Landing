@@ -8,7 +8,7 @@
 - Đã thêm **footer 4 cột** và **12 trang con** song ngữ cho từng mục trong footer (xem mục 4).
 - Đã thêm **thống kê truy cập** tự xây và trang xem số liệu `/stats` có mật khẩu (xem mục 5).
 - Đủ hai bản **Tiếng Việt** (`/vi`) và **English** (`/en`). Cách chạy và cấu hình xem [`README.md`](./README.md).
-- Build production thành công. Lint và typecheck không lỗi. **75** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
+- Build production thành công. Lint và typecheck không lỗi. **79** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
 - Chưa triển khai lên Vercel, chưa đổi DNS, chưa công khai.
 
 ## 2. Hai hình dựa trên giao diện thật
@@ -154,7 +154,7 @@ Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu.
 
 - `npm run build` thành công; `/vi`, `/en` và ảnh Open Graph được tạo tĩnh lúc build.
 - `npm run lint`: 0 lỗi, 0 cảnh báo. `npm run typecheck`: đạt.
-- `npm run test:e2e`: 75 test đạt, 1 test chỉ dành cho mobile được bỏ qua trên desktop:
+- `npm run test:e2e`: 79 test đạt, 1 test chỉ dành cho mobile được bỏ qua trên desktop:
   - chuyển hướng `/` theo Accept-Language, lựa chọn đã lưu thắng ngôn ngữ trình duyệt, trang 404 song ngữ;
   - hero chứa định vị và vision, mọi CTA đăng ký trỏ đúng URL, demo có nhãn minh họa;
   - metadata và ảnh OG theo từng ngôn ngữ;

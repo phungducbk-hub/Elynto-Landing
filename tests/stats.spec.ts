@@ -3,7 +3,9 @@ import { aggregate } from "@/lib/stats/aggregate";
 import { toStatsEvent } from "@/lib/stats/collect";
 import { resolveRange } from "@/lib/stats/range";
 import type { StatsEvent } from "@/lib/stats/types";
+import { findRedisCredentials, getStatsStore } from "@/lib/stats/store";
 import { describeUserAgent, isBot } from "@/lib/stats/user-agent";
+import { createServer } from "node:http";
 
 const PASSWORD = process.env.STATS_PASSWORD ?? "elynto-test";
 
@@ -106,6 +108,66 @@ test.describe("stats: counting rules", () => {
     expect(resolveRange({ range: "7d" }, now)).toMatchObject({ from: "2026-09-28", to: "2026-10-04", granularity: "day", previous: { from: "2026-09-21", to: "2026-09-27" } });
     expect(resolveRange({ range: "12m" }, now)).toMatchObject({ from: "2025-11-01", to: "2026-10-04", granularity: "month" });
     expect(resolveRange({ range: "custom", from: "2026-10-10", to: "2026-09-01", by: "year" }, now)).toMatchObject({ from: "2026-09-01", to: "2026-10-04", granularity: "year" });
+  });
+});
+
+test.describe("stats: Upstash Redis", () => {
+  test("credentials are found under Vercel, Upstash, prefixed and URL-only names", () => {
+    expect(findRedisCredentials({ KV_REST_API_URL: "https://a.upstash.io", KV_REST_API_TOKEN: "t1" })).toMatchObject({ token: "t1", source: "KV_REST_API_URL" });
+    expect(findRedisCredentials({ UPSTASH_REDIS_REST_URL: "https://b.upstash.io", UPSTASH_REDIS_REST_TOKEN: "t2" })).toMatchObject({ token: "t2" });
+    expect(findRedisCredentials({ STATS_KV_REST_API_URL: "https://c.upstash.io", STATS_KV_REST_API_TOKEN: "t3" })).toMatchObject({ source: "STATS_KV_REST_API_URL" });
+    expect(findRedisCredentials({ REDIS_URL: "rediss://default:secret%21@d-1.upstash.io:6379" })).toEqual({ url: "https://d-1.upstash.io", token: "secret!", source: "REDIS_URL" });
+    // A read-only token alone is not enough to record visits.
+    expect(findRedisCredentials({ KV_REST_API_URL: "https://e.upstash.io", KV_REST_API_READ_ONLY_TOKEN: "ro" })).toBeNull();
+    expect(findRedisCredentials({})).toBeNull();
+  });
+
+  test("events are written and read back through the REST pipeline", async () => {
+    // A stand-in for Upstash's /pipeline endpoint with the three commands the store uses.
+    const lists = new Map<string, string[]>();
+    const seen: string[][] = [];
+    const server = createServer((req, res) => {
+      let body = "";
+      req.on("data", (chunk) => (body += chunk));
+      req.on("end", () => {
+        expect(req.url).toBe("/pipeline");
+        expect(req.headers.authorization).toBe("Bearer test-token");
+        const commands = JSON.parse(body) as string[][];
+        seen.push(...commands);
+        const results = commands.map(([name, key, ...args]) => {
+          if (name === "RPUSH") {
+            lists.set(key, [...(lists.get(key) ?? []), ...args]);
+            return { result: lists.get(key)!.length };
+          }
+          if (name === "EXPIRE") return { result: 1 };
+          if (name === "LRANGE") return { result: lists.get(key) ?? [] };
+          return { error: `unknown ${name}` };
+        });
+        res.setHeader("content-type", "application/json");
+        res.end(JSON.stringify(results));
+      });
+    });
+    await new Promise<void>((resolve) => server.listen(0, resolve));
+    const { port } = server.address() as { port: number };
+
+    const saved = { url: process.env.KV_REST_API_URL, token: process.env.KV_REST_API_TOKEN };
+    process.env.KV_REST_API_URL = `http://127.0.0.1:${port}/`;
+    process.env.KV_REST_API_TOKEN = "test-token";
+    try {
+      const store = getStatsStore();
+      expect(store.kind).toBe("redis");
+      const event: StatsEvent = { ts: 1, day: "2026-10-04", type: "pageview", visitor: "visitor-aaaa", visit: "visit-a1", path: "/vi", device: "mobile", browser: "Safari", os: "iOS" };
+      await store.append(event);
+      expect(await store.read(["2026-10-03", "2026-10-04"])).toEqual([event]);
+      expect(seen[1]).toEqual(["EXPIRE", "elynto:stats:2026-10-04", String(400 * 86_400)]);
+      expect(seen.every((command) => command.every((arg) => typeof arg === "string"))).toBe(true);
+    } finally {
+      process.env.KV_REST_API_URL = saved.url;
+      process.env.KV_REST_API_TOKEN = saved.token;
+      if (saved.url === undefined) delete process.env.KV_REST_API_URL;
+      if (saved.token === undefined) delete process.env.KV_REST_API_TOKEN;
+      server.close();
+    }
   });
 });
 

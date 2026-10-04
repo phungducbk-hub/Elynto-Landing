@@ -4,13 +4,14 @@ import type { StatsEvent } from "./types";
 
 /**
  * Where events are kept, one list per calendar day:
- * - Upstash Redis over its REST API when KV_REST_API_URL / KV_REST_API_TOKEN (the names Vercel's
- *   Upstash integration sets) or UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN are present;
+ * - Upstash Redis over its REST API, when its credentials are found (see findRedisCredentials);
  * - a folder of JSON-lines files when running on your own machine or server;
  * - nowhere on Vercel without Redis (serverless disks don't persist), and the dashboard says so.
  */
 export type StatsStore = {
   kind: "redis" | "file" | "none";
+  /** Which environment variable the Redis credentials came from. */
+  source?: string;
   append(event: StatsEvent): Promise<void>;
   read(days: string[]): Promise<StatsEvent[]>;
 };
@@ -32,12 +33,57 @@ function parseLines(lines: string[]) {
   return events;
 }
 
-function redisStore(url: string, token: string): StatsStore {
+type Env = Record<string, string | undefined>;
+
+/**
+ * Upstash REST credentials under any name they commonly arrive with: KV_REST_API_URL/TOKEN
+ * (Vercel's Upstash integration), UPSTASH_REDIS_REST_URL/TOKEN (Upstash console), the same with a
+ * custom prefix chosen when connecting the store, or, failing those, an Upstash rediss:// URL
+ * (KV_URL / REDIS_URL), whose password is the REST token and whose host serves the REST API.
+ */
+export function findRedisCredentials(env: Env = process.env): { url: string; token: string; source: string } | null {
+  const pairs: [string, string][] = [
+    ["KV_REST_API_URL", "KV_REST_API_TOKEN"],
+    ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"],
+  ];
+  for (const name of Object.keys(env).sort()) {
+    const match = name.match(/^(.*?)(REST_API_URL|REDIS_REST_URL)$/);
+    if (match) pairs.push([name, `${match[1]}${match[2] === "REST_API_URL" ? "REST_API_TOKEN" : "REDIS_REST_TOKEN"}`]);
+  }
+  for (const [urlName, tokenName] of pairs) {
+    const url = env[urlName]?.trim();
+    const token = env[tokenName]?.trim();
+    if (url && token) return { url, token, source: urlName };
+  }
+
+  for (const name of Object.keys(env).sort()) {
+    if (!/(^|_)(KV_URL|REDIS_URL)$/.test(name)) continue;
+    try {
+      const parsed = new URL(env[name] ?? "");
+      if (parsed.hostname.endsWith(".upstash.io") && parsed.password) {
+        return { url: `https://${parsed.hostname}`, token: decodeURIComponent(parsed.password), source: name };
+      }
+    } catch {
+      // Not a URL; keep looking.
+    }
+  }
+  return null;
+}
+
+/** Names (never values) of variables that look storage-related, to explain a missing connection. */
+export function storageVariableNames(env: Env = process.env) {
+  return Object.keys(env)
+    .filter((name) => /REDIS|UPSTASH|(^|_)KV_/.test(name))
+    .sort();
+}
+
+function redisStore(url: string, token: string, source: string): StatsStore {
   const pipeline = async (commands: (string | number)[][]) => {
     const response = await fetch(`${url.replace(/\/$/, "")}/pipeline`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify(commands),
+      // Upstash takes every argument as a string.
+      body: JSON.stringify(commands.map((command) => command.map(String))),
       cache: "no-store",
     });
     if (!response.ok) throw new Error(`Redis request failed: ${response.status}`);
@@ -49,6 +95,7 @@ function redisStore(url: string, token: string): StatsStore {
 
   return {
     kind: "redis",
+    source,
     async append(event) {
       const key = KEY_PREFIX + event.day;
       await pipeline([
@@ -94,9 +141,8 @@ const noStore: StatsStore = {
 };
 
 export function getStatsStore(): StatsStore {
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (url && token) return redisStore(url, token);
+  const redis = findRedisCredentials();
+  if (redis) return redisStore(redis.url, redis.token, redis.source);
   if (process.env.VERCEL) return noStore;
   return fileStore(process.env.STATS_DATA_DIR || join(process.cwd(), ".data", "stats"));
 }

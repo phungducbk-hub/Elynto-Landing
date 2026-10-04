@@ -163,8 +163,13 @@ Website tự ghi nhận lượt truy cập, không dùng dịch vụ bên thứ 
 
 **Cài đặt trên Vercel:**
 1. Thêm biến `STATS_PASSWORD` (một mật khẩu dài). Khi chưa đặt biến này, trang `/stats` bị tắt.
-2. Thêm nơi lưu dữ liệu. Trong dự án Vercel, vào **Storage → Create Database / Marketplace → Upstash for Redis** rồi kết nối với dự án. Vercel tự thêm `KV_REST_API_URL` và `KV_REST_API_TOKEN`. Có thể dùng `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` nếu bạn tạo Redis trực tiếp trên Upstash.
-3. Redeploy. Chưa có Redis thì trên Vercel số liệu không được lưu, và trang `/stats` sẽ báo như vậy.
+2. Thêm nơi lưu dữ liệu. Trong dự án Vercel, vào **Storage → Create Database / Marketplace → Upstash for Redis** rồi kết nối với dự án. Vercel tự thêm `KV_REST_API_URL` và `KV_REST_API_TOKEN`. Code cũng nhận ra:
+   - `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`, khi bạn tạo Redis trực tiếp trên Upstash;
+   - các tên trên kèm tiền tố riêng chọn lúc kết nối;
+   - `KV_URL` / `REDIS_URL` của Upstash.
+3. **Redeploy** (Deployments → bản mới nhất → ⋯ → Redeploy). Biến môi trường chỉ có hiệu lực với lần triển khai được tạo **sau khi** biến được thêm. Bản đang chạy từ trước sẽ vẫn báo chưa kết nối.
+
+Trang `/stats` cho biết trạng thái kết nối. Khi đã nối, trang ghi “Đã kết nối Upstash Redis” kèm tên biến được dùng. Khi chưa nối, trang hiện các bước cần làm, môi trường hiện tại (production/preview) và tên các biến liên quan đang có. Trang chỉ hiện tên biến, không bao giờ hiện giá trị.
 
 **Chạy ở máy local:** số liệu được lưu vào thư mục `.data/stats/` (đã có trong `.gitignore`). Ví dụ: `STATS_PASSWORD=dat-mat-khau npm run start`, rồi mở `http://localhost:3000/stats`.
 

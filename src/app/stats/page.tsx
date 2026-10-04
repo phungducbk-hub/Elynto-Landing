@@ -8,18 +8,64 @@ import { aggregate } from "@/lib/stats/aggregate";
 import { isStatsSignedIn } from "@/lib/stats/auth";
 import { dayLabel, formatNumber, formatPercent, periodLabel } from "@/lib/stats/format";
 import { resolveRange } from "@/lib/stats/range";
-import { getStatsStore } from "@/lib/stats/store";
+import { getStatsStore, storageVariableNames, type StatsStore } from "@/lib/stats/store";
 import { daysBetween } from "@/lib/stats/time";
 import type { StatsEvent } from "@/lib/stats/types";
 import { signOut } from "./actions";
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
-const storeNotes = {
-  redis: null,
-  file: "Đang lưu vào tệp trên máy chủ này (thư mục .data/stats). Phù hợp để chạy thử; khi triển khai trên Vercel, hãy kết nối Upstash Redis.",
-  none: "Chưa kết nối nơi lưu dữ liệu nên chưa ghi nhận được lượt truy cập nào. Trên Vercel, thêm Upstash Redis cho dự án (xem README, mục Thống kê truy cập).",
-};
+const noticeClass = "mt-5 rounded-xl border px-4 py-3 text-sm leading-relaxed text-ink";
+
+/** Where the numbers come from, and what to do when storage isn't reachable. */
+function StoreNotice({ store, readError }: { store: StatsStore; readError: boolean }) {
+  if (readError) {
+    return (
+      <div role="alert" className={`${noticeClass} border-status-overdue/30 bg-status-overdue-soft`}>
+        Không đọc được dữ liệu từ Upstash Redis (biến <code className="font-mono">{store.source}</code>). Kiểm tra database còn hoạt
+        động và token đúng, rồi tải lại trang. Chi tiết lỗi nằm trong Logs của dự án trên Vercel.
+      </div>
+    );
+  }
+  if (store.kind === "redis") {
+    return (
+      <p className="mt-4 flex items-center gap-2 text-sm text-ink-subtle">
+        <span className="size-2 rounded-full bg-status-done" aria-hidden="true" />
+        Đã kết nối Upstash Redis (biến <code className="font-mono text-xs">{store.source}</code>)
+      </p>
+    );
+  }
+  if (store.kind === "file") {
+    return (
+      <p role="status" className={`${noticeClass} border-field-due/30 bg-field-due-soft`}>
+        Đang lưu vào tệp trên máy chủ này (thư mục .data/stats). Phù hợp để chạy thử; khi triển khai trên Vercel, hãy kết nối Upstash Redis.
+      </p>
+    );
+  }
+
+  const found = storageVariableNames();
+  const environment = process.env.VERCEL_ENV ?? "không rõ";
+  return (
+    <div role="status" className={`${noticeClass} border-field-due/30 bg-field-due-soft`}>
+      <p className="font-semibold">Lần triển khai này chưa thấy thông tin kết nối Upstash Redis, nên lượt truy cập chưa được lưu.</p>
+      <ol className="mt-2 list-decimal space-y-1 pl-5">
+        <li>
+          Nếu bạn vừa kết nối Upstash: vào Vercel → Deployments, mở bản mới nhất → ⋯ → <strong>Redeploy</strong>. Biến môi trường chỉ có
+          hiệu lực với lần triển khai được tạo sau khi thêm biến.
+        </li>
+        <li>
+          Vào Settings → Environment Variables, kiểm tra có <code className="font-mono">KV_REST_API_URL</code> và{" "}
+          <code className="font-mono">KV_REST_API_TOKEN</code> (hoặc cùng tên với tiền tố riêng) cho môi trường{" "}
+          <strong>{environment}</strong>.
+        </li>
+      </ol>
+      <p className="mt-2 text-ink-muted">
+        Biến liên quan có trong lần triển khai này:{" "}
+        {found.length ? found.map((name) => <code key={name} className="mr-1.5 font-mono">{name}</code>) : "không có"}.
+      </p>
+    </div>
+  );
+}
 
 export default async function StatsPage({ searchParams }: Props) {
   if (!(await isStatsSignedIn())) redirect("/stats/login");
@@ -70,11 +116,7 @@ export default async function StatsPage({ searchParams }: Props) {
         </p>
       </div>
 
-      {storeNotes[store.kind] || readError ? (
-        <p role="status" className="mt-5 rounded-xl border border-field-due/30 bg-field-due-soft px-4 py-3 text-sm text-ink">
-          {readError ? "Không đọc được dữ liệu từ nơi lưu trữ. Kiểm tra kết nối Upstash Redis rồi tải lại trang." : storeNotes[store.kind]}
-        </p>
-      ) : null}
+      <StoreNotice store={store} readError={readError} />
 
       <div className="mt-6">
         <KpiRow totals={totals} previous={previous} />
