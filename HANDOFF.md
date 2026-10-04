@@ -3,20 +3,42 @@
 ## 1. Tình trạng
 
 - Đã có landing page hoàn chỉnh, chạy được, đủ hai bản **Tiếng Việt** (`/vi`) và **English** (`/en`). Cách chạy và cấu hình xem [`README.md`](./README.md).
+- Bản 3 (hiện tại): câu chữ viết lại theo **báo cáo nghiên cứu khách hàng ngày 04/10/2026**; mọi hình sản phẩm được **dựng lại và tinh chỉnh từ 5 ảnh giao diện beta** bạn gửi.
 - Build production thành công. Lint và typecheck không lỗi. **39/39** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
 - Chưa triển khai lên Vercel, chưa đổi DNS, chưa công khai.
 
-## 2. Kiểm tra sản phẩm thật — vẫn chưa thực hiện được
+## 2. Nghiên cứu khách hàng → nội dung trang
 
-Sau khi `beta.elynto.io` được thêm vào *Allowed domains*, phiên làm việc này vẫn bị proxy từ chối (`403 connect_rejected`, đã thử lại nhiều lần). Thay đổi cấu hình mạng thường chỉ có hiệu lực với **phiên/container mới**. Vì vậy:
+| Phát hiện trong báo cáo | Cách thể hiện trên trang |
+| --- | --- |
+| Thông điệp đề xuất thử trước: “Rõ việc cần làm, rõ người phụ trách, rõ tiến độ.” | Câu hứa ngay dưới câu vision ở hero, đồng thời là mô tả chia sẻ (OG) |
+| Vision giữ làm câu thương hiệu, nhưng phải có lời giải thích cụ thể bên cạnh | Nhãn “Quản lý công việc bằng AI” + câu hứa + câu giải thích, đều nằm cạnh câu vision |
+| Kết quả người dùng thật sự mua: bớt quên việc, bớt hỏi lại, rõ ưu tiên, an tâm khi kết thúc ngày | Lời dẫn của phần “Giao việc xong, vẫn phải đi hỏi tiến độ?”, điểm cuối của phần Hôm nay |
+| Nỗi đau của chủ agency: giao rồi không chắc người nhận đã hiểu/nhận; tiến độ nằm rải rác trong chat; việc chậm lộ ra sát hạn | Ba dòng đầu của bảng “Thường gặp / Với Elynto”, mỗi dòng ghép với tính năng thật |
+| Nỗi đau của freelancer: nhiều dự án, sáng nay không biết làm gì trước | Dòng thứ tư của bảng; tiêu đề phần Hôm nay |
+| “Nhận ra vấn đề”: nội dung nên mô tả tình huống họ vừa gặp, không nói xu hướng AI | Bảng tình huống viết ở ngôi “bạn”; **không** dùng số liệu Microsoft/Asana/OECD (báo cáo dặn không biến chúng thành lời hứa) |
+| Góc nội dung theo nhóm: “Vì sao giao việc rồi vẫn phải hỏi tiến độ?”, “Sáng nay nên làm gì?”, “Biến mục tiêu mơ hồ thành bước đầu tiên” | Câu hỏi riêng của từng nhóm trong phần “Dành cho ai”; ví dụ lập kế hoạch website trong phần AI |
+| Phân khúc ưu tiên: chủ agency/nhóm dịch vụ 3–15 người, rồi freelancer nhiều dự án | Thứ tự và cách gọi tên ba nhóm trong “Dành cho ai” |
+| Người dùng muốn thấy AI đã hiểu gì, tạo gì và sửa được | Thẻ kết quả ở hero hiện đủ trường; FAQ mới “Nếu AI hiểu sai tên người hoặc thời hạn thì sao?”; ghi chú “quyết định cuối cùng thuộc về bạn” |
+| Freelancer muốn dùng một mình ngay, không bị bắt tạo nhóm | FAQ “dùng một mình” và mô tả nhóm freelancer |
+| “Dám thử”: bắt đầu nhỏ với một dự án thật | Lời CTA cuối trang và câu trả lời FAQ “bắt đầu ở đâu” |
+| Báo cáo không tạo lời chứng thực, không gán phát biểu cho người dùng | Trang không có testimonial, không có trích dẫn khách hàng |
 
-- Chưa xem được giao diện, tính năng thật hay route đăng ký/đăng nhập của app.
-- Mọi hình sản phẩm trên trang vẫn là **minh họa HTML**, có ghi chú “Minh họa / Illustration” ngay bên dưới, kèm nhãn “Minh họa / Illustrative demo” ở hero. Có thể thay bằng video/ảnh thật mà không phải sửa component (xem `src/config/media.ts`).
-- Mô tả tính năng dựa trên brief, giữ ở mức brief đã nêu. Không chỉnh sửa gì ở app beta.
+## 3. Giao diện thật → hình minh họa
 
-Bước tiếp theo: mở một phiên mới trong môi trường đã cấu hình (hướng dẫn: https://code.claude.com/docs/en/cloud-environments#network-access). Ở phiên đó có thể xem trang công khai (đăng nhập, đăng ký) để xác định route. Phần nằm sau màn hình đăng nhập thì không tự vượt qua; cần bạn gửi ảnh chụp/video hoặc một tài khoản demo với dữ liệu mẫu.
+Theo yêu cầu, ảnh chụp **không** được đưa thẳng lên trang. Mỗi màn hình được dựng lại bằng HTML/CSS theo design system của landing, đổi tên người và công ty sang dữ liệu mẫu (không có “Phong Du”, “ALEX INC”), và tinh chỉnh: nhãn viết hoa đầu câu thay cho chữ in hoa, khoảng cách đều, trạng thái có màu thống nhất.
 
-## 3. Cần xác minh trước khi công khai
+| Ảnh beta | Trên landing | Đã tinh chỉnh |
+| --- | --- | --- |
+| Chat “Giao Phong làm thiết kế website…” → thẻ “Đã tạo công việc” | Sân khấu ở hero: câu nói được đánh dấu và nối vào các ô **Giao cho, Công việc, Hạn (có ngày giờ), Ưu tiên**, nút “Mở công việc” | Tên việc viết hoa chữ đầu; hạn hiển thị “Thứ Sáu 09/10, 23:59”; câu mẫu lấy đúng placeholder của app “Giao Minh làm báo giá, hoàn thành trước thứ Sáu.” |
+| Bộ lọc trạng thái ở lịch (Draft → Completed) + mục Delegated ở sidebar | “Việc đã giao”: dải vòng đời Đã giao → Đã nhận → Đang làm → Đã nộp → Đã duyệt, kèm Làm lại; bảng việc đã giao có dấu quá hạn | Màu trạng thái riêng, nhất quán ở mọi hình |
+| Dự án “Thiết kế website” (4 giai đoạn, 12 việc) | Bản nháp kế hoạch AI trong phần lập kế hoạch | Mỗi giai đoạn có khoảng ngày, mỗi việc có ngày hạn |
+| Trang tổng quan dự án (Progress, Overdue, Schedule, Project health, Analyse with AI) + sidebar | Khung app đầy đủ: sidebar thật (Hôm nay, Hộp thư, Việc của tôi, Việc đã giao, Dự án, Nhóm, Báo cáo, Kiến thức), số liệu dự án, tình trạng, nút “Phân tích với AI” | Số liệu gom vào một hàng; nhãn tiếng Việt |
+| Danh sách theo giai đoạn, Lịch tháng, Gantt | Ba tab tương tác trong khung app | Gantt có đường “Hôm nay”, tô ngày cuối tuần, màu thanh theo nhóm trạng thái |
+
+Lưu ý: nhãn trong hình là bản dịch tiếng Việt do tôi đặt. Ứng dụng beta hiện hiển thị phần lớn bằng tiếng Anh; FAQ đã nói rõ điều này.
+
+## 4. Cần xác minh trước khi công khai
 
 ### Bắt buộc (ảnh hưởng luồng chuyển đổi)
 
@@ -26,45 +48,39 @@ Bước tiếp theo: mở một phiên mới trong môi trường đã cấu hì
 | 2 | **Có thật sự cho dùng thử miễn phí và tự đăng ký?** | CTA ghi “Dùng thử miễn phí / Start free trial” theo brief. Không nêu thời hạn, thẻ thanh toán hay giới hạn | Nếu beta chưa mở tự đăng ký hoặc chưa miễn phí, phải sửa CTA hoặc mở luồng đăng ký trước khi công khai |
 | 3 | Route đăng nhập | “Đăng nhập” dẫn tới `https://beta.elynto.io` | Đặt `NEXT_PUBLIC_LOGIN_URL` nếu có route riêng |
 
-### Tính năng đang được mô tả là đã có (theo brief)
+### Đã thấy trong ảnh giao diện (xem là đã hoạt động)
 
-| Nội dung | Vị trí trên trang |
+Tạo việc bằng câu nói với Giao cho, Hạn có giờ, Ưu tiên; nút Mở công việc; trạng thái Draft, Assigned, Accepted, In progress, Submitted, Rework, Approved, Completed; đánh dấu quá hạn; sidebar Today, Inbox, My Work, Delegated, Projects, Team, Reports, Knowledge; dự án có giai đoạn, ngày bắt đầu/hạn, ưu tiên, tệp đính kèm; trang tổng quan có tiến độ, quá hạn, lịch trình, Project health, Analyse with AI; Milestones (có thể tự hoàn thành khi việc liên quan xong); xem dạng List, Calendar, Gantt; kéo thả thanh Gantt.
+
+### Vẫn dựa trên brief, chưa thấy trong ảnh
+
+| Nội dung | Vị trí |
 | --- | --- |
-| Viết một câu → Elynto tạo công việc, nhận ra **việc / người phụ trách / thời hạn** | Hero, “Tạo và giao việc”, FAQ |
-| Công việc được lưu và **chỉnh sửa trực tiếp** sau khi tạo | “Tạo và giao việc”, FAQ |
-| Giao việc cho người khác (dùng một mình hoặc theo nhóm) | “Tạo và giao việc”, “Dành cho ai”, FAQ |
-| Viết yêu cầu bằng **tiếng Việt hoặc tiếng Anh** | FAQ “Elynto hỗ trợ tiếng Việt và tiếng Anh…”. Câu trả lời có nói rõ một số phần app có thể chưa đủ hai ngôn ngữ |
-| **Lập kế hoạch dự án với AI**: mục tiêu → giai đoạn → công việc; người dùng **xem lại, chỉnh sửa trước khi tạo dự án** | Section riêng “Lập kế hoạch dự án với AI” |
-| Màn hình **Hôm nay / Việc của tôi**: quá hạn, đến hạn hôm nay, sắp đến hạn, việc đánh dấu quan trọng | “Mỗi ngày” |
-| Cách xem **Danh sách, Kanban, Lịch** (lịch = xem theo ngày đến hạn) | “Nhiều cách xem”, “Lợi ích” |
-| Trạng thái “Cần làm / Đang làm / Đã xong” | Các minh họa |
+| AI lập kế hoạch có bước **xem lại, chỉnh sửa trước khi tạo dự án** (chưa thấy màn hình review) | Phần lập kế hoạch AI, FAQ |
+| Nội dung màn hình **Hôm nay** (gom quá hạn, đến hạn, sắp đến hạn, kèm ưu tiên) | Phần Hôm nay, bảng tình huống dòng 4 |
+| Người nhận tự chuyển việc sang **Đã nhận / Đã nộp** (thấy trạng thái, chưa thấy ai thao tác) | Bảng tình huống dòng 1, phần Việc đã giao |
+| Nội dung của mục **Việc đã giao** (thấy tên mục, chưa thấy màn hình) | Phần Việc đã giao, FAQ |
+| AI nhận ra **tiếng Anh** trong câu lệnh | FAQ ngôn ngữ |
 
-Nhãn trong minh họa (“Hôm nay”, “Việc của tôi”, “Đang tạo công việc…”, tên trạng thái) là nhãn giả định. Hãy cho biết tên thật trong app để đồng bộ. Chữ nằm trong `src/content/*.ts`.
+### Đã gỡ khỏi trang
 
-### Đang ẩn, chờ xác nhận
-
-- **Timeline** và **Gantt** (kèm mốc quan trọng và liên kết giữa công việc) đã dựng xong nhưng **tắt mặc định**. Bật bằng `NEXT_PUBLIC_FEATURE_PROJECT_TIMELINE=true` / `NEXT_PUBLIC_FEATURE_PROJECT_GANTT=true` khi đã chạy thật. Đoạn mô tả đi kèm sẽ tự hiện.
+- **Kanban**: brief có nhắc nhưng không thấy trong thanh công cụ ở các ảnh, nên tạm bỏ. Thêm lại khi xác nhận.
+- Cờ tính năng Timeline/Gantt: Gantt đã xác nhận nên hiển thị luôn; không có màn Timeline riêng nên bỏ cờ.
 
 ### Cố ý không nhắc tới
 
-Tự sắp lịch, AI tự ưu tiên hoặc tự điều phối, chat/video call, tích hợp bên thứ ba, thông báo/nhắc việc, nhập bằng giọng nói, kéo-thả, giá, thời hạn trial, thẻ thanh toán, bảo mật, số người dùng, testimonial, logo khách hàng, số liệu năng suất.
+Tự sắp lịch, AI tự ưu tiên hoặc tự điều phối, chat/video call, tích hợp bên thứ ba, thông báo/nhắc việc, nhập bằng giọng nói, giá, thời hạn trial, thẻ thanh toán, bảo mật dữ liệu, xuất dữ liệu, số người dùng, testimonial, logo khách hàng, số liệu năng suất. Báo cáo cũng xếp nhắc việc chủ động, tự xếp lịch, tích hợp chat và báo cáo nâng cao là nhu cầu, chưa phải khả năng sẵn có.
 
-## 4. Asset minh họa và tài nguyên còn thiếu
+### Asset có thể bổ sung
 
-| Asset | Hiện dùng | Đề xuất thay |
+| Asset | Hiện dùng | Đề xuất |
 | --- | --- | --- |
-| Demo hero (một câu → công việc) | Chuỗi CSS ~4,5 giây chạy một lần, nhãn “Minh họa” | Video thật VI + EN, 10–15 giây, tắt tiếng, MP4 dưới 2 MB, kèm poster. Khai báo ở `productMedia.heroDemo` |
-| Tạo và giao việc | Bảng minh họa “Bạn viết / Elynto tạo” với 3 câu mẫu | Ảnh chụp thật → `productMedia.command` |
-| Lập kế hoạch với AI | Minh họa bản nháp kế hoạch | Ảnh chụp màn hình review kế hoạch → `productMedia.planning` |
-| Hôm nay / Việc của tôi | Minh họa | Ảnh chụp thật → `productMedia.today` |
-| Danh sách / Kanban / Lịch / Timeline / Gantt | Minh họa dạng tab | Giữ minh họa hoặc thay từng panel bằng ảnh |
-| Logo | SVG **dựng lại từ ảnh .webp** được cung cấp (`public/brand/`) | File vector gốc chính thức |
-| Màu thương hiệu | Navy `#142D47` lấy mẫu từ logo; các màu khác là token tạm | Bảng màu chính thức (sửa trong `globals.css`) |
-| Font | Mona Sans (biến thể độ rộng, hỗ trợ tiếng Việt, SIL OFL) | Xác nhận hoặc thay bằng font thương hiệu |
+| Demo hero | Chuỗi CSS ~4,5 giây chạy một lần | Video thật VI + EN, 10–15 giây, tắt tiếng, kèm poster → `productMedia.heroDemo` |
+| Việc đã giao, Kế hoạch AI, Trang dự án, Hôm nay | Giao diện dựng lại | Có thể giữ (đã tinh chỉnh), hoặc thay bằng ảnh thật → `productMedia.delegate / planning / project / today` |
+| Logo | SVG dựng lại từ ảnh .webp | File vector gốc |
+| Màu, font | Token tạm, Mona Sans | Xác nhận bộ nhận diện chính thức |
 
-Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu. Không đưa tên, email hay công việc của khách hàng thật vào.
-
-## 5. Lựa chọn thiết kế (bản 2, theo skill `frontend-design`)
+## 5. Lựa chọn thiết kế (theo skill `frontend-design`)
 
 Skill được cài vào repo tại `.claude/skills/frontend-design/` (nguồn: `anthropics/skills`, giấy phép Apache 2.0) để các lần chỉnh sửa sau dùng cùng một chuẩn.
 
@@ -87,13 +103,15 @@ Skill được cài vào repo tại `.claude/skills/frontend-design/` (nguồn: 
 **Đã bỏ so với bản 1** (đều là dấu hiệu “trang làm sẵn” mà skill cảnh báo):
 - nhãn nhỏ phía trên mọi tiêu đề, thay bằng tên tính năng đặt ở đầu đoạn văn (“**Lập kế hoạch dự án với AI.** Nhập mục tiêu…”);
 - nhãn chữ in hoa, chuỗi “A · B”, nhãn kiểu “Elynto — …”, mũi tên → trong nút;
-- khung giả cửa sổ app có pill “MINH HỌA” trên mọi hình;
-- các hàng card giống nhau có icon (Lợi ích giờ là danh sách định nghĩa có đường kẻ, Dành cho ai là ba cột chữ kèm câu ví dụ);
+- khung giả cửa sổ app có pill “MINH HỌA” trên mọi hình (bản 3 chỉ dựng lại khung app ở nơi có giao diện thật làm căn cứ);
+- các hàng card giống nhau có icon (Lợi ích giờ là bảng “Thường gặp / Với Elynto”, Dành cho ai là ba cột chữ kèm câu hỏi và câu ví dụ);
 - khối CTA navy ở cuối trang; animation lặp vô hạn.
 
 **Đánh số** chỉ dùng ở nơi nội dung thật sự là trình tự: 3 bước lập kế hoạch và 3 giai đoạn của dự án.
 
-**Câu chữ**: giữ như bản 1, bỏ các dấu gạch ngang trang trí. “Nói việc cần làm” vẫn được thay bằng “Chỉ cần mô tả việc cần làm” để không gợi ý nhập bằng giọng nói. Mẹo “nêu rõ việc gì, ai làm, khi nào xong” vẫn được giữ.
+**Bản 3** giữ nguyên hệ thống này. Màu trạng thái công việc (8 màu nhạt) chỉ xuất hiện bên trong hình sản phẩm, như dữ liệu, không dùng để trang trí. Hình sản phẩm dùng Mona Sans ở cỡ giao diện (13–15px), bo góc theo cấp: khung app 16px, khối bên trong 12px, nhãn 6px.
+
+**Câu chữ**: theo nghiên cứu khách hàng (mục 2), bỏ các dấu gạch ngang trang trí. “Nói việc cần làm” vẫn được thay bằng “Chỉ cần mô tả việc cần làm” để không gợi ý nhập bằng giọng nói. Mẹo “nêu rõ việc gì, ai làm, khi nào xong” vẫn được giữ.
 
 ## 6. Đã kiểm tra
 
@@ -104,7 +122,7 @@ Skill được cài vào repo tại `.claude/skills/frontend-design/` (nguồn: 
   - hero chứa định vị và vision, mọi CTA đăng ký trỏ đúng URL, demo có nhãn minh họa;
   - metadata và ảnh OG theo từng ngôn ngữ;
   - nút “Xem Elynto hoạt động” phát lại demo; demo tạm dừng/tiếp tục được, chạy một lần rồi dừng ở “Đã tạo công việc”;
-  - FAQ, tab (chuột và bàn phím), menu mobile (Escape trả focus), đổi ngôn ngữ và ghi nhớ;
+  - FAQ, tab Danh sách/Lịch/Gantt của dự án (chuột và bàn phím), menu mobile (Escape trả focus), đổi ngôn ngữ và ghi nhớ;
   - sự kiện CTA được đẩy vào `dataLayer`;
   - axe: không có lỗi truy cập mức *serious/critical*;
   - không tràn ngang, không lỗi console.

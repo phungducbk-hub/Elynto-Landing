@@ -33,6 +33,24 @@
   --color-progress: #2c5281;
   --color-progress-soft: #e3ebf5;
 
+  /* Work statuses inside product illustrations (data encoding, not decoration). */
+  --color-st-draft: #5b6b7d;
+  --color-st-draft-bg: #f0f2f5;
+  --color-st-assigned: #34465a;
+  --color-st-assigned-bg: #e7ebf0;
+  --color-st-accepted: #4a3f8f;
+  --color-st-accepted-bg: #ebe9f7;
+  --color-st-progress: #2c5281;
+  --color-st-progress-bg: #e2ebf7;
+  --color-st-submitted: #7a4a0c;
+  --color-st-submitted-bg: #fbf0dc;
+  --color-st-rework: #9a2e1a;
+  --color-st-rework-bg: #fbe9e5;
+  --color-st-approved: #0e5f57;
+  --color-st-approved-bg: #dff0ee;
+  --color-st-completed: #1d6b43;
+  --color-st-completed-bg: #e3f3ea;
+
   /* Product surfaces are the only elevated objects on the page. */
   --shadow-surface: 0 1px 0 rgb(20 45 71 / 0.04), 0 22px 44px -28px rgb(20 45 71 / 0.32);
 

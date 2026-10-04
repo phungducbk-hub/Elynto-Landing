@@ -49,16 +49,15 @@ src/
     icon.svg, favicon.ico, apple-icon.png
     robots.ts, sitemap.ts
   proxy.ts                    "/" → /vi hoặc /en (cookie → Accept-Language → mặc định vi)
-  content/vi.ts, en.ts        TOÀN BỘ nội dung chữ, có kiểu dữ liệu chung (types.ts)
+  content/vi.ts, en.ts        TOÀN BỘ nội dung chữ và dữ liệu mẫu của hình minh họa, có kiểu dữ liệu chung (types.ts)
   config/site.ts              URL trang, URL đăng ký/đăng nhập, quy tắc index
-  config/features.ts          cờ bật/tắt Timeline, Gantt
   config/media.ts             chỗ khai báo video/ảnh sản phẩm thật
   lib/analytics.ts            hàm track() + danh sách sự kiện
   components/
     sections/                 Hero, Benefits, HowItWorks, Audience, Faq, FinalCta
     hero/                     TransformStage: câu nói → công việc (chuyển động duy nhất của trang)
     demo/                     DemoVideo (dùng khi có video thật)
-    visuals/                  minh họa sản phẩm: SentenceTable, PlanDraft, TodayView, ViewsShowcase
+    visuals/                  giao diện Elynto dựng lại: DelegatedView, PlanDraft, ProjectWorkspace, TodayView
     layout/                   SiteHeader, SiteFooter, LanguageSwitch, AnalyticsListener
     ui/, brand/               nút, khung minh họa, avatar, logo
 public/brand/                 logo gốc được cung cấp (.webp) + bản SVG dựng lại
@@ -81,8 +80,6 @@ assets/fonts/                 Mona Sans tĩnh để vẽ ảnh Open Graph (SIL O
 | `NEXT_PUBLIC_SIGNUP_URL` | `https://beta.elynto.io` | Đích của mọi nút “Dùng thử miễn phí” |
 | `NEXT_PUBLIC_LOGIN_URL` | `https://beta.elynto.io` | Đích của nút “Đăng nhập” |
 | `NEXT_PUBLIC_SITE_URL` | `https://elynto.io` | Canonical, sitemap, Open Graph |
-| `NEXT_PUBLIC_FEATURE_PROJECT_TIMELINE` | `false` | Hiện tab Timeline |
-| `NEXT_PUBLIC_FEATURE_PROJECT_GANTT` | `false` | Hiện tab Gantt (mốc quan trọng, liên kết công việc) |
 | `SITE_INDEXABLE` | chỉ `true` trên Vercel Production | Cho phép công cụ tìm kiếm index |
 
 Biến `NEXT_PUBLIC_*` được đóng vào bản build. Sau khi đổi, cần build lại (trên Vercel: Redeploy).
@@ -94,8 +91,8 @@ heroDemo: {
   vi: { src: "/media/demo-vi.mp4", poster: "/media/demo-vi.webp", width: 1280, height: 960 },
   en: { src: "/media/demo-en.mp4", poster: "/media/demo-en.webp", width: 1280, height: 960 },
 },
-planning: {
-  vi: { src: "/media/planning-vi.webp", width: 1600, height: 1100, alt: "Bản nháp kế hoạch ra mắt website trong Elynto" },
+project: {
+  vi: { src: "/media/project-vi.webp", width: 1600, height: 1100, alt: "Trang tổng quan dự án Thiết kế website trong Elynto" },
 },
 ```
 
@@ -116,7 +113,7 @@ Chưa kết nối dịch vụ nào. Mọi sự kiện được:
 | `demo_view` | Demo hiện ≥ 50% trên màn hình (1 lần) | `demo` |
 | `demo_play` / `demo_pause` / `demo_replay` | Điều khiển demo | `demo`, `source` |
 | `example_select` | Chọn ví dụ ở phần “Tạo và giao việc” | `example` |
-| `view_tab_select` | Đổi tab cách xem | `view` |
+| `view_tab_select` | Đổi tab cách xem của dự án (Danh sách, Lịch, Gantt) | `view` |
 | `faq_toggle` | Mở/đóng câu hỏi | `question`, `open` |
 | `mobile_menu_toggle` | Mở/đóng menu mobile | `open` |
 
@@ -135,7 +132,7 @@ Code đã được đẩy lên `github.com/phungducbk-hub/Elynto-Landing`, nhán
 
 1. **Gộp code** — mở Pull Request từ nhánh trên vào `main`, xem lại rồi merge. Nếu repo chưa có `main`, có thể đổi tên nhánh hoặc chọn nhánh này làm Production Branch trên Vercel.
 2. **Tạo project Vercel** — vào vercel.com → *Add New… → Project* → chọn repo `Elynto-Landing`. Vercel tự nhận Next.js; giữ nguyên lệnh build (`next build`) và Node 20 trở lên.
-3. **Biến môi trường** (*Settings → Environment Variables*) — đặt `NEXT_PUBLIC_SIGNUP_URL` / `NEXT_PUBLIC_LOGIN_URL` khi đã có route chính thức. Chỉ bật cờ Timeline/Gantt khi tính năng đã chạy thật.
+3. **Biến môi trường** (*Settings → Environment Variables*) — đặt `NEXT_PUBLIC_SIGNUP_URL` / `NEXT_PUBLIC_LOGIN_URL` khi đã có route chính thức.
 4. **Duyệt bản preview** — mỗi nhánh hoặc PR có một URL preview riêng. Bản preview luôn `noindex`.
 5. **Gắn tên miền** (chỉ khi đã sẵn sàng công khai) — *Settings → Domains* → thêm `elynto.io` (và `www.elynto.io` chuyển hướng về `elynto.io`), rồi cập nhật DNS theo hướng dẫn của Vercel. Bản Production trên Vercel sẽ tự cho phép index.
 

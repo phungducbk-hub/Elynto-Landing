@@ -269,7 +269,7 @@
 /* Footer status: new → reading → created */
 .statusRow {
   position: relative;
-  height: 2.875rem;
+  height: 3.25rem;
   border-top: 1px solid var(--color-rule);
   font-size: 0.9375rem;
   font-weight: 600;
@@ -325,6 +325,27 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* "Open task" — mirrors the real card's button; visual only. */
+.openTask {
+  margin-left: auto;
+  display: none;
+  align-items: center;
+  gap: 0.375rem;
+  height: 2rem;
+  padding-inline: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-rule-strong);
+  color: var(--color-navy);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+@media (min-width: 40rem) {
+  .openTask {
+    display: inline-flex;
   }
 }
 

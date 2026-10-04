@@ -1,10 +1,9 @@
 "use client";
 
-import { CalendarDays, Check, LoaderCircle, Pause, Play, RotateCcw } from "lucide-react";
+import { ArrowUpRight, CalendarDays, Check, Flag, LoaderCircle, Pause, Play, RotateCcw } from "lucide-react";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type AnimationEvent, type CSSProperties } from "react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Marker } from "@/components/ui/Marker";
-import { StatusPill } from "@/components/ui/StatusPill";
 import type { Dictionary, FieldKey } from "@/content/types";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
@@ -250,13 +249,14 @@ function Stage({ copy, state, onAnimationEnd }: StageProps) {
           </Field>
           <Field label={fields.due} field="due">
             <span className={cn(styles.value, styles.parsed)}>
-              <CalendarDays className="size-4 text-muted" />
+              <CalendarDays className="size-4 shrink-0 text-muted" />
               {result.due}
             </span>
           </Field>
-          <Field label={fields.status} field="status">
-            <span className={styles.value}>
-              <StatusPill status="todo" label={result.status} className="text-base" />
+          <Field label={fields.priority} field="priority">
+            <span className={cn(styles.value, "font-medium text-body")}>
+              <Flag className="size-4 shrink-0 text-muted" />
+              {result.priority}
             </span>
           </Field>
         </dl>
@@ -272,6 +272,10 @@ function Stage({ copy, state, onAnimationEnd }: StageProps) {
               <Check className="size-3.5" strokeWidth={3} />
             </span>
             {status.created}
+            <span className={styles.openTask}>
+              {copy.open}
+              <ArrowUpRight className="size-3.5" />
+            </span>
           </span>
         </div>
       </div>
@@ -279,14 +283,15 @@ function Stage({ copy, state, onAnimationEnd }: StageProps) {
   );
 }
 
-const fillVar: Record<FieldKey | "status", string> = {
+const fillVar: Record<FieldKey | "priority", string> = {
   assignee: "calc(var(--t-assignee) + var(--fill-lag))",
   task: "calc(var(--t-task) + var(--fill-lag))",
   due: "calc(var(--t-due) + var(--fill-lag))",
-  status: "var(--t-status)",
+  // Not in the sentence: Elynto fills the default priority.
+  priority: "var(--t-status)",
 };
 
-function Field({ label, field, children }: { label: string; field: FieldKey | "status"; children: React.ReactNode }) {
+function Field({ label, field, children }: { label: string; field: FieldKey | "priority"; children: React.ReactNode }) {
   return (
     <div className={styles.field} style={{ "--f": fillVar[field] } as CSSProperties}>
       <dt className={styles.fieldLabel} data-slot={field}>

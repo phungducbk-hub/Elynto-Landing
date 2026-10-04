@@ -13,18 +13,31 @@ export type Person = {
   self?: boolean;
 };
 
-export type TaskStatus = "todo" | "inProgress" | "done";
+/** Work statuses as they exist in the Elynto beta. */
+export type WorkStatus =
+  | "draft"
+  | "assigned"
+  | "accepted"
+  | "inProgress"
+  | "submitted"
+  | "rework"
+  | "approved"
+  | "completed";
 
-export type ViewKey = "list" | "kanban" | "calendar" | "timeline" | "gantt";
+export type Priority = "high" | "medium";
 
-export type ViewTask = {
+export type ProjectView = "list" | "calendar" | "gantt";
+
+/** Day of the illustrated month (October). */
+export type Day = number;
+
+export type PlanTask = {
   title: string;
-  project: string;
-  due: string;
-  /** 0 = first weekday column in the calendar illustration. */
-  day: number;
-  status: TaskStatus;
-  important?: boolean;
+  assignee: Person;
+  start: Day;
+  due: Day;
+  priority: Priority;
+  status: WorkStatus;
 };
 
 export type Dictionary = {
@@ -51,6 +64,7 @@ export type Dictionary = {
   hero: {
     /** Plain statement of what Elynto is, shown with the vision line. */
     label: string;
+    promise: string;
     description: string;
     primaryCta: string;
     secondaryCta: string;
@@ -61,30 +75,53 @@ export type Dictionary = {
     regionLabel: string;
     srDescription: string;
     sentence: Segment[];
-    fields: { assignee: string; task: string; due: string; status: string };
-    result: { assignee: Person; task: string; due: string; status: string };
+    fields: { assignee: string; task: string; due: string; priority: string };
+    result: { assignee: Person; task: string; due: string; priority: string };
     status: { idle: string; reading: string; created: string };
+    open: string;
     controls: { pause: string; play: string; replay: string };
   };
-  benefits: {
+  problems: {
     title: string;
-    items: { title: string; body: string }[];
+    intro: string;
+    beforeLabel: string;
+    afterLabel: string;
+    rows: { before: string; afterTitle: string; afterBody: string }[];
   };
   howItWorks: {
     title: string;
     intro: string;
   };
   illustration: string;
-  sentences: {
+  /** Shared vocabulary of the product illustrations. */
+  app: {
+    workspace: string;
+    nav: { today: string; inbox: string; myWork: string; delegated: string; projects: string; team: string; reports: string; knowledge: string };
+    statuses: Record<WorkStatus, string>;
+    priorities: Record<Priority, string>;
+    /** "{dd}" → zero-padded day, "{d}" → day. */
+    datePattern: string;
+    weekdaysShort: string[];
+    monthTitle: string;
+    todayLabel: string;
+    overdueLabel: string;
+    /** Gantt bar groups. */
+    barLegend: { done: string; active: string; notStarted: string };
+  };
+  delegate: {
     name: string;
     title: string;
     body: string;
     tip: string;
-    youWrite: string;
-    elyntoCreates: string;
-    fields: { assignee: string; task: string; due: string };
-    rows: { segments: Segment[]; task: string; assignee: Person; due: string }[];
-    savedNote: string;
+    view: {
+      title: string;
+      count: string;
+      flowLabel: string;
+      flow: WorkStatus[];
+      reworkNote: string;
+      columns: { task: string; assignee: string; due: string; status: string };
+      rows: { title: string; assignee: Person; due: Day; status: WorkStatus; overdue?: boolean }[];
+    };
   };
   planning: {
     name: string;
@@ -98,10 +135,33 @@ export type Dictionary = {
       draftTitle: string;
       summary: string;
       phaseLabel: string;
-      phases: { name: string; tasks: string[] }[];
       reviewHint: string;
       edit: string;
       create: string;
+    };
+  };
+  project: {
+    name: string;
+    title: string;
+    body: string;
+    points: string[];
+    data: {
+      back: string;
+      name: string;
+      tags: string[];
+      privacy: string;
+      description: string;
+      stats: { label: string; value: string }[];
+      progress: number;
+      healthLabel: string;
+      health: string;
+      healthNote: string;
+      analyse: string;
+      viewsLabel: string;
+      views: Record<ProjectView, string>;
+      dragHint: string;
+      columns: { task: string; assignee: string; start: string; due: string; priority: string; status: string };
+      phases: { name: string; tasks: PlanTask[] }[];
     };
   };
   today: {
@@ -110,43 +170,16 @@ export type Dictionary = {
     body: string;
     points: string[];
     mock: {
-      title: string;
-      importantLabel: string;
       groups: {
         tone: "overdue" | "today" | "upcoming";
         label: string;
-        items: { title: string; project: string; due: string; important?: boolean }[];
+        items: { title: string; project: string; due: string; priority: Priority }[];
       }[];
-    };
-  };
-  views: {
-    name: string;
-    title: string;
-    body: string;
-    projectBody: string;
-    tabsLabel: string;
-    projectLabel: string;
-    tabs: Record<ViewKey, { label: string; description: string }>;
-    statuses: Record<TaskStatus, string>;
-    listHeaders: { task: string; project: string; due: string; status: string };
-    weekdays: string[];
-    todayLabel: string;
-    importantLabel: string;
-    myWorkTitle: string;
-    tasks: ViewTask[];
-    project: {
-      name: string;
-      weeks: string[];
-      phases: { name: string; start: number; end: number }[];
-      tasks: { name: string; start: number; end: number; after?: number }[];
-      milestones: { name: string; at: number }[];
-      milestoneLabel: string;
-      dependencyLabel: string;
     };
   };
   audience: {
     title: string;
-    items: { title: string; body: string; example: string }[];
+    items: { title: string; question: string; body: string; example: string }[];
   };
   faq: {
     title: string;

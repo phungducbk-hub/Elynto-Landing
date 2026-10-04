@@ -14,7 +14,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
 
   return (
     <section aria-labelledby="hero-title">
-      <Container className="pt-8 pb-16 sm:pt-12 sm:pb-20 lg:pt-14">
+      <Container className="pt-8 pb-16 sm:pt-12 sm:pb-20 lg:pt-12">
         <h1 id="hero-title">
           <span className="flex items-center gap-2.5 text-lg leading-snug font-medium text-navy stretch-wide sm:text-xl">
             <Logo variant="mark" title={null} className="h-5 w-auto shrink-0 sm:h-6" />
@@ -26,7 +26,10 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         </h1>
 
         <div className="mt-6 grid gap-7 sm:mt-8 lg:grid-cols-12 lg:items-end lg:gap-10">
-          <p className="max-w-[36rem] type-lead text-pretty lg:col-span-7">{hero.description}</p>
+          <div className="lg:col-span-7">
+            <p className="text-xl leading-snug font-semibold text-navy stretch-wide sm:text-2xl">{hero.promise}</p>
+            <p className="mt-3 max-w-[36rem] type-lead text-pretty">{hero.description}</p>
+          </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:justify-end">
             <ButtonLink
               href={siteConfig.signupUrl}

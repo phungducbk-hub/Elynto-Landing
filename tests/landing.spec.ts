@@ -15,9 +15,9 @@ const copy = {
     replay: "Xem lại từ đầu",
     created: "Đã tạo công việc",
     faq: "Tôi có thể dùng Elynto một mình không?",
-    faqAnswer: "Bạn có thể dùng Elynto để quản lý việc cá nhân",
-    kanban: "Kanban",
-    inProgress: "Đang làm",
+    faqAnswer: "Bạn có thể bắt đầu một mình ngay",
+    secondTab: "Lịch",
+    secondTabContent: "Tháng 10",
     title: "Elynto — Quản lý công việc bằng AI",
   },
   en: {
@@ -30,9 +30,9 @@ const copy = {
     replay: "Replay demo",
     created: "Task created",
     faq: "Can I use Elynto on my own?",
-    faqAnswer: "You can use Elynto to manage your own tasks",
-    kanban: "Kanban",
-    inProgress: "In progress",
+    faqAnswer: "You can start on your own right away",
+    secondTab: "Calendar",
+    secondTabContent: "October",
     title: "Elynto — AI-powered work management",
   },
 } as const;
@@ -136,12 +136,12 @@ for (const lang of ["vi", "en"] as const) {
 
     test("view tabs switch with mouse and keyboard", async ({ page }) => {
       await page.goto(`/${lang}`);
-      const kanban = page.getByRole("tab", { name: t.kanban });
-      await kanban.click();
-      await expect(kanban).toHaveAttribute("aria-selected", "true");
-      await expect(page.getByRole("tabpanel")).toContainText(t.inProgress);
+      const second = page.getByRole("tab", { name: t.secondTab });
+      await second.click();
+      await expect(second).toHaveAttribute("aria-selected", "true");
+      await expect(page.getByRole("tabpanel")).toContainText(t.secondTabContent);
 
-      await kanban.press("ArrowRight");
+      await second.press("ArrowRight");
       const third = page.getByRole("tab").nth(2);
       await expect(third).toHaveAttribute("aria-selected", "true");
       await expect(third).toBeFocused();

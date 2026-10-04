@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Audience } from "@/components/sections/Audience";
-import { Benefits } from "@/components/sections/Benefits";
 import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Hero } from "@/components/sections/Hero";
+import { Problems } from "@/components/sections/Problems";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
@@ -47,7 +47,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <SiteHeader lang={lang} nav={dict.nav} signupUrl={siteConfig.signupUrl} loginUrl={siteConfig.loginUrl} />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero lang={lang} dict={dict} />
-        <Benefits dict={dict} />
+        <Problems dict={dict} />
         <HowItWorks lang={lang} dict={dict} />
         <Audience dict={dict} />
         <Faq dict={dict} />
