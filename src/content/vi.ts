@@ -1,16 +1,17 @@
 import type { Dictionary } from "./types";
 
-const minh = { name: "Minh Trần", initials: "M" };
-const lan = { name: "Lan Phạm", initials: "L" };
-const huy = { name: "Huy Lê", initials: "H" };
+const minh = { name: "Minh", initials: "M" };
+const lan = { name: "Lan", initials: "L" };
+const huy = { name: "Huy", initials: "H" };
 const me = { name: "Bạn", initials: "B", self: true };
 
 export const vi: Dictionary = {
   meta: {
     title: "Elynto — Quản lý công việc bằng AI",
     description:
-      "Rõ việc cần làm, rõ người phụ trách, rõ tiến độ. Viết việc cần làm bằng lời thường; Elynto tạo và giao việc, lập kế hoạch dự án với AI và giúp bạn theo dõi mọi thứ trong một nơi.",
-    ogDescription: "Rõ việc cần làm, rõ người phụ trách, rõ tiến độ.",
+      "Mô tả việc cần làm bằng lời thường. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ trong một nơi.",
+    ogDescription:
+      "Mô tả việc cần làm. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ trong một nơi.",
   },
   a11y: {
     skipToContent: "Bỏ qua và đến nội dung chính",
@@ -24,178 +25,230 @@ export const vi: Dictionary = {
     openMenu: "Mở menu",
     closeMenu: "Đóng menu",
     mainNav: "Điều hướng chính",
-    home: "Elynto, về đầu trang",
+    home: "Elynto — về đầu trang",
     language: "Ngôn ngữ",
   },
   hero: {
-    label: "Quản lý công việc bằng AI",
-    promise: "Rõ việc cần làm, rõ người phụ trách, rõ tiến độ.",
+    eyebrow: "Elynto — Quản lý công việc bằng AI",
     description:
-      "Viết việc cần làm như khi nhắn cho đồng nghiệp. Elynto tạo và giao việc, giúp bạn lập kế hoạch dự án với AI và theo dõi mọi thứ trong một nơi.",
+      "Chỉ cần mô tả việc cần làm. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ — tất cả trong một nơi.",
     primaryCta: "Dùng thử miễn phí",
     secondaryCta: "Xem Elynto hoạt động",
   },
   demo: {
-    label: "Minh họa",
+    badge: "Minh họa",
     caption: "Một câu nói. Công việc rõ người, rõ hạn.",
     regionLabel: "Minh họa: từ một câu nói đến công việc",
     srDescription:
-      "Minh họa, không phải phiên thao tác trực tiếp với ứng dụng. Người dùng viết: “Giao Minh làm báo giá, hoàn thành trước thứ Sáu.” Elynto tạo công việc “Làm báo giá”, giao cho Minh Trần, hạn Thứ Sáu 09/10 lúc 23:59, mức ưu tiên Trung bình.",
-    sentence: [
-      "Giao ",
-      { field: "assignee", text: "Minh" },
-      " ",
-      { field: "task", text: "làm báo giá" },
-      ", hoàn thành ",
-      { field: "due", text: "trước thứ Sáu" },
-      ".",
-    ],
+      "Minh họa, không phải phiên thao tác trực tiếp với ứng dụng. Người dùng viết: “Giao Minh làm báo cáo, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo cáo”, người phụ trách Minh, hạn hoàn thành Thứ Sáu, trạng thái Đã giao.",
+    placeholder: "Bạn cần làm gì?",
+    command: "Giao Minh làm báo cáo, hoàn thành trước thứ sáu.",
+    send: "Gửi",
+    newTask: "Công việc mới",
+    processing: "Đang tạo công việc…",
+    success: "Đã tạo công việc",
     fields: {
-      assignee: "Giao cho",
       task: "Công việc",
-      due: "Hạn",
-      priority: "Ưu tiên",
+      assignee: "Người phụ trách",
+      due: "Hạn hoàn thành",
+      status: "Trạng thái",
     },
     result: {
+      task: "Làm báo cáo",
       assignee: minh,
-      task: "Làm báo giá",
-      due: "Thứ Sáu 09/10, 23:59",
-      priority: "Trung bình",
+      due: "Thứ Sáu",
+      status: "Đã giao",
     },
-    status: {
-      idle: "Công việc mới",
-      reading: "Elynto đang đọc yêu cầu…",
-      created: "Đã tạo công việc",
-    },
-    open: "Mở công việc",
     controls: {
+      play: "Phát minh họa",
       pause: "Tạm dừng minh họa",
-      play: "Tiếp tục minh họa",
       replay: "Xem lại từ đầu",
     },
   },
-  problems: {
-    title: "Giao việc xong, vẫn phải đi hỏi tiến độ?",
-    intro:
-      "Nếu những tình huống dưới đây quen thuộc, Elynto giúp bạn bớt quên việc, bớt hỏi lại và an tâm hơn khi kết thúc ngày.",
-    beforeLabel: "Thường gặp",
-    afterLabel: "Với Elynto",
-    rows: [
+  benefits: {
+    eyebrow: "Lợi ích",
+    title: "Tập trung vào công việc, không phải vào công cụ",
+    items: [
       {
-        before: "Bạn giao việc trong nhóm chat, nhưng không chắc người nhận đã hiểu, đã nhận việc và có nhớ hạn hay chưa.",
-        afterTitle: "Giao bằng một câu, rõ ai đã nhận.",
-        afterBody:
-          "Mỗi việc có người phụ trách, hạn và mức ưu tiên. Người nhận chuyển việc sang Đã nhận, bạn thấy ngay mà không cần hỏi.",
+        title: "Bớt thao tác để bắt đầu",
+        body: "Viết điều cần làm như khi nhắn cho đồng nghiệp. Không phải điền từng ô hay học cách dùng phức tạp.",
       },
       {
-        before: "Khách hỏi tiến độ, bạn lại phải lục từng đoạn chat và bảng tính để tổng hợp.",
-        afterTitle: "Tiến độ nằm sẵn ở một nơi.",
-        afterBody:
-          "Trang dự án cho thấy phần trăm hoàn thành, việc quá hạn và số ngày còn lại, đủ rõ để trả lời khách hoặc chuẩn bị cuộc họp.",
+        title: "Rõ ai làm gì, khi nào xong",
+        body: "Mỗi việc đều có người phụ trách, thời hạn và trạng thái. Cả nhóm cùng nhìn một thông tin.",
       },
       {
-        before: "Việc chậm chỉ lộ ra sát ngày giao, và bạn trở thành người nhắc việc cho cả nhóm.",
-        afterTitle: "Thấy việc chậm sớm hơn.",
-        afterBody: "Việc quá hạn luôn được đánh dấu, tình trạng dự án hiện ngay đầu trang để bạn xử lý trước khi quá muộn.",
-      },
-      {
-        before: "Nhiều dự án cùng lúc, sáng nay vẫn không chắc nên bắt đầu từ việc nào.",
-        afterTitle: "Mở Elynto, biết việc nào làm trước.",
-        afterBody: "Hôm nay gom việc quá hạn, đến hạn và việc ưu tiên cao từ mọi dự án vào một danh sách.",
+        title: "Nắm tiến độ trong một nơi",
+        body: "Theo dõi việc cá nhân và dự án theo góc nhìn phù hợp: danh sách, lịch hoặc Gantt.",
       },
     ],
   },
   howItWorks: {
-    title: "Từ một câu nói đến công việc chạy đúng hạn",
+    eyebrow: "Cách hoạt động",
+    title: "Từ điều bạn muốn làm đến công việc rõ ràng",
     intro:
-      "Elynto chuyển lời mô tả thành công việc có cấu trúc, giúp bạn lập kế hoạch dự án và theo dõi tất cả trên giao diện trực quan.",
+      "Elynto chuyển lời mô tả thành công việc có cấu trúc, giúp bạn lập kế hoạch và theo dõi tất cả trên giao diện trực quan.",
   },
-  illustration: "Minh họa dựa trên giao diện Elynto",
-  app: {
-    workspace: "Công ty Mẫu",
-    nav: {
-      today: "Hôm nay",
-      inbox: "Hộp thư",
-      myWork: "Việc của tôi",
-      delegated: "Việc đã giao",
-      projects: "Dự án",
-      team: "Nhóm",
-      reports: "Báo cáo",
-      knowledge: "Kiến thức",
+  illustration: "Minh họa",
+  command: {
+    eyebrow: "Tạo và giao việc",
+    title: "Việc cần làm bắt đầu từ một câu nói.",
+    body: "Viết như cách bạn vẫn giao việc. Elynto nhận ra việc cần làm, người phụ trách và thời hạn, rồi tạo thành công việc để bạn tiếp tục theo dõi và cập nhật.",
+    points: [
+      "Công việc được lưu lại, không trôi mất trong tin nhắn.",
+      "Bạn luôn có thể xem lại và chỉnh sửa trực tiếp.",
+      "Dùng cho việc của riêng bạn hoặc việc giao cho người khác.",
+    ],
+    tip: "Mẹo: nêu rõ việc gì, ai làm và khi nào xong để kết quả chính xác nhất.",
+    examplesLabel: "Chọn ví dụ",
+    legend: {
+      task: "Công việc",
+      assignee: "Người phụ trách",
+      due: "Thời hạn",
     },
-    statuses: {
-      draft: "Nháp",
-      assigned: "Đã giao",
-      accepted: "Đã nhận",
-      inProgress: "Đang làm",
-      submitted: "Đã nộp",
-      rework: "Làm lại",
-      approved: "Đã duyệt",
-      completed: "Hoàn thành",
-    },
-    priorities: { high: "Cao", medium: "Trung bình" },
-    datePattern: "{dd}/10",
-    weekdaysShort: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
-    monthTitle: "Tháng 10",
-    todayLabel: "Hôm nay",
-    overdueLabel: "Quá hạn",
-    barLegend: { done: "Đã xong", active: "Đang thực hiện", notStarted: "Chưa bắt đầu" },
-  },
-  delegate: {
-    name: "Giao và theo dõi việc.",
-    title: "Giao bằng một câu. Biết luôn việc đang ở đâu.",
-    body: "Viết như cách bạn vẫn giao việc. Elynto nhận ra người phụ trách, việc cần làm và thời hạn, rồi tạo việc ngay. Mỗi việc đi qua các trạng thái rõ ràng từ lúc giao đến lúc duyệt, và mục Việc đã giao gom mọi việc bạn đã giao vào một chỗ.",
-    tip: "Nêu rõ việc gì, ai làm và khi nào xong để kết quả chính xác nhất.",
-    view: {
-      title: "Việc đã giao",
-      count: "5 việc",
-      flowLabel: "Vòng đời của một việc",
-      flow: ["assigned", "accepted", "inProgress", "submitted", "approved"],
-      reworkNote: "Chưa đạt? Chuyển sang Làm lại.",
-      columns: { task: "Công việc", assignee: "Người nhận", due: "Hạn", status: "Trạng thái" },
-      rows: [
-        { title: "Làm báo giá", assignee: minh, due: 9, status: "submitted" },
-        { title: "Viết bài giới thiệu dịch vụ", assignee: lan, due: 10, status: "inProgress" },
-        { title: "Cập nhật bảng giá trên website", assignee: huy, due: 7, status: "inProgress", overdue: true },
-        { title: "Chuẩn bị hình ảnh sản phẩm", assignee: huy, due: 12, status: "accepted" },
-        { title: "Lên lịch đăng bài tháng 11", assignee: lan, due: 15, status: "assigned" },
-      ],
-    },
+    resultLabel: "Công việc được tạo",
+    savedLabel: "Đã lưu vào danh sách việc",
+    newBadge: "Mới",
+    examples: [
+      {
+        id: "report",
+        label: "Giao việc",
+        segments: [
+          "Giao ",
+          { field: "assignee", text: "Minh" },
+          " ",
+          { field: "task", text: "làm báo cáo" },
+          ", hoàn thành ",
+          { field: "due", text: "trước thứ sáu" },
+          ".",
+        ],
+        task: "Làm báo cáo",
+        assignee: minh,
+        due: "Thứ Sáu",
+      },
+      {
+        id: "campaign",
+        label: "Việc của nhóm",
+        segments: [
+          { field: "assignee", text: "Lan" },
+          " ",
+          { field: "task", text: "chuẩn bị nội dung chiến dịch tháng 11" },
+          ", hạn ",
+          { field: "due", text: "thứ tư tuần sau" },
+          ".",
+        ],
+        task: "Chuẩn bị nội dung chiến dịch tháng 11",
+        assignee: lan,
+        due: "Thứ Tư tuần sau",
+      },
+      {
+        id: "quote",
+        label: "Việc của bạn",
+        segments: [
+          { field: "assignee", text: "Tôi" },
+          " cần ",
+          { field: "task", text: "gửi báo giá cho khách hàng" },
+          " ",
+          { field: "due", text: "trước ngày mai" },
+          ".",
+        ],
+        task: "Gửi báo giá cho khách hàng",
+        assignee: me,
+        due: "Ngày mai",
+      },
+    ],
+    existing: [
+      { title: "Duyệt bài đăng tuần này", assignee: lan, due: "Thứ Năm" },
+      { title: "Xác nhận địa điểm sự kiện", assignee: huy, due: "Thứ Hai" },
+    ],
   },
   planning: {
-    name: "Lập kế hoạch dự án với AI.",
+    eyebrow: "Lập kế hoạch dự án với AI",
     title: "Từ một mục tiêu đến kế hoạch có thể bắt đầu.",
-    body: "Mô tả mục tiêu của bạn. AI phác thảo các giai đoạn, công việc và thời gian cho từng việc. Bạn xem lại, thêm, bớt và điều chỉnh trước khi tạo dự án.",
+    body: "Nhập mục tiêu của bạn. AI phác thảo các giai đoạn và công việc cần làm. Bạn xem lại, thêm, bớt và điều chỉnh trước khi tạo dự án.",
     steps: [
       {
         title: "Nêu mục tiêu",
-        body: "Ví dụ: “Thiết kế website giới thiệu công ty trong 3 tuần.”",
+        body: "Ví dụ: “Lập kế hoạch ra mắt website trong 3 tuần.”",
       },
       {
         title: "AI phác thảo kế hoạch",
-        body: "Mục tiêu được chia thành vài giai đoạn, mỗi giai đoạn có công việc cụ thể và ngày bắt đầu, ngày hạn.",
+        body: "Mục tiêu được chia thành các giai đoạn, mỗi giai đoạn có công việc cụ thể.",
       },
       {
         title: "Bạn xem lại và quyết định",
-        body: "Chỉnh sửa bản nháp rồi tạo dự án, bắt đầu từ việc đầu tiên.",
+        body: "Chỉnh sửa bản nháp rồi tạo dự án để bắt đầu theo dõi.",
       },
     ],
     note: "AI giúp bạn có bản nháp để bắt đầu. Quyết định cuối cùng vẫn thuộc về bạn.",
     mock: {
       goalLabel: "Mục tiêu",
-      goal: "Thiết kế website giới thiệu công ty trong 3 tuần",
-      draftTitle: "Bản nháp do AI đề xuất",
-      summary: "4 giai đoạn, 12 công việc",
+      goal: "Lập kế hoạch ra mắt website trong 3 tuần",
+      draftTitle: "Bản nháp kế hoạch",
+      aiBadge: "AI đề xuất",
+      summary: "3 giai đoạn · 9 công việc",
       phaseLabel: "Giai đoạn",
+      phases: [
+        {
+          name: "Chuẩn bị",
+          tasks: ["Chốt mục tiêu và phạm vi", "Thu thập nội dung, hình ảnh", "Lên sơ đồ các trang"],
+        },
+        {
+          name: "Thiết kế & xây dựng",
+          tasks: ["Thiết kế giao diện", "Xây dựng các trang", "Hoàn thiện nội dung"],
+        },
+        {
+          name: "Kiểm tra & ra mắt",
+          tasks: ["Kiểm tra trên điện thoại và máy tính", "Sửa lỗi, rà soát lần cuối", "Ra mắt website"],
+        },
+      ],
       reviewHint: "Xem lại và chỉnh sửa trước khi tạo dự án",
       edit: "Chỉnh sửa",
       create: "Tạo dự án",
     },
   },
-  project: {
-    name: "Theo dõi dự án.",
-    title: "Nắm tiến độ mà không phải hỏi từng người.",
-    body: "Mỗi dự án có một trang tổng quan: phần trăm hoàn thành, việc quá hạn, số ngày còn lại và tình trạng chung. Cần xem kỹ hơn, chuyển sang danh sách theo giai đoạn, lịch tháng hoặc Gantt.",
+  today: {
+    eyebrow: "Mỗi ngày",
+    title: "Mở Elynto. Biết việc nào cần bạn.",
+    body: "Việc quá hạn, đến hạn hôm nay và sắp đến hạn được gom về một chỗ, cùng những việc bạn đã đánh dấu quan trọng. Không cần lục lại tin nhắn hay tự tổng hợp danh sách.",
+    points: [
+      "Thấy ngay việc nào đang trễ.",
+      "Biết hôm nay cần hoàn thành gì.",
+      "Chuẩn bị trước cho những việc sắp đến hạn.",
+    ],
+    mock: {
+      title: "Hôm nay",
+      subtitle: "Việc của tôi",
+      importantLabel: "Quan trọng",
+      groups: [
+        {
+          tone: "overdue",
+          label: "Quá hạn",
+          items: [{ title: "Gửi hóa đơn tháng 9 cho khách", project: "Khách hàng", due: "Hôm qua" }],
+        },
+        {
+          tone: "today",
+          label: "Đến hạn hôm nay",
+          items: [
+            { title: "Duyệt bài đăng tuần này", project: "Chiến dịch nội dung", due: "Hôm nay", important: true },
+            { title: "Gọi xác nhận địa điểm sự kiện", project: "Sự kiện ra mắt", due: "Hôm nay" },
+          ],
+        },
+        {
+          tone: "upcoming",
+          label: "Sắp đến hạn",
+          items: [
+            { title: "Hoàn thiện sơ đồ trang", project: "Ra mắt website", due: "Thứ Năm" },
+            { title: "Tổng hợp số liệu tháng 9", project: "Báo cáo", due: "Thứ Sáu", important: true },
+          ],
+        },
+      ],
+    },
+  },
+  views: {
+    eyebrow: "Theo dõi dự án",
+    title: "Từ việc hôm nay đến tiến độ cả dự án.",
+    body: "Mỗi dự án có trang tổng quan: phần trăm hoàn thành, việc quá hạn, số ngày còn lại và tình trạng chung. Cần xem kỹ hơn, chuyển sang danh sách theo giai đoạn, lịch tháng hoặc Gantt.",
     points: [
       "Kéo thả thanh Gantt để dời lịch hoặc đổi ngày hạn.",
       "Đặt mốc quan trọng; mốc có thể tự hoàn thành khi các việc liên quan xong.",
@@ -267,103 +320,121 @@ export const vi: Dictionary = {
       ],
     },
   },
-  today: {
-    name: "Hôm nay.",
-    title: "Nhiều dự án cùng lúc? Biết việc nào làm trước.",
-    body: "Hôm nay gom việc quá hạn, đến hạn và sắp đến hạn từ mọi dự án, kèm mức ưu tiên. Không cần lục lại tin nhắn hay tự tổng hợp danh sách mỗi sáng.",
+  delegate: {
+    eyebrow: "Theo dõi việc đã giao",
+    title: "Giao rồi, biết luôn việc đang ở đâu.",
+    body: "Mỗi việc đi qua các trạng thái rõ ràng, từ lúc giao đến lúc duyệt. Mục Việc đã giao gom mọi việc bạn đã giao cho người khác vào một chỗ, kèm người nhận, hạn và trạng thái.",
     points: [
-      "Thấy ngay việc nào đang trễ.",
-      "Biết hôm nay cần hoàn thành gì.",
-      "Cuối ngày rõ việc nào đã xong, việc nào còn lại.",
+      "Thấy ngay ai đã nhận việc, ai đang làm và việc nào đã nộp.",
+      "Việc quá hạn được đánh dấu rõ ràng.",
+      "Chưa đạt? Chuyển việc sang Làm lại.",
     ],
-    mock: {
-      groups: [
-        {
-          tone: "overdue",
-          label: "Quá hạn",
-          items: [{ title: "Gửi bản phác thảo logo cho khách", project: "Bộ nhận diện thương hiệu", due: "Hôm qua", priority: "high" }],
-        },
-        {
-          tone: "today",
-          label: "Đến hạn hôm nay",
-          items: [
-            { title: "Duyệt nội dung bài đăng tuần này", project: "Chiến dịch tháng 11", due: "Hôm nay", priority: "high" },
-            { title: "Gọi xác nhận lịch chụp ảnh", project: "Website giới thiệu", due: "Hôm nay", priority: "medium" },
-          ],
-        },
-        {
-          tone: "upcoming",
-          label: "Sắp đến hạn",
-          items: [
-            { title: "Hoàn thiện wireframe trang chủ", project: "Website giới thiệu", due: "Thứ Hai", priority: "medium" },
-            { title: "Gửi hóa đơn tháng 10", project: "Việc cá nhân", due: "Thứ Ba", priority: "medium" },
-          ],
-        },
+    view: {
+      title: "Việc đã giao",
+      count: "5 việc",
+      flowLabel: "Vòng đời của một việc",
+      flow: ["assigned", "accepted", "inProgress", "submitted", "approved"],
+      reworkNote: "Chưa đạt? Chuyển sang Làm lại.",
+      columns: { task: "Công việc", assignee: "Người nhận", due: "Hạn", status: "Trạng thái" },
+      rows: [
+        { title: "Làm báo cáo", assignee: minh, due: 9, status: "submitted" },
+        { title: "Viết bài giới thiệu dịch vụ", assignee: lan, due: 10, status: "inProgress" },
+        { title: "Cập nhật bảng giá trên website", assignee: huy, due: 7, status: "inProgress", overdue: true },
+        { title: "Chuẩn bị hình ảnh sản phẩm", assignee: huy, due: 12, status: "accepted" },
+        { title: "Lên lịch đăng bài tháng 11", assignee: lan, due: 15, status: "assigned" },
       ],
     },
   },
+  app: {
+    workspace: "Công ty Mẫu",
+    nav: {
+      today: "Hôm nay",
+      inbox: "Hộp thư",
+      myWork: "Việc của tôi",
+      delegated: "Việc đã giao",
+      projects: "Dự án",
+      team: "Nhóm",
+      reports: "Báo cáo",
+      knowledge: "Kiến thức",
+    },
+    statuses: {
+      draft: "Nháp",
+      assigned: "Đã giao",
+      accepted: "Đã nhận",
+      inProgress: "Đang làm",
+      submitted: "Đã nộp",
+      rework: "Làm lại",
+      approved: "Đã duyệt",
+      completed: "Hoàn thành",
+    },
+    priorities: { high: "Cao", medium: "Trung bình" },
+    datePattern: "{dd}/10",
+    weekdaysShort: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+    monthTitle: "Tháng 10",
+    todayLabel: "Hôm nay",
+    overdueLabel: "Quá hạn",
+    barLegend: { done: "Đã xong", active: "Đang thực hiện", notStarted: "Chưa bắt đầu" },
+  },
   audience: {
-    title: "Dành cho người vừa điều hành, vừa trực tiếp làm",
+    eyebrow: "Dành cho ai",
+    title: "Phù hợp với cách bạn đang làm việc",
+    examplesLabel: "Ví dụ",
     items: [
       {
-        title: "Chủ agency, nhóm dịch vụ nhỏ",
-        question: "Vì sao giao việc rồi vẫn phải hỏi tiến độ?",
-        body: "Nhóm marketing, nội dung, thiết kế hay tư vấn với nhiều dự án khách hàng: giao việc rõ, theo dõi ở một nơi, trả lời khách tự tin hơn.",
-        example: "Giao Lan viết bài giới thiệu dịch vụ, hạn thứ Tư.",
+        title: "Làm việc độc lập",
+        who: "Freelancer, solopreneur",
+        body: "Giữ việc cá nhân và dự án của từng khách hàng trong cùng một nơi.",
+        examples: ["Gửi báo giá cho khách", "Bàn giao bản thiết kế"],
       },
       {
-        title: "Freelancer nhiều dự án",
-        question: "Nhiều dự án cùng lúc, sáng nay nên làm gì?",
-        body: "Dùng một mình ngay, không cần tạo nhóm. Ghi việc bằng một câu, theo dõi cả việc lẻ lẫn việc của từng dự án khách hàng.",
-        example: "Gửi bản thiết kế logo cho khách trước thứ Năm.",
+        title: "Nhóm nhỏ",
+        who: "Người quản lý nhóm",
+        body: "Ai cũng rõ mình phụ trách việc gì, hạn khi nào và đang đến đâu.",
+        examples: ["Chuẩn bị chiến dịch nội dung", "Làm báo cáo tuần"],
       },
       {
         title: "Chủ doanh nghiệp nhỏ",
-        question: "Làm sao công việc vẫn chạy khi mình không có mặt?",
-        body: "Trách nhiệm và tiến độ rõ ràng. Xem tổng quan trước, mở chi tiết khi cần, phát hiện sớm nơi cần hỗ trợ.",
-        example: "Lập kế hoạch tổ chức sự kiện ra mắt trong 2 tuần.",
+        who: "Điều hành nhiều đầu việc",
+        body: "Nhìn nhanh tình trạng những việc đang triển khai mà không phải hỏi từng người.",
+        examples: ["Tổ chức sự kiện", "Ra mắt website mới"],
       },
     ],
   },
   faq: {
+    eyebrow: "Hỏi đáp",
     title: "Câu hỏi thường gặp",
     intro: "Những điều bạn có thể muốn biết trước khi bắt đầu.",
     items: [
       {
         id: "what",
         q: "Elynto là gì?",
-        a: "Elynto là hệ thống quản lý công việc bằng AI. Bạn mô tả việc cần làm bằng lời thường, Elynto tạo thành công việc có người phụ trách, hạn và mức ưu tiên. Bạn cũng có thể lập kế hoạch dự án với AI và theo dõi tiến độ trong một nơi.",
-      },
-      {
-        id: "mistake",
-        q: "Nếu AI hiểu sai tên người hoặc thời hạn thì sao?",
-        a: "Sau mỗi câu, Elynto hiển thị ngay tên việc, người phụ trách, hạn và mức ưu tiên vừa tạo. Nếu có gì chưa đúng, bạn mở công việc và sửa trực tiếp. Viết rõ việc gì, ai làm, khi nào xong sẽ giúp kết quả chính xác hơn.",
+        a: "Elynto là hệ thống quản lý công việc bằng AI. Bạn mô tả việc cần làm bằng lời thường, Elynto giúp biến nó thành công việc có người phụ trách, thời hạn và trạng thái. Bạn cũng có thể lập kế hoạch dự án với AI và theo dõi tiến độ trong một nơi.",
       },
       {
         id: "solo",
         q: "Tôi có thể dùng Elynto một mình không?",
-        a: "Có. Bạn có thể bắt đầu một mình ngay, không cần tạo nhóm hay mời ai. Khi làm cùng người khác, bạn giao việc cho từng người và theo dõi ở mục Việc đã giao.",
+        a: "Có. Bạn có thể dùng Elynto để quản lý việc cá nhân và dự án của riêng mình. Khi làm việc cùng người khác, bạn có thể giao việc cho từng người để ai cũng rõ phần việc của mình.",
       },
       {
         id: "prompt",
         q: "Tôi có cần biết viết prompt không?",
-        a: "Không. Bạn chỉ cần viết như khi nhắn việc cho đồng nghiệp: việc gì, ai làm, khi nào xong.",
+        a: "Không. Bạn chỉ cần viết như khi nhắn việc cho đồng nghiệp: việc gì, ai làm, khi nào xong. Sau khi công việc được tạo, bạn luôn có thể xem lại và chỉnh sửa trực tiếp trên giao diện.",
       },
       {
         id: "language",
         q: "Elynto hỗ trợ tiếng Việt và tiếng Anh như thế nào?",
-        a: "Bạn có thể viết yêu cầu bằng tiếng Việt hoặc tiếng Anh. Trang giới thiệu này có đủ hai ngôn ngữ. Trong giai đoạn beta, phần lớn giao diện ứng dụng đang hiển thị bằng tiếng Anh.",
+        a: "Trang giới thiệu này có đầy đủ tiếng Việt và tiếng Anh. Trong ứng dụng, bạn có thể mô tả công việc bằng tiếng Việt hoặc tiếng Anh. Elynto đang trong giai đoạn beta, nên một số phần của ứng dụng có thể chưa có đủ hai ngôn ngữ.",
       },
       {
         id: "start",
         q: "Tôi bắt đầu dùng thử ở đâu?",
-        a: "Nhấn “Dùng thử miễn phí” trên trang này để mở Elynto tại beta.elynto.io. Cách bắt đầu dễ nhất là đưa một dự án đang chạy vào: giao vài việc, để mọi người cập nhật, rồi xem tiến độ ở một nơi.",
+        a: "Nhấn “Dùng thử miễn phí” trên trang này để mở Elynto tại beta.elynto.io và bắt đầu. Nếu đã có tài khoản, hãy chọn “Đăng nhập”.",
       },
     ],
   },
   finalCta: {
     title: "Bắt đầu với một việc bạn cần hoàn thành.",
-    body: "Đưa một dự án đang chạy vào Elynto: giao vài việc, để mọi người cập nhật, rồi xem tiến độ mà không cần hỏi qua chat.",
+    body: "Đưa công việc của bạn vào Elynto và bắt đầu quản lý trong một nơi.",
     cta: "Dùng thử miễn phí",
     loginPrompt: "Đã có tài khoản?",
     login: "Đăng nhập",

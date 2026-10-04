@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Mona_Sans } from "next/font/google";
+import { Be_Vietnam_Pro } from "next/font/google";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { AnalyticsListener } from "@/components/layout/AnalyticsListener";
@@ -8,12 +8,11 @@ import { getDictionary } from "@/content";
 import { isLocale, locales, ogLocales } from "@/lib/i18n";
 import "../globals.css";
 
-// Mona Sans: one variable family with a width axis. Wide cuts for headings, normal width for
-// reading; clean stacked diacritics for Vietnamese. Self-hosted by next/font.
-const mona = Mona_Sans({
+// Be Vietnam Pro: designed for Vietnamese, with full diacritic support. Self-hosted by next/font.
+const beVietnam = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],
-  axes: ["wdth"],
-  variable: "--font-mona",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-be-vietnam",
   display: "swap",
 });
 
@@ -26,7 +25,7 @@ export function generateStaticParams() {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#fcfbf8",
   colorScheme: "light",
 };
 
@@ -69,7 +68,7 @@ export default async function RootLayout({ children, params }: LayoutParams & { 
   if (!isLocale(lang)) notFound();
 
   return (
-    <html lang={lang} className={mona.variable}>
+    <html lang={lang} className={beVietnam.variable}>
       <body className="min-h-dvh">
         <AnalyticsListener />
         {children}

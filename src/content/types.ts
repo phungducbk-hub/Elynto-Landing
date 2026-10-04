@@ -1,9 +1,9 @@
 import type { Locale } from "@/lib/i18n";
 
 /** Parts of a natural-language request that become task fields. */
-export type FieldKey = "assignee" | "task" | "due";
+export type FieldKey = "task" | "assignee" | "due";
 
-/** A sentence split into plain text and the spans Elynto turns into fields. */
+/** A sentence split into plain text and highlighted spans. */
 export type Segment = string | { field: FieldKey; text: string };
 
 export type Person = {
@@ -12,6 +12,8 @@ export type Person = {
   /** The signed-in user ("you"). Rendered with a person icon instead of initials. */
   self?: boolean;
 };
+
+export type TaskStatus = "todo" | "inProgress" | "done";
 
 /** Work statuses as they exist in the Elynto beta. */
 export type WorkStatus =
@@ -62,69 +64,60 @@ export type Dictionary = {
     language: string;
   };
   hero: {
-    /** Plain statement of what Elynto is, shown with the vision line. */
-    label: string;
-    promise: string;
+    eyebrow: string;
     description: string;
     primaryCta: string;
     secondaryCta: string;
   };
   demo: {
-    label: string;
+    badge: string;
     caption: string;
     regionLabel: string;
     srDescription: string;
-    sentence: Segment[];
-    fields: { assignee: string; task: string; due: string; priority: string };
-    result: { assignee: Person; task: string; due: string; priority: string };
-    status: { idle: string; reading: string; created: string };
-    open: string;
-    controls: { pause: string; play: string; replay: string };
+    placeholder: string;
+    command: string;
+    send: string;
+    newTask: string;
+    processing: string;
+    success: string;
+    fields: { task: string; assignee: string; due: string; status: string };
+    result: { task: string; assignee: Person; due: string; status: string };
+    controls: { play: string; pause: string; replay: string };
   };
-  problems: {
+  benefits: {
+    eyebrow: string;
     title: string;
-    intro: string;
-    beforeLabel: string;
-    afterLabel: string;
-    rows: { before: string; afterTitle: string; afterBody: string }[];
+    items: { title: string; body: string }[];
   };
   howItWorks: {
+    eyebrow: string;
     title: string;
     intro: string;
   };
   illustration: string;
-  /** Shared vocabulary of the product illustrations. */
-  app: {
-    workspace: string;
-    nav: { today: string; inbox: string; myWork: string; delegated: string; projects: string; team: string; reports: string; knowledge: string };
-    statuses: Record<WorkStatus, string>;
-    priorities: Record<Priority, string>;
-    /** "{dd}" → zero-padded day, "{d}" → day. */
-    datePattern: string;
-    weekdaysShort: string[];
-    monthTitle: string;
-    todayLabel: string;
-    overdueLabel: string;
-    /** Gantt bar groups. */
-    barLegend: { done: string; active: string; notStarted: string };
-  };
-  delegate: {
-    name: string;
+  command: {
+    eyebrow: string;
     title: string;
     body: string;
+    points: string[];
     tip: string;
-    view: {
-      title: string;
-      count: string;
-      flowLabel: string;
-      flow: WorkStatus[];
-      reworkNote: string;
-      columns: { task: string; assignee: string; due: string; status: string };
-      rows: { title: string; assignee: Person; due: Day; status: WorkStatus; overdue?: boolean }[];
-    };
+    examplesLabel: string;
+    legend: Record<FieldKey, string>;
+    resultLabel: string;
+    savedLabel: string;
+    newBadge: string;
+    examples: {
+      id: string;
+      label: string;
+      segments: Segment[];
+      task: string;
+      assignee: Person;
+      due: string;
+    }[];
+    existing: { title: string; assignee: Person; due: string }[];
   };
   planning: {
-    name: string;
+    eyebrow: string;
     title: string;
     body: string;
     steps: { title: string; body: string }[];
@@ -133,15 +126,33 @@ export type Dictionary = {
       goalLabel: string;
       goal: string;
       draftTitle: string;
+      aiBadge: string;
       summary: string;
       phaseLabel: string;
+      phases: { name: string; tasks: string[] }[];
       reviewHint: string;
       edit: string;
       create: string;
     };
   };
-  project: {
-    name: string;
+  today: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    points: string[];
+    mock: {
+      title: string;
+      subtitle: string;
+      importantLabel: string;
+      groups: {
+        tone: "overdue" | "today" | "upcoming";
+        label: string;
+        items: { title: string; project: string; due: string; important?: boolean }[];
+      }[];
+    };
+  };
+  views: {
+    eyebrow: string;
     title: string;
     body: string;
     points: string[];
@@ -164,24 +175,43 @@ export type Dictionary = {
       phases: { name: string; tasks: PlanTask[] }[];
     };
   };
-  today: {
-    name: string;
+  delegate: {
+    eyebrow: string;
     title: string;
     body: string;
     points: string[];
-    mock: {
-      groups: {
-        tone: "overdue" | "today" | "upcoming";
-        label: string;
-        items: { title: string; project: string; due: string; priority: Priority }[];
-      }[];
+    view: {
+      title: string;
+      count: string;
+      flowLabel: string;
+      flow: WorkStatus[];
+      reworkNote: string;
+      columns: { task: string; assignee: string; due: string; status: string };
+      rows: { title: string; assignee: Person; due: Day; status: WorkStatus; overdue?: boolean }[];
     };
   };
+  /** Shared vocabulary of the product illustrations recreated from the beta UI. */
+  app: {
+    workspace: string;
+    nav: { today: string; inbox: string; myWork: string; delegated: string; projects: string; team: string; reports: string; knowledge: string };
+    statuses: Record<WorkStatus, string>;
+    priorities: Record<Priority, string>;
+    /** "{dd}" → zero-padded day, "{d}" → day. */
+    datePattern: string;
+    weekdaysShort: string[];
+    monthTitle: string;
+    todayLabel: string;
+    overdueLabel: string;
+    barLegend: { done: string; active: string; notStarted: string };
+  };
   audience: {
+    eyebrow: string;
     title: string;
-    items: { title: string; question: string; body: string; example: string }[];
+    examplesLabel: string;
+    items: { title: string; who: string; body: string; examples: string[] }[];
   };
   faq: {
+    eyebrow: string;
     title: string;
     intro: string;
     items: { id: string; q: string; a: string }[];

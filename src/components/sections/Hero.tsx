@@ -1,6 +1,6 @@
+import { ArrowRight, Play } from "lucide-react";
+import { CommandDemo } from "@/components/demo/CommandDemo";
 import { DemoVideo } from "@/components/demo/DemoVideo";
-import { Logo } from "@/components/brand/Logo";
-import { TransformStage } from "@/components/hero/TransformStage";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { productMedia } from "@/config/media";
@@ -13,45 +13,52 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const video = productMedia.heroDemo[lang];
 
   return (
-    <section aria-labelledby="hero-title">
-      <Container className="pt-8 pb-16 sm:pt-12 sm:pb-20 lg:pt-12">
-        <h1 id="hero-title">
-          <span className="flex items-center gap-2.5 text-lg leading-snug font-medium text-navy stretch-wide sm:text-xl">
-            <Logo variant="mark" title={null} className="h-5 w-auto shrink-0 sm:h-6" />
-            {hero.label}
-          </span>
-          <span lang="en" className="mt-4 block type-display text-balance sm:mt-5">
-            {siteConfig.vision}
-          </span>
-        </h1>
-
-        <div className="mt-6 grid gap-7 sm:mt-8 lg:grid-cols-12 lg:items-end lg:gap-10">
-          <div className="lg:col-span-7">
-            <p className="text-xl leading-snug font-semibold text-navy stretch-wide sm:text-2xl">{hero.promise}</p>
-            <p className="mt-3 max-w-[36rem] type-lead text-pretty">{hero.description}</p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:justify-end">
+    <section aria-labelledby="hero-title" className="relative overflow-hidden">
+      {/* Soft warm backdrop — no strong gradients. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(60%_60%_at_75%_30%,var(--color-brand-50),transparent_70%)]"
+      />
+      <Container className="grid items-center gap-12 pt-10 pb-16 sm:pt-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:gap-14 lg:pt-20 lg:pb-24">
+        <div className="max-w-xl">
+          <h1 id="hero-title">
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-sm font-semibold text-brand ring-1 ring-brand-100 ring-inset sm:text-[0.9375rem]">
+              {hero.eyebrow}
+            </span>
+            <span
+              lang="en"
+              className="mt-5 block text-[2.5rem] leading-[1.06] font-bold tracking-[-0.025em] text-brand text-balance sm:text-[3.25rem] lg:text-[3.6rem]"
+            >
+              {siteConfig.vision}
+            </span>
+          </h1>
+          <p className="mt-6 text-lg leading-relaxed text-ink-muted text-pretty sm:text-xl sm:leading-relaxed">
+            {hero.description}
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <ButtonLink
               href={siteConfig.signupUrl}
+              size="lg"
               className="w-full sm:w-auto"
               dataAttrs={{ "data-track": "cta_click", "data-track-cta": "signup", "data-track-location": "hero" }}
             >
               {hero.primaryCta}
+              <ArrowRight className="size-4" aria-hidden="true" />
             </ButtonLink>
             <ButtonLink
               href="#demo"
               variant="secondary"
+              size="lg"
               className="w-full sm:w-auto"
               dataAttrs={{ "data-track": "cta_click", "data-track-cta": "see_demo", "data-track-location": "hero" }}
             >
+              <Play className="size-4" aria-hidden="true" />
               {hero.secondaryCta}
             </ButtonLink>
           </div>
         </div>
 
-        <div className="mt-10 sm:mt-12">
-          {video ? <DemoVideo video={video} copy={demo} /> : <TransformStage copy={demo} />}
-        </div>
+        {video ? <DemoVideo video={video} copy={demo} /> : <CommandDemo copy={demo} />}
       </Container>
     </section>
   );

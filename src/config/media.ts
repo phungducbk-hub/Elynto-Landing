@@ -1,9 +1,9 @@
 import type { Locale } from "@/lib/i18n";
 
 /**
- * Real product media. Each visual on the page is an HTML recreation of the beta
- * interface until a real asset is registered here. Drop files into /public/media
- * and fill in the entries below; the page switches to the real asset automatically.
+ * Real product media. Every visual on the page is an HTML illustration until a
+ * real asset is registered here. Drop files into /public/media and fill in the
+ * entries below — the page switches to the real asset automatically.
  *
  * Use footage/screenshots recorded with sample data only: no real customer
  * names, emails or tasks.
@@ -31,18 +31,21 @@ type PerLocale<T> = Partial<Record<Locale, T>>;
 export const productMedia: {
   /** Hero demo: one sentence becoming a task. */
   heroDemo: PerLocale<ProductVideo>;
-  /** "Assign and follow up" feature (Delegated view). */
+  /** "Create and assign tasks" feature. */
+  command: PerLocale<ProductImage>;
+  /** "Follow up on delegated work" feature (Delegated view). */
   delegate: PerLocale<ProductImage>;
   /** "Plan projects with AI" feature. */
   planning: PerLocale<ProductImage>;
-  /** "Follow your projects" feature (project overview + views). */
-  project: PerLocale<ProductImage>;
-  /** "Today" feature. */
+  /** "Today / My Work" feature. */
   today: PerLocale<ProductImage>;
+  /** "Follow your projects" feature (project overview + list / calendar / Gantt). */
+  project: PerLocale<ProductImage>;
 } = {
   heroDemo: {},
+  command: {},
   delegate: {},
   planning: {},
-  project: {},
   today: {},
+  project: {},
 };

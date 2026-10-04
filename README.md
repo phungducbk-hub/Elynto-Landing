@@ -5,7 +5,7 @@ Landing page song ngữ (Tiếng Việt / English) cho **Elynto — AI Work OS**
 - Next.js 16 (App Router) · TypeScript · Tailwind CSS 4
 - Trang tĩnh (SSG) cho `/vi` và `/en`; `proxy.ts` chọn ngôn ngữ khi vào `/`
 - Không có backend, không kết nối dịch vụ tracking bên ngoài
-- Thiết kế theo skill `frontend-design` (cài tại `.claude/skills/frontend-design/`)
+- Skill `frontend-design` được cài sẵn tại `.claude/skills/frontend-design/` cho các lần chỉnh giao diện sau
 
 > Ghi chú bàn giao, các lựa chọn thiết kế và danh sách thông tin cần xác minh: xem [`HANDOFF.md`](./HANDOFF.md).
 
@@ -45,33 +45,30 @@ src/
     [lang]/page.tsx           ghép các section của trang
     [lang]/opengraph-image.tsx  ảnh chia sẻ mạng xã hội cho từng ngôn ngữ (tạo lúc build)
     [lang]/not-found.tsx      trang 404 song ngữ
-    globals.css               design tokens (@theme), thang chữ (type-display, type-h2…), nét đánh dấu .marker
+    globals.css               design tokens (@theme) + style nền
     icon.svg, favicon.ico, apple-icon.png
     robots.ts, sitemap.ts
   proxy.ts                    "/" → /vi hoặc /en (cookie → Accept-Language → mặc định vi)
-  content/vi.ts, en.ts        TOÀN BỘ nội dung chữ và dữ liệu mẫu của hình minh họa, có kiểu dữ liệu chung (types.ts)
+  content/vi.ts, en.ts        TOÀN BỘ nội dung chữ, có kiểu dữ liệu chung (types.ts)
   config/site.ts              URL trang, URL đăng ký/đăng nhập, quy tắc index
   config/media.ts             chỗ khai báo video/ảnh sản phẩm thật
   lib/analytics.ts            hàm track() + danh sách sự kiện
   components/
     sections/                 Hero, Benefits, HowItWorks, Audience, Faq, FinalCta
-    hero/                     TransformStage: câu nói → công việc (chuyển động duy nhất của trang)
-    demo/                     DemoVideo (dùng khi có video thật)
-    visuals/                  giao diện Elynto dựng lại: DelegatedView, PlanDraft, ProjectWorkspace, TodayView
+    demo/                     CommandDemo (minh họa HTML), DemoVideo (video thật)
+    visuals/                  minh họa sản phẩm: SentenceToTask, PlanDraft, TodayView,
+                              DelegatedView và ProjectWorkspace (dựng lại từ giao diện beta)
     layout/                   SiteHeader, SiteFooter, LanguageSwitch, AnalyticsListener
     ui/, brand/               nút, khung minh họa, avatar, logo
 public/brand/                 logo gốc được cung cấp (.webp) + bản SVG dựng lại
-assets/fonts/                 Mona Sans tĩnh để vẽ ảnh Open Graph (SIL OFL)
-.claude/skills/frontend-design/  skill thiết kế (Apache 2.0) dùng cho các lần chỉnh sửa giao diện
+assets/fonts/                 font dùng để vẽ ảnh Open Graph (SIL OFL)
 ```
 
 ## Chỉnh sửa thường gặp
 
 **Nội dung chữ** — sửa `src/content/vi.ts` và `src/content/en.ts`. Hai file dùng chung kiểu `Dictionary`, nên nếu một ngôn ngữ thiếu nội dung thì `npm run typecheck` sẽ báo lỗi.
 
-**Màu sắc, chữ** — sửa token trong khối `@theme` của `src/app/globals.css`. Component chỉ dùng tên token (`bg-navy`, `text-muted`, `bg-fog`, `type-h2`…), không ghi mã màu trực tiếp. Màu navy `#142D47` được lấy mẫu từ logo. Các màu khác là bảng màu tạm, chưa phải bộ màu thương hiệu chính thức. Màu vàng `marker` chỉ dùng để đánh dấu phần câu mà Elynto đọc ra, không dùng để trang trí.
-
-**Chuyển động ở hero** — thời gian từng bước nằm trong `src/components/hero/TransformStage.module.css` (`--t-assignee`, `--t-task`…). Trạng thái tự nhiên của mọi phần tử là khung hình cuối, nên trang vẫn đúng khi tắt JavaScript hoặc khi người xem bật giảm chuyển động.
+**Màu sắc, bóng đổ** — sửa token trong khối `@theme` của `src/app/globals.css`. Component chỉ dùng tên token (`bg-brand`, `text-ink-muted`…), không ghi mã màu trực tiếp. Màu navy `#142D47` được lấy mẫu từ logo. Các màu khác là bảng màu tạm, chưa phải bộ màu thương hiệu chính thức.
 
 **Link đăng ký / đăng nhập** — đặt biến môi trường (xem `.env.example`):
 
@@ -91,8 +88,8 @@ heroDemo: {
   vi: { src: "/media/demo-vi.mp4", poster: "/media/demo-vi.webp", width: 1280, height: 960 },
   en: { src: "/media/demo-en.mp4", poster: "/media/demo-en.webp", width: 1280, height: 960 },
 },
-project: {
-  vi: { src: "/media/project-vi.webp", width: 1600, height: 1100, alt: "Trang tổng quan dự án Thiết kế website trong Elynto" },
+planning: {
+  vi: { src: "/media/planning-vi.webp", width: 1600, height: 1100, alt: "Bản nháp kế hoạch ra mắt website trong Elynto" },
 },
 ```
 

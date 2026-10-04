@@ -21,7 +21,6 @@ import {
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Logo } from "@/components/brand/Logo";
-import { ProductSurface } from "@/components/ui/ProductSurface";
 import { statusAccent, WorkStatusBadge } from "@/components/ui/WorkStatus";
 import type { Dictionary, PlanTask, ProjectView, WorkStatus } from "@/content/types";
 import { track } from "@/lib/analytics";
@@ -29,9 +28,9 @@ import { cn } from "@/lib/cn";
 import { formatDay } from "@/lib/format";
 
 type App = Dictionary["app"];
-type Data = Dictionary["project"]["data"];
+type Data = Dictionary["views"]["data"];
 
-type Props = { data: Data; app: App; label: string };
+type Props = { data: Data; app: App; badge: string };
 
 const views: ProjectView[] = ["list", "calendar", "gantt"];
 const viewIcons = { list: List, calendar: CalendarDays, gantt: ChartGantt } as const;
@@ -44,7 +43,7 @@ const ME = { name: "", initials: "", self: true };
  * Refined recreation of a project page in the Elynto beta: workspace shell,
  * project overview with health, and the list / calendar / Gantt views.
  */
-export function ProjectWorkspace({ data, app, label }: Props) {
+export function ProjectWorkspace({ data, app, badge }: Props) {
   const [view, setView] = useState<ProjectView>("list");
   const tabRefs = useRef<Partial<Record<ProjectView, HTMLButtonElement | null>>>({});
   const baseId = useId();
@@ -79,11 +78,11 @@ export function ProjectWorkspace({ data, app, label }: Props) {
   ];
 
   return (
-    <ProductSurface label={label}>
+    <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-float">
       <div className="grid lg:grid-cols-[13rem_minmax(0,1fr)]">
         {/* Sidebar */}
-        <aside aria-hidden="true" className="hidden border-r border-rule bg-fog/70 lg:block">
-          <div className="flex h-14 items-center border-b border-rule px-5 text-navy">
+        <aside aria-hidden="true" className="hidden border-r border-line bg-canvas lg:block">
+          <div className="flex h-14 items-center border-b border-line px-5 text-brand">
             <Logo className="h-5 w-auto" title={null} />
           </div>
           <ul className="space-y-0.5 p-3">
@@ -92,7 +91,7 @@ export function ProjectWorkspace({ data, app, label }: Props) {
                 key={item.label}
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 text-[0.875rem]",
-                  item.active ? "bg-paper font-semibold text-navy shadow-[0_0_0_1px_var(--color-rule)]" : "text-body",
+                  item.active ? "bg-surface font-semibold text-brand shadow-[0_0_0_1px_var(--color-line)]" : "text-ink-muted",
                 )}
               >
                 <item.icon className="size-4 shrink-0" />
@@ -104,46 +103,53 @@ export function ProjectWorkspace({ data, app, label }: Props) {
 
         <div className="min-w-0">
           {/* Top bar */}
-          <div aria-hidden="true" className="flex h-14 items-center justify-between border-b border-rule px-5 sm:px-8">
-            <span className="text-[0.9375rem] font-semibold text-ink">{app.workspace}</span>
-            <Avatar person={ME} />
+          <div className="flex h-14 items-center justify-between gap-3 border-b border-line bg-canvas px-5 sm:px-8">
+            <span aria-hidden="true" className="text-[0.9375rem] font-semibold text-ink">
+              {app.workspace}
+            </span>
+            <span className="flex items-center gap-3">
+              <span className="rounded-full border border-line-strong bg-surface px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-ink-subtle uppercase">
+                {badge}
+              </span>
+              <Avatar person={ME} className="hidden sm:inline-grid" />
+            </span>
           </div>
 
           <div className="px-5 py-6 sm:px-8 sm:py-7">
             {/* Overview */}
-            <p className="flex items-center gap-2 text-sm text-muted">
+            <p className="flex items-center gap-2 text-sm text-ink-subtle">
               <ArrowLeft className="size-4" aria-hidden="true" />
               {data.back}
             </p>
             <div className="mt-3 flex items-start justify-between gap-4">
-              <p className="text-2xl leading-tight font-semibold text-ink stretch-wide">{data.name}</p>
-              <Ellipsis className="mt-1 size-5 shrink-0 text-muted" aria-hidden="true" />
+              <p className="text-2xl leading-tight font-semibold text-ink">{data.name}</p>
+              <Ellipsis className="mt-1 size-5 shrink-0 text-ink-subtle" aria-hidden="true" />
             </div>
             <div className="mt-2.5 flex flex-wrap items-center gap-2 text-[0.8125rem]">
               {data.tags.map((tag) => (
-                <span key={tag} className="rounded-md bg-fog px-2 py-0.5 font-medium text-body ring-1 ring-rule ring-inset">
+                <span key={tag} className="rounded-md bg-sunken px-2 py-0.5 font-medium text-ink-muted ring-1 ring-line ring-inset">
                   {tag}
                 </span>
               ))}
-              <span className="inline-flex items-center gap-1 text-muted">
+              <span className="inline-flex items-center gap-1 text-ink-subtle">
                 <Lock className="size-3.5" aria-hidden="true" />
                 {data.privacy}
               </span>
             </div>
             <p className="mt-3 max-w-[46rem] text-[0.9375rem] leading-relaxed text-pretty">{data.description}</p>
 
-            <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-rule bg-rule lg:grid-cols-5">
+            <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line lg:grid-cols-5">
               {data.stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className={cn("bg-paper px-4 py-3", index === data.stats.length - 1 && "col-span-2 lg:col-span-1")}
+                  className={cn("bg-surface px-4 py-3", index === data.stats.length - 1 && "col-span-2 lg:col-span-1")}
                 >
-                  <dt className="text-[0.8125rem] text-muted">{stat.label}</dt>
+                  <dt className="text-[0.8125rem] text-ink-subtle">{stat.label}</dt>
                   <dd className="mt-0.5 text-[0.9375rem] font-semibold text-ink">
                     {stat.value}
                     {index === 0 ? (
-                      <span aria-hidden="true" className="mt-1.5 block h-1.5 w-full max-w-28 overflow-hidden rounded-full bg-fog">
-                        <span className="block h-full rounded-full bg-navy" style={{ width: `${data.progress}%` }} />
+                      <span aria-hidden="true" className="mt-1.5 block h-1.5 w-full max-w-28 overflow-hidden rounded-full bg-sunken">
+                        <span className="block h-full rounded-full bg-brand" style={{ width: `${data.progress}%` }} />
                       </span>
                     ) : null}
                   </dd>
@@ -151,18 +157,18 @@ export function ProjectWorkspace({ data, app, label }: Props) {
               ))}
             </dl>
 
-            <div className="mt-4 flex flex-col gap-3 rounded-xl border border-rule px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-4 flex flex-col gap-3 rounded-xl border border-line px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-[0.8125rem] text-muted">{data.healthLabel}</p>
+                <p className="text-[0.8125rem] text-ink-subtle">{data.healthLabel}</p>
                 <p className="mt-0.5 flex items-center gap-2 text-[0.9375rem] font-semibold text-st-completed">
                   <CircleCheck className="size-4" aria-hidden="true" />
                   {data.health}
                 </p>
-                <p className="mt-0.5 text-sm text-muted">{data.healthNote}</p>
+                <p className="mt-0.5 text-sm text-ink-subtle">{data.healthNote}</p>
               </div>
               <span
                 aria-hidden="true"
-                className="inline-flex h-9 w-fit shrink-0 items-center gap-2 rounded-lg bg-paper px-3.5 text-sm font-semibold text-navy ring-1 ring-rule-strong ring-inset"
+                className="inline-flex h-9 w-fit shrink-0 items-center gap-2 rounded-lg bg-surface px-3.5 text-sm font-semibold text-brand ring-1 ring-line-strong ring-inset"
               >
                 <Sparkles className="size-4" />
                 {data.analyse}
@@ -170,7 +176,7 @@ export function ProjectWorkspace({ data, app, label }: Props) {
             </div>
 
             {/* Views */}
-            <div className="mt-7 flex flex-col gap-2 border-b border-rule md:flex-row md:items-end md:justify-between">
+            <div className="mt-7 flex flex-col gap-2 border-b border-line md:flex-row md:items-end md:justify-between">
               <div role="tablist" aria-label={data.viewsLabel} className="-mb-px flex gap-6">
                 {views.map((key) => {
                   const Icon = viewIcons[key];
@@ -191,7 +197,7 @@ export function ProjectWorkspace({ data, app, label }: Props) {
                       onKeyDown={onKeyDown}
                       className={cn(
                         "inline-flex min-h-11 items-center gap-2 border-b-2 text-[0.9375rem] font-semibold transition-colors",
-                        selected ? "border-navy text-navy" : "border-transparent text-muted hover:text-navy",
+                        selected ? "border-brand text-brand" : "border-transparent text-ink-subtle hover:text-brand",
                       )}
                     >
                       <Icon className="size-4" aria-hidden="true" />
@@ -200,7 +206,7 @@ export function ProjectWorkspace({ data, app, label }: Props) {
                   );
                 })}
               </div>
-              {view === "gantt" ? <p className="pb-2.5 text-sm text-muted">{data.dragHint}</p> : null}
+              {view === "gantt" ? <p className="pb-2.5 text-sm text-ink-subtle">{data.dragHint}</p> : null}
             </div>
 
             <div
@@ -217,7 +223,7 @@ export function ProjectWorkspace({ data, app, label }: Props) {
           </div>
         </div>
       </div>
-    </ProductSurface>
+    </div>
   );
 }
 
@@ -227,7 +233,7 @@ function phaseRange(tasks: PlanTask[]) {
 
 function PriorityText({ priority, app }: { priority: PlanTask["priority"]; app: App }) {
   return (
-    <span className={priority === "high" ? "font-semibold text-ink" : "text-muted"}>{app.priorities[priority]}</span>
+    <span className={priority === "high" ? "font-semibold text-ink" : "text-ink-subtle"}>{app.priorities[priority]}</span>
   );
 }
 
@@ -238,8 +244,8 @@ const listCols = "md:grid-cols-[minmax(0,1fr)_9rem_4.25rem_4.25rem_6rem_7rem]";
 function ListView({ data, app }: { data: Data; app: App }) {
   const { columns } = data;
   return (
-    <div className="overflow-hidden rounded-xl border border-rule text-[0.875rem]">
-      <div className={cn("hidden gap-3 border-b border-rule px-4 py-2.5 text-[0.8125rem] text-muted md:grid", listCols)}>
+    <div className="overflow-hidden rounded-xl border border-line text-[0.875rem]">
+      <div className={cn("hidden gap-3 border-b border-line px-4 py-2.5 text-[0.8125rem] text-ink-subtle md:grid", listCols)}>
         <span>{columns.task}</span>
         <span>{columns.assignee}</span>
         <span>{columns.start}</span>
@@ -251,33 +257,33 @@ function ListView({ data, app }: { data: Data; app: App }) {
         const { start, due } = phaseRange(phase.tasks);
         const done = phase.tasks.filter((t) => t.status === "completed").length;
         return (
-          <section key={phase.name} aria-label={phase.name} className="border-b border-rule last:border-b-0">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-rule bg-fog/70 px-4 py-2.5">
-              <span className="inline-grid size-5 place-items-center rounded-full bg-paper text-[0.75rem] font-semibold text-navy ring-1 ring-rule">
+          <section key={phase.name} aria-label={phase.name} className="border-b border-line last:border-b-0">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-line bg-canvas px-4 py-2.5">
+              <span className="inline-grid size-5 place-items-center rounded-full bg-surface text-[0.75rem] font-semibold text-brand ring-1 ring-line">
                 {index + 1}
               </span>
               <span className="font-semibold text-ink">{phase.name}</span>
-              <span className="text-muted">{phase.tasks.length}</span>
-              <span aria-hidden="true" className="h-1.5 w-14 overflow-hidden rounded-full bg-rule">
-                <span className="block h-full rounded-full bg-navy" style={{ width: `${(done / phase.tasks.length) * 100}%` }} />
+              <span className="text-ink-subtle">{phase.tasks.length}</span>
+              <span aria-hidden="true" className="h-1.5 w-14 overflow-hidden rounded-full bg-line">
+                <span className="block h-full rounded-full bg-brand" style={{ width: `${(done / phase.tasks.length) * 100}%` }} />
               </span>
-              <span className="text-[0.8125rem] text-muted">
+              <span className="text-[0.8125rem] text-ink-subtle">
                 {formatDay(app.datePattern, start)} – {formatDay(app.datePattern, due)}
               </span>
             </div>
-            <ul className="divide-y divide-rule">
+            <ul className="divide-y divide-line">
               {phase.tasks.map((task) => (
                 <li
                   key={task.title}
                   className={cn("grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 px-4 py-2.5", listCols)}
                 >
                   <span className="leading-snug font-medium text-ink">{task.title}</span>
-                  <span className="col-start-1 row-start-2 flex items-center gap-2 text-[0.8125rem] text-muted md:col-start-auto md:row-start-auto md:text-[0.875rem] md:text-body">
+                  <span className="col-start-1 row-start-2 flex items-center gap-2 text-[0.8125rem] text-ink-subtle md:col-start-auto md:row-start-auto md:text-[0.875rem] md:text-ink-muted">
                     <Avatar person={task.assignee} size="sm" />
                     <span className="truncate">{task.assignee.name}</span>
                     <span className="-ml-1.5 md:hidden">, {formatDay(app.datePattern, task.due)}</span>
                   </span>
-                  <span className="hidden text-muted md:block">{formatDay(app.datePattern, task.start)}</span>
+                  <span className="hidden text-ink-subtle md:block">{formatDay(app.datePattern, task.start)}</span>
                   <span className="hidden text-ink md:block">{formatDay(app.datePattern, task.due)}</span>
                   <span className="hidden md:block">
                     <PriorityText priority={task.priority} app={app} />
@@ -313,10 +319,10 @@ function CalendarView({ data, app }: { data: Data; app: App }) {
 
   return (
     <div>
-      <p className="mb-3 text-lg font-semibold text-ink stretch-wide">{app.monthTitle}</p>
+      <p className="mb-3 text-lg font-semibold text-ink">{app.monthTitle}</p>
       <div className="-mx-5 overflow-x-auto px-5 pb-1 sm:mx-0 sm:px-0">
-        <div className="min-w-[44rem] overflow-hidden rounded-xl border border-rule">
-          <div className="grid grid-cols-7 border-b border-rule bg-fog/70 text-[0.8125rem] text-muted">
+        <div className="min-w-[44rem] overflow-hidden rounded-xl border border-line">
+          <div className="grid grid-cols-7 border-b border-line bg-canvas text-[0.8125rem] text-ink-subtle">
             {app.weekdaysShort.map((day) => (
               <span key={day} className="px-2.5 py-2">
                 {day}
@@ -331,16 +337,16 @@ function CalendarView({ data, app }: { data: Data; app: App }) {
                 <div
                   key={day}
                   className={cn(
-                    "min-h-[5.75rem] border-rule p-1.5",
+                    "min-h-[5.75rem] border-line p-1.5",
                     index % 7 !== 6 && "border-r",
                     index < CAL_CELLS - 7 && "border-b",
-                    !inMonth && "bg-fog/60",
+                    !inMonth && "bg-canvas",
                   )}
                 >
                   <span
                     className={cn(
                       "inline-grid size-6 place-items-center rounded-full text-[0.8125rem]",
-                      day === TODAY ? "bg-navy font-semibold text-white" : inMonth ? "text-ink" : "text-muted",
+                      day === TODAY ? "bg-brand font-semibold text-white" : inMonth ? "text-ink" : "text-ink-subtle",
                     )}
                   >
                     {label(day)}
@@ -351,7 +357,7 @@ function CalendarView({ data, app }: { data: Data; app: App }) {
                         key={task.title}
                         title={task.title}
                         className={cn(
-                          "truncate rounded-[0.3rem] border-l-[3px] bg-paper px-1.5 py-0.5 text-[0.75rem] leading-snug text-ink ring-1 ring-rule",
+                          "truncate rounded-[0.3rem] border-l-[3px] bg-surface px-1.5 py-0.5 text-[0.75rem] leading-snug text-ink ring-1 ring-line",
                           statusAccent[task.status],
                         )}
                       >
@@ -388,9 +394,9 @@ const gx = (day: number) => `${((day - G_FIRST) / G_DAYS) * 100}%`;
 const gw = (start: number, due: number) => `${((due - start + 1) / G_DAYS) * 100}%`;
 
 function barTone(status: WorkStatus) {
-  if (status === "completed" || status === "approved") return "bg-navy";
-  if (status === "accepted" || status === "inProgress" || status === "submitted" || status === "rework") return "bg-progress";
-  return "bg-navy-tint ring-1 ring-inset ring-navy/25";
+  if (status === "completed" || status === "approved") return "bg-brand";
+  if (status === "accepted" || status === "inProgress" || status === "submitted" || status === "rework") return "bg-status-progress";
+  return "bg-brand-100 ring-1 ring-inset ring-brand/25";
 }
 
 function GanttView({ data, app }: { data: Data; app: App }) {
@@ -399,16 +405,16 @@ function GanttView({ data, app }: { data: Data; app: App }) {
 
   return (
     <div className="-mx-5 overflow-x-auto px-5 pb-1 sm:mx-0 sm:px-0">
-      <div className="grid min-w-[54rem] grid-cols-[15rem_minmax(0,1fr)] overflow-hidden rounded-xl border border-rule text-[0.8125rem]">
+      <div className="grid min-w-[54rem] grid-cols-[15rem_minmax(0,1fr)] overflow-hidden rounded-xl border border-line text-[0.8125rem]">
         {/* Header */}
-        <div className="flex items-end border-r border-b border-rule px-3 pb-2 text-muted">{data.columns.task}</div>
-        <div className="relative border-b border-rule">
-          <p className="px-2 pt-2 text-muted">{app.monthTitle}</p>
+        <div className="flex items-end border-r border-b border-line px-3 pb-2 text-ink-subtle">{data.columns.task}</div>
+        <div className="relative border-b border-line">
+          <p className="px-2 pt-2 text-ink-subtle">{app.monthTitle}</p>
           <div className="relative grid pb-1.5" style={{ gridTemplateColumns: `repeat(${G_DAYS}, minmax(0, 1fr))` }}>
             {days.map((day) => (
               <span
                 key={day}
-                className={cn("text-center", day === TODAY ? "font-semibold text-navy" : "text-muted")}
+                className={cn("text-center", day === TODAY ? "font-semibold text-brand" : "text-ink-subtle")}
               >
                 {day}
               </span>
@@ -417,15 +423,15 @@ function GanttView({ data, app }: { data: Data; app: App }) {
         </div>
 
         {/* Body */}
-        <div className="border-r border-rule">
+        <div className="border-r border-line">
           {data.phases.map((phase, index) => (
             <div key={phase.name}>
-              <div className={cn("flex items-center gap-2 border-b border-rule bg-fog/70 px-3 font-semibold text-ink", rowH)}>
-                <span className="text-navy">{index + 1}</span>
+              <div className={cn("flex items-center gap-2 border-b border-line bg-canvas px-3 font-semibold text-ink", rowH)}>
+                <span className="text-brand">{index + 1}</span>
                 <span className="truncate">{phase.name}</span>
               </div>
               {phase.tasks.map((task) => (
-                <div key={task.title} className={cn("flex items-center border-b border-rule px-3 pl-7 text-body last:border-b-0", rowH)}>
+                <div key={task.title} className={cn("flex items-center border-b border-line px-3 pl-7 text-ink-muted last:border-b-0", rowH)}>
                   <span className="truncate" title={task.title}>
                     {task.title}
                   </span>
@@ -440,24 +446,24 @@ function GanttView({ data, app }: { data: Data; app: App }) {
           <div aria-hidden="true" className="pointer-events-none absolute inset-0">
             {days.map((day) =>
               WEEKEND.has(day) ? (
-                <span key={day} className="absolute inset-y-0 bg-fog/80" style={{ left: gx(day), width: gw(day, day) }} />
+                <span key={day} className="absolute inset-y-0 bg-sunken" style={{ left: gx(day), width: gw(day, day) }} />
               ) : null,
             )}
-            <span className="absolute inset-y-0 w-px bg-navy/60" style={{ left: `calc(${gx(TODAY)} + ${gw(TODAY, TODAY)} / 2)` }} />
+            <span className="absolute inset-y-0 w-px bg-brand/60" style={{ left: `calc(${gx(TODAY)} + ${gw(TODAY, TODAY)} / 2)` }} />
           </div>
 
           {data.phases.map((phase) => {
             const { start, due } = phaseRange(phase.tasks);
             return (
               <div key={phase.name}>
-                <div className={cn("relative border-b border-rule bg-fog/40", rowH)}>
+                <div className={cn("relative border-b border-line bg-canvas", rowH)}>
                   <span
-                    className="absolute top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-muted/60"
+                    className="absolute top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-ink-subtle/50"
                     style={{ left: gx(start), width: gw(start, due) }}
                   />
                 </div>
                 {phase.tasks.map((task) => (
-                  <div key={task.title} className={cn("relative border-b border-rule last:border-b-0", rowH)}>
+                  <div key={task.title} className={cn("relative border-b border-line last:border-b-0", rowH)}>
                     <span
                       title={`${task.title}: ${formatDay(app.datePattern, task.start)} – ${formatDay(app.datePattern, task.due)}`}
                       className={cn("absolute top-1/2 h-4 -translate-y-1/2 rounded-[0.3rem]", barTone(task.status))}
@@ -470,21 +476,21 @@ function GanttView({ data, app }: { data: Data; app: App }) {
           })}
         </div>
       </div>
-      <p className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 text-[0.8125rem] text-muted">
+      <p className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 text-[0.8125rem] text-ink-subtle">
         <span className="inline-flex items-center gap-2">
-          <span aria-hidden="true" className="h-3 w-px bg-navy/60" />
+          <span aria-hidden="true" className="h-3 w-px bg-brand/60" />
           {app.todayLabel}
         </span>
         <span className="inline-flex items-center gap-2">
-          <span aria-hidden="true" className="h-2.5 w-5 rounded-sm bg-navy" />
+          <span aria-hidden="true" className="h-2.5 w-5 rounded-sm bg-brand" />
           {app.barLegend.done}
         </span>
         <span className="inline-flex items-center gap-2">
-          <span aria-hidden="true" className="h-2.5 w-5 rounded-sm bg-progress" />
+          <span aria-hidden="true" className="h-2.5 w-5 rounded-sm bg-status-progress" />
           {app.barLegend.active}
         </span>
         <span className="inline-flex items-center gap-2">
-          <span aria-hidden="true" className="h-2.5 w-5 rounded-sm bg-navy-tint ring-1 ring-inset ring-navy/25" />
+          <span aria-hidden="true" className="h-2.5 w-5 rounded-sm bg-brand-100 ring-1 ring-inset ring-brand/25" />
           {app.barLegend.notStarted}
         </span>
       </p>

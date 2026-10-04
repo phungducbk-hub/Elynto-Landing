@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Audience } from "@/components/sections/Audience";
+import { Benefits } from "@/components/sections/Benefits";
 import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Hero } from "@/components/sections/Hero";
-import { Problems } from "@/components/sections/Problems";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
@@ -39,7 +39,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       />
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-lg focus:bg-paper focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-ink focus:shadow-surface"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-lg focus:bg-surface focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-ink focus:shadow-float"
       >
         {dict.a11y.skipToContent}
       </a>
@@ -47,7 +47,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <SiteHeader lang={lang} nav={dict.nav} signupUrl={siteConfig.signupUrl} loginUrl={siteConfig.loginUrl} />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero lang={lang} dict={dict} />
-        <Problems dict={dict} />
+        <Benefits dict={dict} />
         <HowItWorks lang={lang} dict={dict} />
         <Audience dict={dict} />
         <Faq dict={dict} />

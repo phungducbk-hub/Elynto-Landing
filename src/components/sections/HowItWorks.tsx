@@ -5,87 +5,95 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DelegatedView } from "@/components/visuals/DelegatedView";
 import { PlanDraft } from "@/components/visuals/PlanDraft";
 import { ProjectWorkspace } from "@/components/visuals/ProjectWorkspace";
+import { SentenceToTask } from "@/components/visuals/SentenceToTask";
 import { TodayView } from "@/components/visuals/TodayView";
 import { productMedia } from "@/config/media";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
-import { FeatureText } from "./FeatureText";
-
-function Points({ items }: { items: string[] }) {
-  return (
-    <ul className="mt-6 space-y-3">
-      {items.map((point) => (
-        <li key={point} className="flex gap-3 text-base leading-relaxed text-ink">
-          <Check className="mt-1 size-4 shrink-0 text-navy" strokeWidth={2.5} aria-hidden="true" />
-          {point}
-        </li>
-      ))}
-    </ul>
-  );
-}
+import { FeatureRow } from "./FeatureRow";
 
 export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
-  const { howItWorks, delegate, planning, project, today, app, illustration } = dict;
-  const media = {
-    delegate: productMedia.delegate[lang],
-    planning: productMedia.planning[lang],
-    project: productMedia.project[lang],
-    today: productMedia.today[lang],
-  };
+  const { howItWorks, command, delegate, planning, today, views, app, illustration } = dict;
+
+  const commandShot = productMedia.command[lang];
+  const delegateShot = productMedia.delegate[lang];
+  const projectShot = productMedia.project[lang];
+  const planningShot = productMedia.planning[lang];
+  const todayShot = productMedia.today[lang];
 
   return (
-    <section id="how-it-works" aria-labelledby="how-title" className="border-t border-rule">
-      <Container className="pt-20 pb-24 sm:pt-28 sm:pb-32">
-        <SectionHeading id="how-title" title={howItWorks.title} intro={howItWorks.intro} />
+    <section id="how-it-works" aria-labelledby="how-title">
+      <Container className="pt-20 sm:pt-28">
+        <SectionHeading id="how-title" eyebrow={howItWorks.eyebrow} title={howItWorks.title} intro={howItWorks.intro} />
 
-        {/* Assign and follow up */}
-        <article aria-labelledby="feature-delegate" className="mt-16 grid gap-10 sm:mt-24 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-4">
-            <FeatureText id="feature-delegate" name={delegate.name} title={delegate.title} body={delegate.body}>
-              <p className="mt-6 max-w-[34rem] border-l-2 border-marker pl-4 text-[0.9375rem] leading-relaxed text-muted">
-                {delegate.tip}
-              </p>
-            </FeatureText>
-          </div>
-          <div className="lg:col-span-8">
-            {media.delegate ? (
-              <ProductShot image={media.delegate} />
+        <div className="mt-14 sm:mt-20">
+          <FeatureRow
+            id="feature-command"
+            eyebrow={command.eyebrow}
+            title={command.title}
+            body={command.body}
+            points={command.points}
+            tip={command.tip}
+          >
+            {commandShot ? <ProductShot image={commandShot} /> : <SentenceToTask copy={command} badge={illustration} />}
+          </FeatureRow>
+        </div>
+
+        {/* After assigning: follow every delegated task through its statuses. */}
+        <div className="mt-24 sm:mt-32">
+          <FeatureRow
+            id="feature-delegate"
+            eyebrow={delegate.eyebrow}
+            title={delegate.title}
+            body={delegate.body}
+            points={delegate.points}
+            reverse
+            wideVisual
+          >
+            {delegateShot ? (
+              <ProductShot image={delegateShot} />
             ) : (
-              <DelegatedView view={delegate.view} app={app} label={illustration} />
+              <DelegatedView view={delegate.view} app={app} badge={illustration} />
             )}
-          </div>
-        </article>
+          </FeatureRow>
+        </div>
       </Container>
 
-      {/* AI project planning: the key differentiator, given its own band and the full width. */}
-      <div className="bg-fog">
-        <Container className="py-20 sm:py-28">
-          <article aria-labelledby="feature-planning">
-            <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-              <div className="lg:col-span-5">
-                <FeatureText id="feature-planning" name={planning.name} title={planning.title} body={planning.body} />
-              </div>
-              <ol className="grid gap-6 sm:grid-cols-3 lg:col-span-7 lg:self-end">
-                {planning.steps.map((step, index) => (
-                  <li key={step.title} className="border-t-2 border-navy pt-4">
-                    <p className="text-sm font-semibold text-navy">{index + 1}</p>
-                    <p className="mt-1 text-lg leading-snug font-semibold text-ink stretch-wide">{step.title}</p>
-                    <p className="mt-2 text-[0.9375rem] leading-relaxed">{step.body}</p>
-                  </li>
-                ))}
-              </ol>
+      {/* AI project planning — the key differentiator, given its own band. */}
+      <div className="mt-24 border-y border-line bg-sunken sm:mt-32">
+        <Container className="py-20 sm:py-24">
+          <article id="feature-planning" aria-labelledby="feature-planning-title">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-sm font-semibold tracking-wide text-brand-600">{planning.eyebrow}</p>
+              <h3
+                id="feature-planning-title"
+                className="mt-3 text-[1.75rem] leading-[1.2] font-bold tracking-tight text-ink text-balance sm:text-[2.25rem]"
+              >
+                {planning.title}
+              </h3>
+              <p className="mt-4 text-lg leading-relaxed text-ink-muted text-pretty">{planning.body}</p>
             </div>
 
-            <div className="mt-12 sm:mt-16">
-              {media.planning ? (
-                <ProductShot image={media.planning} />
-              ) : (
-                <PlanDraft mock={planning.mock} phases={project.data.phases} datePattern={app.datePattern} label={illustration} />
-              )}
+            <ol className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3 sm:gap-6">
+              {planning.steps.map((step, index) => (
+                <li key={step.title} className="flex gap-3 sm:flex-col sm:items-center sm:text-center">
+                  <span className="inline-grid size-8 shrink-0 place-items-center rounded-full bg-brand text-sm font-bold text-white">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <p className="text-base font-semibold text-ink sm:mt-1">{step.title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-ink-muted">{step.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <div className="mx-auto mt-12 max-w-5xl">
+              {planningShot ? <ProductShot image={planningShot} /> : <PlanDraft copy={planning.mock} badge={illustration} />}
             </div>
 
-            <p className="mt-6 flex max-w-[40rem] items-start gap-2.5 text-[0.9375rem] leading-relaxed">
-              <Info className="mt-1 size-4 shrink-0 text-navy" aria-hidden="true" />
+            <p className="mx-auto mt-6 flex max-w-2xl items-start justify-center gap-2 text-center text-sm leading-relaxed text-ink-muted">
+              <Info className="mt-0.5 size-4 shrink-0 text-brand-600" aria-hidden="true" />
               {planning.note}
             </p>
           </article>
@@ -93,39 +101,48 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
       </div>
 
       <Container className="py-24 sm:py-32">
-        {/* Follow your projects */}
-        <article aria-labelledby="feature-project">
-          <div className="grid gap-4 lg:grid-cols-12 lg:gap-12">
-            <div className="lg:col-span-5">
-              <h3 id="feature-project" className="type-h3 text-balance">
-                {project.title}
+        <FeatureRow
+          id="feature-today"
+          eyebrow={today.eyebrow}
+          title={today.title}
+          body={today.body}
+          points={today.points}
+          reverse
+        >
+          {todayShot ? <ProductShot image={todayShot} /> : <TodayView copy={today.mock} badge={illustration} />}
+        </FeatureRow>
+
+        <article id="feature-views" aria-labelledby="feature-views-title" className="mt-24 sm:mt-32">
+          <div className="grid gap-4 lg:grid-cols-2 lg:gap-16">
+            <div className="max-w-xl">
+              <p className="text-sm font-semibold tracking-wide text-brand-600">{views.eyebrow}</p>
+              <h3
+                id="feature-views-title"
+                className="mt-3 text-[1.75rem] leading-[1.2] font-bold tracking-tight text-ink text-balance sm:text-[2rem]"
+              >
+                {views.title}
               </h3>
             </div>
-            <div className="max-w-[38rem] lg:col-span-7">
-              <p className="text-lg leading-relaxed text-pretty">
-                <strong className="font-semibold text-ink">{project.name}</strong> {project.body}
-              </p>
-              <Points items={project.points} />
+            <div className="max-w-xl self-end">
+              <p className="text-lg leading-relaxed text-ink-muted text-pretty">{views.body}</p>
+              <ul className="mt-5 space-y-2.5">
+                {views.points.map((point) => (
+                  <li key={point} className="flex gap-3 text-base leading-relaxed text-ink">
+                    <span className="mt-1 inline-grid size-5 shrink-0 place-items-center rounded-full bg-brand-50 text-brand ring-1 ring-brand-100 ring-inset">
+                      <Check className="size-3" strokeWidth={3} aria-hidden="true" />
+                    </span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-          <div className="mt-10 sm:mt-12">
-            {media.project ? (
-              <ProductShot image={media.project} />
+          <div className="mt-10">
+            {projectShot ? (
+              <ProductShot image={projectShot} />
             ) : (
-              <ProjectWorkspace data={project.data} app={app} label={illustration} />
+              <ProjectWorkspace data={views.data} app={app} badge={illustration} />
             )}
-          </div>
-        </article>
-
-        {/* Today */}
-        <article aria-labelledby="feature-today" className="mt-24 grid gap-10 sm:mt-32 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-5">
-            <FeatureText id="feature-today" name={today.name} title={today.title} body={today.body}>
-              <Points items={today.points} />
-            </FeatureText>
-          </div>
-          <div className="lg:col-span-7">
-            {media.today ? <ProductShot image={media.today} /> : <TodayView copy={today.mock} app={app} label={illustration} />}
           </div>
         </article>
       </Container>
