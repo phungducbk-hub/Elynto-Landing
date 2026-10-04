@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — PROVISIONAL.
+ * `brand` is sampled from the supplied logo files (#142D47). Everything else is a
+ * working palette for this landing page, not an official Elynto brand guide.
+ * Change values here; components only use the token names.
+ */
+@theme {
+  /* Brand navy */
+  --color-brand: #142d47;
+  --color-brand-hover: #0d2035;
+  --color-brand-700: #1f3d5e;
+  --color-brand-600: #2c5281;
+  --color-brand-200: #c9d6e5;
+  --color-brand-100: #e4ebf3;
+  --color-brand-50: #f1f5f9;
+
+  /* Text */
+  --color-ink: #101c2b;
+  --color-ink-muted: #475467;
+  --color-ink-subtle: #5f6b7c;
+
+  /* Surfaces (warm white) */
+  --color-canvas: #fcfbf8;
+  --color-surface: #ffffff;
+  --color-sunken: #f5f3ee;
+  --color-line: #e7e3db;
+  --color-line-strong: #d5d0c5;
+
+  /* Task-field accents (used in illustrations and legends) */
+  --color-field-task: #2c5281;
+  --color-field-task-soft: #e6edf6;
+  --color-field-assignee: #0e6f66;
+  --color-field-assignee-soft: #e0f1ee;
+  --color-field-due: #a14a06;
+  --color-field-due-soft: #fcefdc;
+
+  /* Status */
+  --color-status-done: #157a3c;
+  --color-status-done-soft: #e5f4ea;
+  --color-status-progress: #2c5281;
+  --color-status-progress-soft: #e6edf6;
+  --color-status-todo: #5f6b7c;
+  --color-status-todo-soft: #eff0f2;
+  --color-status-overdue: #b42318;
+  --color-status-overdue-soft: #fdecea;
+
+  /* Elevation — restrained */
+  --shadow-card: 0 1px 2px rgb(16 28 43 / 0.04), 0 6px 20px -10px rgb(16 28 43 / 0.12);
+  --shadow-float: 0 1px 2px rgb(16 28 43 / 0.05), 0 24px 48px -24px rgb(16 28 43 / 0.24);
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-caret: caret 1s steps(1) infinite;
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+
+  @keyframes caret {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    50.01%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.55;
+    }
+  }
+}
+
+@theme inline {
+  --font-sans:
+    var(--font-be-vietnam), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* Be Vietnam Pro ships a narrow word space; Vietnamese is space-heavy, so open it slightly. */
+    word-spacing: 0.04em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Anchored sections clear the sticky header. */
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-100);
+    color: var(--color-ink);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

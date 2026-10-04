@@ -1,0 +1,65 @@
+import { ArrowRight, Play } from "lucide-react";
+import { CommandDemo } from "@/components/demo/CommandDemo";
+import { DemoVideo } from "@/components/demo/DemoVideo";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { Container } from "@/components/ui/Container";
+import { productMedia } from "@/config/media";
+import { siteConfig } from "@/config/site";
+import type { Dictionary } from "@/content/types";
+import type { Locale } from "@/lib/i18n";
+
+export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+  const { hero, demo } = dict;
+  const video = productMedia.heroDemo[lang];
+
+  return (
+    <section aria-labelledby="hero-title" className="relative overflow-hidden">
+      {/* Soft warm backdrop — no strong gradients. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(60%_60%_at_75%_30%,var(--color-brand-50),transparent_70%)]"
+      />
+      <Container className="grid items-center gap-12 pt-10 pb-16 sm:pt-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:gap-14 lg:pt-20 lg:pb-24">
+        <div className="max-w-xl">
+          <h1 id="hero-title">
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-sm font-semibold text-brand ring-1 ring-brand-100 ring-inset sm:text-[0.9375rem]">
+              {hero.eyebrow}
+            </span>
+            <span
+              lang="en"
+              className="mt-5 block text-[2.5rem] leading-[1.06] font-bold tracking-[-0.025em] text-brand text-balance sm:text-[3.25rem] lg:text-[3.6rem]"
+            >
+              {siteConfig.vision}
+            </span>
+          </h1>
+          <p className="mt-6 text-lg leading-relaxed text-ink-muted text-pretty sm:text-xl sm:leading-relaxed">
+            {hero.description}
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <ButtonLink
+              href={siteConfig.signupUrl}
+              size="lg"
+              className="w-full sm:w-auto"
+              dataAttrs={{ "data-track": "cta_click", "data-track-cta": "signup", "data-track-location": "hero" }}
+            >
+              {hero.primaryCta}
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </ButtonLink>
+            <ButtonLink
+              href="#demo"
+              variant="secondary"
+              size="lg"
+              className="w-full sm:w-auto"
+              dataAttrs={{ "data-track": "cta_click", "data-track-cta": "see_demo", "data-track-location": "hero" }}
+            >
+              <Play className="size-4" aria-hidden="true" />
+              {hero.secondaryCta}
+            </ButtonLink>
+          </div>
+        </div>
+
+        {video ? <DemoVideo video={video} copy={demo} /> : <CommandDemo copy={demo} />}
+      </Container>
+    </section>
+  );
+}
