@@ -215,11 +215,14 @@ test("mobile menu opens and closes with Escape", async ({ page, isMobile }) => {
 });
 
 test("hero subject cycles between 'you' and 'your team'", async ({ page }) => {
+  await page.clock.install();
   await page.goto("/en");
   const line = page.locator("[data-swap-line]");
   await expect(line).toBeVisible();
-  // The first swap rolls "your team" in after a few seconds.
-  await expect(line.locator(".animate-word-in")).toHaveText("your team", { timeout: 6000 });
+  await expect(line.locator(".animate-word-in")).toHaveCount(0);
+  // Each word holds for 8 seconds, then the next one rolls in.
+  await page.clock.runFor(8500);
+  await expect(line.locator(".animate-word-in")).toHaveText("your team");
 });
 
 test("content slides in as it scrolls into view", async ({ page }) => {
@@ -235,13 +238,14 @@ test("content slides in as it scrolls into view", async ({ page }) => {
 test("respects reduced motion: demo starts paused, nothing waits to slide in", async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: "reduce" });
   const page = await context.newPage();
+  await page.clock.install();
   await page.goto("/vi");
   await expect(page.getByRole("button", { name: "Phát minh họa" })).toBeVisible();
   await expect(page.locator("#demo")).toContainText("Đã tạo công việc");
 
   await expect(page.locator("html")).not.toHaveAttribute("data-motion");
   // The hero subject holds on "you".
-  await page.waitForTimeout(3500);
+  await page.clock.runFor(20_000);
   await expect(page.locator("[data-swap-line] .animate-word-in")).toHaveCount(0);
   await expect(page.locator("#faq-title")).toHaveCSS("opacity", "1");
   // The situations wall stands still, so it needs no pause control.

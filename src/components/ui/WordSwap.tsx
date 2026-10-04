@@ -10,7 +10,7 @@ export type SwapWord = {
 };
 
 /** How long each word stays before the next one rolls in. */
-const HOLD_MS = 2600;
+const HOLD_MS = 8000;
 
 // Vertical padding clears ascenders and descenders inside the clipped pill; the matching negative
 // margin keeps the pill from making its line taller than the others.
