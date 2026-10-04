@@ -9,14 +9,16 @@ import { siteConfig } from "@/config/site";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 
-const { visionParts } = siteConfig;
+const { heroVision } = siteConfig;
+/** What screen readers hear: the sentence as first shown. */
+const heroVisionText = [heroVision.lead, heroVision.bridge, heroVision.subjects[0], heroVision.tail].join(" ");
 
-/** "you" in the brand blue, "your team" in the teal used for people across the product visuals. */
-const subjectTones = [
-  { pillClassName: "bg-field-task-soft", dotClassName: "bg-field-task" },
-  { pillClassName: "bg-field-assignee-soft", dotClassName: "bg-field-assignee" },
-];
-const subjects: SwapWord[] = visionParts.subjects.map((text, i) => ({ text, ...subjectTones[i % subjectTones.length] }));
+/** "you" on the brand blue tint, "your team" on the teal used for people across the product visuals. */
+const subjectTints = ["bg-field-task-soft", "bg-field-assignee-soft"];
+const subjects: SwapWord[] = heroVision.subjects.map((text, i) => ({
+  text,
+  pillClassName: subjectTints[i % subjectTints.length],
+}));
 
 const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-rise lg:motion-safe:animate-enter-right";
 
@@ -32,7 +34,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(60%_60%_at_75%_30%,var(--color-brand-50),transparent_70%)]"
       />
       <Container className="grid items-center gap-12 pt-10 pb-16 sm:pt-14 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-14 lg:pt-20 lg:pb-24">
-        {/* @container: the vision line sizes itself to this column so its longest line never wraps. */}
+        {/* @container: the vision sizes itself to this column so its longest line never wraps. */}
         <div className="@container max-w-xl">
           <h1 id="hero-title">
             <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-sm font-semibold text-brand ring-1 ring-brand-100 ring-inset motion-safe:animate-rise sm:text-[0.9375rem]">
@@ -40,15 +42,14 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             </span>
             <span
               lang="en"
-              className="mt-5 block text-[2.5rem] leading-[1.08] font-bold tracking-[-0.025em] text-brand [--enter-delay:80ms] motion-safe:animate-rise sm:text-[clamp(2.25rem,7.9cqi,3.6rem)]"
+              className="mt-5 block text-[clamp(1.75rem,10cqi,3.6rem)] leading-[1.08] font-bold tracking-[-0.025em] text-brand [--enter-delay:80ms] motion-safe:animate-rise"
             >
-              <span className="sr-only">{siteConfig.vision}</span>
-              {/* Set on fixed lines; on phones the cycling subject gets a line of its own. */}
+              <span className="sr-only">{heroVisionText}</span>
               <span aria-hidden="true" className="block">
-                <span className="block text-field-task">{visionParts.lead}</span>
-                <span className="block">{visionParts.bridge}</span>
-                <span data-swap-line className="block sm:whitespace-nowrap">
-                  <WordSwap words={subjects} /> <span className="block sm:inline">{visionParts.tail}</span>
+                <span className="block text-field-task">{heroVision.lead}</span>
+                <span className="block">{heroVision.bridge}</span>
+                <span data-swap-line className="block whitespace-nowrap">
+                  <WordSwap words={subjects} /> {heroVision.tail}
                 </span>
               </span>
             </span>

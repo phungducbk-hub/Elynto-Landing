@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
 const SIGNUP_URL = process.env.NEXT_PUBLIC_SIGNUP_URL ?? "https://beta.elynto.io";
-const VISION = "The interface between you and your work";
+const HERO_VISION = "The interface between you and work";
 
 const copy = {
   vi: {
@@ -94,7 +94,7 @@ for (const lang of ["vi", "en"] as const) {
 
       const h1 = page.getByRole("heading", { level: 1 });
       await expect(h1).toContainText(t.eyebrow);
-      await expect(h1).toContainText(VISION);
+      await expect(h1).toContainText(HERO_VISION);
 
       const heroCta = page.locator('main a[data-track-location="hero"][data-track-cta="signup"]');
       await expect(heroCta).toBeVisible();

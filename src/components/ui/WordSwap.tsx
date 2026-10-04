@@ -7,7 +7,6 @@ export type SwapWord = {
   text: string;
   /** Pill background for this word. */
   pillClassName: string;
-  dotClassName: string;
 };
 
 /** How long each word stays before the next one rolls in. */
@@ -17,7 +16,6 @@ const HOLD_MS = 2600;
 // margin keeps the pill from making its line taller than the others.
 const pillBase =
   "-my-[0.12em] inline-block rounded-full px-[0.32em] py-[0.12em] text-[0.92em] font-semibold whitespace-nowrap align-baseline";
-const dotBase = "mr-[0.2em] inline-block size-[0.22em] rounded-full align-middle";
 
 /**
  * A word in a tinted pill that cycles through alternatives, after Notion's hero: the old word rolls
@@ -87,7 +85,6 @@ export function WordSwap({ words }: { words: SwapWord[] }) {
         )}
         style={{ width: widths[index] || undefined }}
       >
-        <span className={cn(dotBase, "transition-colors duration-500", current.dotClassName)} />
         <span className="relative inline-block">
           {previous !== null ? (
             <span key={`out-${previous}`} className="absolute top-0 left-0 animate-word-out">
@@ -108,7 +105,6 @@ export function WordSwap({ words }: { words: SwapWord[] }) {
           }}
           className={cn(pillBase, "pointer-events-none invisible absolute top-0 left-0")}
         >
-          <span className={dotBase} />
           {word.text}
         </span>
       ))}

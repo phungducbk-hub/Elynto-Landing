@@ -3,24 +3,22 @@ function envOr(value: string | undefined, fallback: string) {
   return trimmed ? trimmed : fallback;
 }
 
-/**
- * The vision line as the hero sets it: three lines, with the subject cycling between "you" and
- * "your team". The first subject forms the canonical line used everywhere else.
- */
-const visionParts = {
-  lead: "The interface",
-  bridge: "between",
-  subjects: ["you", "your team"],
-  tail: "and your work",
-};
-
 export const siteConfig = {
   name: "Elynto",
   /** Public URL of this landing page — used for canonical links, sitemap and Open Graph. */
   url: envOr(process.env.NEXT_PUBLIC_SITE_URL, "https://elynto.io").replace(/\/$/, ""),
-  /** Brand vision line. Intentionally kept in English in every language. */
-  vision: [visionParts.lead, visionParts.bridge, visionParts.subjects[0], visionParts.tail].join(" "),
-  visionParts,
+  /** Brand vision line, kept in English in every language. Used in metadata, the social image and the footer. */
+  vision: "The interface between you and your work",
+  /**
+   * The hero's shorter take on the vision, set on three lines with the subject cycling between
+   * "you" and "your team".
+   */
+  heroVision: {
+    lead: "The interface",
+    bridge: "between",
+    subjects: ["you", "your team"],
+    tail: "and work",
+  },
   /**
    * Sign-up entry point for every "Start free trial" button.
    * The dedicated sign-up route of beta.elynto.io has not been confirmed yet,
