@@ -2,13 +2,7 @@ import { UserRound } from "lucide-react";
 import type { Person } from "@/content/types";
 import { cn } from "@/lib/cn";
 
-const tones = [
-  "bg-[#dce8f5] text-[#1f3d5e]",
-  "bg-[#dcefe9] text-[#0e5a52]",
-  "bg-[#f6e7d4] text-[#7a3a06]",
-  "bg-[#ebe3f3] text-[#4b2f6b]",
-  "bg-[#f3e1e1] text-[#7a2420]",
-];
+const tones = ["bg-navy-tint text-navy", "bg-[#dfeee6] text-[#1d5a3c]", "bg-[#f1e7d8] text-[#6b4417]"];
 
 function toneFor(name: string) {
   let hash = 0;
@@ -20,10 +14,7 @@ export function Avatar({ person, size = "md", className }: { person: Person; siz
   const dims = size === "sm" ? "size-5 text-[0.625rem]" : "size-6 text-[0.6875rem]";
   if (person.self) {
     return (
-      <span
-        aria-hidden="true"
-        className={cn("inline-grid shrink-0 place-items-center rounded-full bg-brand text-white", dims, className)}
-      >
+      <span aria-hidden="true" className={cn("inline-grid shrink-0 place-items-center rounded-full bg-navy text-white", dims, className)}>
         <UserRound className={size === "sm" ? "size-3" : "size-3.5"} strokeWidth={2.25} />
       </span>
     );

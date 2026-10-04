@@ -62,12 +62,12 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-canvas transition-[border-color,box-shadow] duration-200",
-        scrolled || open ? "border-line shadow-[0_1px_0_rgb(16_28_43/0.02)]" : "border-transparent",
+        "sticky top-0 z-50 border-b bg-paper transition-[border-color] duration-200",
+        scrolled || open ? "border-rule" : "border-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <a href="#top" className="-m-1 shrink-0 rounded-md p-1 text-brand" aria-label={nav.home}>
+      <div className="mx-auto flex h-16 w-full max-w-[75rem] items-center gap-3 px-5 sm:px-8">
+        <a href="#top" className="-m-1 shrink-0 rounded-md p-1 text-navy" aria-label={nav.home}>
           <Logo className="h-7 w-auto sm:h-8" title={null} />
         </a>
 
@@ -80,7 +80,7 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
                   data-track="nav_click"
                   data-track-target={link.href.slice(1)}
                   data-track-location="header"
-                  className="rounded-md px-3 py-2 text-[0.9375rem] font-medium text-ink-muted transition-colors hover:text-ink"
+                  className="rounded-md px-3 py-2 text-[0.9375rem] font-medium text-body transition-colors hover:text-navy"
                 >
                   {link.label}
                 </a>
@@ -98,7 +98,7 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
             data-track="cta_click"
             data-track-cta="login"
             data-track-location="header"
-            className="hidden rounded-md px-2 py-2 text-[0.9375rem] font-medium text-ink-muted transition-colors hover:text-ink lg:inline-block"
+            className="hidden rounded-md px-2 py-2 text-[0.9375rem] font-medium text-body transition-colors hover:text-navy lg:inline-block"
           >
             {nav.login}
           </a>
@@ -116,7 +116,7 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
             onClick={toggle}
             aria-expanded={open}
             aria-controls="mobile-menu"
-            className="-mr-1 inline-grid size-10 place-items-center rounded-lg text-ink transition-colors hover:bg-sunken lg:hidden"
+            className="-mr-1 inline-grid size-10 place-items-center rounded-lg text-navy transition-colors hover:bg-fog lg:hidden"
           >
             <span className="sr-only">{open ? nav.closeMenu : nav.openMenu}</span>
             {open ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}
@@ -124,9 +124,9 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
         </div>
       </div>
 
-      <div id="mobile-menu" hidden={!open} className="border-t border-line bg-canvas lg:hidden">
-        <nav aria-label={nav.mainNav} className="mx-auto w-full max-w-6xl px-4 pt-2 pb-5 sm:px-6">
-          <ul className="divide-y divide-line">
+      <div id="mobile-menu" hidden={!open} className="border-t border-rule bg-paper lg:hidden">
+        <nav aria-label={nav.mainNav} className="mx-auto w-full max-w-[75rem] px-5 pt-2 pb-6 sm:px-8">
+          <ul className="divide-y divide-rule">
             {links.map((link) => (
               <li key={link.href}>
                 <a
@@ -135,7 +135,7 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
                   data-track="nav_click"
                   data-track-target={link.href.slice(1)}
                   data-track-location="mobile_menu"
-                  className="flex min-h-12 items-center text-base font-medium text-ink"
+                  className="flex min-h-12 items-center text-lg font-medium text-navy stretch-wide"
                 >
                   {link.label}
                 </a>
@@ -149,14 +149,13 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl }: Props) {
               data-track="cta_click"
               data-track-cta="login"
               data-track-location="mobile_menu"
-              className="inline-flex min-h-11 items-center rounded-lg px-3 text-base font-medium text-ink-muted hover:text-ink"
+              className="inline-flex min-h-11 items-center rounded-lg px-3 text-base font-medium text-body hover:text-navy"
             >
               {nav.login}
             </a>
           </div>
           <ButtonLink
             href={signupUrl}
-            size="lg"
             className="mt-4 w-full"
             dataAttrs={{ "data-track": "cta_click", "data-track-cta": "signup", "data-track-location": "mobile_menu" }}
           >

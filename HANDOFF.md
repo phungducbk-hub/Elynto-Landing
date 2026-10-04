@@ -6,16 +6,15 @@
 - Build production thành công. Lint và typecheck không lỗi. **39/39** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
 - Chưa triển khai lên Vercel, chưa đổi DNS, chưa công khai.
 
-## 2. Kiểm tra sản phẩm thật — không thực hiện được
+## 2. Kiểm tra sản phẩm thật — vẫn chưa thực hiện được
 
-Môi trường làm việc chặn truy cập tới `beta.elynto.io` (network policy). Vì vậy:
+Sau khi `beta.elynto.io` được thêm vào *Allowed domains*, phiên làm việc này vẫn bị proxy từ chối (`403 connect_rejected`, đã thử lại nhiều lần). Thay đổi cấu hình mạng thường chỉ có hiệu lực với **phiên/container mới**. Vì vậy:
 
 - Chưa xem được giao diện, tính năng thật hay route đăng ký/đăng nhập của app.
-- Mọi hình sản phẩm trên trang là **minh họa HTML**, luôn gắn nhãn “Minh họa / Illustration / Illustrative demo”. Cấu trúc code cho phép thay bằng video/ảnh thật mà không phải sửa component (xem `src/config/media.ts`).
-- Mô tả tính năng dựa trên brief, giữ ở mức brief đã nêu. Không thêm khả năng nào brief chưa nói.
-- Không chỉnh sửa gì ở app beta, không tạo dữ liệu, không gửi lời mời.
+- Mọi hình sản phẩm trên trang vẫn là **minh họa HTML**, có ghi chú “Minh họa / Illustration” ngay bên dưới, kèm nhãn “Minh họa / Illustrative demo” ở hero. Có thể thay bằng video/ảnh thật mà không phải sửa component (xem `src/config/media.ts`).
+- Mô tả tính năng dựa trên brief, giữ ở mức brief đã nêu. Không chỉnh sửa gì ở app beta.
 
-Muốn cho phép truy cập: thêm `beta.elynto.io` vào *Allowed domains* trong mục Network access của môi trường cloud (hướng dẫn: https://code.claude.com/docs/en/cloud-environments#network-access). Kể cả khi đã truy cập được, phần sau màn hình đăng nhập vẫn cần bạn cung cấp ảnh chụp, video hoặc tài khoản demo.
+Bước tiếp theo: mở một phiên mới trong môi trường đã cấu hình (hướng dẫn: https://code.claude.com/docs/en/cloud-environments#network-access). Ở phiên đó có thể xem trang công khai (đăng nhập, đăng ký) để xác định route. Phần nằm sau màn hình đăng nhập thì không tự vượt qua; cần bạn gửi ảnh chụp/video hoặc một tài khoản demo với dữ liệu mẫu.
 
 ## 3. Cần xác minh trước khi công khai
 
@@ -54,27 +53,47 @@ Tự sắp lịch, AI tự ưu tiên hoặc tự điều phối, chat/video call
 
 | Asset | Hiện dùng | Đề xuất thay |
 | --- | --- | --- |
-| Demo hero (một câu → công việc) | Animation HTML ~10 giây, nhãn “Minh họa” | Video thật VI + EN, 10–15 giây, tắt tiếng, MP4 dưới 2 MB, kèm poster. Khai báo ở `productMedia.heroDemo` |
-| Tạo và giao việc | Minh họa tương tác, 3 ví dụ có sẵn (không có ô nhập tự do) | Ảnh chụp thật → `productMedia.command` |
+| Demo hero (một câu → công việc) | Chuỗi CSS ~4,5 giây chạy một lần, nhãn “Minh họa” | Video thật VI + EN, 10–15 giây, tắt tiếng, MP4 dưới 2 MB, kèm poster. Khai báo ở `productMedia.heroDemo` |
+| Tạo và giao việc | Bảng minh họa “Bạn viết / Elynto tạo” với 3 câu mẫu | Ảnh chụp thật → `productMedia.command` |
 | Lập kế hoạch với AI | Minh họa bản nháp kế hoạch | Ảnh chụp màn hình review kế hoạch → `productMedia.planning` |
 | Hôm nay / Việc của tôi | Minh họa | Ảnh chụp thật → `productMedia.today` |
 | Danh sách / Kanban / Lịch / Timeline / Gantt | Minh họa dạng tab | Giữ minh họa hoặc thay từng panel bằng ảnh |
 | Logo | SVG **dựng lại từ ảnh .webp** được cung cấp (`public/brand/`) | File vector gốc chính thức |
 | Màu thương hiệu | Navy `#142D47` lấy mẫu từ logo; các màu khác là token tạm | Bảng màu chính thức (sửa trong `globals.css`) |
-| Font | Be Vietnam Pro (hỗ trợ dấu tiếng Việt tốt, SIL OFL) | Xác nhận hoặc thay bằng font thương hiệu |
+| Font | Mona Sans (biến thể độ rộng, hỗ trợ tiếng Việt, SIL OFL) | Xác nhận hoặc thay bằng font thương hiệu |
 
 Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu. Không đưa tên, email hay công việc của khách hàng thật vào.
 
-## 5. Lựa chọn thiết kế và thông điệp
+## 5. Lựa chọn thiết kế (bản 2, theo skill `frontend-design`)
 
-- **5 giây đầu**: H1 gồm dòng mô tả theo ngôn ngữ đang chọn (“Elynto — Quản lý công việc bằng AI”) và câu vision tiếng Anh nổi bật “The interface between you and your work”. Ngay dưới là câu giải thích lợi ích và hai CTA. Bên phải là demo đang hiển thị sẵn kết quả: một công việc có tên, người phụ trách, thời hạn.
-- **Gộp “Demo chủ đạo” vào hero**: demo chính nằm ngay trong màn hình đầu thay vì lặp lại thành một section riêng. “Xem Elynto hoạt động” cuộn tới demo và phát lại từ đầu. Trên mobile, demo nằm ngay sau CTA.
-- **Demo**: mở đầu bằng kết quả cuối (hiểu ngay giá trị), sau đó lặp lại chuỗi gõ câu → xử lý → tạo xong, khoảng 10 giây mỗi vòng. Tự dừng khi ra khỏi màn hình hoặc khi tab bị ẩn; có nút dừng/phát lại. Với người bật “giảm chuyển động”, demo đứng yên ở kết quả cho tới khi bấm phát. Phần này không phải ô chat, người xem không nhập được gì.
-- **Lợi ích trước, tính năng sau**: Lợi ích (3 ý) → Cách hoạt động (4 tình huống) → Dành cho ai → FAQ → CTA cuối.
-- **Lập kế hoạch với AI** có dải nền riêng, 3 bước và một ô nhấn mạnh “Xem lại và chỉnh sửa trước khi tạo dự án”, kèm ghi chú “quyết định cuối cùng thuộc về bạn”.
-- **Không lặp hàng card**: Lợi ích dùng các cột ngăn bằng đường kẻ; “Dành cho ai” là một khối chia ba cột; CTA cuối là khối navy duy nhất trên nền sáng.
-- **Câu chữ**: đổi “Nói việc cần làm” thành “Chỉ cần mô tả việc cần làm” để không gợi ý nhập bằng giọng nói. Giữ “Một câu nói. Công việc rõ người, rõ hạn.” vì demo cho thấy rõ là gõ chữ. Thêm mẹo “nêu rõ việc gì, ai làm, khi nào xong” để không ngụ ý AI hiểu mọi yêu cầu.
-- **Typography**: Be Vietnam Pro, tăng nhẹ khoảng cách giữa từ (font gốc có khoảng trắng hẹp, dễ dính chữ ở những từ như “thử miễn”).
+Skill được cài vào repo tại `.claude/skills/frontend-design/` (nguồn: `anthropics/skills`, giấy phép Apache 2.0) để các lần chỉnh sửa sau dùng cùng một chuẩn.
+
+**Ý tưởng.** “The interface between you and your work”: một câu nói thường được **đánh dấu như bằng bút dạ quang**, rồi từng phần được nối xuống thành các ô của công việc theo trật tự **Ai làm → Làm gì → Khi nào xong**, đúng câu “Rõ ai làm gì, khi nào xong” của brief. Đây là điểm nhấn duy nhất của trang; mọi phần khác giữ tĩnh và kỷ luật.
+
+**Token.**
+
+| Tên | Giá trị | Vai trò |
+| --- | --- | --- |
+| Navy | `#142D47` | Logo, tiêu đề, CTA (lấy mẫu từ logo) |
+| Paper | `#FFFFFF` | Nền chính |
+| Fog | `#F0F3F7` | Nền dải section và sân khấu demo |
+| Rule | `#D9E0E8` | Đường kẻ mảnh |
+| Marker | `#FFDF4F` | Màu nhấn duy nhất, chỉ dùng cho phần câu mà Elynto đọc ra |
+
+**Chữ.** Mona Sans, một họ chữ biến thể có trục độ rộng: tiêu đề dùng bản rộng 112–116%, đậm; thân chữ dùng độ rộng thường. Font được chọn sau khi so sánh bảng mẫu tiếng Việt của 8 họ chữ. Geologica và Commissioner đặt dấu hỏi trên “ể” bị lệch; Be Vietnam Pro (bản 1) ổn nhưng ít cá tính ở cỡ lớn. Thang cỡ chữ theo thang cổ điển 16/18/21/24/30/36/48/60/72/80; tiêu đề tiếng Việt giữ line-height ≥ 1.12 để dấu không chạm dòng trên.
+
+**Chuyển động.** Chỉ một khoảnh khắc: demo ở hero chạy **một lần** (~4,5 giây) khi vào tầm nhìn rồi dừng ở công việc đã tạo, có nút tạm dừng và xem lại. Chuỗi được viết bằng CSS, trạng thái tự nhiên là khung hình cuối, nên hiển thị đúng khi chưa có JS và khi bật giảm chuyển động. Đường nối được JS đo vị trí và đồng bộ với đồng hồ của CSS. Không có hiệu ứng trượt vào cho từng section.
+
+**Đã bỏ so với bản 1** (đều là dấu hiệu “trang làm sẵn” mà skill cảnh báo):
+- nhãn nhỏ phía trên mọi tiêu đề, thay bằng tên tính năng đặt ở đầu đoạn văn (“**Lập kế hoạch dự án với AI.** Nhập mục tiêu…”);
+- nhãn chữ in hoa, chuỗi “A · B”, nhãn kiểu “Elynto — …”, mũi tên → trong nút;
+- khung giả cửa sổ app có pill “MINH HỌA” trên mọi hình;
+- các hàng card giống nhau có icon (Lợi ích giờ là danh sách định nghĩa có đường kẻ, Dành cho ai là ba cột chữ kèm câu ví dụ);
+- khối CTA navy ở cuối trang; animation lặp vô hạn.
+
+**Đánh số** chỉ dùng ở nơi nội dung thật sự là trình tự: 3 bước lập kế hoạch và 3 giai đoạn của dự án.
+
+**Câu chữ**: giữ như bản 1, bỏ các dấu gạch ngang trang trí. “Nói việc cần làm” vẫn được thay bằng “Chỉ cần mô tả việc cần làm” để không gợi ý nhập bằng giọng nói. Mẹo “nêu rõ việc gì, ai làm, khi nào xong” vẫn được giữ.
 
 ## 6. Đã kiểm tra
 
@@ -84,11 +103,13 @@ Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu. Không đưa t
   - chuyển hướng `/` theo Accept-Language, lựa chọn đã lưu thắng ngôn ngữ trình duyệt, trang 404 song ngữ;
   - hero chứa định vị và vision, mọi CTA đăng ký trỏ đúng URL, demo có nhãn minh họa;
   - metadata và ảnh OG theo từng ngôn ngữ;
-  - nút “Xem Elynto hoạt động”, dừng/phát demo, FAQ, tab (chuột và bàn phím), menu mobile (Escape trả focus), đổi ngôn ngữ và ghi nhớ;
+  - nút “Xem Elynto hoạt động” phát lại demo; demo tạm dừng/tiếp tục được, chạy một lần rồi dừng ở “Đã tạo công việc”;
+  - FAQ, tab (chuột và bàn phím), menu mobile (Escape trả focus), đổi ngôn ngữ và ghi nhớ;
   - sự kiện CTA được đẩy vào `dataLayer`;
   - axe: không có lỗi truy cập mức *serious/critical*;
   - không tràn ngang, không lỗi console.
-- Đã xem ảnh chụp toàn trang desktop và mobile cho cả hai ngôn ngữ, từng khung hình của demo, và tab Timeline/Gantt khi bật cờ.
+- Giảm chuyển động: demo hiển thị ngay công việc đã tạo, không có animation đang chạy, không hiện nút điều khiển.
+- Đã xem ảnh chụp toàn trang desktop và mobile cho cả hai ngôn ngữ và từng khung hình của chuỗi chuyển động. Đường nối giữ đúng trạng thái khi đổi kích thước cửa sổ qua breakpoint.
 - Không có lỗi hay cảnh báo console ở chế độ dev (kiểm tra hydration).
 - JS tải lần đầu khoảng 170 KB gzip, phần lớn là React/Next; code của trang khoảng 17 KB gzip. Các section bên dưới không dùng ảnh nặng.
 

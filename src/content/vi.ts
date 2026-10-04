@@ -25,48 +25,55 @@ export const vi: Dictionary = {
     openMenu: "Mở menu",
     closeMenu: "Đóng menu",
     mainNav: "Điều hướng chính",
-    home: "Elynto — về đầu trang",
+    home: "Elynto, về đầu trang",
     language: "Ngôn ngữ",
   },
   hero: {
-    eyebrow: "Elynto — Quản lý công việc bằng AI",
+    label: "Quản lý công việc bằng AI",
     description:
-      "Chỉ cần mô tả việc cần làm. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ — tất cả trong một nơi.",
+      "Chỉ cần mô tả việc cần làm. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ, tất cả trong một nơi.",
     primaryCta: "Dùng thử miễn phí",
     secondaryCta: "Xem Elynto hoạt động",
   },
   demo: {
-    badge: "Minh họa",
+    label: "Minh họa",
     caption: "Một câu nói. Công việc rõ người, rõ hạn.",
     regionLabel: "Minh họa: từ một câu nói đến công việc",
     srDescription:
       "Minh họa, không phải phiên thao tác trực tiếp với ứng dụng. Người dùng viết: “Giao Minh làm báo cáo, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo cáo”, người phụ trách Minh, hạn hoàn thành Thứ Sáu, trạng thái Cần làm.",
-    placeholder: "Bạn cần làm gì?",
-    command: "Giao Minh làm báo cáo, hoàn thành trước thứ sáu.",
-    send: "Gửi",
-    newTask: "Công việc mới",
-    processing: "Đang tạo công việc…",
-    success: "Đã tạo công việc",
+    sentence: [
+      "Giao ",
+      { field: "assignee", text: "Minh" },
+      " ",
+      { field: "task", text: "làm báo cáo" },
+      ", hoàn thành ",
+      { field: "due", text: "trước thứ sáu" },
+      ".",
+    ],
     fields: {
-      task: "Công việc",
       assignee: "Người phụ trách",
+      task: "Công việc",
       due: "Hạn hoàn thành",
       status: "Trạng thái",
     },
     result: {
-      task: "Làm báo cáo",
       assignee: minh,
+      task: "Làm báo cáo",
       due: "Thứ Sáu",
       status: "Cần làm",
     },
+    status: {
+      idle: "Công việc mới",
+      reading: "Elynto đang đọc yêu cầu…",
+      created: "Đã tạo công việc",
+    },
     controls: {
-      play: "Phát minh họa",
       pause: "Tạm dừng minh họa",
+      play: "Tiếp tục minh họa",
       replay: "Xem lại từ đầu",
     },
   },
   benefits: {
-    eyebrow: "Lợi ích",
     title: "Tập trung vào công việc, không phải vào công cụ",
     items: [
       {
@@ -84,51 +91,21 @@ export const vi: Dictionary = {
     ],
   },
   howItWorks: {
-    eyebrow: "Cách hoạt động",
     title: "Từ điều bạn muốn làm đến công việc rõ ràng",
     intro:
       "Elynto chuyển lời mô tả thành công việc có cấu trúc, giúp bạn lập kế hoạch và theo dõi tất cả trên giao diện trực quan.",
   },
   illustration: "Minh họa",
-  command: {
-    eyebrow: "Tạo và giao việc",
+  sentences: {
+    name: "Tạo và giao việc.",
     title: "Việc cần làm bắt đầu từ một câu nói.",
-    body: "Viết như cách bạn vẫn giao việc. Elynto nhận ra việc cần làm, người phụ trách và thời hạn, rồi tạo thành công việc để bạn tiếp tục theo dõi và cập nhật.",
-    points: [
-      "Công việc được lưu lại, không trôi mất trong tin nhắn.",
-      "Bạn luôn có thể xem lại và chỉnh sửa trực tiếp.",
-      "Dùng cho việc của riêng bạn hoặc việc giao cho người khác.",
-    ],
-    tip: "Mẹo: nêu rõ việc gì, ai làm và khi nào xong để kết quả chính xác nhất.",
-    examplesLabel: "Chọn ví dụ",
-    legend: {
-      task: "Công việc",
-      assignee: "Người phụ trách",
-      due: "Thời hạn",
-    },
-    resultLabel: "Công việc được tạo",
-    savedLabel: "Đã lưu vào danh sách việc",
-    newBadge: "Mới",
-    examples: [
+    body: "Viết như cách bạn vẫn giao việc. Elynto nhận ra ai làm, làm gì và khi nào xong, rồi tạo thành công việc để bạn tiếp tục theo dõi và cập nhật. Bạn luôn có thể xem lại và chỉnh sửa trực tiếp.",
+    tip: "Nêu rõ việc gì, ai làm và khi nào xong để kết quả chính xác nhất.",
+    youWrite: "Bạn viết",
+    elyntoCreates: "Elynto tạo",
+    fields: { assignee: "Người phụ trách", task: "Công việc", due: "Hạn" },
+    rows: [
       {
-        id: "report",
-        label: "Giao việc",
-        segments: [
-          "Giao ",
-          { field: "assignee", text: "Minh" },
-          " ",
-          { field: "task", text: "làm báo cáo" },
-          ", hoàn thành ",
-          { field: "due", text: "trước thứ sáu" },
-          ".",
-        ],
-        task: "Làm báo cáo",
-        assignee: minh,
-        due: "Thứ Sáu",
-      },
-      {
-        id: "campaign",
-        label: "Việc của nhóm",
         segments: [
           { field: "assignee", text: "Lan" },
           " ",
@@ -142,8 +119,20 @@ export const vi: Dictionary = {
         due: "Thứ Tư tuần sau",
       },
       {
-        id: "quote",
-        label: "Việc của bạn",
+        segments: [
+          "Giao ",
+          { field: "assignee", text: "Huy" },
+          " ",
+          { field: "task", text: "xác nhận địa điểm sự kiện" },
+          " ",
+          { field: "due", text: "trước thứ hai" },
+          ".",
+        ],
+        task: "Xác nhận địa điểm sự kiện",
+        assignee: huy,
+        due: "Thứ Hai",
+      },
+      {
         segments: [
           { field: "assignee", text: "Tôi" },
           " cần ",
@@ -157,13 +146,10 @@ export const vi: Dictionary = {
         due: "Ngày mai",
       },
     ],
-    existing: [
-      { title: "Duyệt bài đăng tuần này", assignee: lan, due: "Thứ Năm" },
-      { title: "Xác nhận địa điểm sự kiện", assignee: huy, due: "Thứ Hai" },
-    ],
+    savedNote: "Mọi công việc được lưu trong danh sách việc, không trôi mất trong tin nhắn.",
   },
   planning: {
-    eyebrow: "Lập kế hoạch dự án với AI",
+    name: "Lập kế hoạch dự án với AI.",
     title: "Từ một mục tiêu đến kế hoạch có thể bắt đầu.",
     body: "Nhập mục tiêu của bạn. AI phác thảo các giai đoạn và công việc cần làm. Bạn xem lại, thêm, bớt và điều chỉnh trước khi tạo dự án.",
     steps: [
@@ -184,9 +170,8 @@ export const vi: Dictionary = {
     mock: {
       goalLabel: "Mục tiêu",
       goal: "Lập kế hoạch ra mắt website trong 3 tuần",
-      draftTitle: "Bản nháp kế hoạch",
-      aiBadge: "AI đề xuất",
-      summary: "3 giai đoạn · 9 công việc",
+      draftTitle: "Bản nháp do AI đề xuất",
+      summary: "3 giai đoạn, 9 công việc",
       phaseLabel: "Giai đoạn",
       phases: [
         {
@@ -208,7 +193,7 @@ export const vi: Dictionary = {
     },
   },
   today: {
-    eyebrow: "Mỗi ngày",
+    name: "Hôm nay.",
     title: "Mở Elynto. Biết việc nào cần bạn.",
     body: "Việc quá hạn, đến hạn hôm nay và sắp đến hạn được gom về một chỗ, cùng những việc bạn đã đánh dấu quan trọng. Không cần lục lại tin nhắn hay tự tổng hợp danh sách.",
     points: [
@@ -218,7 +203,6 @@ export const vi: Dictionary = {
     ],
     mock: {
       title: "Hôm nay",
-      subtitle: "Việc của tôi",
       importantLabel: "Quan trọng",
       groups: [
         {
@@ -246,7 +230,7 @@ export const vi: Dictionary = {
     },
   },
   views: {
-    eyebrow: "Nhiều cách xem",
+    name: "Nhiều cách xem.",
     title: "Từ việc hôm nay đến tiến độ cả dự án.",
     body: "Cùng một công việc, nhiều cách xem. Danh sách để rà soát nhanh, Kanban để nắm trạng thái, lịch để xem theo ngày đến hạn.",
     projectBody:
@@ -299,32 +283,26 @@ export const vi: Dictionary = {
     },
   },
   audience: {
-    eyebrow: "Dành cho ai",
     title: "Phù hợp với cách bạn đang làm việc",
-    examplesLabel: "Ví dụ",
     items: [
       {
         title: "Làm việc độc lập",
-        who: "Freelancer, solopreneur",
-        body: "Giữ việc cá nhân và dự án của từng khách hàng trong cùng một nơi.",
-        examples: ["Gửi báo giá cho khách", "Bàn giao bản thiết kế"],
+        body: "Freelancer và solopreneur giữ việc cá nhân và dự án của từng khách hàng trong cùng một nơi.",
+        example: "Gửi báo giá dự án mới cho khách trước thứ năm.",
       },
       {
         title: "Nhóm nhỏ",
-        who: "Người quản lý nhóm",
-        body: "Ai cũng rõ mình phụ trách việc gì, hạn khi nào và đang đến đâu.",
-        examples: ["Chuẩn bị chiến dịch nội dung", "Làm báo cáo tuần"],
+        body: "Người quản lý nhóm và cả nhóm đều rõ ai phụ trách việc gì, hạn khi nào và đang đến đâu.",
+        example: "Giao Huy làm báo cáo tuần, hạn thứ hai.",
       },
       {
         title: "Chủ doanh nghiệp nhỏ",
-        who: "Điều hành nhiều đầu việc",
         body: "Nhìn nhanh tình trạng những việc đang triển khai mà không phải hỏi từng người.",
-        examples: ["Tổ chức sự kiện", "Ra mắt website mới"],
+        example: "Lập kế hoạch tổ chức sự kiện ra mắt trong 2 tuần.",
       },
     ],
   },
   faq: {
-    eyebrow: "Hỏi đáp",
     title: "Câu hỏi thường gặp",
     intro: "Những điều bạn có thể muốn biết trước khi bắt đầu.",
     items: [

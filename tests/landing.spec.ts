@@ -6,12 +6,14 @@ const VISION = "The interface between you and your work";
 
 const copy = {
   vi: {
-    eyebrow: "Elynto — Quản lý công việc bằng AI",
+    label: "Quản lý công việc bằng AI",
     cta: "Dùng thử miễn phí",
     demoCta: "Xem Elynto hoạt động",
     illustration: "Minh họa",
     pause: "Tạm dừng minh họa",
-    play: "Phát minh họa",
+    play: "Tiếp tục minh họa",
+    replay: "Xem lại từ đầu",
+    created: "Đã tạo công việc",
     faq: "Tôi có thể dùng Elynto một mình không?",
     faqAnswer: "Bạn có thể dùng Elynto để quản lý việc cá nhân",
     kanban: "Kanban",
@@ -19,12 +21,14 @@ const copy = {
     title: "Elynto — Quản lý công việc bằng AI",
   },
   en: {
-    eyebrow: "Elynto — AI-powered work management",
+    label: "AI-powered work management",
     cta: "Start free trial",
     demoCta: "See it in action",
     illustration: "Illustrative demo",
     pause: "Pause demo",
-    play: "Play demo",
+    play: "Resume demo",
+    replay: "Replay demo",
+    created: "Task created",
     faq: "Can I use Elynto on my own?",
     faqAnswer: "You can use Elynto to manage your own tasks",
     kanban: "Kanban",
@@ -77,7 +81,7 @@ for (const lang of ["vi", "en"] as const) {
       await expect(page.locator("html")).toHaveAttribute("lang", lang);
 
       const h1 = page.getByRole("heading", { level: 1 });
-      await expect(h1).toContainText(t.eyebrow);
+      await expect(h1).toContainText(t.label);
       await expect(h1).toContainText(VISION);
 
       const heroCta = page.locator('main a[data-track-location="hero"][data-track-cta="signup"]');
@@ -107,14 +111,21 @@ for (const lang of ["vi", "en"] as const) {
       expect(image.headers()["content-type"]).toBe("image/png");
     });
 
-    test("demo controls and 'see it in action' work", async ({ page }) => {
+    test("demo plays once, can be paused and replayed", async ({ page }) => {
       await page.goto(`/${lang}`);
       await page.getByRole("link", { name: t.demoCta }).click();
-      await expect(page.locator("#demo")).toBeInViewport();
+      const demo = page.locator("#demo");
+      await expect(demo).toBeInViewport();
 
-      const pause = page.getByRole("button", { name: t.pause });
-      await pause.click();
+      // Replayed by the link: pausable while running.
+      await page.getByRole("button", { name: t.pause }).click();
       await expect(page.getByRole("button", { name: t.play })).toBeVisible();
+      await page.getByRole("button", { name: t.play }).click();
+
+      // Rests on the finished task; only "replay" remains.
+      await expect(page.getByRole("button", { name: t.pause })).toBeHidden({ timeout: 8000 });
+      await expect(page.getByRole("button", { name: t.replay })).toBeVisible();
+      await expect(demo).toContainText(t.created);
     });
 
     test("FAQ expands", async ({ page }) => {
@@ -180,11 +191,16 @@ test("mobile menu opens and closes with Escape", async ({ page, isMobile }) => {
   await expect(page.getByRole("button", { name: "Mở menu" })).toBeFocused();
 });
 
-test("respects reduced motion: demo starts paused on the finished result", async ({ browser }) => {
+test("respects reduced motion: demo shows the finished task without playback controls", async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.goto("/vi");
-  await expect(page.getByRole("button", { name: "Phát minh họa" })).toBeVisible();
-  await expect(page.locator("#demo")).toContainText("Đã tạo công việc");
+  const demo = page.locator("#demo");
+  await expect(demo).toContainText("Đã tạo công việc");
+  await expect(demo.getByRole("button")).toHaveCount(0);
+  const animating = await demo.evaluate((el) =>
+    el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length,
+  );
+  expect(animating).toBe(0);
   await context.close();
 });

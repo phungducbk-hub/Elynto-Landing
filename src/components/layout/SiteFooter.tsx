@@ -25,25 +25,25 @@ export function SiteFooter({ lang, dict, vision, signupUrl, loginUrl }: Props) {
   ];
 
   return (
-    <footer className="border-t border-line bg-canvas">
-      <Container className="py-12 sm:py-14">
+    <footer className="bg-navy text-white">
+      <Container className="py-14 sm:py-16">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
-          <div className="max-w-sm">
-            <Logo className="h-8 w-auto text-brand" />
-            <p className="mt-4 text-[0.9375rem] font-medium text-ink" lang="en">
+          <div className="max-w-md">
+            <Logo className="h-8 w-auto text-white" />
+            <p className="mt-6 text-xl leading-snug font-semibold text-white stretch-wide" lang="en">
               {vision}
             </p>
-            <p className="mt-1 text-sm text-ink-subtle">{footer.tagline}</p>
+            <p className="mt-2 text-[0.9375rem] text-white/70">{footer.tagline}</p>
           </div>
 
           <nav aria-label={footer.navLabel}>
-            <ul className="grid grid-cols-2 gap-x-10 gap-y-1 sm:flex sm:flex-wrap sm:gap-x-6">
+            <ul className="grid grid-cols-2 gap-x-10 gap-y-1 sm:flex sm:flex-wrap sm:gap-x-7">
               {links.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
                     {...link.track}
-                    className="inline-flex min-h-10 items-center text-[0.9375rem] text-ink-muted transition-colors hover:text-ink"
+                    className="inline-flex min-h-10 items-center text-[0.9375rem] text-white/80 transition-colors hover:text-white"
                   >
                     {link.label}
                   </a>
@@ -53,11 +53,11 @@ export function SiteFooter({ lang, dict, vision, signupUrl, loginUrl }: Props) {
           </nav>
         </div>
 
-        <div className="mt-10 flex flex-col-reverse gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-ink-subtle">
+        <div className="mt-12 flex flex-col-reverse gap-4 border-t border-white/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-white/70">
             © {year} {footer.rights}
           </p>
-          <LanguageSwitch current={lang} label={footer.languageLabel} location="footer" />
+          <LanguageSwitch current={lang} label={footer.languageLabel} location="footer" tone="inverse" />
         </div>
       </Container>
     </footer>

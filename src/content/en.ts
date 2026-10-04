@@ -25,48 +25,55 @@ export const en: Dictionary = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     mainNav: "Main navigation",
-    home: "Elynto — back to top",
+    home: "Elynto, back to top",
     language: "Language",
   },
   hero: {
-    eyebrow: "Elynto — AI-powered work management",
+    label: "AI-powered work management",
     description:
-      "Just describe what needs to get done. Elynto helps you create and assign tasks, plan projects with AI, and track progress — all in one place.",
+      "Just describe what needs to get done. Elynto helps you create and assign tasks, plan projects with AI, and track progress, all in one place.",
     primaryCta: "Start free trial",
     secondaryCta: "See it in action",
   },
   demo: {
-    badge: "Illustrative demo",
+    label: "Illustrative demo",
     caption: "One sentence. A task with a clear owner and deadline.",
     regionLabel: "Illustrative demo: from one sentence to a task",
     srDescription:
-      "Illustrative demo, not a live session in the app. The user writes: “Assign Alex to prepare the report, due Friday.” Elynto creates the task “Prepare the report”, assigned to Alex, due Friday, status To do.",
-    placeholder: "What needs to get done?",
-    command: "Assign Alex to prepare the report, due Friday.",
-    send: "Send",
-    newTask: "New task",
-    processing: "Creating task…",
-    success: "Task created",
+      "Illustrative demo, not a live session in the app. The user writes: “Assign Alex to prepare the report, due Friday.” Elynto creates the task “Prepare the report”, owned by Alex, due Friday, status To do.",
+    sentence: [
+      "Assign ",
+      { field: "assignee", text: "Alex" },
+      " to ",
+      { field: "task", text: "prepare the report" },
+      ", ",
+      { field: "due", text: "due Friday" },
+      ".",
+    ],
     fields: {
-      task: "Task",
       assignee: "Owner",
+      task: "Task",
       due: "Due date",
       status: "Status",
     },
     result: {
-      task: "Prepare the report",
       assignee: alex,
+      task: "Prepare the report",
       due: "Friday",
       status: "To do",
     },
+    status: {
+      idle: "New task",
+      reading: "Reading your request…",
+      created: "Task created",
+    },
     controls: {
-      play: "Play demo",
       pause: "Pause demo",
-      replay: "Replay from the start",
+      play: "Resume demo",
+      replay: "Replay demo",
     },
   },
   benefits: {
-    eyebrow: "Benefits",
     title: "Focus on the work, not the tool",
     items: [
       {
@@ -84,51 +91,21 @@ export const en: Dictionary = {
     ],
   },
   howItWorks: {
-    eyebrow: "How it works",
     title: "From what you want done to work that’s clear",
     intro:
       "Elynto turns a plain description into structured tasks, helps you plan, and lets you follow everything in clear, visual views.",
   },
   illustration: "Illustration",
-  command: {
-    eyebrow: "Create and assign tasks",
+  sentences: {
+    name: "Create and assign tasks.",
     title: "Work starts with a single sentence.",
-    body: "Write it the way you’d normally hand off work. Elynto picks out the task, the owner and the deadline, then creates a task you can keep tracking and updating.",
-    points: [
-      "Tasks are saved — nothing gets lost in a chat thread.",
-      "You can always review and edit directly.",
-      "Works for your own to-dos and for work you hand to others.",
-    ],
-    tip: "Tip: say what needs doing, who’s doing it and when it’s due for the most accurate result.",
-    examplesLabel: "Pick an example",
-    legend: {
-      task: "Task",
-      assignee: "Owner",
-      due: "Due date",
-    },
-    resultLabel: "Task created",
-    savedLabel: "Saved to your task list",
-    newBadge: "New",
-    examples: [
+    body: "Write it the way you’d normally hand off work. Elynto picks out who’s doing it, what needs doing and when it’s due, then creates a task you can keep tracking and updating. You can always review and edit it directly.",
+    tip: "Say what needs doing, who’s doing it and when it’s due for the most accurate result.",
+    youWrite: "You write",
+    elyntoCreates: "Elynto creates",
+    fields: { assignee: "Owner", task: "Task", due: "Due" },
+    rows: [
       {
-        id: "report",
-        label: "Assign a task",
-        segments: [
-          "Assign ",
-          { field: "assignee", text: "Alex" },
-          " to ",
-          { field: "task", text: "prepare the report" },
-          ", ",
-          { field: "due", text: "due Friday" },
-          ".",
-        ],
-        task: "Prepare the report",
-        assignee: alex,
-        due: "Friday",
-      },
-      {
-        id: "campaign",
-        label: "Team task",
         segments: [
           { field: "assignee", text: "Sam" },
           " to ",
@@ -142,8 +119,20 @@ export const en: Dictionary = {
         due: "Next Wednesday",
       },
       {
-        id: "quote",
-        label: "Your own task",
+        segments: [
+          "Assign ",
+          { field: "assignee", text: "Jordan" },
+          " to ",
+          { field: "task", text: "confirm the event venue" },
+          " ",
+          { field: "due", text: "before Monday" },
+          ".",
+        ],
+        task: "Confirm the event venue",
+        assignee: jordan,
+        due: "Monday",
+      },
+      {
         segments: [
           { field: "assignee", text: "I" },
           " need to ",
@@ -157,13 +146,10 @@ export const en: Dictionary = {
         due: "Tomorrow",
       },
     ],
-    existing: [
-      { title: "Review this week’s posts", assignee: sam, due: "Thursday" },
-      { title: "Confirm the event venue", assignee: jordan, due: "Monday" },
-    ],
+    savedNote: "Every task is saved to your task list, not lost in a chat thread.",
   },
   planning: {
-    eyebrow: "Plan projects with AI",
+    name: "Plan projects with AI.",
     title: "From a goal to a plan you can start on.",
     body: "Type in your goal. AI sketches out the phases and the tasks in each one. You review, add, remove and adjust before creating the project.",
     steps: [
@@ -184,9 +170,8 @@ export const en: Dictionary = {
     mock: {
       goalLabel: "Goal",
       goal: "Plan a website launch in 3 weeks",
-      draftTitle: "Draft plan",
-      aiBadge: "Suggested by AI",
-      summary: "3 phases · 9 tasks",
+      draftTitle: "Draft suggested by AI",
+      summary: "3 phases, 9 tasks",
       phaseLabel: "Phase",
       phases: [
         {
@@ -208,9 +193,9 @@ export const en: Dictionary = {
     },
   },
   today: {
-    eyebrow: "Every day",
+    name: "Today.",
     title: "Open Elynto. See what needs you.",
-    body: "Overdue, due today and coming up — gathered in one place, along with the tasks you’ve marked important. No digging through messages or piecing lists together.",
+    body: "Overdue, due today and coming up, gathered in one place along with the tasks you’ve marked important. No digging through messages or piecing lists together.",
     points: [
       "Spot what’s running late at a glance.",
       "Know what needs finishing today.",
@@ -218,7 +203,6 @@ export const en: Dictionary = {
     ],
     mock: {
       title: "Today",
-      subtitle: "My work",
       importantLabel: "Important",
       groups: [
         {
@@ -246,7 +230,7 @@ export const en: Dictionary = {
     },
   },
   views: {
-    eyebrow: "Many views",
+    name: "Many views.",
     title: "From today’s tasks to the whole project.",
     body: "The same work, seen the way you need it. A list for a quick review, Kanban to follow status, and a calendar to see what’s due when.",
     projectBody:
@@ -299,32 +283,26 @@ export const en: Dictionary = {
     },
   },
   audience: {
-    eyebrow: "Who it’s for",
     title: "Fits the way you already work",
-    examplesLabel: "For example",
     items: [
       {
         title: "Working on your own",
-        who: "Freelancers and solopreneurs",
-        body: "Keep personal to-dos and every client project in one place.",
-        examples: ["Send a quote to a client", "Hand over a design"],
+        body: "Freelancers and solopreneurs keep personal to-dos and every client project in one place.",
+        example: "Send the new project quote to the client by Thursday.",
       },
       {
         title: "Small teams",
-        who: "Team leads",
-        body: "Everyone knows what they own, when it’s due and how it’s going.",
-        examples: ["Prepare a content campaign", "Write the weekly report"],
+        body: "Team leads and their teams know who owns what, when it’s due and how it’s going.",
+        example: "Assign Jordan the weekly report, due Monday.",
       },
       {
         title: "Small business owners",
-        who: "Running many things at once",
         body: "See where ongoing work stands without chasing each person for an update.",
-        examples: ["Organise an event", "Launch a new website"],
+        example: "Plan our launch event in 2 weeks.",
       },
     ],
   },
   faq: {
-    eyebrow: "FAQ",
     title: "Frequently asked questions",
     intro: "A few things you might want to know before you start.",
     items: [

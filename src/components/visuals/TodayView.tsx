@@ -1,55 +1,47 @@
 import { CalendarDays, Flag } from "lucide-react";
-import { IllustrationFrame } from "@/components/ui/IllustrationFrame";
+import { ProductSurface } from "@/components/ui/ProductSurface";
 import type { Dictionary } from "@/content/types";
 import { cn } from "@/lib/cn";
 
-type Props = { copy: Dictionary["today"]["mock"]; badge: string };
+type Props = { copy: Dictionary["today"]["mock"]; label: string };
 
 const tones = {
-  overdue: { label: "text-status-overdue", chip: "bg-status-overdue-soft text-status-overdue", bar: "bg-status-overdue" },
-  today: { label: "text-ink", chip: "bg-field-due-soft text-field-due", bar: "bg-field-due" },
-  upcoming: { label: "text-ink", chip: "bg-sunken text-ink-muted", bar: "bg-line-strong" },
+  overdue: { label: "text-late", due: "text-late" },
+  today: { label: "text-ink", due: "text-ink" },
+  upcoming: { label: "text-ink", due: "text-muted" },
 } as const;
 
-/** Illustration of the Today / My Work view grouping tasks by due date. */
-export function TodayView({ copy, badge }: Props) {
+/** Illustration of the Today view: tasks grouped by when they're due. */
+export function TodayView({ copy, label }: Props) {
   return (
-    <IllustrationFrame
-      badge={badge}
-      title={
-        <span className="flex items-baseline gap-2">
-          <span className="text-ink">{copy.title}</span>
-          <span className="font-normal text-ink-subtle">· {copy.subtitle}</span>
-        </span>
-      }
-    >
-      <div className="space-y-5">
+    <ProductSurface label={label}>
+      <p className="border-b border-rule px-5 py-4 text-xl font-semibold text-ink stretch-wide sm:px-6">{copy.title}</p>
+      <div className="divide-y divide-rule">
         {copy.groups.map((group) => {
           const tone = tones[group.tone];
           return (
-            <section key={group.label} aria-label={group.label}>
-              <h4 className={cn("flex items-center gap-2 text-sm font-semibold", tone.label)}>
-                <span aria-hidden="true" className={cn("h-3.5 w-1 rounded-full", tone.bar)} />
+            <section key={group.label} aria-label={group.label} className="px-5 pt-4 pb-2 sm:px-6">
+              <h4 className={cn("flex items-baseline gap-2 text-sm font-semibold", tone.label)}>
                 {group.label}
-                <span className="rounded-full bg-sunken px-1.5 text-xs font-medium text-ink-subtle">{group.items.length}</span>
+                <span className="font-normal text-muted">{group.items.length}</span>
               </h4>
-              <ul className="mt-2 divide-y divide-line rounded-xl border border-line bg-surface">
+              <ul className="mt-1">
                 {group.items.map((item) => (
-                  <li key={item.title} className="flex items-start gap-3 px-3.5 py-3">
-                    <span aria-hidden="true" className="mt-0.5 size-4 shrink-0 rounded-full border-2 border-line-strong" />
+                  <li key={item.title} className="flex items-start gap-3 py-2.5">
+                    <span aria-hidden="true" className="mt-1 size-4 shrink-0 rounded-full border-[1.5px] border-rule-strong" />
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm leading-snug font-medium text-ink">{item.title}</p>
-                      <p className="mt-0.5 text-xs text-ink-subtle">{item.project}</p>
+                      <p className="text-[0.9375rem] leading-snug font-medium text-ink">{item.title}</p>
+                      <p className="mt-0.5 text-sm text-muted">{item.project}</p>
                     </div>
-                    <div className="flex shrink-0 flex-col items-end gap-1.5 sm:flex-row sm:items-center">
+                    <div className="flex shrink-0 items-center gap-3 pt-0.5 text-sm">
                       {item.important ? (
-                        <span className="inline-flex items-center gap-1 text-xs font-medium text-status-overdue">
+                        <span className="inline-flex items-center gap-1 text-late" title={copy.importantLabel}>
                           <Flag className="size-3.5" aria-hidden="true" />
                           <span className="sr-only sm:not-sr-only">{copy.importantLabel}</span>
                         </span>
                       ) : null}
-                      <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap", tone.chip)}>
-                        <CalendarDays className="size-3" aria-hidden="true" />
+                      <span className={cn("inline-flex items-center gap-1 font-medium whitespace-nowrap", tone.due)}>
+                        <CalendarDays className="size-3.5" aria-hidden="true" />
                         {item.due}
                       </span>
                     </div>
@@ -60,6 +52,6 @@ export function TodayView({ copy, badge }: Props) {
           );
         })}
       </div>
-    </IllustrationFrame>
+    </ProductSurface>
   );
 }

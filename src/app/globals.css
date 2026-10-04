@@ -1,89 +1,114 @@
 @import "tailwindcss";
 
 /*
- * Design tokens — PROVISIONAL.
- * `brand` is sampled from the supplied logo files (#142D47). Everything else is a
- * working palette for this landing page, not an official Elynto brand guide.
- * Change values here; components only use the token names.
+ * Design tokens — PROVISIONAL (see HANDOFF.md).
+ *
+ * Navy is sampled from the supplied logo (#142D47). Everything else is a working
+ * palette for this page, not an official brand guide.
+ *
+ * One accent only: marker yellow. It is reserved for the parts of a sentence that
+ * Elynto turns into task fields — never for decoration or headline emphasis.
  */
 @theme {
-  /* Brand navy */
-  --color-brand: #142d47;
-  --color-brand-hover: #0d2035;
-  --color-brand-700: #1f3d5e;
-  --color-brand-600: #2c5281;
-  --color-brand-200: #c9d6e5;
-  --color-brand-100: #e4ebf3;
-  --color-brand-50: #f1f5f9;
+  --color-navy: #142d47;
+  --color-navy-hover: #0b1e31;
+  --color-navy-tint: #e4eaf1;
 
-  /* Text */
-  --color-ink: #101c2b;
-  --color-ink-muted: #475467;
-  --color-ink-subtle: #5f6b7c;
+  --color-ink: #142d47;
+  --color-body: #34465a;
+  --color-muted: #5b6b7d;
 
-  /* Surfaces (warm white) */
-  --color-canvas: #fcfbf8;
-  --color-surface: #ffffff;
-  --color-sunken: #f5f3ee;
-  --color-line: #e7e3db;
-  --color-line-strong: #d5d0c5;
+  --color-paper: #ffffff;
+  --color-fog: #f0f3f7;
+  --color-rule: #d9e0e8;
+  --color-rule-strong: #b8c4d1;
 
-  /* Task-field accents (used in illustrations and legends) */
-  --color-field-task: #2c5281;
-  --color-field-task-soft: #e6edf6;
-  --color-field-assignee: #0e6f66;
-  --color-field-assignee-soft: #e0f1ee;
-  --color-field-due: #a14a06;
-  --color-field-due-soft: #fcefdc;
+  --color-marker: #ffdf4f;
+  --color-marker-soft: #fff3bf;
 
-  /* Status */
-  --color-status-done: #157a3c;
-  --color-status-done-soft: #e5f4ea;
-  --color-status-progress: #2c5281;
-  --color-status-progress-soft: #e6edf6;
-  --color-status-todo: #5f6b7c;
-  --color-status-todo-soft: #eff0f2;
-  --color-status-overdue: #b42318;
-  --color-status-overdue-soft: #fdecea;
+  --color-done: #1f7a4d;
+  --color-done-soft: #e3f3ea;
+  --color-late: #b3361f;
+  --color-late-soft: #fbe9e5;
+  --color-progress: #2c5281;
+  --color-progress-soft: #e3ebf5;
 
-  /* Elevation — restrained */
-  --shadow-card: 0 1px 2px rgb(16 28 43 / 0.04), 0 6px 20px -10px rgb(16 28 43 / 0.12);
-  --shadow-float: 0 1px 2px rgb(16 28 43 / 0.05), 0 24px 48px -24px rgb(16 28 43 / 0.24);
+  /* Product surfaces are the only elevated objects on the page. */
+  --shadow-surface: 0 1px 0 rgb(20 45 71 / 0.04), 0 22px 44px -28px rgb(20 45 71 / 0.32);
 
-  /* Motion */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
-
-  --animate-caret: caret 1s steps(1) infinite;
-  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
-
-  @keyframes caret {
-    0%,
-    50% {
-      opacity: 1;
-    }
-    50.01%,
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @keyframes shimmer {
-    0% {
-      opacity: 0.55;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0.55;
-    }
-  }
 }
 
 @theme inline {
   --font-sans:
-    var(--font-be-vietnam), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    var(--font-mona), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
+}
+
+/*
+ * Type scale (16px base, steps from the classic 16 · 18 · 21 · 24 · 30 · 36 · 48 · 60 · 72 scale).
+ * Headings use the wide cut of Mona Sans; body text stays at normal width.
+ * Vietnamese headings keep line-height ≥ 1.12 so stacked diacritics never collide.
+ */
+@utility type-display {
+  font-size: clamp(2.5rem, 1.35rem + 4.9vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.024em;
+  font-weight: 720;
+  font-stretch: 116%;
+}
+
+@utility type-h2 {
+  font-size: clamp(1.875rem, 1.35rem + 2.2vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -0.014em;
+  font-weight: 680;
+  font-stretch: 112%;
+}
+
+@utility type-h3 {
+  font-size: clamp(1.5rem, 1.3rem + 0.85vw, 1.875rem);
+  line-height: 1.18;
+  letter-spacing: -0.006em;
+  font-weight: 660;
+  font-stretch: 108%;
+}
+
+@utility type-lead {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  @media (width >= 40rem) {
+    font-size: 1.3125rem;
+    line-height: 1.55;
+  }
+}
+
+@utility stretch-wide {
+  font-stretch: 112%;
+}
+
+@layer components {
+  /*
+   * Highlighter mark. A 100° gradient gives each line fragment slanted ends,
+   * like the sheared facets of the logo; box-decoration-break keeps them on wrap.
+   */
+  .marker {
+    color: var(--color-navy);
+    background-color: transparent;
+    background-image: linear-gradient(
+      100deg,
+      transparent 0.12em,
+      var(--color-marker) 0.12em calc(100% - 0.12em),
+      transparent calc(100% - 0.12em)
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 0.92em;
+    background-position: 0 72%;
+    padding-inline: 0.13em;
+    margin-inline: -0.1em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
 }
 
 @layer base {
@@ -94,29 +119,36 @@
   }
 
   body {
-    background-color: var(--color-canvas);
-    color: var(--color-ink);
+    background-color: var(--color-paper);
+    color: var(--color-body);
     font-family: var(--font-sans);
-    /* Be Vietnam Pro ships a narrow word space; Vietnamese is space-heavy, so open it slightly. */
-    word-spacing: 0.04em;
+    font-size: 1rem;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink);
+  }
+
   /* Anchored sections clear the sticky header. */
   [id] {
-    scroll-margin-top: 5.5rem;
+    scroll-margin-top: 5rem;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brand-600);
+    outline: 2px solid var(--color-navy);
     outline-offset: 3px;
   }
 
   ::selection {
-    background-color: var(--color-brand-100);
-    color: var(--color-ink);
+    background-color: var(--color-marker);
+    color: var(--color-navy);
   }
 }
 
@@ -131,6 +163,7 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }

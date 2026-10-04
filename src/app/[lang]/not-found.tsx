@@ -25,10 +25,10 @@ export default function NotFound() {
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-xl flex-col items-start justify-center px-4 py-16 sm:px-6">
-      <Logo className="h-8 w-auto text-brand" />
-      <p className="mt-10 text-sm font-semibold text-brand-600">404</p>
-      <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">{text.title}</h1>
-      <p className="mt-3 text-lg leading-relaxed text-ink-muted">{text.body}</p>
+      <Logo className="h-8 w-auto text-navy" />
+      <p className="mt-10 text-sm font-semibold text-muted">404</p>
+      <h1 className="mt-2 type-h2">{text.title}</h1>
+      <p className="mt-3 type-lead">{text.body}</p>
       <ButtonLink href={`/${lang}`} className="mt-8">
         {text.back}
       </ButtonLink>

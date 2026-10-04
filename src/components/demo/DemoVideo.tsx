@@ -82,7 +82,7 @@ export function DemoVideo({ video, copy, className }: Props) {
 
   return (
     <figure ref={figureRef} id="demo" tabIndex={-1} aria-label={copy.regionLabel} className={cn("outline-none", className)}>
-      <div className="relative overflow-hidden rounded-2xl border border-line bg-surface shadow-float">
+      <div className="relative overflow-hidden rounded-2xl border border-rule bg-paper shadow-surface">
         <video
           ref={videoRef}
           className="block h-auto w-full"
@@ -101,12 +101,12 @@ export function DemoVideo({ video, copy, className }: Props) {
         </video>
       </div>
       <div className="mt-4 flex items-center justify-between gap-4">
-        <figcaption className="text-[0.9375rem] leading-snug font-semibold text-ink">{copy.caption}</figcaption>
+        <figcaption className="text-base font-semibold text-ink stretch-wide">{copy.caption}</figcaption>
         <div className="flex shrink-0 items-center gap-1">
           <button
             type="button"
             onClick={toggle}
-            className="inline-grid size-10 place-items-center rounded-lg text-ink-muted ring-1 ring-line transition-colors ring-inset hover:bg-sunken hover:text-ink"
+            className="inline-grid size-10 place-items-center rounded-full text-navy transition-colors hover:bg-fog"
           >
             <span className="sr-only">{playing ? copy.controls.pause : copy.controls.play}</span>
             {playing ? <Pause className="size-4" aria-hidden="true" /> : <Play className="size-4" aria-hidden="true" />}
@@ -114,7 +114,7 @@ export function DemoVideo({ video, copy, className }: Props) {
           <button
             type="button"
             onClick={replay}
-            className="inline-grid size-10 place-items-center rounded-lg text-ink-muted ring-1 ring-line transition-colors ring-inset hover:bg-sunken hover:text-ink"
+            className="inline-grid size-10 place-items-center rounded-full text-navy transition-colors hover:bg-fog"
           >
             <span className="sr-only">{copy.controls.replay}</span>
             <RotateCcw className="size-4" aria-hidden="true" />

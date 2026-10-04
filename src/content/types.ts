@@ -1,9 +1,9 @@
 import type { Locale } from "@/lib/i18n";
 
 /** Parts of a natural-language request that become task fields. */
-export type FieldKey = "task" | "assignee" | "due";
+export type FieldKey = "assignee" | "task" | "due";
 
-/** A sentence split into plain text and highlighted spans. */
+/** A sentence split into plain text and the spans Elynto turns into fields. */
 export type Segment = string | { field: FieldKey; text: string };
 
 export type Person = {
@@ -49,60 +49,45 @@ export type Dictionary = {
     language: string;
   };
   hero: {
-    eyebrow: string;
+    /** Plain statement of what Elynto is, shown with the vision line. */
+    label: string;
     description: string;
     primaryCta: string;
     secondaryCta: string;
   };
   demo: {
-    badge: string;
+    label: string;
     caption: string;
     regionLabel: string;
     srDescription: string;
-    placeholder: string;
-    command: string;
-    send: string;
-    newTask: string;
-    processing: string;
-    success: string;
-    fields: { task: string; assignee: string; due: string; status: string };
-    result: { task: string; assignee: Person; due: string; status: string };
-    controls: { play: string; pause: string; replay: string };
+    sentence: Segment[];
+    fields: { assignee: string; task: string; due: string; status: string };
+    result: { assignee: Person; task: string; due: string; status: string };
+    status: { idle: string; reading: string; created: string };
+    controls: { pause: string; play: string; replay: string };
   };
   benefits: {
-    eyebrow: string;
     title: string;
     items: { title: string; body: string }[];
   };
   howItWorks: {
-    eyebrow: string;
     title: string;
     intro: string;
   };
   illustration: string;
-  command: {
-    eyebrow: string;
+  sentences: {
+    name: string;
     title: string;
     body: string;
-    points: string[];
     tip: string;
-    examplesLabel: string;
-    legend: Record<FieldKey, string>;
-    resultLabel: string;
-    savedLabel: string;
-    newBadge: string;
-    examples: {
-      id: string;
-      label: string;
-      segments: Segment[];
-      task: string;
-      assignee: Person;
-      due: string;
-    }[];
-    existing: { title: string; assignee: Person; due: string }[];
+    youWrite: string;
+    elyntoCreates: string;
+    fields: { assignee: string; task: string; due: string };
+    rows: { segments: Segment[]; task: string; assignee: Person; due: string }[];
+    savedNote: string;
   };
   planning: {
-    eyebrow: string;
+    name: string;
     title: string;
     body: string;
     steps: { title: string; body: string }[];
@@ -111,7 +96,6 @@ export type Dictionary = {
       goalLabel: string;
       goal: string;
       draftTitle: string;
-      aiBadge: string;
       summary: string;
       phaseLabel: string;
       phases: { name: string; tasks: string[] }[];
@@ -121,13 +105,12 @@ export type Dictionary = {
     };
   };
   today: {
-    eyebrow: string;
+    name: string;
     title: string;
     body: string;
     points: string[];
     mock: {
       title: string;
-      subtitle: string;
       importantLabel: string;
       groups: {
         tone: "overdue" | "today" | "upcoming";
@@ -137,7 +120,7 @@ export type Dictionary = {
     };
   };
   views: {
-    eyebrow: string;
+    name: string;
     title: string;
     body: string;
     projectBody: string;
@@ -162,13 +145,10 @@ export type Dictionary = {
     };
   };
   audience: {
-    eyebrow: string;
     title: string;
-    examplesLabel: string;
-    items: { title: string; who: string; body: string; examples: string[] }[];
+    items: { title: string; body: string; example: string }[];
   };
   faq: {
-    eyebrow: string;
     title: string;
     intro: string;
     items: { id: string; q: string; a: string }[];

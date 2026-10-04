@@ -17,41 +17,54 @@ type Props = {
   current: Locale;
   label: string;
   location: string;
+  /** "inverse" for use on the navy footer. */
+  tone?: "default" | "inverse";
   className?: string;
 };
 
-export function LanguageSwitch({ current, label, location, className }: Props) {
+export function LanguageSwitch({ current, label, location, tone = "default", className }: Props) {
+  const inverse = tone === "inverse";
   return (
-    <div role="group" aria-label={label} className={cn("inline-flex rounded-lg bg-sunken p-0.5 ring-1 ring-line ring-inset", className)}>
-      {locales.map((locale) => {
+    <div role="group" aria-label={label} className={cn("flex items-center", className)}>
+      {locales.map((locale, index) => {
         const active = locale === current;
         return (
-          <a
-            key={locale}
-            href={`/${locale}`}
-            lang={locale}
-            hrefLang={locale}
-            aria-current={active ? "true" : undefined}
-            title={localeNames[locale]}
-            onClick={(event) => {
-              rememberLocale(locale);
-              if (active) {
-                event.preventDefault();
-                return;
-              }
-              track("language_switch", { from: current, to: locale, location });
-              // Plain link navigation (full page load) so <html lang> and metadata switch too.
-              // Keep the visitor on the same section.
-              event.currentTarget.href = `/${locale}${window.location.hash}`;
-            }}
-            className={cn(
-              "inline-flex h-8 min-w-10 items-center justify-center rounded-md px-2 text-xs font-semibold tracking-wide transition-colors",
-              active ? "bg-surface text-ink shadow-sm ring-1 ring-line" : "text-ink-subtle hover:text-ink",
-            )}
-          >
-            <span aria-hidden="true">{locale.toUpperCase()}</span>
-            <span className="sr-only">{localeNames[locale]}</span>
-          </a>
+          <span key={locale} className="flex items-center">
+            {index > 0 ? (
+              <span aria-hidden="true" className={cn("h-4 w-px", inverse ? "bg-white/30" : "bg-rule-strong")} />
+            ) : null}
+            <a
+              href={`/${locale}`}
+              lang={locale}
+              hrefLang={locale}
+              aria-current={active ? "true" : undefined}
+              title={localeNames[locale]}
+              onClick={(event) => {
+                rememberLocale(locale);
+                if (active) {
+                  event.preventDefault();
+                  return;
+                }
+                track("language_switch", { from: current, to: locale, location });
+                // Plain link navigation (full page load) so <html lang> and metadata switch too.
+                // Keep the visitor on the same section.
+                event.currentTarget.href = `/${locale}${window.location.hash}`;
+              }}
+              className={cn(
+                "inline-flex h-10 min-w-10 items-center justify-center px-2 text-sm font-semibold transition-colors",
+                inverse
+                  ? active
+                    ? "text-white underline decoration-2 underline-offset-[6px]"
+                    : "text-white/70 hover:text-white"
+                  : active
+                    ? "text-navy underline decoration-2 underline-offset-[6px]"
+                    : "text-muted hover:text-navy",
+              )}
+            >
+              <span aria-hidden="true">{locale.toUpperCase()}</span>
+              <span className="sr-only">{localeNames[locale]}</span>
+            </a>
+          </span>
         );
       })}
     </div>

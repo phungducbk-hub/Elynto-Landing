@@ -7,9 +7,11 @@ export function Faq({ dict }: { dict: Dictionary }) {
   const { faq } = dict;
   return (
     <section id="faq" aria-labelledby="faq-title">
-      <Container className="grid gap-10 py-20 sm:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
-        <SectionHeading id="faq-title" eyebrow={faq.eyebrow} title={faq.title} intro={faq.intro} />
-        <FaqList items={faq.items} />
+      <Container className="grid gap-10 py-20 sm:py-28 lg:grid-cols-12 lg:gap-12">
+        <SectionHeading id="faq-title" title={faq.title} intro={faq.intro} className="lg:col-span-4" />
+        <div className="lg:col-span-8">
+          <FaqList items={faq.items} />
+        </div>
       </Container>
     </section>
   );
