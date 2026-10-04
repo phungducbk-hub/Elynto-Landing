@@ -10,6 +10,7 @@ import { TodayView } from "@/components/visuals/TodayView";
 import { productMedia } from "@/config/media";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
+import { reveal } from "@/lib/reveal";
 import { FeatureRow } from "./FeatureRow";
 
 export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
@@ -64,19 +65,28 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         <Container className="py-20 sm:py-24">
           <article id="feature-planning" aria-labelledby="feature-planning-title">
             <div className="mx-auto max-w-2xl text-center">
-              <p className="text-sm font-semibold tracking-wide text-brand-600">{planning.eyebrow}</p>
+              <p {...reveal()} className="text-sm font-semibold tracking-wide text-brand-600">
+                {planning.eyebrow}
+              </p>
               <h3
+                {...reveal("up", 70)}
                 id="feature-planning-title"
                 className="mt-3 text-[1.75rem] leading-[1.2] font-bold tracking-tight text-ink text-balance sm:text-[2.25rem]"
               >
                 {planning.title}
               </h3>
-              <p className="mt-4 text-lg leading-relaxed text-ink-muted text-pretty">{planning.body}</p>
+              <p {...reveal("up", 140)} className="mt-4 text-lg leading-relaxed text-ink-muted text-pretty">
+                {planning.body}
+              </p>
             </div>
 
             <ol className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3 sm:gap-6">
               {planning.steps.map((step, index) => (
-                <li key={step.title} className="flex gap-3 sm:flex-col sm:items-center sm:text-center">
+                <li
+                  key={step.title}
+                  {...reveal("up", 120 + index * 110)}
+                  className="flex gap-3 sm:flex-col sm:items-center sm:text-center"
+                >
                   <span className="inline-grid size-8 shrink-0 place-items-center rounded-full bg-brand text-sm font-bold text-white">
                     {index + 1}
                   </span>
@@ -88,11 +98,11 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               ))}
             </ol>
 
-            <div className="mx-auto mt-12 max-w-5xl">
+            <div {...reveal("scale", 100)} className="mx-auto mt-12 max-w-5xl">
               {planningShot ? <ProductShot image={planningShot} /> : <PlanDraft copy={planning.mock} badge={illustration} />}
             </div>
 
-            <p className="mx-auto mt-6 flex max-w-2xl items-start justify-center gap-2 text-center text-sm leading-relaxed text-ink-muted">
+            <p {...reveal()} className="mx-auto mt-6 flex max-w-2xl items-start justify-center gap-2 text-center text-sm leading-relaxed text-ink-muted">
               <Info className="mt-0.5 size-4 shrink-0 text-brand-600" aria-hidden="true" />
               {planning.note}
             </p>
@@ -115,15 +125,18 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         <article id="feature-views" aria-labelledby="feature-views-title" className="mt-24 sm:mt-32">
           <div className="grid gap-4 lg:grid-cols-2 lg:gap-16">
             <div className="max-w-xl">
-              <p className="text-sm font-semibold tracking-wide text-brand-600">{views.eyebrow}</p>
+              <p {...reveal()} className="text-sm font-semibold tracking-wide text-brand-600">
+                {views.eyebrow}
+              </p>
               <h3
+                {...reveal("up", 70)}
                 id="feature-views-title"
                 className="mt-3 text-[1.75rem] leading-[1.2] font-bold tracking-tight text-ink text-balance sm:text-[2rem]"
               >
                 {views.title}
               </h3>
             </div>
-            <div className="max-w-xl self-end">
+            <div {...reveal("up", 140)} className="max-w-xl self-end">
               <p className="text-lg leading-relaxed text-ink-muted text-pretty">{views.body}</p>
               <ul className="mt-5 space-y-2.5">
                 {views.points.map((point) => (
@@ -137,7 +150,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               </ul>
             </div>
           </div>
-          <div className="mt-10">
+          <div {...reveal("scale", 100)} className="mt-10">
             {projectShot ? (
               <ProductShot image={projectShot} />
             ) : (

@@ -2,7 +2,7 @@
 
 Landing page song ngữ (Tiếng Việt / English) cho **Elynto — AI Work OS**, dự kiến chạy tại `elynto.io`.
 
-- Next.js 16 (App Router) · TypeScript · Tailwind CSS 4
+- Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · framer-motion (chỉ cho khối tình huống)
 - Trang tĩnh (SSG) cho `/vi` và `/en`; `proxy.ts` chọn ngôn ngữ khi vào `/`
 - Không có backend, không kết nối dịch vụ tracking bên ngoài
 - Skill `frontend-design` được cài sẵn tại `.claude/skills/frontend-design/` cho các lần chỉnh giao diện sau
@@ -53,13 +53,14 @@ src/
   config/site.ts              URL trang, URL đăng ký/đăng nhập, quy tắc index
   config/media.ts             chỗ khai báo video/ảnh sản phẩm thật
   lib/analytics.ts            hàm track() + danh sách sự kiện
+  lib/reveal.ts               hiệu ứng trượt khi cuộn: reveal() + script khởi động
   components/
-    sections/                 Hero, Benefits, HowItWorks, Audience, Faq, FinalCta
+    sections/                 Hero, Benefits, HowItWorks, Audience, Voices, Faq, FinalCta
     demo/                     CommandDemo (minh họa HTML), DemoVideo (video thật)
     visuals/                  minh họa sản phẩm: SentenceToTask, PlanDraft, TodayView,
                               DelegatedView và ProjectWorkspace (dựng lại từ giao diện beta)
-    layout/                   SiteHeader, SiteFooter, LanguageSwitch, AnalyticsListener
-    ui/, brand/               nút, khung minh họa, avatar, logo
+    layout/                   SiteHeader, SiteFooter, LanguageSwitch, AnalyticsListener, RevealObserver
+    ui/, brand/               nút, khung minh họa, avatar, logo, Testimonials (tường thẻ trượt)
 public/brand/                 logo gốc được cung cấp (.webp) + bản SVG dựng lại
 assets/fonts/                 font dùng để vẽ ảnh Open Graph (SIL OFL)
 ```
@@ -95,6 +96,14 @@ planning: {
 
 Khi đã khai báo, trang tự dùng asset thật thay cho minh họa HTML. Video luôn tắt tiếng, có poster và nút phát/dừng, chỉ tải khi gần tới vùng nhìn thấy và tự dừng khi ra khỏi màn hình. Chỉ dùng dữ liệu mẫu, không quay dữ liệu khách hàng thật.
 
+**Hiệu ứng trượt** — có hai lớp:
+
+- Phần mở đầu: chữ hiện dần từng dòng, sau đó khung demo trượt vào từ bên phải. Hiệu ứng chạy bằng CSS (`animate-rise`, `animate-enter-right`), độ trễ đặt bằng `[--enter-delay:80ms]`.
+- Các phần còn lại: thêm `{...reveal("up" | "scale" | "from-left" | "from-right", delayMs)}` vào phần tử. Khi phần tử cuộn vào màn hình, `RevealObserver` gắn `data-revealed` và nó trượt vào một lần. `from-left`/`from-right` chỉ trượt ngang từ màn hình rộng ≥ 1024px; màn hình nhỏ trượt lên.
+- Script trong `<head>` chỉ ẩn phần tử trước khi hiện khi trình duyệt cho phép chuyển động. Người tắt chuyển động, không có JavaScript, hoặc in trang đều thấy đủ nội dung ngay. Nếu ứng dụng chưa chạy sau 4 giây, nội dung tự hiện.
+
+**Khối “Nghe có quen không?”** (`sections/Voices.tsx`) dùng component testimonial (`ui/Testimonials.tsx`, chỉnh từ `testimonial-v2` của 21st.dev). Hiện khối chứa các tình huống tổng hợp từ nghiên cứu khách hàng, ghi theo vai trò, không gắn tên hay ảnh người thật. Khi có lời nhận xét thật, đã được khách đồng ý cho đăng, có thể thay nội dung trong `voices.items`, đổi nhãn tiêu đề và bỏ dòng ghi chú. Không dùng tên, ảnh hoặc lời nhận xét dựng sẵn.
+
 ## Đo lường (analytics)
 
 Chưa kết nối dịch vụ nào. Mọi sự kiện được:
@@ -112,6 +121,7 @@ Chưa kết nối dịch vụ nào. Mọi sự kiện được:
 | `example_select` | Chọn ví dụ ở phần “Tạo và giao việc” | `example` |
 | `view_tab_select` | Đổi tab cách xem của dự án (Danh sách, Lịch, Gantt) | `view` |
 | `faq_toggle` | Mở/đóng câu hỏi | `question`, `open` |
+| `testimonials_motion_toggle` | Dừng/chạy lại tường tình huống | `paused` |
 | `mobile_menu_toggle` | Mở/đóng menu mobile | `open` |
 
 Mọi sự kiện đều có thêm `page_language`. Để theo dõi thêm một phần tử mới, thêm thuộc tính `data-track="cta_click" data-track-location="..."`.

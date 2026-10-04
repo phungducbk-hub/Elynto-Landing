@@ -400,6 +400,71 @@ export const vi: Dictionary = {
       },
     ],
   },
+  voices: {
+    eyebrow: "Nghe có quen không?",
+    title: "Những lúc công việc bắt đầu rối",
+    intro:
+      "Giao việc qua tin nhắn, theo dõi bằng trí nhớ, hỏi tiến độ từng người. Elynto được làm cho đúng những khoảnh khắc này.",
+    note: "Tình huống tiêu biểu tổng hợp từ nghiên cứu về cách nhóm nhỏ và freelancer làm việc, không phải lời của một khách hàng cụ thể.",
+    regionLabel: "Những tình huống công việc thường gặp",
+    pause: "Tạm dừng chuyển động",
+    play: "Tiếp tục chuyển động",
+    personas: {
+      agency: "Chủ nhóm dịch vụ",
+      freelancer: "Freelancer nhiều dự án",
+      lead: "Trưởng nhóm",
+      owner: "Chủ doanh nghiệp nhỏ",
+      member: "Thành viên nhóm",
+    },
+    // Order matters: the wall slices these into three columns of three, so each column mixes roles.
+    items: [
+      {
+        persona: "agency",
+        moment: "Ngay sau khi giao việc",
+        quote: "Giao xong rồi mà vẫn không chắc bạn ấy hiểu đúng chưa, đã nhận chưa, có nhớ hạn không.",
+      },
+      {
+        persona: "freelancer",
+        moment: "Lúc bắt đầu ngày",
+        quote: "Biết là mình bận, nhưng sáng ra vẫn không chắc nên làm việc nào trước.",
+      },
+      {
+        persona: "owner",
+        moment: "Khi vắng mặt một hôm",
+        quote: "Nhiều việc chỉ nằm trong đầu mình. Vắng một hôm là cả nhóm phải gọi hỏi.",
+      },
+      {
+        persona: "freelancer",
+        moment: "Khi nhiều khách cùng gấp",
+        quote: "Ba khách cùng nhắn gấp. Nhận việc mới xong là quên mất mình đã hứa gì với khách trước.",
+      },
+      {
+        persona: "member",
+        moment: "Khi được giao việc",
+        quote: "Việc đến rải rác qua tin nhắn. Mình phải tự ghi lại xem việc nào trước, hạn khi nào.",
+      },
+      {
+        persona: "agency",
+        moment: "Khi gần đến ngày giao",
+        quote: "Việc chậm thường chỉ lộ ra sát hạn. Lúc đó mình thành người đi nhắc và chữa cháy.",
+      },
+      {
+        persona: "lead",
+        moment: "Khi cần báo cáo tiến độ",
+        quote: "Mọi người cập nhật không đều, nên bảng theo dõi chỉ đúng được mấy ngày đầu.",
+      },
+      {
+        persona: "agency",
+        moment: "Khi khách hỏi “đến đâu rồi?”",
+        quote: "Lần nào khách hỏi, mình cũng phải lục lại mấy nhóm chat và bảng tính mới trả lời được.",
+      },
+      {
+        persona: "freelancer",
+        moment: "Lúc tắt máy cuối ngày",
+        quote: "Tắt máy rồi mà trong đầu vẫn phải giữ nguyên danh sách việc của ngày mai.",
+      },
+    ],
+  },
   faq: {
     eyebrow: "Hỏi đáp",
     title: "Câu hỏi thường gặp",

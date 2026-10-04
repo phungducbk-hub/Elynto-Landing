@@ -8,6 +8,8 @@ import { siteConfig } from "@/config/site";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 
+const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-rise lg:motion-safe:animate-enter-right";
+
 export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const { hero, demo } = dict;
   const video = productMedia.heroDemo[lang];
@@ -22,20 +24,20 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
       <Container className="grid items-center gap-12 pt-10 pb-16 sm:pt-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:gap-14 lg:pt-20 lg:pb-24">
         <div className="max-w-xl">
           <h1 id="hero-title">
-            <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-sm font-semibold text-brand ring-1 ring-brand-100 ring-inset sm:text-[0.9375rem]">
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-sm font-semibold text-brand ring-1 ring-brand-100 ring-inset motion-safe:animate-rise sm:text-[0.9375rem]">
               {hero.eyebrow}
             </span>
             <span
               lang="en"
-              className="mt-5 block text-[2.5rem] leading-[1.06] font-bold tracking-[-0.025em] text-brand text-balance sm:text-[3.25rem] lg:text-[3.6rem]"
+              className="mt-5 block text-[2.5rem] leading-[1.06] font-bold tracking-[-0.025em] text-brand text-balance [--enter-delay:80ms] motion-safe:animate-rise sm:text-[3.25rem] lg:text-[3.6rem]"
             >
               {siteConfig.vision}
             </span>
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-ink-muted text-pretty sm:text-xl sm:leading-relaxed">
+          <p className="mt-6 text-lg leading-relaxed text-ink-muted text-pretty [--enter-delay:160ms] motion-safe:animate-rise sm:text-xl sm:leading-relaxed">
             {hero.description}
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-8 flex flex-col gap-3 [--enter-delay:240ms] motion-safe:animate-rise sm:flex-row sm:items-center">
             <ButtonLink
               href={siteConfig.signupUrl}
               size="lg"
@@ -58,7 +60,12 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           </div>
         </div>
 
-        {video ? <DemoVideo video={video} copy={demo} /> : <CommandDemo copy={demo} />}
+        {/* On load: the copy rises line by line, then the demo slides in from the right. */}
+        {video ? (
+          <DemoVideo video={video} copy={demo} className={demoEntrance} />
+        ) : (
+          <CommandDemo copy={demo} className={demoEntrance} />
+        )}
       </Container>
     </section>
   );

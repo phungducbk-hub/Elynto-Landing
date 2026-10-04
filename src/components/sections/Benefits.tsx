@@ -2,6 +2,7 @@ import { LayoutDashboard, MessageSquareText, UserRoundCheck } from "lucide-react
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Dictionary } from "@/content/types";
+import { reveal } from "@/lib/reveal";
 
 const icons = [MessageSquareText, UserRoundCheck, LayoutDashboard];
 
@@ -15,7 +16,7 @@ export function Benefits({ dict }: { dict: Dictionary }) {
           {benefits.items.map((item, index) => {
             const Icon = icons[index % icons.length];
             return (
-              <li key={item.title} className="md:px-8 md:first:pl-0 md:last:pr-0">
+              <li key={item.title} {...reveal("up", index * 110)} className="md:px-8 md:first:pl-0 md:last:pr-0">
                 <span className="inline-grid size-11 place-items-center rounded-xl bg-brand-50 text-brand ring-1 ring-brand-100 ring-inset">
                   <Icon className="size-5" aria-hidden="true" />
                 </span>

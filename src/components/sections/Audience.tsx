@@ -2,6 +2,7 @@ import { Building2, UserRound, UsersRound } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Dictionary } from "@/content/types";
+import { reveal } from "@/lib/reveal";
 
 const icons = [UserRound, UsersRound, Building2];
 
@@ -15,7 +16,7 @@ export function Audience({ dict }: { dict: Dictionary }) {
           {audience.items.map((item, index) => {
             const Icon = icons[index % icons.length];
             return (
-              <li key={item.title} className="flex flex-col p-6 sm:p-8">
+              <li key={item.title} {...reveal("up", index * 110)} className="flex flex-col p-6 sm:p-8">
                 <Icon className="size-6 text-brand" aria-hidden="true" />
                 <h3 className="mt-4 text-xl font-semibold text-ink">{item.title}</h3>
                 <p className="mt-1 text-sm text-ink-subtle">{item.who}</p>

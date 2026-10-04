@@ -7,6 +7,7 @@ import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
+import { Voices } from "@/components/sections/Voices";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
 import { isLocale } from "@/lib/i18n";
@@ -45,11 +46,13 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       </a>
       <div id="top" />
       <SiteHeader lang={lang} nav={dict.nav} signupUrl={siteConfig.signupUrl} loginUrl={siteConfig.loginUrl} />
-      <main id="main" tabIndex={-1} className="outline-none">
+      {/* overflow-x-clip: elements waiting to slide in sideways must not widen the page. */}
+      <main id="main" tabIndex={-1} className="overflow-x-clip outline-none">
         <Hero lang={lang} dict={dict} />
         <Benefits dict={dict} />
         <HowItWorks lang={lang} dict={dict} />
         <Audience dict={dict} />
+        <Voices dict={dict} />
         <Faq dict={dict} />
         <FinalCta dict={dict} />
       </main>

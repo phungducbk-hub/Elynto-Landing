@@ -23,7 +23,8 @@ export type AnalyticsEvent =
   | "demo_replay"
   | "example_select"
   | "view_tab_select"
-  | "faq_toggle";
+  | "faq_toggle"
+  | "testimonials_motion_toggle";
 
 export type AnalyticsProps = Record<string, string | number | boolean | undefined>;
 

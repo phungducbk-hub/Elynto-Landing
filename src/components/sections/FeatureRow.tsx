@@ -1,6 +1,7 @@
 import { Check, Lightbulb } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { reveal } from "@/lib/reveal";
 
 type Props = {
   id?: string;
@@ -29,13 +30,17 @@ export function FeatureRow({ id, eyebrow, title, body, points, tip, reverse, wid
       )}
     >
       <div className={cn("max-w-xl", reverse && "lg:order-2")}>
-        <p className="text-sm font-semibold tracking-wide text-brand-600">{eyebrow}</p>
-        <h3 id={headingId} className="mt-3 text-[1.75rem] leading-[1.2] font-bold tracking-tight text-ink text-balance sm:text-[2rem]">
+        <p {...reveal()} className="text-sm font-semibold tracking-wide text-brand-600">
+          {eyebrow}
+        </p>
+        <h3 {...reveal("up", 70)} id={headingId} className="mt-3 text-[1.75rem] leading-[1.2] font-bold tracking-tight text-ink text-balance sm:text-[2rem]">
           {title}
         </h3>
-        <p className="mt-4 text-lg leading-relaxed text-ink-muted text-pretty">{body}</p>
+        <p {...reveal("up", 140)} className="mt-4 text-lg leading-relaxed text-ink-muted text-pretty">
+          {body}
+        </p>
         {points?.length ? (
-          <ul className="mt-6 space-y-3">
+          <ul {...reveal("up", 210)} className="mt-6 space-y-3">
             {points.map((point) => (
               <li key={point} className="flex gap-3 text-base leading-relaxed text-ink">
                 <span className="mt-1 inline-grid size-5 shrink-0 place-items-center rounded-full bg-brand-50 text-brand ring-1 ring-brand-100 ring-inset">
@@ -47,13 +52,16 @@ export function FeatureRow({ id, eyebrow, title, body, points, tip, reverse, wid
           </ul>
         ) : null}
         {tip ? (
-          <p className="mt-6 flex gap-2.5 rounded-xl bg-sunken px-4 py-3 text-sm leading-relaxed text-ink-muted">
+          <p {...reveal("up", 280)} className="mt-6 flex gap-2.5 rounded-xl bg-sunken px-4 py-3 text-sm leading-relaxed text-ink-muted">
             <Lightbulb className="mt-0.5 size-4 shrink-0 text-field-due" aria-hidden="true" />
             {tip}
           </p>
         ) : null}
       </div>
-      <div className={cn("min-w-0", reverse && "lg:order-1")}>{children}</div>
+      {/* The visual slides in from the side it sits on, just after the text starts moving. */}
+      <div {...reveal(reverse ? "from-left" : "from-right", 120)} className={cn("min-w-0", reverse && "lg:order-1")}>
+        {children}
+      </div>
     </article>
   );
 }

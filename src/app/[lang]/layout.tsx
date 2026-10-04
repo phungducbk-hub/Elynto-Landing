@@ -3,9 +3,11 @@ import { Be_Vietnam_Pro } from "next/font/google";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { AnalyticsListener } from "@/components/layout/AnalyticsListener";
+import { RevealObserver } from "@/components/layout/RevealObserver";
 import { isIndexable, siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
 import { isLocale, locales, ogLocales } from "@/lib/i18n";
+import { revealBootScript } from "@/lib/reveal";
 import "../globals.css";
 
 // Be Vietnam Pro: designed for Vietnamese, with full diacritic support. Self-hosted by next/font.
@@ -68,9 +70,14 @@ export default async function RootLayout({ children, params }: LayoutParams & { 
   if (!isLocale(lang)) notFound();
 
   return (
-    <html lang={lang} className={beVietnam.variable}>
+    // suppressHydrationWarning: the boot script sets data-motion on <html> before React hydrates.
+    <html lang={lang} className={beVietnam.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: revealBootScript }} />
+      </head>
       <body className="min-h-dvh">
         <AnalyticsListener />
+        <RevealObserver />
         {children}
       </body>
     </html>

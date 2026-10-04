@@ -400,6 +400,71 @@ export const en: Dictionary = {
       },
     ],
   },
+  voices: {
+    eyebrow: "Sound familiar?",
+    title: "The moments when work starts to slip",
+    intro:
+      "Assigning over chat, tracking from memory, asking everyone for updates. Elynto is built for exactly these moments.",
+    note: "Typical situations drawn from our research into how small teams and freelancers work, not quotes from specific customers.",
+    regionLabel: "Common work situations",
+    pause: "Pause motion",
+    play: "Resume motion",
+    personas: {
+      agency: "Service team owner",
+      freelancer: "Freelancer with several clients",
+      lead: "Team lead",
+      owner: "Small business owner",
+      member: "Team member",
+    },
+    // Order matters: the wall slices these into three columns of three, so each column mixes roles.
+    items: [
+      {
+        persona: "agency",
+        moment: "Right after assigning",
+        quote: "I've handed it off, but I'm still not sure they understood it, accepted it or know when it's due.",
+      },
+      {
+        persona: "freelancer",
+        moment: "First thing in the morning",
+        quote: "I know I'm busy. I just don't know which task to start with.",
+      },
+      {
+        persona: "owner",
+        moment: "On a day you're away",
+        quote: "Too much of the work lives in my head. If I'm out for a day, the team has to call me.",
+      },
+      {
+        persona: "freelancer",
+        moment: "When clients all need it now",
+        quote: "Three clients message at once. By the time I've taken on the new work, I've forgotten what I promised the last one.",
+      },
+      {
+        persona: "member",
+        moment: "When work is handed to you",
+        quote: "Tasks arrive scattered across chats. I have to note down myself what comes first and when it's due.",
+      },
+      {
+        persona: "agency",
+        moment: "As a deadline gets close",
+        quote: "Delays only surface right before delivery. Then I'm the one chasing people and putting out fires.",
+      },
+      {
+        persona: "lead",
+        moment: "When you need a status update",
+        quote: "Not everyone updates regularly, so the tracker is only accurate for the first few days.",
+      },
+      {
+        persona: "agency",
+        moment: "When a client asks “where are we?”",
+        quote: "Every time a client asks, I have to dig through group chats and spreadsheets before I can answer.",
+      },
+      {
+        persona: "freelancer",
+        moment: "When you close the laptop",
+        quote: "The laptop's closed, but I'm still carrying tomorrow's whole to-do list in my head.",
+      },
+    ],
+  },
   faq: {
     eyebrow: "FAQ",
     title: "Frequently asked questions",

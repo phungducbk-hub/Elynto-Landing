@@ -42,6 +42,9 @@ export type PlanTask = {
   status: WorkStatus;
 };
 
+/** Who a work situation comes from: a segment from the customer research, never a named person. */
+export type VoicePersona = "agency" | "freelancer" | "lead" | "owner" | "member";
+
 export type Dictionary = {
   meta: {
     title: string;
@@ -209,6 +212,17 @@ export type Dictionary = {
     title: string;
     examplesLabel: string;
     items: { title: string; who: string; body: string; examples: string[] }[];
+  };
+  voices: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    note: string;
+    regionLabel: string;
+    pause: string;
+    play: string;
+    personas: Record<VoicePersona, string>;
+    items: { moment: string; quote: string; persona: VoicePersona }[];
   };
   faq: {
     eyebrow: string;

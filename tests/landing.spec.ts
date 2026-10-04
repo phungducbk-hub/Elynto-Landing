@@ -17,6 +17,10 @@ const copy = {
     secondTab: "Lịch",
     secondTabContent: "Tháng 10",
     title: "Elynto — Quản lý công việc bằng AI",
+    voicesTitle: "Những lúc công việc bắt đầu rối",
+    voicesNote: "không phải lời của một khách hàng cụ thể",
+    voicesPause: "Tạm dừng chuyển động",
+    voicesPlay: "Tiếp tục chuyển động",
   },
   en: {
     eyebrow: "Elynto — AI-powered work management",
@@ -30,6 +34,10 @@ const copy = {
     secondTab: "Calendar",
     secondTabContent: "October",
     title: "Elynto — AI-powered work management",
+    voicesTitle: "The moments when work starts to slip",
+    voicesNote: "not quotes from specific customers",
+    voicesPause: "Pause motion",
+    voicesPlay: "Resume motion",
   },
 } as const;
 
@@ -38,6 +46,14 @@ function collectErrors(page: Page) {
   page.on("console", (msg) => msg.type() === "error" && errors.push(msg.text()));
   page.on("pageerror", (err) => errors.push(err.message));
   return errors;
+}
+
+/** Brings every scroll-reveal element in and waits for entrances to settle, so checks see the whole page. */
+async function revealAll(page: Page) {
+  await page.evaluate(() => document.querySelectorAll("[data-reveal]").forEach((el) => el.setAttribute("data-revealed", "")));
+  await page.waitForFunction(() =>
+    document.getAnimations().every((a) => a.playState !== "running" || a.effect?.getComputedTiming().iterations === Infinity),
+  );
 }
 
 test.describe("language routing", () => {
@@ -145,8 +161,26 @@ for (const lang of ["vi", "en"] as const) {
       expect(events).toContainEqual(expect.objectContaining({ event: "cta_click", cta: "signup", location: "hero" }));
     });
 
+    test("situations wall is labelled honestly and its motion can be paused", async ({ page }) => {
+      await page.goto(`/${lang}`);
+      const section = page.locator("#voices");
+      await expect(section.getByRole("heading", { level: 2 })).toHaveText(t.voicesTitle);
+      await expect(section).toContainText(t.voicesNote);
+      // Nine situations for assistive tech; the copy that closes the loop is hidden from it.
+      await expect(section.getByRole("listitem")).toHaveCount(9);
+
+      await section.getByRole("button", { name: t.voicesPause }).click();
+      await expect(section.getByRole("button", { name: t.voicesPlay })).toBeVisible();
+      const playState = await section
+        .locator('[role="region"] ul:not([aria-hidden])')
+        .first()
+        .evaluate((list) => getComputedStyle(list.parentElement!).animationPlayState);
+      expect(playState).toBe("paused");
+    });
+
     test("has no serious accessibility violations", async ({ page }) => {
       await page.goto(`/${lang}`);
+      await revealAll(page);
       const results = await new AxeBuilder({ page }).analyze();
       const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
       expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
@@ -180,11 +214,26 @@ test("mobile menu opens and closes with Escape", async ({ page, isMobile }) => {
   await expect(page.getByRole("button", { name: "Mở menu" })).toBeFocused();
 });
 
-test("respects reduced motion: demo starts paused on the finished result", async ({ browser }) => {
+test("content slides in as it scrolls into view", async ({ page }) => {
+  await page.goto("/vi");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "live");
+  const heading = page.locator("#faq-title");
+  await expect(heading).toHaveCSS("opacity", "0");
+  await heading.scrollIntoViewIfNeeded();
+  await expect(heading).toHaveAttribute("data-revealed", "");
+  await expect(heading).toHaveCSS("opacity", "1");
+});
+
+test("respects reduced motion: demo starts paused, nothing waits to slide in", async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.goto("/vi");
   await expect(page.getByRole("button", { name: "Phát minh họa" })).toBeVisible();
   await expect(page.locator("#demo")).toContainText("Đã tạo công việc");
+
+  await expect(page.locator("html")).not.toHaveAttribute("data-motion");
+  await expect(page.locator("#faq-title")).toHaveCSS("opacity", "1");
+  // The situations wall stands still, so it needs no pause control.
+  await expect(page.locator("#voices").getByRole("button", { name: "Tạm dừng chuyển động" })).toBeHidden();
   await context.close();
 });
