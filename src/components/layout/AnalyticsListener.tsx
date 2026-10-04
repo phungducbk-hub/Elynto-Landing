@@ -1,13 +1,27 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { track, type AnalyticsEvent } from "@/lib/analytics";
+import { recordPageview } from "@/lib/stats/client";
+
+// Strict Mode runs effects twice in development; don't count that as two views.
+let lastPageview = { path: "", at: 0 };
 
 /**
- * Tracks clicks on any element carrying `data-track="<event>"`.
+ * Records a page view for each page, and tracks clicks on any element carrying `data-track="<event>"`.
  * `data-track-foo="bar"` attributes become `{ foo: "bar" }` event properties.
  */
 export function AnalyticsListener() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const now = Date.now();
+    if (lastPageview.path === pathname && now - lastPageview.at < 1000) return;
+    lastPageview = { path: pathname, at: now };
+    recordPageview();
+  }, [pathname]);
+
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null;

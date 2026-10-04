@@ -1,22 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro } from "next/font/google";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { AnalyticsListener } from "@/components/layout/AnalyticsListener";
 import { RevealObserver } from "@/components/layout/RevealObserver";
 import { isIndexable, siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
+import { beVietnam } from "@/lib/fonts";
 import { isLocale, locales, ogLocales } from "@/lib/i18n";
 import { revealBootScript } from "@/lib/reveal";
 import "../globals.css";
-
-// Be Vietnam Pro: designed for Vietnamese, with full diacritic support. Self-hosted by next/font.
-const beVietnam = Be_Vietnam_Pro({
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-be-vietnam",
-  display: "swap",
-});
 
 type LayoutParams = { params: Promise<{ lang: string }> };
 
@@ -71,7 +63,7 @@ export default async function RootLayout({ children, params }: LayoutParams & { 
 
   return (
     // suppressHydrationWarning: the boot script sets data-motion on <html> before React hydrates.
-    <html lang={lang} className={beVietnam.variable} suppressHydrationWarning>
+    <html lang={lang} className={beVietnam.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: revealBootScript }} />
       </head>

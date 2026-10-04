@@ -263,6 +263,13 @@ export type Dictionary = {
       clear: string;
       cleared: string;
     };
+    stats: {
+      on: string;
+      off: string;
+      signal: string;
+      disable: string;
+      enable: string;
+    };
   };
 };
 

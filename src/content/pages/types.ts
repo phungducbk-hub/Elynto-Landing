@@ -5,6 +5,8 @@ export type PageSection = {
   body?: string[];
   points?: string[];
   table?: { caption: string; columns: string[]; rows: string[][] };
+  /** An interactive control shown after the section text. */
+  action?: "clearLanguage" | "statsOptOut";
 };
 
 export type SubPage = {

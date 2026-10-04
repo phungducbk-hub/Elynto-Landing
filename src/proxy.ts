@@ -10,7 +10,8 @@ import { isLocale, LOCALE_COOKIE, negotiateLocale } from "@/lib/i18n";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const firstSegment = pathname.split("/")[1];
-  if (isLocale(firstSegment)) return NextResponse.next();
+  // The stats dashboard has no language prefix.
+  if (isLocale(firstSegment) || firstSegment === "stats") return NextResponse.next();
 
   const saved = request.cookies.get(LOCALE_COOKIE)?.value;
   const locale = isLocale(saved) ? saved : negotiateLocale(request.headers.get("accept-language"));

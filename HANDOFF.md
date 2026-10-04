@@ -6,8 +6,9 @@
 - Các bản khác vẫn còn trong lịch sử git để tham khảo hoặc lấy lại từng phần: `580dae7` (thiết kế lại theo skill frontend-design), `cc03398` (câu chữ theo nghiên cứu khách hàng + toàn bộ hình dựng lại).
 - Đã thêm khối **“Nghe có quen không?”** dùng component testimonial bạn gửi, đặt sau “Dành cho ai”, cùng **hiệu ứng trượt** cho chữ và hình trên toàn trang (xem mục 3).
 - Đã thêm **footer 4 cột** và **12 trang con** song ngữ cho từng mục trong footer (xem mục 4).
+- Đã thêm **thống kê truy cập** tự xây và trang xem số liệu `/stats` có mật khẩu (xem mục 5).
 - Đủ hai bản **Tiếng Việt** (`/vi`) và **English** (`/en`). Cách chạy và cấu hình xem [`README.md`](./README.md).
-- Build production thành công. Lint và typecheck không lỗi. **59** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
+- Build production thành công. Lint và typecheck không lỗi. **75** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
 - Chưa triển khai lên Vercel, chưa đổi DNS, chưa công khai.
 
 ## 2. Hai hình dựa trên giao diện thật
@@ -67,11 +68,32 @@ Footer làm theo bố cục mẫu: logo, câu vision và nút dùng thử ở b�
 
 Ở vị trí biểu tượng mạng xã hội, footer đặt nút “Dùng thử miễn phí” và “Đăng nhập”.
 
-## 5. Kiểm tra sản phẩm
+## 5. Thống kê truy cập
+
+- **Trang xem số liệu:** `/stats`, có mật khẩu (`STATS_PASSWORD`), không bị công cụ tìm kiếm index. Cách cài đặt, các biến môi trường và cách đếm xem trong README, mục “Thống kê truy cập”.
+- **Số liệu theo ngày, tháng, năm:**
+  - người truy cập, lượt truy cập, lượt xem trang;
+  - lượt bấm “Dùng thử miễn phí” và “Đăng nhập” (kèm số người bấm và vị trí nút), tỷ lệ bấm dùng thử;
+  - người mới và người quay lại, tỷ lệ thoát;
+  - thiết bị, trình duyệt, hệ điều hành, quốc gia, nguồn truy cập, chiến dịch UTM, trang được xem, ngôn ngữ;
+  - so sánh với kỳ trước và tải CSV.
+- **Cách đếm người truy cập:** mỗi trình duyệt có một mã ngẫu nhiên. Vào nhiều lần, nhiều ngày vẫn là 1 người. Một người dùng hai thiết bị là 2 người.
+- **Quyền riêng tư:**
+  - Không lưu IP hay user agent đầy đủ.
+  - Không đếm bot, trình duyệt bật Do Not Track hoặc GPC.
+  - Người xem tắt được thống kê trên trang Cookie.
+  - Dữ liệu tự xóa sau 400 ngày (trên Redis).
+  - Trang Quyền riêng tư và Cookie đã được cập nhật để mô tả đúng những điều trên.
+- **Cần làm trên Vercel:**
+  1. Đặt `STATS_PASSWORD`.
+  2. Kết nối Upstash for Redis từ Vercel Marketplace.
+  3. Redeploy.
+
+## 6. Kiểm tra sản phẩm
 
 Phiên này vẫn không truy cập được `beta.elynto.io` (proxy từ chối). Thông tin về giao diện thật lấy từ 5 ảnh chụp bạn gửi. Không chỉnh sửa gì ở app beta.
 
-## 6. Cần xác minh trước khi công khai
+## 7. Cần xác minh trước khi công khai
 
 ### Bắt buộc (ảnh hưởng luồng chuyển đổi)
 
@@ -82,8 +104,10 @@ Phiên này vẫn không truy cập được `beta.elynto.io` (proxy từ chối
 | 3 | Route đăng nhập | “Đăng nhập” dẫn tới `https://beta.elynto.io` | Đặt `NEXT_PUBLIC_LOGIN_URL` nếu có route riêng |
 | 4 | **“Chỉ trong 10 giây”** ở tiêu đề phần lập kế hoạch AI | Thêm theo yêu cầu | Đo thời gian AI tạo bản nháp kế hoạch trên beta. Nếu thường lâu hơn 10 giây, nên đổi con số hoặc bỏ |
 | 5 | **Email liên hệ** | Trang Liên hệ ghi “Kênh liên hệ chính thức sẽ được cập nhật tại đây” | Cung cấp email chính thức → đặt `NEXT_PUBLIC_CONTACT_EMAIL` |
-| 6 | **Trang Quyền riêng tư và Cookie** | Mô tả đúng hành vi hiện tại của website (chỉ cookie ngôn ngữ, không công cụ đo lường bên thứ ba) | Nhờ người phụ trách pháp lý rà soát. Nếu sau này gắn Google Tag Manager hay công cụ đo lường, phải cập nhật hai trang này |
+| 6 | **Trang Quyền riêng tư và Cookie** | Mô tả đúng hành vi hiện tại: cookie ngôn ngữ, thống kê truy cập ẩn danh của chính website, không có công cụ đo lường bên thứ ba | Nhờ người phụ trách pháp lý rà soát. Nếu sau này gắn Google Tag Manager hay công cụ đo lường khác, phải cập nhật hai trang này |
 | 7 | **Điều khoản sử dụng, chính sách của ứng dụng** | Chưa có trên website | Khi có văn bản chính thức, thêm trang vào cột Pháp lý |
+| 8 | **Thống kê truy cập và sự đồng ý** | Website ghi nhận thống kê khi có truy cập; người xem tắt được trên trang Cookie; Do Not Track/GPC được tôn trọng | Nhờ người phụ trách pháp lý xác nhận có cần hỏi ý kiến người xem trước khi ghi nhận hay không (ví dụ theo Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân, hoặc GDPR nếu có khách ở châu Âu). Nếu cần, có thể thêm thanh thông báo xin đồng ý |
+| 9 | **Cài đặt thống kê trên Vercel** | Chưa có `STATS_PASSWORD` và Upstash Redis | Đặt mật khẩu, kết nối Upstash for Redis, redeploy (README, mục Thống kê truy cập) |
 
 ### Đã thấy trong ảnh giao diện
 
@@ -115,7 +139,7 @@ Tự sắp lịch, AI tự ưu tiên hoặc tự điều phối, chat/video call
 
 Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu.
 
-## 7. Lựa chọn thiết kế và thông điệp (bản đầu)
+## 8. Lựa chọn thiết kế và thông điệp (bản đầu)
 
 - **5 giây đầu**: H1 gồm dòng mô tả theo ngôn ngữ đang chọn (“Elynto — Quản lý công việc bằng AI”) và câu vision tiếng Anh nổi bật “The interface between you and your work”. Ngay dưới là câu giải thích lợi ích và hai CTA. Bên phải là demo đang hiển thị sẵn kết quả: một công việc có tên, người phụ trách, thời hạn.
 - **Gộp “Demo chủ đạo” vào hero**: demo chính nằm ngay trong màn hình đầu thay vì lặp lại thành một section riêng. “Xem Elynto hoạt động” cuộn tới demo và phát lại từ đầu. Trên mobile, demo nằm ngay sau CTA.
@@ -126,11 +150,11 @@ Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu.
 - **Câu chữ**: đổi “Nói việc cần làm” thành “Chỉ cần mô tả việc cần làm” để không gợi ý nhập bằng giọng nói. Giữ “Một câu nói. Công việc rõ người, rõ hạn.” vì demo cho thấy rõ là gõ chữ. Thêm mẹo “nêu rõ việc gì, ai làm, khi nào xong” để không ngụ ý AI hiểu mọi yêu cầu.
 - **Typography**: Be Vietnam Pro, tăng nhẹ khoảng cách giữa từ (font gốc có khoảng trắng hẹp, dễ dính chữ ở những từ như “thử miễn”).
 
-## 8. Đã kiểm tra
+## 9. Đã kiểm tra
 
 - `npm run build` thành công; `/vi`, `/en` và ảnh Open Graph được tạo tĩnh lúc build.
 - `npm run lint`: 0 lỗi, 0 cảnh báo. `npm run typecheck`: đạt.
-- `npm run test:e2e`: 59 test đạt, 1 test chỉ dành cho mobile được bỏ qua trên desktop:
+- `npm run test:e2e`: 75 test đạt, 1 test chỉ dành cho mobile được bỏ qua trên desktop:
   - chuyển hướng `/` theo Accept-Language, lựa chọn đã lưu thắng ngôn ngữ trình duyệt, trang 404 song ngữ;
   - hero chứa định vị và vision, mọi CTA đăng ký trỏ đúng URL, demo có nhãn minh họa;
   - metadata và ảnh OG theo từng ngôn ngữ;
@@ -140,13 +164,14 @@ Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu.
   - hiệu ứng trượt: phần tử chưa tới thì ẩn, cuộn tới thì hiện; khi bật giảm chuyển động thì mọi thứ hiện ngay, tường thẻ đứng yên;
   - footer: đủ 4 cột, 12 liên kết; mọi trang con trả về 200 ở cả hai ngôn ngữ, trang không tồn tại trả 404, sitemap có trang con;
   - trang con có title và canonical riêng, đổi ngôn ngữ vẫn ở đúng trang, nút xóa lựa chọn ngôn ngữ trên trang Cookie hoạt động;
+  - thống kê: đếm 1 người dù vào nhiều lượt, nhiều ngày; nhóm theo ngày/tháng; nhận diện thiết bị, trình duyệt, hệ điều hành; lọc dữ liệu gửi lên; khoảng thời gian; lượt xem và lượt bấm được gửi đi và hiện trên `/stats`; sai mật khẩu bị từ chối; không đăng nhập thì không xem hay tải CSV được; tắt thống kê trên trang Cookie thì không gửi gì nữa;
   - axe: không có lỗi truy cập mức *serious/critical* trên trang chủ và 3 trang con, kiểm tra sau khi mọi phần tử đã hiện;
   - không tràn ngang, không lỗi console.
 - Đã xem ảnh chụp toàn trang desktop và mobile cho cả hai ngôn ngữ, hai hình mới ở cả hai cỡ màn hình, và từng tab Danh sách/Lịch/Gantt.
 - Không có lỗi hay cảnh báo console ở chế độ dev (kiểm tra hydration).
 - JS tải lần đầu khoảng 222 KB gzip, phần lớn là React/Next. Khối tình huống cùng phần lõi framer-motion chiếm khoảng 16 KB; phần hiệu ứng của framer (~20 KB) được tải sau, không chặn trang. Hiệu ứng trượt chạy bằng CSS và chỉ thêm một script rất nhỏ. Các section bên dưới không dùng ảnh nặng.
 
-## 9. Ghi chú kỹ thuật
+## 10. Ghi chú kỹ thuật
 
 - `npm audit` báo 5 lỗ hổng mức *high* trong chuỗi công cụ lint chỉ dùng khi phát triển (`eslint-config-next` → `fast-glob` → `micromatch` → `braces`). Không đi vào code chạy trên trình duyệt. Có thể nâng cấp khi `eslint-config-next` phát hành bản sửa.
 - `next/font/google` tải font lúc build. Vercel làm được việc này; build ở máy không có mạng sẽ lỗi.

@@ -538,5 +538,12 @@ export const vi: Dictionary = {
       clear: "Xóa lựa chọn ngôn ngữ đã lưu",
       cleared: "Đã xóa. Website không còn lưu lựa chọn ngôn ngữ của bạn.",
     },
+    stats: {
+      on: "Thống kê đang bật cho trình duyệt này.",
+      off: "Đã tắt. Lượt truy cập từ trình duyệt này không được ghi nhận.",
+      signal: "Trình duyệt của bạn đang bật Do Not Track hoặc Global Privacy Control, nên lượt truy cập không được ghi nhận.",
+      disable: "Không ghi nhận lượt truy cập của tôi",
+      enable: "Bật lại thống kê",
+    },
   },
 };

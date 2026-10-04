@@ -10,7 +10,11 @@
  * Elements can also be tracked declaratively with data attributes, handled by
  * <AnalyticsListener />:
  *   <a data-track="cta_click" data-track-location="hero" data-track-cta="signup">
+ *
+ * Separately, page views and Start-free-trial / Log-in clicks are recorded in the site's own
+ * statistics (lib/stats), shown on /stats.
  */
+import { recordCtaClick } from "@/lib/stats/client";
 
 export type AnalyticsEvent =
   | "cta_click"
@@ -46,6 +50,10 @@ export function track(event: AnalyticsEvent, props: AnalyticsProps = {}) {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(payload);
   window.dispatchEvent(new CustomEvent("elynto:analytics", { detail: payload }));
+
+  if (event === "cta_click" && (props.cta === "signup" || props.cta === "login")) {
+    recordCtaClick(props.cta, typeof props.location === "string" ? props.location : undefined);
+  }
 
   if (process.env.NODE_ENV === "development") {
     console.debug("[analytics]", payload);

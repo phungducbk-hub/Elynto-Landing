@@ -4,7 +4,7 @@ Landing page song ngữ (Tiếng Việt / English) cho **Elynto — AI Work OS**
 
 - Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · framer-motion (chỉ cho khối tình huống)
 - Trang tĩnh (SSG) cho `/vi` và `/en`; `proxy.ts` chọn ngôn ngữ khi vào `/`
-- Không có backend, không kết nối dịch vụ tracking bên ngoài
+- Không kết nối dịch vụ tracking bên ngoài. Website tự thống kê lượt truy cập (`/api/collect`) và có trang xem số liệu `/stats` có mật khẩu (xem mục Thống kê truy cập)
 - Skill `frontend-design` được cài sẵn tại `.claude/skills/frontend-design/` cho các lần chỉnh giao diện sau
 
 > Ghi chú bàn giao, các lựa chọn thiết kế và danh sách thông tin cần xác minh: xem [`HANDOFF.md`](./HANDOFF.md).
@@ -58,6 +58,11 @@ src/
   config/media.ts             chỗ khai báo video/ảnh sản phẩm thật
   lib/analytics.ts            hàm track() + danh sách sự kiện
   lib/reveal.ts               hiệu ứng trượt khi cuộn: reveal() + script khởi động
+  lib/stats/                  thống kê truy cập: ghi nhận (client.ts), kiểm tra (collect.ts),
+                              lưu trữ (store.ts), tổng hợp (aggregate.ts), đăng nhập (auth.ts)
+  app/stats/                  trang thống kê /stats và trang đăng nhập (layout riêng, không index)
+  app/api/collect/            nhận lượt xem trang và lượt bấm nút
+  app/api/stats/export/       tải bảng số liệu dạng CSV
   components/
     sections/                 Hero, Benefits, HowItWorks, Audience, Voices, Faq, FinalCta
     demo/                     CommandDemo (minh họa HTML), DemoVideo (video thật)
@@ -131,9 +136,47 @@ Chưa kết nối dịch vụ nào. Mọi sự kiện được:
 | `view_tab_select` | Đổi tab cách xem của dự án (Danh sách, Lịch, Gantt) | `view` |
 | `faq_toggle` | Mở/đóng câu hỏi | `question`, `open` |
 | `testimonials_motion_toggle` | Dừng/chạy lại tường tình huống | `paused` |
+
+Lượt bấm `cta_click` có `cta` là `signup` hoặc `login` đồng thời được ghi vào thống kê của website (mục Thống kê truy cập).
 | `mobile_menu_toggle` | Mở/đóng menu mobile | `open` |
 
 Mọi sự kiện đều có thêm `page_language`. Để theo dõi thêm một phần tử mới, thêm thuộc tính `data-track="cta_click" data-track-location="..."`.
+
+## Thống kê truy cập
+
+Website tự ghi nhận lượt truy cập, không dùng dịch vụ bên thứ ba. Xem tại **`/stats`** (ví dụ `https://elynto.io/stats`), đăng nhập bằng mật khẩu.
+
+**Số liệu có trên trang:**
+- Người truy cập, lượt truy cập, lượt xem trang; người mới và người quay lại; số trang mỗi lượt; tỷ lệ thoát.
+- Lượt bấm “Dùng thử miễn phí” và “Đăng nhập” (kèm số người bấm và vị trí nút); tỷ lệ bấm dùng thử.
+- Biểu đồ và bảng theo ngày, tháng hoặc năm. Khoảng thời gian chọn sẵn (hôm nay, 7/30/90 ngày, 12 tháng, từ đầu năm) hoặc tự chọn. Mỗi số đều có so sánh với kỳ trước cùng độ dài.
+- Phân tích theo thiết bị (điện thoại, máy tính bảng, máy tính), trình duyệt, hệ điều hành, quốc gia, nguồn truy cập, chiến dịch (`utm_source`), trang được xem và ngôn ngữ.
+- Tải bảng số liệu dạng CSV.
+
+**Cách đếm:**
+- **Người truy cập:** mỗi trình duyệt có một mã ngẫu nhiên lưu trong `localStorage`. Một người vào nhiều lần trong ngày, hay nhiều ngày liền, vẫn là 1 người. Cùng một người dùng điện thoại và máy tính được tính là 2; xóa dữ liệu trình duyệt hoặc dùng chế độ ẩn danh thì được tính là người mới.
+- **Lượt truy cập:** kết thúc sau 30 phút không hoạt động.
+- **Không đếm:** bot, trình duyệt bật Do Not Track hoặc Global Privacy Control, và người đã tắt thống kê trên trang Cookie.
+- **Thời gian:** ngày tính theo giờ Việt Nam.
+- **Dữ liệu được lưu:** không lưu địa chỉ IP hay chuỗi user agent đầy đủ. Quốc gia lấy từ header `x-vercel-ip-country` của Vercel nên chỉ có khi chạy trên Vercel.
+- **Muốn không tính lượt vào của chính bạn:** mở `/vi/cookies` trên mỗi trình duyệt bạn hay dùng và bấm “Không ghi nhận lượt truy cập của tôi”.
+
+**Cài đặt trên Vercel:**
+1. Thêm biến `STATS_PASSWORD` (một mật khẩu dài). Khi chưa đặt biến này, trang `/stats` bị tắt.
+2. Thêm nơi lưu dữ liệu. Trong dự án Vercel, vào **Storage → Create Database / Marketplace → Upstash for Redis** rồi kết nối với dự án. Vercel tự thêm `KV_REST_API_URL` và `KV_REST_API_TOKEN`. Có thể dùng `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` nếu bạn tạo Redis trực tiếp trên Upstash.
+3. Redeploy. Chưa có Redis thì trên Vercel số liệu không được lưu, và trang `/stats` sẽ báo như vậy.
+
+**Chạy ở máy local:** số liệu được lưu vào thư mục `.data/stats/` (đã có trong `.gitignore`). Ví dụ: `STATS_PASSWORD=dat-mat-khau npm run start`, rồi mở `http://localhost:3000/stats`.
+
+| Biến | Mặc định | Ý nghĩa |
+| --- | --- | --- |
+| `STATS_PASSWORD` | (trống, `/stats` tắt) | Mật khẩu trang thống kê. Đổi mật khẩu thì mọi phiên đăng nhập cũ hết hiệu lực |
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | — | Upstash Redis (Vercel tự đặt khi kết nối) |
+| `STATS_RETENTION_DAYS` | `400` | Số ngày giữ dữ liệu trên Redis, quá hạn tự xóa |
+| `STATS_TIMEZONE` | `Asia/Ho_Chi_Minh` | Múi giờ để tính ngày |
+| `STATS_DATA_DIR` | `.data/stats` | Thư mục lưu khi chạy ngoài Vercel mà không có Redis |
+
+Dữ liệu được đọc thẳng từ từng ngày và tổng hợp khi mở trang. Cách này phù hợp với lượng truy cập của landing page, khoảng vài chục nghìn lượt mỗi tháng. Nếu lưu lượng tăng lớn, nên chuyển sang lưu số đã cộng sẵn.
 
 ## Song ngữ
 

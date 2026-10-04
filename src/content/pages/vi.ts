@@ -293,7 +293,7 @@ export const vi: PagesDictionary = {
     navLabel: "Quyền riêng tư",
     eyebrow: "Pháp lý",
     title: "Quyền riêng tư trên website Elynto",
-    description: "Website này lưu gì trên trình duyệt của bạn, vì sao và trong bao lâu.",
+    description: "Website này lưu gì trên trình duyệt của bạn, ghi nhận số liệu truy cập nào, vì sao và trong bao lâu.",
     sections: [
       {
         heading: "Phạm vi",
@@ -304,13 +304,26 @@ export const vi: PagesDictionary = {
       {
         heading: "Thông tin được lưu trên trình duyệt",
         body: [
-          "Khi bạn chọn ngôn ngữ, website lưu lựa chọn đó trong cookie elynto-lang (tối đa 1 năm) và trong bộ nhớ trình duyệt, để lần sau mở đúng ngôn ngữ. Thông tin này không dùng để nhận diện bạn.",
+          "Website lưu lựa chọn ngôn ngữ (cookie elynto-lang, tối đa 1 năm), một mã ngẫu nhiên để đếm số người truy cập và mốc thời gian của lượt truy cập hiện tại. Không mục nào chứa tên, email hay thông tin liên hệ của bạn. Chi tiết từng mục có trên trang Cookie.",
+        ],
+      },
+      {
+        heading: "Thống kê truy cập",
+        body: [
+          "Để biết website được dùng thế nào, website tự ghi nhận: trang được xem, lượt bấm Dùng thử miễn phí và Đăng nhập (kèm vị trí nút), thời điểm, loại thiết bị, trình duyệt, hệ điều hành, quốc gia và trang web đã dẫn bạn tới.",
+          "Quốc gia được suy ra từ địa chỉ IP lúc truy cập. Địa chỉ IP và chuỗi nhận dạng trình duyệt không được lưu.",
+        ],
+      },
+      {
+        heading: "Lưu trữ và chia sẻ",
+        body: [
+          "Số liệu thống kê được lưu trong cơ sở dữ liệu do Elynto quản lý, chỉ dùng để xem số liệu tổng hợp, không bán hay chia sẻ cho bên khác, và tự xóa sau khoảng 13 tháng.",
         ],
       },
       {
         heading: "Không có công cụ theo dõi của bên thứ ba",
         body: [
-          "Website hiện không dùng công cụ đo lường, quảng cáo hay mạng xã hội của bên thứ ba và không đặt cookie của bên thứ ba.",
+          "Website không dùng công cụ đo lường, quảng cáo hay mạng xã hội của bên thứ ba và không đặt cookie của bên thứ ba.",
         ],
       },
       {
@@ -327,7 +340,9 @@ export const vi: PagesDictionary = {
       },
       {
         heading: "Lựa chọn của bạn",
-        body: ["Bạn có thể xóa lựa chọn ngôn ngữ đã lưu trên trang Cookie hoặc trong cài đặt trình duyệt."],
+        body: [
+          "Bạn có thể tắt thống kê hoặc xóa lựa chọn ngôn ngữ đã lưu trên trang Cookie. Website tự bỏ qua trình duyệt bật Do Not Track hoặc Global Privacy Control.",
+        ],
       },
     ],
   },
@@ -335,7 +350,7 @@ export const vi: PagesDictionary = {
     navLabel: "Cookie",
     eyebrow: "Pháp lý",
     title: "Cookie trên website Elynto",
-    description: "Website chỉ dùng một cookie: để nhớ ngôn ngữ bạn chọn.",
+    description: "Website dùng một cookie để nhớ ngôn ngữ bạn chọn, và bộ nhớ trình duyệt để đếm lượt truy cập ẩn danh.",
     sections: [
       {
         heading: "Cookie đang dùng",
@@ -344,19 +359,36 @@ export const vi: PagesDictionary = {
           columns: ["Tên", "Mục đích", "Thời hạn", "Loại"],
           rows: [["elynto-lang", "Nhớ ngôn ngữ bạn chọn (Tiếng Việt hoặc English)", "1 năm", "Chức năng, của Elynto"]],
         },
-        body: [
-          "Khi bạn mở elynto.io, cookie này giúp chuyển thẳng tới phiên bản ngôn ngữ đã chọn. Lựa chọn cũng được lưu trong bộ nhớ trình duyệt (localStorage) với cùng tên.",
-        ],
+        body: ["Khi bạn mở elynto.io, cookie này giúp chuyển thẳng tới phiên bản ngôn ngữ đã chọn."],
+      },
+      {
+        heading: "Bộ nhớ trình duyệt",
+        table: {
+          caption: "Mục lưu trong bộ nhớ trình duyệt (localStorage)",
+          columns: ["Tên", "Mục đích", "Thời hạn", "Loại"],
+          rows: [
+            ["elynto-vid", "Mã ngẫu nhiên để đếm số người truy cập", "Đến khi bạn xóa dữ liệu trình duyệt", "Thống kê"],
+            ["elynto-visit", "Nhận biết lượt truy cập hiện tại", "Hết hiệu lực sau 30 phút không hoạt động", "Thống kê"],
+            ["elynto-lang", "Bản sao lựa chọn ngôn ngữ", "Đến khi bạn xóa dữ liệu trình duyệt", "Chức năng"],
+            ["elynto-stats-optout", "Ghi nhớ bạn đã tắt thống kê", "Đến khi bạn bật lại", "Chức năng"],
+          ],
+        },
       },
       {
         heading: "Không có cookie của bên thứ ba",
-        body: ["Website không đặt cookie quảng cáo, đo lường hay mạng xã hội."],
+        body: ["Website không đặt cookie quảng cáo, đo lường hay mạng xã hội của bên thứ ba."],
       },
       {
-        heading: "Xóa lựa chọn đã lưu",
+        heading: "Tắt thống kê truy cập",
+        body: ["Nhấn nút bên dưới để website không ghi nhận lượt truy cập từ trình duyệt này."],
+        action: "statsOptOut",
+      },
+      {
+        heading: "Xóa lựa chọn ngôn ngữ",
         body: [
           "Nhấn nút bên dưới để xóa cookie và lựa chọn ngôn ngữ đã lưu. Lần tới, website sẽ chọn ngôn ngữ theo cài đặt trình duyệt của bạn.",
         ],
+        action: "clearLanguage",
       },
     ],
   },

@@ -289,7 +289,7 @@ export const en: PagesDictionary = {
     navLabel: "Privacy",
     eyebrow: "Legal",
     title: "Privacy on the Elynto website",
-    description: "What this website stores in your browser, why, and for how long.",
+    description: "What this website stores in your browser, which visit statistics it records, why, and for how long.",
     sections: [
       {
         heading: "Scope",
@@ -300,13 +300,26 @@ export const en: PagesDictionary = {
       {
         heading: "What is stored in your browser",
         body: [
-          "When you pick a language, the website stores that choice in the elynto-lang cookie (for up to one year) and in your browser’s storage, so it opens in the right language next time. It is not used to identify you.",
+          "The website stores your language choice (the elynto-lang cookie, for up to one year), a random ID used to count visitors, and the time of your current visit. None of these contain your name, email or contact details. Each item is listed on the Cookies page.",
+        ],
+      },
+      {
+        heading: "Visit statistics",
+        body: [
+          "To understand how the website is used, it records the pages viewed, clicks on Start free trial and Log in (with where the button was), the time, device type, browser, operating system, country and the website that referred you.",
+          "Country is derived from your IP address at the time of the visit. The IP address and the full browser identification string are not stored.",
+        ],
+      },
+      {
+        heading: "Storage and sharing",
+        body: [
+          "Statistics are kept in a database managed by Elynto, used only to view aggregated figures, never sold or shared with others, and deleted automatically after about 13 months.",
         ],
       },
       {
         heading: "No third-party tracking",
         body: [
-          "The website currently uses no third-party analytics, advertising or social media tools, and sets no third-party cookies.",
+          "The website uses no third-party analytics, advertising or social media tools, and sets no third-party cookies.",
         ],
       },
       {
@@ -323,7 +336,9 @@ export const en: PagesDictionary = {
       },
       {
         heading: "Your choices",
-        body: ["You can clear your saved language choice on the Cookies page or in your browser settings."],
+        body: [
+          "You can turn statistics off or clear your saved language on the Cookies page. Browsers that send Do Not Track or Global Privacy Control are not recorded.",
+        ],
       },
     ],
   },
@@ -331,7 +346,7 @@ export const en: PagesDictionary = {
     navLabel: "Cookies",
     eyebrow: "Legal",
     title: "Cookies on the Elynto website",
-    description: "The website uses a single cookie: to remember the language you chose.",
+    description: "The website uses one cookie to remember your language, and browser storage to count visits anonymously.",
     sections: [
       {
         heading: "Cookies in use",
@@ -340,19 +355,36 @@ export const en: PagesDictionary = {
           columns: ["Name", "Purpose", "Duration", "Type"],
           rows: [["elynto-lang", "Remembers your language (Tiếng Việt or English)", "1 year", "Functional, set by Elynto"]],
         },
-        body: [
-          "When you open elynto.io, this cookie takes you straight to the language you chose. The choice is also kept in your browser’s storage (localStorage) under the same name.",
-        ],
+        body: ["When you open elynto.io, this cookie takes you straight to the language you chose."],
+      },
+      {
+        heading: "Browser storage",
+        table: {
+          caption: "Items kept in browser storage (localStorage)",
+          columns: ["Name", "Purpose", "Duration", "Type"],
+          rows: [
+            ["elynto-vid", "Random ID used to count visitors", "Until you clear your browser data", "Statistics"],
+            ["elynto-visit", "Recognises the current visit", "Expires after 30 minutes of inactivity", "Statistics"],
+            ["elynto-lang", "Copy of your language choice", "Until you clear your browser data", "Functional"],
+            ["elynto-stats-optout", "Remembers that you turned statistics off", "Until you turn them back on", "Functional"],
+          ],
+        },
       },
       {
         heading: "No third-party cookies",
-        body: ["The website sets no advertising, analytics or social media cookies."],
+        body: ["The website sets no third-party advertising, analytics or social media cookies."],
       },
       {
-        heading: "Clear your saved choice",
+        heading: "Turn off visit statistics",
+        body: ["Use the button below so the website stops recording visits from this browser."],
+        action: "statsOptOut",
+      },
+      {
+        heading: "Clear your saved language",
         body: [
           "Use the button below to remove the cookie and the saved language. Next time, the website will follow your browser’s language settings.",
         ],
+        action: "clearLanguage",
       },
     ],
   },

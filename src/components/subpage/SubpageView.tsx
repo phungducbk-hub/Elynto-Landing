@@ -19,6 +19,7 @@ import type { Locale } from "@/lib/i18n";
 import { groupOf, isFeaturePage, pageGroups, pagePath, type FeaturePageKey, type PageKey } from "@/lib/pages";
 import { reveal } from "@/lib/reveal";
 import { CookieReset } from "./CookieReset";
+import { StatsOptOut } from "./StatsOptOut";
 
 /** Feature visuals reused from the home page. The wide ones sit below the intro, the others beside it. */
 function FeatureVisual({ pageKey, dict }: { pageKey: FeaturePageKey; dict: Dictionary }) {
@@ -58,7 +59,7 @@ function Points({ points, check }: { points: string[]; check?: boolean }) {
   );
 }
 
-function SectionBody({ section, check }: { section: PageSection; check?: boolean }) {
+function SectionBody({ section, check, dict }: { section: PageSection; check?: boolean; dict: Dictionary }) {
   return (
     <>
       {section.table ? (
@@ -100,6 +101,10 @@ function SectionBody({ section, check }: { section: PageSection; check?: boolean
         </p>
       ))}
       {section.points ? <Points points={section.points} check={check} /> : null}
+      {section.action === "clearLanguage" ? (
+        <CookieReset label={dict.subpage.cookies.clear} done={dict.subpage.cookies.cleared} />
+      ) : null}
+      {section.action === "statsOptOut" ? <StatsOptOut copy={dict.subpage.stats} /> : null}
     </>
   );
 }
@@ -244,7 +249,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
               {page.sections.map((section, index) => (
                 <section key={section.heading} {...reveal("up", (index % 2) * 90)}>
                   <h2 className="text-xl font-semibold text-ink">{section.heading}</h2>
-                  <SectionBody section={section} check />
+                  <SectionBody section={section} check dict={dict} />
                 </section>
               ))}
             </div>
@@ -258,7 +263,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
                   </span>
                   <div className="pt-1">
                     <h2 className="text-xl font-semibold text-ink">{section.heading}</h2>
-                    <SectionBody section={section} />
+                    <SectionBody section={section} dict={dict} />
                   </div>
                 </li>
               ))}
@@ -303,13 +308,10 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
             </div>
           ) : (
             <div className="max-w-3xl space-y-12">
-              {page.sections.map((section, index) => (
+              {page.sections.map((section) => (
                 <section key={section.heading} {...reveal()}>
                   <h2 className="text-xl font-semibold text-ink sm:text-2xl">{section.heading}</h2>
-                  <SectionBody section={section} />
-                  {pageKey === "cookies" && index === page.sections.length - 1 ? (
-                    <CookieReset label={subpage.cookies.clear} done={subpage.cookies.cleared} />
-                  ) : null}
+                  <SectionBody section={section} dict={dict} />
                 </section>
               ))}
             </div>

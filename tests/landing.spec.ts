@@ -294,7 +294,7 @@ test.describe("footer and subpages", () => {
 
     await page.goto("/en/cookies");
     await page.getByRole("button", { name: "Clear my saved language" }).click();
-    await expect(page.getByRole("status")).toHaveText(/no longer stores/);
+    await expect(page.getByText("Done. The website no longer stores your language choice.")).toBeVisible();
     expect((await context.cookies()).some((c) => c.name === "elynto-lang")).toBe(false);
   });
 

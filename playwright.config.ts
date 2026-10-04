@@ -14,6 +14,8 @@ export default defineConfig({
     command: `npm run build && npm run start -- -p ${PORT}`,
     url: `http://localhost:${PORT}/vi`,
     reuseExistingServer: true,
+    // Stats dashboard password and a throwaway folder for the events the tests generate.
+    env: { STATS_PASSWORD: process.env.STATS_PASSWORD ?? "elynto-test", STATS_DATA_DIR: ".data/test-stats" },
     timeout: 240_000,
   },
   projects: [

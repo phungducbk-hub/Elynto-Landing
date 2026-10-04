@@ -538,5 +538,12 @@ export const en: Dictionary = {
       clear: "Clear my saved language",
       cleared: "Done. The website no longer stores your language choice.",
     },
+    stats: {
+      on: "Statistics are on for this browser.",
+      off: "Off. Visits from this browser are not recorded.",
+      signal: "Your browser sends Do Not Track or Global Privacy Control, so your visits are not recorded.",
+      disable: "Don’t record my visits",
+      enable: "Turn statistics back on",
+    },
   },
 };

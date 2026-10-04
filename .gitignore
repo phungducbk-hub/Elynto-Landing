@@ -26,3 +26,6 @@ npm-debug.log*
 
 # vercel
 .vercel
+
+# local visit statistics (file store)
+/.data/
