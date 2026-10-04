@@ -6,7 +6,7 @@
 - Các bản khác vẫn còn trong lịch sử git để tham khảo hoặc lấy lại từng phần: `580dae7` (thiết kế lại theo skill frontend-design), `cc03398` (câu chữ theo nghiên cứu khách hàng + toàn bộ hình dựng lại).
 - Đã thêm khối **“Nghe có quen không?”** dùng component testimonial bạn gửi, đặt sau “Dành cho ai”, cùng **hiệu ứng trượt** cho chữ và hình trên toàn trang (xem mục 3).
 - Đủ hai bản **Tiếng Việt** (`/vi`) và **English** (`/en`). Cách chạy và cấu hình xem [`README.md`](./README.md).
-- Build production thành công. Lint và typecheck không lỗi. **45** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
+- Build production thành công. Lint và typecheck không lỗi. **47** test Playwright đạt trên desktop (1440×900) và mobile (Pixel 7).
 - Chưa triển khai lên Vercel, chưa đổi DNS, chưa công khai.
 
 ## 2. Hai hình dựa trên giao diện thật
@@ -37,6 +37,8 @@ Dữ liệu trong hình là dữ liệu mẫu: không có “Phong Du”, “ALE
 ### Hiệu ứng trượt
 
 - **Hero:** khi tải trang, nhãn, câu vision, mô tả và CTA lần lượt trượt lên, mỗi dòng cách nhau 80 ms. Khung demo trượt vào từ bên phải; trên mobile thì trượt lên.
+- **Câu vision:** chia thành ba dòng: “The interface” (màu xanh `#2c5281`, khác màu navy của phần còn lại) / “between” / “[you | your team] and your work”. Trên mobile, phần “and your work” xuống dòng riêng. Chữ trong pill đổi qua lại giữa “you” (nền xanh) và “your team” (nền xanh ngọc, cùng màu dùng cho người phụ trách trong các hình): chữ cũ cuộn lên, chữ mới cuộn vào, pill đổi màu và co giãn theo độ dài chữ, kéo phần chữ phía sau đi theo. Hiệu ứng chỉ chạy khi hero đang trên màn hình. Người bật giảm chuyển động thấy “you” đứng yên. Trình đọc màn hình, SEO và ảnh chia sẻ dùng câu gốc “The interface between you and your work”.
+- **Cỡ chữ hero:** để “your team and your work” nằm gọn trên một dòng, cỡ chữ tự co theo cột: khoảng 44 px ở desktop (trước đây 58 px), 39 px ở màn hình 1024 px, 40 px trên mobile. Cột chữ được nới rộng hơn cột demo một chút. Chữ đổi liên tục nên chưa đạt WCAG 2.2.2 ở mức nghiêm ngặt nhất (chưa có nút dừng). Nếu cần, có thể cho pill dừng ở “you” sau vài vòng.
 - **Khi cuộn:** tiêu đề và đoạn chữ trượt lên theo thứ tự eyebrow → tiêu đề → mô tả → các ý. Hình sản phẩm trượt vào từ phía nó đứng (trái hoặc phải), chậm hơn chữ một nhịp. Ảnh lớn (kế hoạch AI, trang dự án, tường tình huống) vừa trượt lên vừa phóng nhẹ từ 97%. Các thẻ lợi ích, đối tượng và bước kế hoạch hiện lần lượt. Khối CTA cuối phóng nhẹ, chữ bên trong theo sau.
 - **Nhịp:** một đường cong chậm dần (`cubic-bezier(0.16, 1, 0.3, 1)`), dài 0,7–1 giây. Mỗi phần tử chỉ chạy một lần, không lặp lại khi cuộn lên.
 - **An toàn:** chỉ ẩn trước khi hiện nếu trình duyệt cho phép chuyển động. Không có JavaScript, bật giảm chuyển động, in trang, hoặc JavaScript chưa chạy sau 4 giây thì nội dung đều hiện đầy đủ. Không gây tràn ngang và không ảnh hưởng SEO, vì nội dung vẫn nằm trong HTML.
@@ -54,6 +56,7 @@ Phiên này vẫn không truy cập được `beta.elynto.io` (proxy từ chối
 | 1 | **Route đăng ký** | Mọi nút “Dùng thử miễn phí” dẫn tới `https://beta.elynto.io` (URL gốc, không đoán `/signup`) | Cung cấp route chính thức → đặt `NEXT_PUBLIC_SIGNUP_URL` |
 | 2 | **Có thật sự cho dùng thử miễn phí và tự đăng ký?** | CTA ghi “Dùng thử miễn phí / Start free trial” theo brief. Không nêu thời hạn, thẻ thanh toán hay giới hạn | Nếu beta chưa mở tự đăng ký hoặc chưa miễn phí, phải sửa CTA hoặc mở luồng đăng ký trước khi công khai |
 | 3 | Route đăng nhập | “Đăng nhập” dẫn tới `https://beta.elynto.io` | Đặt `NEXT_PUBLIC_LOGIN_URL` nếu có route riêng |
+| 4 | **“Chỉ trong 10 giây”** ở tiêu đề phần lập kế hoạch AI | Thêm theo yêu cầu | Đo thời gian AI tạo bản nháp kế hoạch trên beta. Nếu thường lâu hơn 10 giây, nên đổi con số hoặc bỏ |
 
 ### Đã thấy trong ảnh giao diện
 
@@ -100,7 +103,7 @@ Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu.
 
 - `npm run build` thành công; `/vi`, `/en` và ảnh Open Graph được tạo tĩnh lúc build.
 - `npm run lint`: 0 lỗi, 0 cảnh báo. `npm run typecheck`: đạt.
-- `npm run test:e2e`: 45 test đạt, 1 test chỉ dành cho mobile được bỏ qua trên desktop:
+- `npm run test:e2e`: 47 test đạt, 1 test chỉ dành cho mobile được bỏ qua trên desktop:
   - chuyển hướng `/` theo Accept-Language, lựa chọn đã lưu thắng ngôn ngữ trình duyệt, trang 404 song ngữ;
   - hero chứa định vị và vision, mọi CTA đăng ký trỏ đúng URL, demo có nhãn minh họa;
   - metadata và ảnh OG theo từng ngôn ngữ;

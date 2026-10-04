@@ -75,6 +75,8 @@
 
   --animate-caret: caret 1s steps(1) infinite;
   --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+  --animate-word-in: word-in 0.6s var(--ease-out-expo) both;
+  --animate-word-out: word-out 0.45s var(--ease-out-expo) both;
   /* Each column sets its own animation-duration inline so the columns drift out of step. */
   --animate-marquee: marquee-up 30s linear infinite;
 
@@ -100,6 +102,23 @@
     from {
       opacity: 0;
       transform: translate3d(2.5rem, 0, 0) scale(0.98);
+    }
+  }
+
+  /* Hero word swap: the new word rolls up into the pill, the old one rolls up and out. */
+  @keyframes word-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.5em, 0);
+      filter: blur(0.06em);
+    }
+  }
+
+  @keyframes word-out {
+    to {
+      opacity: 0;
+      transform: translate3d(0, -0.5em, 0);
+      filter: blur(0.06em);
     }
   }
 

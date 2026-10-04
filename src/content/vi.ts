@@ -164,7 +164,7 @@ export const vi: Dictionary = {
   },
   planning: {
     eyebrow: "Lập kế hoạch dự án với AI",
-    title: "Từ một mục tiêu đến kế hoạch có thể bắt đầu.",
+    title: "Từ một mục tiêu đến kế hoạch chỉ trong 10 giây.",
     body: "Nhập mục tiêu của bạn. AI phác thảo các giai đoạn và công việc cần làm. Bạn xem lại, thêm, bớt và điều chỉnh trước khi tạo dự án.",
     steps: [
       {

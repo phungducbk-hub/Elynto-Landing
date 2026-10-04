@@ -214,6 +214,14 @@ test("mobile menu opens and closes with Escape", async ({ page, isMobile }) => {
   await expect(page.getByRole("button", { name: "Mở menu" })).toBeFocused();
 });
 
+test("hero subject cycles between 'you' and 'your team'", async ({ page }) => {
+  await page.goto("/en");
+  const line = page.locator("[data-swap-line]");
+  await expect(line).toBeVisible();
+  // The first swap rolls "your team" in after a few seconds.
+  await expect(line.locator(".animate-word-in")).toHaveText("your team", { timeout: 6000 });
+});
+
 test("content slides in as it scrolls into view", async ({ page }) => {
   await page.goto("/vi");
   await expect(page.locator("html")).toHaveAttribute("data-motion", "live");
@@ -232,6 +240,9 @@ test("respects reduced motion: demo starts paused, nothing waits to slide in", a
   await expect(page.locator("#demo")).toContainText("Đã tạo công việc");
 
   await expect(page.locator("html")).not.toHaveAttribute("data-motion");
+  // The hero subject holds on "you".
+  await page.waitForTimeout(3500);
+  await expect(page.locator("[data-swap-line] .animate-word-in")).toHaveCount(0);
   await expect(page.locator("#faq-title")).toHaveCSS("opacity", "1");
   // The situations wall stands still, so it needs no pause control.
   await expect(page.locator("#voices").getByRole("button", { name: "Tạm dừng chuyển động" })).toBeHidden();

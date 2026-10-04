@@ -164,7 +164,7 @@ export const en: Dictionary = {
   },
   planning: {
     eyebrow: "Plan projects with AI",
-    title: "From a goal to a plan you can start on.",
+    title: "From one goal to a plan in just 10 seconds.",
     body: "Type in your goal. AI sketches out the phases and the tasks in each one. You review, add, remove and adjust before creating the project.",
     steps: [
       {
