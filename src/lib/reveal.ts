@@ -1,10 +1,11 @@
 import type { CSSProperties } from "react";
 
 /**
- * How an element enters: "up" rises into place (text), "scale" rises and settles (large visuals),
- * "from-left"/"from-right" slide in horizontally on wide screens and rise on small ones.
+ * How an element enters: "up" rises into place (text), "scale" rises and settles (large blocks),
+ * "visual" drifts in lightly and slowly (product visuals), and "from-left"/"from-right" do the same
+ * from the side on wide screens.
  */
-export type RevealFrom = "up" | "scale" | "from-left" | "from-right";
+export type RevealFrom = "up" | "scale" | "visual" | "from-left" | "from-right";
 
 /** Props that mark an element for the scroll reveal (see globals.css and RevealObserver). */
 export function reveal(from: RevealFrom = "up", delayMs = 0) {

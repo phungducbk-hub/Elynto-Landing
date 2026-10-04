@@ -98,7 +98,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               ))}
             </ol>
 
-            <div {...reveal("scale", 100)} className="mx-auto mt-12 max-w-5xl">
+            <div {...reveal("visual", 100)} className="mx-auto mt-12 max-w-5xl">
               {planningShot ? <ProductShot image={planningShot} /> : <PlanDraft copy={planning.mock} badge={illustration} />}
             </div>
 
@@ -150,7 +150,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               </ul>
             </div>
           </div>
-          <div {...reveal("scale", 100)} className="mt-10">
+          <div {...reveal("visual", 100)} className="mt-10">
             {projectShot ? (
               <ProductShot image={projectShot} />
             ) : (

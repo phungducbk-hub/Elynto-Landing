@@ -20,7 +20,7 @@ const subjects: SwapWord[] = heroVision.subjects.map((text, i) => ({
   pillClassName: subjectTints[i % subjectTints.length],
 }));
 
-const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-rise lg:motion-safe:animate-enter-right";
+const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-visual-in lg:motion-safe:animate-enter-right";
 
 export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const { hero, demo } = dict;

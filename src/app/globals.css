@@ -98,10 +98,18 @@
     }
   }
 
+  /* Product visuals: a short, unhurried drift — lighter and slower than the text. */
   @keyframes enter-right {
     from {
       opacity: 0;
-      transform: translate3d(2.5rem, 0, 0) scale(0.98);
+      transform: translate3d(1.5rem, 0, 0) scale(0.99);
+    }
+  }
+
+  @keyframes visual-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 1rem, 0) scale(0.985);
     }
   }
 
@@ -145,7 +153,8 @@
 /* Inlined so --enter-delay resolves on each element, letting hero lines stagger. */
 @theme inline {
   --animate-rise: rise 0.9s var(--ease-out-expo) var(--enter-delay, 0s) both;
-  --animate-enter-right: enter-right 1.1s var(--ease-out-expo) var(--enter-delay, 0s) both;
+  --animate-enter-right: enter-right 2.2s var(--ease-out-soft) var(--enter-delay, 0s) both;
+  --animate-visual-in: visual-in 2.2s var(--ease-out-soft) var(--enter-delay, 0s) both;
   --font-sans:
     var(--font-be-vietnam), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
@@ -192,34 +201,46 @@
 }
 
 /*
- * Scroll reveal. Text rises into place; product visuals slide in from the side they sit on
- * (vertically on small screens). Elements start hidden only once the inline script in the root
- * layout has armed html[data-motion], so visitors without JavaScript, with reduced motion, or
- * printing the page always see everything. RevealObserver sets data-revealed on entry.
+ * Scroll reveal. Text rises into place; product visuals drift in more gently and more slowly, from
+ * the side they sit on (vertically on small screens). Elements start hidden only once the inline
+ * script in the root layout has armed html[data-motion], so visitors without JavaScript, with
+ * reduced motion, or printing the page always see everything. RevealObserver sets data-revealed.
  */
 [data-reveal] {
   --reveal-from: translate3d(0, 1.5rem, 0);
+  --reveal-fade: 0.7s;
+  --reveal-move: 1s;
+  --reveal-ease: var(--ease-out-expo);
 }
 
 [data-reveal="scale"] {
   --reveal-from: translate3d(0, 2rem, 0) scale(0.97);
 }
 
+[data-reveal="visual"],
+[data-reveal="from-left"],
+[data-reveal="from-right"] {
+  --reveal-from: translate3d(0, 1rem, 0) scale(0.985);
+  --reveal-fade: 1.4s;
+  --reveal-move: 2.2s;
+  --reveal-ease: var(--ease-out-soft);
+}
+
 @media (min-width: 64rem) {
   [data-reveal="from-left"] {
-    --reveal-from: translate3d(-3rem, 0, 0);
+    --reveal-from: translate3d(-1.5rem, 0, 0);
   }
 
   [data-reveal="from-right"] {
-    --reveal-from: translate3d(3rem, 0, 0);
+    --reveal-from: translate3d(1.5rem, 0, 0);
   }
 }
 
 @media screen and (prefers-reduced-motion: no-preference) {
   html[data-motion] [data-reveal] {
     transition:
-      opacity 0.7s var(--ease-out-expo),
-      transform 1s var(--ease-out-expo);
+      opacity var(--reveal-fade) var(--reveal-ease),
+      transform var(--reveal-move) var(--reveal-ease);
     transition-delay: var(--reveal-delay, 0ms);
   }
 

@@ -220,8 +220,8 @@ test("hero subject cycles between 'you' and 'your team'", async ({ page }) => {
   const line = page.locator("[data-swap-line]");
   await expect(line).toBeVisible();
   await expect(line.locator(".animate-word-in")).toHaveCount(0);
-  // Each word holds for 8 seconds, then the next one rolls in.
-  await page.clock.runFor(8500);
+  // Each word holds for 10 seconds, then the next one rolls in.
+  await page.clock.runFor(10_500);
   await expect(line.locator(".animate-word-in")).toHaveText("your team");
 });
 
