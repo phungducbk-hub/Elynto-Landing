@@ -1,9 +1,12 @@
-/** Feature pages live under /[lang]/features/[slug]; every other subpage sits at /[lang]/[slug]. */
+/**
+ * Feature pages live under /[lang]/features/[slug]; every other subpage sits at /[lang]/[slug].
+ * Features are listed in the order the home page presents them.
+ */
 export const featurePageKeys = [
   "natural-language-tasks",
-  "ai-planning",
   "delegated-work",
   "today",
+  "ai-planning",
   "project-views",
 ] as const;
 

@@ -51,7 +51,7 @@ Footer làm theo bố cục mẫu: logo, câu vision và nút dùng thử ở b�
 
 | Cột | Trang | Nội dung |
 | --- | --- | --- |
-| Sản phẩm | Tạo việc bằng câu nói · Lập kế hoạch với AI (nhãn “AI”) · Theo dõi việc đã giao · Hôm nay & Việc của tôi · Danh sách, Lịch, Gantt | Mỗi trang có phần giới thiệu, hình minh họa dùng lại từ trang chủ và 3–4 ý chính |
+| Sản phẩm | Tạo việc bằng câu nói · Theo dõi việc đã giao · Hôm nay & Việc của tôi · Lập kế hoạch với AI (nhãn “AI”) · Danh sách, Lịch, Gantt (cùng thứ tự với trang chủ) | Mỗi trang có phần giới thiệu, hình minh họa dùng lại từ trang chủ và 3–4 ý chính |
 | Tài nguyên | Hướng dẫn bắt đầu · Viết yêu cầu hiệu quả · Câu hỏi thường gặp | 6 bước làm quen; cách viết câu để Elynto hiểu đúng; FAQ của trang chủ |
 | Công ty | Về Elynto · Liên hệ | Tầm nhìn, cách Elynto được làm ra, dành cho ai, giai đoạn beta; trang liên hệ lấy email từ `NEXT_PUBLIC_CONTACT_EMAIL` |
 | Pháp lý | Quyền riêng tư · Cookie | Mô tả đúng những gì website này lưu (một cookie `elynto-lang`); trang Cookie có nút xóa lựa chọn đã lưu |
@@ -120,7 +120,7 @@ Khi quay hoặc chụp màn hình, chỉ dùng dữ liệu mẫu.
 - **5 giây đầu**: H1 gồm dòng mô tả theo ngôn ngữ đang chọn (“Elynto — Quản lý công việc bằng AI”) và câu vision tiếng Anh nổi bật “The interface between you and your work”. Ngay dưới là câu giải thích lợi ích và hai CTA. Bên phải là demo đang hiển thị sẵn kết quả: một công việc có tên, người phụ trách, thời hạn.
 - **Gộp “Demo chủ đạo” vào hero**: demo chính nằm ngay trong màn hình đầu thay vì lặp lại thành một section riêng. “Xem Elynto hoạt động” cuộn tới demo và phát lại từ đầu. Trên mobile, demo nằm ngay sau CTA.
 - **Demo**: mở đầu bằng kết quả cuối (hiểu ngay giá trị), sau đó lặp lại chuỗi gõ câu → xử lý → tạo xong, khoảng 10 giây mỗi vòng. Tự dừng khi ra khỏi màn hình hoặc khi tab bị ẩn; có nút dừng/phát lại. Với người bật “giảm chuyển động”, demo đứng yên ở kết quả cho tới khi bấm phát. Phần này không phải ô chat, người xem không nhập được gì.
-- **Lợi ích trước, tính năng sau**: Lợi ích (3 ý) → Cách hoạt động → Dành cho ai → Nghe có quen không? → FAQ → CTA cuối.
+- **Lợi ích trước, tính năng sau**: Lợi ích (3 ý) → Cách hoạt động → Dành cho ai → Nghe có quen không? → FAQ → CTA cuối. Trong “Cách hoạt động”, các tính năng đi theo một ngày làm việc: tạo và giao việc → theo dõi việc đã giao → Mỗi ngày → lập kế hoạch dự án với AI → theo dõi dự án. Hình và chữ đổi bên luân phiên trái/phải.
 - **Lập kế hoạch với AI** có dải nền riêng, 3 bước và một ô nhấn mạnh “Xem lại và chỉnh sửa trước khi tạo dự án”, kèm ghi chú “quyết định cuối cùng thuộc về bạn”.
 - **Không lặp hàng card**: Lợi ích dùng các cột ngăn bằng đường kẻ; “Dành cho ai” là một khối chia ba cột; CTA cuối là khối navy duy nhất trên nền sáng.
 - **Câu chữ**: đổi “Nói việc cần làm” thành “Chỉ cần mô tả việc cần làm” để không gợi ý nhập bằng giọng nói. Giữ “Một câu nói. Công việc rõ người, rõ hạn.” vì demo cho thấy rõ là gõ chữ. Thêm mẹo “nêu rõ việc gì, ai làm, khi nào xong” để không ngụ ý AI hiểu mọi yêu cầu.

@@ -58,6 +58,13 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             )}
           </FeatureRow>
         </div>
+
+        {/* Then the day-to-day view of everything that needs you. */}
+        <div className="mt-24 sm:mt-32">
+          <FeatureRow id="feature-today" eyebrow={today.eyebrow} title={today.title} body={today.body} points={today.points}>
+            {todayShot ? <ProductShot image={todayShot} /> : <TodayView copy={today.mock} badge={illustration} />}
+          </FeatureRow>
+        </div>
       </Container>
 
       {/* AI project planning — the key differentiator, given its own band. */}
@@ -111,18 +118,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
       </div>
 
       <Container className="py-24 sm:py-32">
-        <FeatureRow
-          id="feature-today"
-          eyebrow={today.eyebrow}
-          title={today.title}
-          body={today.body}
-          points={today.points}
-          reverse
-        >
-          {todayShot ? <ProductShot image={todayShot} /> : <TodayView copy={today.mock} badge={illustration} />}
-        </FeatureRow>
-
-        <article id="feature-views" aria-labelledby="feature-views-title" className="mt-24 sm:mt-32">
+        <article id="feature-views" aria-labelledby="feature-views-title">
           <div className="grid gap-4 lg:grid-cols-2 lg:gap-16">
             <div className="max-w-xl">
               <p {...reveal()} className="text-sm font-semibold tracking-wide text-brand-600">
