@@ -7,6 +7,7 @@ import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
+import { Voices } from "@/components/sections/Voices";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
 import { getPages } from "@/content/pages";
@@ -52,6 +53,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         <Benefits dict={dict} />
         <HowItWorks lang={lang} dict={dict} />
         <Audience dict={dict} />
+        <Voices dict={dict} />
         <Faq dict={dict} />
         <FinalCta dict={dict} />
       </main>

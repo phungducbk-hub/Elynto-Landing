@@ -10,7 +10,7 @@ export type SwapWord = {
 };
 
 /** How long each word stays before the next one rolls in. */
-const HOLD_MS = 10_000;
+const HOLD_MS = 2_800;
 
 // Vertical padding clears ascenders and descenders inside the clipped pill; the matching negative
 // margin keeps the pill from making its line taller than the others.
@@ -21,7 +21,8 @@ const pillBase =
  * A word in a tinted pill that cycles through alternatives, after Notion's hero: the old word rolls
  * up and out, the new one rolls in, and the pill changes colour and eases to the new width, carrying
  * the rest of the line with it. Decorative — the caller gives assistive tech the full sentence.
- * Holds the first word under reduced motion, and only cycles while on screen.
+ * Under reduced motion the words still change, without the rolling animation.
+ * Only cycles while on screen.
  */
 export function WordSwap({ words }: { words: SwapWord[] }) {
   const [{ index, previous }, setState] = useState<{ index: number; previous: number | null }>({
@@ -46,7 +47,7 @@ export function WordSwap({ words }: { words: SwapWord[] }) {
 
   useEffect(() => {
     const pill = pillRef.current;
-    if (!pill || words.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!pill || words.length < 2) return;
 
     let timer: number | undefined;
     let onScreen = false;
@@ -87,11 +88,12 @@ export function WordSwap({ words }: { words: SwapWord[] }) {
       >
         <span className="relative inline-block">
           {previous !== null ? (
-            <span key={`out-${previous}`} className="absolute top-0 left-0 animate-word-out">
+            <span key={`out-${previous}`} className="absolute top-0 left-0 hidden motion-safe:block motion-safe:animate-word-out">
               {words[previous].text}
             </span>
           ) : null}
-          <span key={`in-${index}`} className={cn("inline-block", previous !== null && "animate-word-in")}>
+          <span key={`in-${index}`} data-current-word
+            className={cn("inline-block", previous !== null && "motion-safe:animate-word-in")}>
             {current.text}
           </span>
         </span>

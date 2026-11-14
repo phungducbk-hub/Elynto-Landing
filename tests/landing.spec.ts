@@ -9,7 +9,7 @@ const copy = {
     eyebrow: "Elynto — Quản lý công việc bằng AI",
     cta: "Dùng thử miễn phí",
     demoCta: "Xem Elynto hoạt động",
-    illustration: "Bản dựng từ giao diện beta thực tế",
+    illustration: "Demo tương tác bằng dữ liệu mẫu",
     pause: "Tạm dừng minh họa",
     play: "Phát minh họa",
     faq: "Tôi có thể dùng Elynto một mình không?",
@@ -26,7 +26,7 @@ const copy = {
     eyebrow: "Elynto — AI-powered work management",
     cta: "Start free trial",
     demoCta: "See it in action",
-    illustration: "Recreated from the live beta interface",
+    illustration: "Interactive demo with sample data",
     pause: "Pause demo",
     play: "Play demo",
     faq: "Can I use Elynto on my own?",
@@ -137,6 +137,21 @@ for (const lang of ["vi", "en"] as const) {
       await expect(demo.getByRole("tabpanel")).toContainText("Approval");
     });
 
+    test("sending creates a sample task, shows loading, and replay clears it", async ({ page }) => {
+      await page.clock.install();
+      await page.goto(`/${lang}`);
+      await page.getByRole("link", { name: t.demoCta }).click();
+      const demo = page.locator("#demo");
+      const send = lang === "vi" ? "Gửi" : "Send";
+      await demo.getByRole("button", { name: send, exact: true }).click();
+      await expect(demo.locator("[data-demo-loading]")).toBeVisible();
+      await page.clock.runFor(2_100);
+      await expect(demo.locator("[data-created-work]")).toHaveCount(1);
+      await expect(demo.locator("[data-created-work]")).toContainText(lang === "vi" ? "Làm báo cáo" : "Prepare the report");
+      await demo.getByRole("button", { name: lang === "vi" ? "Xem lại từ đầu" : "Replay from the start", exact: true }).click();
+      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+    });
+
     test("FAQ expands", async ({ page }) => {
       await page.goto(`/${lang}`);
       await page.getByText(t.faq).click();
@@ -169,10 +184,26 @@ for (const lang of ["vi", "en"] as const) {
     test("product previews disclose sample data and never link to private work", async ({ page }) => {
       await page.goto(`/${lang}`);
       await expect(page.locator("#demo")).toContainText(t.illustration);
-      await expect(page.locator("#demo")).toContainText("SAMPLE DATA");
       await expect(page.locator('a[href*="beta.elynto.io/work/"], a[href*="beta.elynto.io/projects/"]')).toHaveCount(0);
       await expect(page.locator("body")).not.toContainText("Phong Du");
       await expect(page.locator("body")).not.toContainText("ALEX INC");
+    });
+
+    test("situations wall is labelled honestly and its motion can be paused", async ({ page }) => {
+      await page.goto(`/${lang}`);
+      const section = page.locator("#voices");
+      await expect(section.getByRole("heading", { level: 2 })).toHaveText(t.voicesTitle);
+      await expect(section).toContainText(t.voicesNote);
+      // Nine situations for assistive tech; the copy that closes the loop is hidden from it.
+      await expect(section.getByRole("listitem")).toHaveCount(9);
+
+      await section.getByRole("button", { name: t.voicesPause }).click();
+      await expect(section.getByRole("button", { name: t.voicesPlay })).toBeVisible();
+      const playState = await section
+        .locator('[role="region"] ul:not([aria-hidden])')
+        .first()
+        .evaluate((list) => getComputedStyle(list.parentElement!).animationPlayState);
+      expect(playState).toBe("paused");
     });
 
     test("has no serious accessibility violations", async ({ page }) => {
@@ -237,13 +268,13 @@ test("respects reduced motion: static product demo and visible content", async (
   const page = await context.newPage();
   await page.clock.install();
   await page.goto("/vi");
-  await expect(page.locator("#demo").getByRole("tab", { name: "Today", exact: true })).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator("#demo").getByRole("tab", { name: "Tạo công việc", exact: true })).toHaveAttribute("aria-selected", "true");
   await expect(page.locator("#demo")).toContainText("SAMPLE DATA");
 
   await expect(page.locator("html")).not.toHaveAttribute("data-motion");
-  // The hero subject holds on "you".
-  await page.clock.runFor(20_000);
-  await expect(page.locator("[data-swap-line] .animate-word-in")).toHaveCount(0);
+  // The requested word swap continues without rolling movement.
+  await page.clock.runFor(3_000);
+  await expect(page.locator("[data-current-word]")).toHaveText("your team");
   await expect(page.locator("#faq-title")).toHaveCSS("opacity", "1");
   // The situations wall stands still, so it needs no pause control.
   await expect(page.locator("#voices").getByRole("button", { name: "Tạm dừng chuyển động" })).toBeHidden();
