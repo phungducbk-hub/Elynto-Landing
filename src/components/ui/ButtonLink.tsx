@@ -5,7 +5,7 @@ type Variant = "primary" | "secondary" | "ghost" | "inverse";
 type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-brand text-white shadow-sm hover:bg-brand-hover active:bg-brand-hover",
+  primary: "bg-brand text-white shadow-[0_2px_4px_rgb(26_98_137/0.12)] hover:bg-brand-hover active:bg-brand-hover",
   secondary: "bg-surface text-ink ring-1 ring-inset ring-line-strong hover:bg-sunken hover:ring-ink-subtle/40",
   ghost: "text-ink hover:bg-sunken",
   inverse: "bg-white text-brand shadow-sm hover:bg-brand-50",
@@ -13,8 +13,8 @@ const variants: Record<Variant, string> = {
 
 const sizes: Record<Size, string> = {
   sm: "h-9 px-3.5 text-sm gap-1.5 rounded-lg",
-  md: "h-11 px-5 text-[0.9375rem] gap-2 rounded-xl",
-  lg: "h-12 px-6 text-base gap-2 rounded-xl",
+  md: "h-11 px-5 text-[0.9375rem] gap-2 rounded-lg",
+  lg: "h-12 px-6 text-base gap-2 rounded-lg",
 };
 
 type Props = AnchorHTMLAttributes<HTMLAnchorElement> & {

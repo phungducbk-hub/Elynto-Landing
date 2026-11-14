@@ -32,7 +32,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ lan
   const dict = getDictionary(isLocale(lang) ? lang : defaultLocale);
   const [, , vbWidth, vbHeight] = LOCKUP_VIEWBOX.split(" ").map(Number);
   const logoHeight = 52;
-  const navy = "#142d47";
+  const navy = "#1a6289";
 
   return new ImageResponse(
     (
@@ -44,7 +44,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ lan
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "60px 72px",
-          background: "#fcfbf8",
+          background: "#f7f7f8",
           fontFamily: "Be Vietnam Pro",
           color: navy,
         }}

@@ -17,7 +17,7 @@ export function Benefits({ dict }: { dict: Dictionary }) {
             const Icon = icons[index % icons.length];
             return (
               <li key={item.title} {...reveal("up", index * 110)} className="md:px-8 md:first:pl-0 md:last:pr-0">
-                <span className="inline-grid size-11 place-items-center rounded-xl bg-brand-50 text-brand ring-1 ring-brand-100 ring-inset">
+                <span className="inline-grid size-11 place-items-center rounded-lg bg-brand-50 text-brand ring-1 ring-brand-100 ring-inset">
                   <Icon className="size-5" aria-hidden="true" />
                 </span>
                 <h3 className="mt-5 text-xl leading-snug font-semibold text-ink">{item.title}</h3>

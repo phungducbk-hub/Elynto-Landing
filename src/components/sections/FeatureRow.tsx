@@ -23,7 +23,7 @@ export function FeatureRow({ id, eyebrow, title, body, points, tip, reverse, wid
       id={id}
       aria-labelledby={headingId}
       className={cn(
-        "grid items-center gap-10 lg:gap-16",
+        "grid items-center gap-10 border-t border-line pt-12 lg:gap-20 lg:pt-16",
         !wideVisual && "lg:grid-cols-2",
         wideVisual && !reverse && "lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]",
         wideVisual && reverse && "lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-14",
@@ -52,7 +52,7 @@ export function FeatureRow({ id, eyebrow, title, body, points, tip, reverse, wid
           </ul>
         ) : null}
         {tip ? (
-          <p {...reveal("up", 280)} className="mt-6 flex gap-2.5 rounded-xl bg-sunken px-4 py-3 text-sm leading-relaxed text-ink-muted">
+          <p {...reveal("up", 280)} className="mt-6 flex gap-2.5 rounded-lg border border-line bg-surface px-4 py-3 text-sm leading-relaxed text-ink-muted">
             <Lightbulb className="mt-0.5 size-4 shrink-0 text-field-due" aria-hidden="true" />
             {tip}
           </p>

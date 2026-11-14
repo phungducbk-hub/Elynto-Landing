@@ -1,35 +1,32 @@
 @import "tailwindcss";
 
-/*
- * Design tokens — PROVISIONAL.
- * `brand` is sampled from the supplied logo files (#142D47). Everything else is a
- * working palette for this landing page, not an official Elynto brand guide.
- * Change values here; components only use the token names.
+/* Still Harbor: core values verified against beta.elynto.io on 2026-11-14.
+ * Supporting tints are landing-specific; authenticated product screens await review.
  */
 @theme {
-  /* Brand navy */
-  --color-brand: #142d47;
-  --color-brand-hover: #0d2035;
-  --color-brand-700: #1f3d5e;
-  --color-brand-600: #2c5281;
-  --color-brand-200: #c9d6e5;
-  --color-brand-100: #e4ebf3;
-  --color-brand-50: #f1f5f9;
+  /* Still Harbor primary */
+  --color-brand: #1a6289;
+  --color-brand-hover: #15506f;
+  --color-brand-700: #185979;
+  --color-brand-600: #1a6289;
+  --color-brand-200: #c7dce7;
+  --color-brand-100: #e6f0f5;
+  --color-brand-50: #f0f6f9;
 
   /* Text */
-  --color-ink: #101c2b;
-  --color-ink-muted: #475467;
-  --color-ink-subtle: #5f6b7c;
+  --color-ink: #1a2530;
+  --color-ink-muted: #5a6573;
+  --color-ink-subtle: #5a6573;
 
-  /* Surfaces (warm white) */
-  --color-canvas: #fcfbf8;
+  /* App surfaces */
+  --color-canvas: #f7f7f8;
   --color-surface: #ffffff;
-  --color-sunken: #f5f3ee;
-  --color-line: #e7e3db;
-  --color-line-strong: #d5d0c5;
+  --color-sunken: #ebeef2;
+  --color-line: #dbe0e6;
+  --color-line-strong: #c4ccd5;
 
   /* Task-field accents (used in illustrations and legends) */
-  --color-field-task: #2c5281;
+  --color-field-task: #1a6289;
   --color-field-task-soft: #e6edf6;
   --color-field-assignee: #0e6f66;
   --color-field-assignee-soft: #e0f1ee;
@@ -39,21 +36,21 @@
   /* Status */
   --color-status-done: #157a3c;
   --color-status-done-soft: #e5f4ea;
-  --color-status-progress: #2c5281;
+  --color-status-progress: #1a6289;
   --color-status-progress-soft: #e6edf6;
-  --color-status-todo: #5f6b7c;
+  --color-status-todo: #5a6573;
   --color-status-todo-soft: #eff0f2;
   --color-status-overdue: #b42318;
   --color-status-overdue-soft: #fdecea;
 
   /* Work statuses as they exist in the Elynto beta (used inside product illustrations). */
-  --color-st-draft: #5f6b7c;
+  --color-st-draft: #5a6573;
   --color-st-draft-bg: #f0f2f5;
   --color-st-assigned: #34465a;
   --color-st-assigned-bg: #e7ebf0;
   --color-st-accepted: #4a3f8f;
   --color-st-accepted-bg: #ebe9f7;
-  --color-st-progress: #2c5281;
+  --color-st-progress: #1a6289;
   --color-st-progress-bg: #e2ebf7;
   --color-st-submitted: #7a4a0c;
   --color-st-submitted-bg: #fbf0dc;
@@ -156,7 +153,7 @@
   --animate-enter-right: enter-right 2.2s var(--ease-out-soft) var(--enter-delay, 0s) both;
   --animate-visual-in: visual-in 2.2s var(--ease-out-soft) var(--enter-delay, 0s) both;
   --font-sans:
-    var(--font-be-vietnam), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
 }
 

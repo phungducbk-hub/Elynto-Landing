@@ -13,7 +13,7 @@ export function FinalCta({ dict }: { dict: Dictionary }) {
       <Container className="pb-20 sm:pb-28">
         <div
           {...reveal("scale")}
-          className="relative isolate overflow-hidden rounded-3xl bg-brand px-6 py-14 text-center sm:px-12 sm:py-20"
+          className="relative isolate overflow-hidden rounded-2xl bg-brand px-6 py-14 text-center sm:px-12 sm:py-24"
         >
           <Logo
             variant="mark"

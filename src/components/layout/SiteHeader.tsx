@@ -64,11 +64,11 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl, homePath = "" }: Pr
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-canvas transition-[border-color,box-shadow] duration-200",
+        "sticky top-0 z-50 border-b bg-canvas/90 backdrop-blur-xl transition-[border-color,box-shadow] duration-200",
         scrolled || open ? "border-line shadow-[0_1px_0_rgb(16_28_43/0.02)]" : "border-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
         <a href={homePath || "#top"} className="-m-1 shrink-0 rounded-md p-1 text-brand" aria-label={nav.home}>
           <Logo className="h-7 w-auto sm:h-8" title={null} />
         </a>
