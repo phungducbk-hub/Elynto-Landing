@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* Still Harbor: core values verified against beta.elynto.io on 2026-11-14.
- * Supporting tints are landing-specific; authenticated product screens await review.
+ * Authenticated Today, My Work, Delegated, project and planner screens reviewed.
  */
 @theme {
   /* Still Harbor primary */
@@ -168,8 +168,7 @@
     background-color: var(--color-canvas);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    /* Be Vietnam Pro ships a narrow word space; Vietnamese is space-heavy, so open it slightly. */
-    word-spacing: 0.04em;
+    word-spacing: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -255,4 +254,12 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Beta interface previews retain the app's quiet surfaces, fine borders and compact controls. */
+.product-shell { display: grid; grid-template-columns: 178px minmax(0, 1fr); }
+.product-sidebar { display: flex; flex-direction: column; }
+@media (max-width: 767px) {
+  .product-shell { grid-template-columns: minmax(0, 1fr); }
+  .product-sidebar { display: none; }
 }

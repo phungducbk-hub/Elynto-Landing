@@ -21,6 +21,7 @@ export type AnalyticsEvent =
   | "nav_click"
   | "language_switch"
   | "mobile_menu_toggle"
+  | "demo_screen_select"
   | "demo_view"
   | "demo_play"
   | "demo_pause"

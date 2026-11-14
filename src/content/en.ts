@@ -89,7 +89,7 @@ export const en: Dictionary = {
     intro:
       "Elynto turns a plain description into structured tasks, helps you plan, and lets you follow everything in clear, visual views.",
   },
-  illustration: "Illustration",
+  illustration: "Recreated from the live beta interface · Sample data",
   command: {
     eyebrow: "Create and assign tasks",
     title: "Work starts with a single sentence.",
@@ -164,7 +164,7 @@ export const en: Dictionary = {
   },
   planning: {
     eyebrow: "Plan projects with AI",
-    title: "From one goal to a plan in just 10 seconds.",
+    title: "From one goal to a plan you can act on.",
     body: "Type in your goal. AI sketches out the phases and the tasks in each one. You review, add, remove and adjust before creating the project.",
     steps: [
       {
@@ -210,11 +210,11 @@ export const en: Dictionary = {
   today: {
     eyebrow: "Every day",
     title: "Open Elynto. See what needs you.",
-    body: "Overdue, due today and coming up — gathered in one place, along with the tasks you’ve marked important. No digging through messages or piecing lists together.",
+    body: "My Work gathers the work assigned to you into Upcoming, Overdue, Rework and Completed tabs. Due dates, priorities and statuses stay visible in each row.",
     points: [
       "Spot what’s running late at a glance.",
-      "Know what needs finishing today.",
-      "Get ahead of what’s due next.",
+      "Track work in progress and items that need rework.",
+      "Flag important work to keep your focus.",
     ],
     mock: {
       title: "Today",
@@ -266,7 +266,8 @@ export const en: Dictionary = {
         { label: "Work", value: "12 tasks" },
         { label: "Overdue", value: "None" },
         { label: "Schedule", value: "16 days left" },
-        { label: "Dates", value: "Oct 5 – Oct 25" },
+        { label: "Start", value: "5 Oct 2026" },
+        { label: "Due", value: "25 Oct 2026" },
       ],
       progress: 25,
       healthLabel: "Project health",
@@ -275,7 +276,7 @@ export const en: Dictionary = {
       analyse: "Analyse with AI",
       viewsLabel: "Project views",
       views: { list: "List", calendar: "Calendar", gantt: "Gantt" },
-      dragHint: "Drag a bar to move it, or its edge to change the start or due date.",
+      dragHint: "Sample schedule. Editing is available in the Elynto app.",
       columns: {
         task: "Task",
         assignee: "Owner",

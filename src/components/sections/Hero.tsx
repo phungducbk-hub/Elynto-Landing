@@ -1,5 +1,5 @@
 import { ArrowRight, Play } from "lucide-react";
-import { CommandDemo } from "@/components/demo/CommandDemo";
+import { ProductDemo } from "@/components/demo/ProductDemo";
 import { DemoVideo } from "@/components/demo/DemoVideo";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
@@ -80,11 +80,11 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         </div>
 
         {/* On load: the copy rises line by line, then the demo slides in from the right. */}
-        <div className="harbor-demo-stage w-full max-w-3xl rounded-2xl border border-brand-200/70 bg-brand-100/35 p-3 shadow-[0_32px_100px_-50px_rgb(26_98_137/0.35)] sm:p-6">
+        <div className="harbor-demo-stage w-full max-w-6xl rounded-2xl border border-brand-200/70 bg-brand-50 p-3 shadow-[0_32px_100px_-50px_rgb(26_98_137/0.35)] sm:p-5">
           {video ? (
             <DemoVideo video={video} copy={demo} className={demoEntrance} />
           ) : (
-            <CommandDemo copy={demo} className={demoEntrance} />
+            <ProductDemo command={demo.command} label={lang === "vi" ? "Khám phá giao diện Elynto beta" : "Explore the Elynto beta interface"} caption={lang === "vi" ? "Bản dựng từ giao diện beta thực tế · Dữ liệu mẫu · Chọn tab để khám phá" : "Recreated from the live beta interface · Sample data · Select a tab to explore"} />
           )}
         </div>
       </Container>

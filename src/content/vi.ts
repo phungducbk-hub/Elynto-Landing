@@ -89,7 +89,7 @@ export const vi: Dictionary = {
     intro:
       "Elynto chuyển lời mô tả thành công việc có cấu trúc, giúp bạn lập kế hoạch và theo dõi tất cả trên giao diện trực quan.",
   },
-  illustration: "Minh họa",
+  illustration: "Bản dựng từ giao diện beta thực tế · Dữ liệu mẫu",
   command: {
     eyebrow: "Tạo và giao việc",
     title: "Việc cần làm bắt đầu từ một câu nói.",
@@ -164,7 +164,7 @@ export const vi: Dictionary = {
   },
   planning: {
     eyebrow: "Lập kế hoạch dự án với AI",
-    title: "Từ một mục tiêu đến kế hoạch chỉ trong 10 giây.",
+    title: "Từ một mục tiêu đến kế hoạch có thể thực hiện.",
     body: "Nhập mục tiêu của bạn. AI phác thảo các giai đoạn và công việc cần làm. Bạn xem lại, thêm, bớt và điều chỉnh trước khi tạo dự án.",
     steps: [
       {
@@ -210,11 +210,11 @@ export const vi: Dictionary = {
   today: {
     eyebrow: "Mỗi ngày",
     title: "Mở Elynto. Biết việc nào cần bạn.",
-    body: "Việc quá hạn, đến hạn hôm nay và sắp đến hạn được gom về một chỗ, cùng những việc bạn đã đánh dấu quan trọng. Không cần lục lại tin nhắn hay tự tổng hợp danh sách.",
+    body: "My Work tập hợp việc được giao cho bạn, với các tab Upcoming, Overdue, Rework và Completed. Xem hạn, mức ưu tiên và trạng thái ngay trên từng dòng.",
     points: [
       "Thấy ngay việc nào đang trễ.",
-      "Biết hôm nay cần hoàn thành gì.",
-      "Chuẩn bị trước cho những việc sắp đến hạn.",
+      "Theo dõi việc đang làm và việc cần làm lại.",
+      "Đánh dấu việc quan trọng để dễ tập trung.",
     ],
     mock: {
       title: "Hôm nay",

@@ -1,3 +1,4 @@
+import { en } from "@/content/en";
 import { ArrowRight, Check, ChevronRight, Mail } from "lucide-react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -34,7 +35,7 @@ function FeatureVisual({ pageKey, dict }: { pageKey: FeaturePageKey; dict: Dicti
     case "today":
       return <TodayView copy={dict.today.mock} badge={badge} />;
     case "project-views":
-      return <ProjectWorkspace data={dict.views.data} app={dict.app} badge={badge} />;
+      return <ProjectWorkspace data={en.views.data} app={en.app} badge={badge} />;
   }
 }
 

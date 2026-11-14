@@ -9,13 +9,13 @@ const copy = {
     eyebrow: "Elynto — Quản lý công việc bằng AI",
     cta: "Dùng thử miễn phí",
     demoCta: "Xem Elynto hoạt động",
-    illustration: "Minh họa",
+    illustration: "Bản dựng từ giao diện beta thực tế",
     pause: "Tạm dừng minh họa",
     play: "Phát minh họa",
     faq: "Tôi có thể dùng Elynto một mình không?",
     faqAnswer: "Bạn có thể dùng Elynto để quản lý việc cá nhân",
-    secondTab: "Lịch",
-    secondTabContent: "Tháng 10",
+    secondTab: "Calendar",
+    secondTabContent: "October",
     title: "Elynto — Quản lý công việc bằng AI",
     voicesTitle: "Những lúc công việc bắt đầu rối",
     voicesNote: "không phải lời của một khách hàng cụ thể",
@@ -26,7 +26,7 @@ const copy = {
     eyebrow: "Elynto — AI-powered work management",
     cta: "Start free trial",
     demoCta: "See it in action",
-    illustration: "Illustrative demo",
+    illustration: "Recreated from the live beta interface",
     pause: "Pause demo",
     play: "Play demo",
     faq: "Can I use Elynto on my own?",
@@ -128,9 +128,13 @@ for (const lang of ["vi", "en"] as const) {
       await page.getByRole("link", { name: t.demoCta }).click();
       await expect(page.locator("#demo")).toBeInViewport();
 
-      const pause = page.getByRole("button", { name: t.pause });
-      await pause.click();
-      await expect(page.getByRole("button", { name: t.play })).toBeVisible();
+      const demo = page.locator("#demo");
+      await demo.getByRole("tab", { name: "My Work", exact: true }).click();
+      await expect(demo.getByRole("tabpanel")).toContainText("ASSIGNED BY");
+      await demo.getByRole("tab", { name: "My Work", exact: true }).press("ArrowRight");
+      await expect(demo.getByRole("tab", { name: "Delegated", exact: true })).toBeFocused();
+      await expect(demo.getByRole("tabpanel")).toContainText("ASSIGNED TO");
+      await expect(demo.getByRole("tabpanel")).toContainText("Approval");
     });
 
     test("FAQ expands", async ({ page }) => {
@@ -141,13 +145,14 @@ for (const lang of ["vi", "en"] as const) {
 
     test("view tabs switch with mouse and keyboard", async ({ page }) => {
       await page.goto(`/${lang}`);
-      const second = page.getByRole("tab", { name: t.secondTab });
+      const project = page.locator("#feature-views");
+      const second = project.getByRole("tab", { name: t.secondTab });
       await second.click();
       await expect(second).toHaveAttribute("aria-selected", "true");
-      await expect(page.getByRole("tabpanel")).toContainText(t.secondTabContent);
+      await expect(project.getByRole("tabpanel")).toContainText(t.secondTabContent);
 
       await second.press("ArrowRight");
-      const third = page.getByRole("tab").nth(2);
+      const third = project.getByRole("tab").nth(2);
       await expect(third).toHaveAttribute("aria-selected", "true");
       await expect(third).toBeFocused();
     });
@@ -161,21 +166,13 @@ for (const lang of ["vi", "en"] as const) {
       expect(events).toContainEqual(expect.objectContaining({ event: "cta_click", cta: "signup", location: "hero" }));
     });
 
-    test("situations wall is labelled honestly and its motion can be paused", async ({ page }) => {
+    test("product previews disclose sample data and never link to private work", async ({ page }) => {
       await page.goto(`/${lang}`);
-      const section = page.locator("#voices");
-      await expect(section.getByRole("heading", { level: 2 })).toHaveText(t.voicesTitle);
-      await expect(section).toContainText(t.voicesNote);
-      // Nine situations for assistive tech; the copy that closes the loop is hidden from it.
-      await expect(section.getByRole("listitem")).toHaveCount(9);
-
-      await section.getByRole("button", { name: t.voicesPause }).click();
-      await expect(section.getByRole("button", { name: t.voicesPlay })).toBeVisible();
-      const playState = await section
-        .locator('[role="region"] ul:not([aria-hidden])')
-        .first()
-        .evaluate((list) => getComputedStyle(list.parentElement!).animationPlayState);
-      expect(playState).toBe("paused");
+      await expect(page.locator("#demo")).toContainText(t.illustration);
+      await expect(page.locator("#demo")).toContainText("SAMPLE DATA");
+      await expect(page.locator('a[href*="beta.elynto.io/work/"], a[href*="beta.elynto.io/projects/"]')).toHaveCount(0);
+      await expect(page.locator("body")).not.toContainText("Phong Du");
+      await expect(page.locator("body")).not.toContainText("ALEX INC");
     });
 
     test("has no serious accessibility violations", async ({ page }) => {
@@ -235,13 +232,13 @@ test("content slides in as it scrolls into view", async ({ page }) => {
   await expect(heading).toHaveCSS("opacity", "1");
 });
 
-test("respects reduced motion: demo starts paused, nothing waits to slide in", async ({ browser }) => {
+test("respects reduced motion: static product demo and visible content", async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.clock.install();
   await page.goto("/vi");
-  await expect(page.getByRole("button", { name: "Phát minh họa" })).toBeVisible();
-  await expect(page.locator("#demo")).toContainText("Đã tạo công việc");
+  await expect(page.locator("#demo").getByRole("tab", { name: "Today", exact: true })).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator("#demo")).toContainText("SAMPLE DATA");
 
   await expect(page.locator("html")).not.toHaveAttribute("data-motion");
   // The hero subject holds on "you".

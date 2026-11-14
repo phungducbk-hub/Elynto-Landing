@@ -1,3 +1,4 @@
+import { en } from "@/content/en";
 import { Check, Info } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ProductShot } from "@/components/ui/ProductShot";
@@ -150,7 +151,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             {projectShot ? (
               <ProductShot image={projectShot} />
             ) : (
-              <ProjectWorkspace data={views.data} app={app} badge={illustration} />
+              <ProjectWorkspace data={en.views.data} app={en.app} badge={illustration} />
             )}
           </div>
         </article>

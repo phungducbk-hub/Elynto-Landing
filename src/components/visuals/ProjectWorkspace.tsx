@@ -2,25 +2,17 @@
 
 import {
   ArrowLeft,
-  BookOpen,
   CalendarDays,
-  ChartColumn,
   ChartGantt,
   CircleCheck,
   Ellipsis,
-  FolderKanban,
-  Inbox,
   List,
-  ListChecks,
   Lock,
   Sparkles,
-  Sun,
-  UserRoundCheck,
-  UsersRound,
 } from "lucide-react";
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { Avatar } from "@/components/ui/Avatar";
-import { Logo } from "@/components/brand/Logo";
+import { ProductShell } from "@/components/demo/ProductDemo";
 import { statusAccent, WorkStatusBadge } from "@/components/ui/WorkStatus";
 import type { Dictionary, PlanTask, ProjectView, WorkStatus } from "@/content/types";
 import { track } from "@/lib/analytics";
@@ -40,7 +32,7 @@ const TODAY = 9;
 const ME = { name: "", initials: "", self: true };
 
 /**
- * Refined recreation of a project page in the Elynto beta: workspace shell,
+ * Recreation of a project page reviewed in the Elynto beta: workspace shell,
  * project overview with health, and the list / calendar / Gantt views.
  */
 export function ProjectWorkspace({ data, app, badge }: Props) {
@@ -66,55 +58,9 @@ export function ProjectWorkspace({ data, app, badge }: Props) {
     select(views[next], true);
   };
 
-  const nav = [
-    { icon: Sun, label: app.nav.today },
-    { icon: Inbox, label: app.nav.inbox },
-    { icon: ListChecks, label: app.nav.myWork },
-    { icon: UserRoundCheck, label: app.nav.delegated },
-    { icon: FolderKanban, label: app.nav.projects, active: true },
-    { icon: UsersRound, label: app.nav.team },
-    { icon: ChartColumn, label: app.nav.reports },
-    { icon: BookOpen, label: app.nav.knowledge },
-  ];
-
   return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-float">
-      <div className="grid lg:grid-cols-[13rem_minmax(0,1fr)]">
-        {/* Sidebar */}
-        <aside aria-hidden="true" className="hidden border-r border-line bg-canvas lg:block">
-          <div className="flex h-14 items-center border-b border-line px-5 text-brand">
-            <Logo className="h-5 w-auto" title={null} />
-          </div>
-          <ul className="space-y-0.5 p-3">
-            {nav.map((item) => (
-              <li
-                key={item.label}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-[0.875rem]",
-                  item.active ? "bg-surface font-semibold text-brand shadow-[0_0_0_1px_var(--color-line)]" : "text-ink-muted",
-                )}
-              >
-                <item.icon className="size-4 shrink-0" />
-                {item.label}
-              </li>
-            ))}
-          </ul>
-        </aside>
-
-        <div className="min-w-0">
-          {/* Top bar */}
-          <div className="flex h-14 items-center justify-between gap-3 border-b border-line bg-canvas px-5 sm:px-8">
-            <span aria-hidden="true" className="text-[0.9375rem] font-semibold text-ink">
-              {app.workspace}
-            </span>
-            <span className="flex items-center gap-3">
-              <span className="rounded-full border border-line-strong bg-surface px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-ink-subtle uppercase">
-                {badge}
-              </span>
-              <Avatar person={ME} className="hidden sm:inline-grid" />
-            </span>
-          </div>
-
+    <div>
+      <ProductShell active="Projects">
           <div className="px-5 py-6 sm:px-8 sm:py-7">
             {/* Overview */}
             <p className="flex items-center gap-2 text-sm text-ink-subtle">
@@ -138,11 +84,11 @@ export function ProjectWorkspace({ data, app, badge }: Props) {
             </div>
             <p className="mt-3 max-w-[46rem] text-[0.9375rem] leading-relaxed text-pretty">{data.description}</p>
 
-            <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line lg:grid-cols-5">
+            <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line lg:grid-cols-6">
               {data.stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className={cn("bg-surface px-4 py-3", index === data.stats.length - 1 && "col-span-2 lg:col-span-1")}
+                  className="bg-surface px-4 py-3"
                 >
                   <dt className="text-[0.8125rem] text-ink-subtle">{stat.label}</dt>
                   <dd className="mt-0.5 text-[0.9375rem] font-semibold text-ink">
@@ -175,6 +121,14 @@ export function ProjectWorkspace({ data, app, badge }: Props) {
               </span>
             </div>
 
+            <div lang="en" className="mt-4 rounded-xl border border-line bg-white p-4">
+              <p className="text-sm font-semibold">Milestones</p>
+              <div className="mt-3 rounded-lg border border-dashed border-line p-4 text-xs leading-relaxed text-ink-muted">
+                <p className="font-medium text-ink">Mark the moments that define project progress.</p>
+                <p className="mt-1">Milestones can be confirmed manually or achieved automatically when linked work or phases are completed.</p>
+              </div>
+            </div>
+            <p className="mt-6 text-base font-semibold">Work <span className="ml-1 font-normal text-ink-muted">12</span></p>
             {/* Views */}
             <div className="mt-7 flex flex-col gap-2 border-b border-line md:flex-row md:items-end md:justify-between">
               <div role="tablist" aria-label={data.viewsLabel} className="-mb-px flex gap-6">
@@ -221,8 +175,8 @@ export function ProjectWorkspace({ data, app, badge }: Props) {
               {view === "gantt" && <GanttView data={data} app={app} />}
             </div>
           </div>
-        </div>
-      </div>
+      </ProductShell>
+      <p className="mt-3 text-xs text-ink-muted">{badge}</p>
     </div>
   );
 }

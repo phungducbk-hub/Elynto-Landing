@@ -115,25 +115,25 @@ export const en: PagesDictionary = {
     eyebrow: "Every day",
     title: "Open Elynto. See what needs you.",
     description:
-      "Today and My Work bring your tasks together: overdue, due today, coming up, and the ones you’ve marked important.",
+      "Today is where you start a request. My Work gathers your assigned work into Upcoming, Overdue, Rework and Completed tabs.",
     sections: [
       {
         heading: "Start the day here",
         body: [
-          "Instead of digging through messages or piecing lists together, open Today to see what’s late and what needs finishing today.",
+          "Open My Work to see your assigned work, due dates, priorities and statuses. Today at a glance in the beta currently displays sample data.",
         ],
       },
       {
         heading: "Grouped by urgency",
         points: [
           "Overdue: past the due date.",
-          "Due today: needs finishing today.",
-          "Coming up: get ahead of the next few days.",
+          "Rework: items that need another pass.",
+          "Upcoming: keep track of what is coming next.",
         ],
       },
       {
         heading: "Important work stays visible",
-        body: ["Tasks you mark as important are kept apart, so they don’t get buried among small ones."],
+        body: ["Flag important work and use Focus to concentrate on the items that need your attention."],
       },
     ],
   },
