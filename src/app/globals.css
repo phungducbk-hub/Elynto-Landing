@@ -263,3 +263,19 @@
   .product-shell { grid-template-columns: minmax(0, 1fr); }
   .product-sidebar { display: none; }
 }
+
+/* Explicit Play on the card wall also works when the OS requests reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  [data-force-motion] [data-testimonial-track] {
+    animation: marquee-up var(--testimonial-duration) linear infinite !important;
+    animation-delay: var(--testimonial-delay) !important;
+  }
+  [data-force-motion][data-paused] [data-testimonial-track] {
+    animation-play-state: paused !important;
+  }
+  [data-force-motion] [data-testimonial-copy] { display: flex; }
+  [data-force-motion] [role="region"] {
+    max-height: 46rem;
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  }
+}

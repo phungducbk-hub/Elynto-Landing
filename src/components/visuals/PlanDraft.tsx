@@ -1,6 +1,22 @@
 import type { Dictionary } from "@/content/types";
+import type { Locale } from "@/lib/i18n";
+import { getProductUi } from "@/content/product-ui";
 
-/** The actual planner entry screen, without inventing an unseen generated-result UI. */
-export function PlanDraft({ badge }: { copy: Dictionary["planning"]["mock"]; badge: string }) {
-  return <div><div lang="en" className="rounded-xl border border-line bg-canvas p-5 shadow-card sm:p-10"><p className="text-xl font-semibold tracking-tight">Plan a project with AI</p><p className="mt-2 text-xs text-ink-muted">← Back to projects</p><div className="mt-6 rounded-xl border border-line bg-white p-5"><p className="text-sm font-semibold">What do you want to achieve?</p><p className="mt-2 text-sm leading-relaxed text-ink-muted">Describe your goal and whatever you already know — for example timing, budget, team or key requirements. You can also give just the goal; Elynto will make assumptions about anything missing, for you to review.</p><div className="mt-5 min-h-24 rounded-xl border border-line p-4 text-sm leading-relaxed">Plan a website launch in 3 weeks, with design, content and final review.</div><span className="mt-3 inline-flex rounded-md bg-brand px-3 py-2 text-xs font-medium text-white">Generate plan</span></div></div><p className="mt-3 text-xs text-ink-muted">{badge}</p></div>;
+export function PlanDraft({ copy, badge, lang }: { copy: Dictionary["planning"]["mock"]; badge: string; lang: Locale }) {
+  const ui = getProductUi(lang);
+  return (
+    <div>
+      <div lang={lang} className="rounded-xl border border-line bg-canvas p-5 shadow-card sm:p-10">
+        <p className="text-xl font-semibold tracking-tight">{ui.plannerTitle}</p>
+        <p className="mt-2 text-xs text-ink-muted">{ui.backProjects}</p>
+        <div className="mt-6 rounded-xl border border-line bg-white p-5">
+          <p className="text-sm font-semibold">{ui.goalPrompt}</p>
+          <p className="mt-2 text-sm leading-relaxed text-ink-muted">{ui.goalHelp}</p>
+          <div className="mt-5 min-h-24 rounded-xl border border-line p-4 text-sm leading-relaxed">{copy.goal}</div>
+          <span className="mt-3 inline-flex rounded-md bg-brand px-3 py-2 text-xs font-medium text-white">{ui.generate}</span>
+        </div>
+      </div>
+      <p className="mt-3 text-xs text-ink-muted">{badge}</p>
+    </div>
+  );
 }

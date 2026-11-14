@@ -14,8 +14,8 @@ const copy = {
     play: "Phát minh họa",
     faq: "Tôi có thể dùng Elynto một mình không?",
     faqAnswer: "Bạn có thể dùng Elynto để quản lý việc cá nhân",
-    secondTab: "Calendar",
-    secondTabContent: "October",
+    secondTab: "Lịch",
+    secondTabContent: "Tháng 10",
     title: "Elynto — Quản lý công việc bằng AI",
     voicesTitle: "Những lúc công việc bắt đầu rối",
     voicesNote: "không phải lời của một khách hàng cụ thể",
@@ -129,12 +129,12 @@ for (const lang of ["vi", "en"] as const) {
       await expect(page.locator("#demo")).toBeInViewport();
 
       const demo = page.locator("#demo");
-      await demo.getByRole("tab", { name: "My Work", exact: true }).click();
-      await expect(demo.getByRole("tabpanel")).toContainText("ASSIGNED BY");
-      await demo.getByRole("tab", { name: "My Work", exact: true }).press("ArrowRight");
-      await expect(demo.getByRole("tab", { name: "Delegated", exact: true })).toBeFocused();
-      await expect(demo.getByRole("tabpanel")).toContainText("ASSIGNED TO");
-      await expect(demo.getByRole("tabpanel")).toContainText("Approval");
+      await demo.getByRole("tab", { name: lang === "vi" ? "Việc của tôi" : "My Work", exact: true }).click();
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Người giao" : "Assigned by");
+      await demo.getByRole("tab", { name: lang === "vi" ? "Việc của tôi" : "My Work", exact: true }).press("ArrowRight");
+      await expect(demo.getByRole("tab", { name: lang === "vi" ? "Việc đã giao" : "Delegated", exact: true })).toBeFocused();
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Giao cho" : "Assigned to");
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Chờ duyệt" : "Approval");
     });
 
     test("sending creates a sample task, shows loading, and replay clears it", async ({ page }) => {
@@ -146,10 +146,38 @@ for (const lang of ["vi", "en"] as const) {
       await demo.getByRole("button", { name: send, exact: true }).click();
       await expect(demo.locator("[data-demo-loading]")).toBeVisible();
       await page.clock.runFor(2_100);
+      await expect(demo.locator("[data-work-card]")).toBeVisible();
+      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+      await demo.getByRole("button", { name: lang === "vi" ? "Xem trong Việc của tôi" : "View in My Work", exact: true }).click();
       await expect(demo.locator("[data-created-work]")).toHaveCount(1);
       await expect(demo.locator("[data-created-work]")).toContainText(lang === "vi" ? "Làm báo cáo" : "Prepare the report");
       await demo.getByRole("button", { name: lang === "vi" ? "Xem lại từ đầu" : "Replay from the start", exact: true }).click();
       await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+    });
+
+    test("scrolling starts the demo, shows the work card, then the work list", async ({ page }) => {
+      await page.clock.install();
+      await page.goto(`/${lang}`);
+      const demo = page.locator("#demo");
+      await demo.getByRole("tabpanel").scrollIntoViewIfNeeded();
+      await expect(demo).toHaveAttribute("data-demo-running", "true");
+      await page.clock.runFor(6_500);
+      await expect(demo.locator("[data-work-card]")).toBeVisible();
+      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+      await page.clock.runFor(5_000);
+      await expect(demo.locator("[data-created-work]")).toHaveCount(1);
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Người giao" : "Assigned by");
+    });
+
+    test("product preview language follows the page locale", async ({ page }) => {
+      await page.goto(`/${lang}`);
+      const demo = page.locator("#demo");
+      await expect(demo).toContainText(lang === "vi" ? "Hỏi Elynto" : "Ask Elynto");
+      if (lang === "vi") {
+        await expect(demo).not.toContainText("Upcoming");
+        await expect(page.locator("#feature-planning")).not.toContainText("Generate plan");
+        await expect(page.locator("#feature-views")).not.toContainText("Project health");
+      }
     });
 
     test("FAQ expands", async ({ page }) => {
@@ -247,10 +275,9 @@ test("hero subject cycles between 'you' and 'your team'", async ({ page }) => {
   await page.goto("/en");
   const line = page.locator("[data-swap-line]");
   await expect(line).toBeVisible();
-  await expect(line.locator(".animate-word-in")).toHaveCount(0);
-  // Each word holds for 10 seconds, then the next one rolls in.
-  await page.clock.runFor(10_500);
-  await expect(line.locator(".animate-word-in")).toHaveText("your team");
+  await expect(line.locator("[data-current-word]")).toHaveText("you");
+  await page.clock.runFor(3_000);
+  await expect(line.locator("[data-current-word]")).toHaveText("your team");
 });
 
 test("content slides in as it scrolls into view", async ({ page }) => {
@@ -263,21 +290,21 @@ test("content slides in as it scrolls into view", async ({ page }) => {
   await expect(heading).toHaveCSS("opacity", "1");
 });
 
-test("respects reduced motion: static product demo and visible content", async ({ browser }) => {
+test("respects reduced motion: gentle transitions and visible content", async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.clock.install();
   await page.goto("/vi");
   await expect(page.locator("#demo").getByRole("tab", { name: "Tạo công việc", exact: true })).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator("#demo")).toContainText("SAMPLE DATA");
+  await expect(page.locator("#demo")).toContainText("DỮ LIỆU MẪU");
 
   await expect(page.locator("html")).not.toHaveAttribute("data-motion");
   // The requested word swap continues without rolling movement.
   await page.clock.runFor(3_000);
   await expect(page.locator("[data-current-word]")).toHaveText("your team");
   await expect(page.locator("#faq-title")).toHaveCSS("opacity", "1");
-  // The situations wall stands still, so it needs no pause control.
-  await expect(page.locator("#voices").getByRole("button", { name: "Tạm dừng chuyển động" })).toBeHidden();
+  // The visitor can explicitly opt into card movement.
+  await expect(page.locator("#voices").getByRole("button", { name: "Tiếp tục chuyển động" })).toBeVisible();
   await context.close();
 });
 

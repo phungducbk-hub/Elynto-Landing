@@ -1,4 +1,3 @@
-import { en } from "@/content/en";
 import { ArrowRight, Check, ChevronRight, Mail } from "lucide-react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -23,19 +22,19 @@ import { CookieReset } from "./CookieReset";
 import { StatsOptOut } from "./StatsOptOut";
 
 /** Feature visuals reused from the home page. The wide ones sit below the intro, the others beside it. */
-function FeatureVisual({ pageKey, dict }: { pageKey: FeaturePageKey; dict: Dictionary }) {
+function FeatureVisual({ pageKey, dict, lang }: { pageKey: FeaturePageKey; dict: Dictionary; lang: Locale }) {
   const badge = dict.illustration;
   switch (pageKey) {
     case "natural-language-tasks":
-      return <SentenceToTask copy={dict.command} badge={badge} />;
+      return <SentenceToTask lang={lang} copy={dict.command} badge={badge} />;
     case "ai-planning":
-      return <PlanDraft copy={dict.planning.mock} badge={badge} />;
+      return <PlanDraft lang={lang} copy={dict.planning.mock} badge={badge} />;
     case "delegated-work":
-      return <DelegatedView view={dict.delegate.view} app={dict.app} badge={badge} />;
+      return <DelegatedView lang={lang} view={dict.delegate.view} app={dict.app} badge={badge} />;
     case "today":
-      return <TodayView copy={dict.today.mock} badge={badge} />;
+      return <TodayView lang={lang} copy={dict.today.mock} badge={badge} />;
     case "project-views":
-      return <ProjectWorkspace data={en.views.data} app={en.app} badge={badge} />;
+      return <ProjectWorkspace lang={lang} data={dict.views.data} app={dict.app} badge={badge} />;
   }
 }
 
@@ -228,7 +227,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
               <div className="mt-10 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
                 {intro}
                 <div {...reveal("from-right", 120)} className="min-w-0">
-                  <FeatureVisual pageKey={feature} dict={dict} />
+                  <FeatureVisual pageKey={feature} dict={dict} lang={lang} />
                 </div>
               </div>
             ) : (
@@ -236,7 +235,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
                 {intro}
                 {feature ? (
                   <div {...reveal("visual", 120)} className="mt-12 sm:mt-14">
-                    <FeatureVisual pageKey={feature} dict={dict} />
+                    <FeatureVisual pageKey={feature} dict={dict} lang={lang} />
                   </div>
                 ) : null}
               </div>

@@ -115,26 +115,26 @@ export const vi: PagesDictionary = {
     eyebrow: "Mỗi ngày",
     title: "Mở Elynto. Biết ngay việc nào cần bạn.",
     description:
-      "Today là nơi bắt đầu một yêu cầu. My Work tập hợp việc được giao cho bạn theo các tab Upcoming, Overdue, Rework và Completed.",
+      "Hôm nay là nơi bắt đầu một yêu cầu. Việc của tôi tập hợp việc được giao cho bạn theo các tab Sắp tới, Quá hạn, Làm lại và Đã hoàn thành.",
     sections: [
       {
         heading: "Bắt đầu ngày làm việc",
         body: [
-          "Mở My Work để xem việc được giao cho bạn, hạn hoàn thành, mức ưu tiên và trạng thái. Phần Today at a glance trên beta hiện là dữ liệu mẫu.",
+          "Mở Việc của tôi để xem việc được giao cho bạn, hạn hoàn thành, mức ưu tiên và trạng thái. Phần Tổng quan hôm nay trên beta hiện là dữ liệu mẫu.",
         ],
       },
       {
         heading: "Nhóm theo mức gấp",
         points: [
           "Quá hạn: việc đã qua thời hạn.",
-          "Rework: những việc cần làm lại.",
-          "Upcoming: theo dõi các việc sắp tới.",
+          "Làm lại: những việc cần làm lại.",
+          "Sắp tới: theo dõi các việc sắp tới.",
         ],
       },
       {
         heading: "Việc quan trọng không bị lẫn",
         body: [
-          "Đánh dấu quan trọng bằng biểu tượng lá cờ; dùng Focus để tập trung vào các việc cần chú ý.",
+          "Đánh dấu quan trọng bằng biểu tượng lá cờ; dùng chế độ Tập trung để tập trung vào các việc cần chú ý.",
         ],
       },
     ],

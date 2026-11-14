@@ -210,7 +210,7 @@ export const vi: Dictionary = {
   today: {
     eyebrow: "Mỗi ngày",
     title: "Mở Elynto. Biết việc nào cần bạn.",
-    body: "My Work tập hợp việc được giao cho bạn, với các tab Upcoming, Overdue, Rework và Completed. Xem hạn, mức ưu tiên và trạng thái ngay trên từng dòng.",
+    body: "Việc của tôi tập hợp việc được giao cho bạn theo các tab Sắp tới, Quá hạn, Làm lại và Đã hoàn thành. Xem hạn, mức ưu tiên và trạng thái ngay trên từng dòng.",
     points: [
       "Thấy ngay việc nào đang trễ.",
       "Theo dõi việc đang làm và việc cần làm lại.",
@@ -266,7 +266,8 @@ export const vi: Dictionary = {
         { label: "Công việc", value: "12 việc" },
         { label: "Quá hạn", value: "Không có" },
         { label: "Lịch trình", value: "Còn 16 ngày" },
-        { label: "Thời gian", value: "05/10 – 25/10" },
+        { label: "Bắt đầu", value: "05/10/2026" },
+        { label: "Thời hạn", value: "25/10/2026" },
       ],
       progress: 25,
       healthLabel: "Tình trạng dự án",

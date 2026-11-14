@@ -1,5 +1,8 @@
 "use client";
 
+import type { Locale } from "@/lib/i18n";
+import { getProductUi } from "@/content/product-ui";
+
 import {
   ArrowLeft,
   CalendarDays,
@@ -22,7 +25,7 @@ import { formatDay } from "@/lib/format";
 type App = Dictionary["app"];
 type Data = Dictionary["views"]["data"];
 
-type Props = { data: Data; app: App; badge: string };
+type Props = { data: Data; app: App; badge: string; lang: Locale };
 
 const views: ProjectView[] = ["list", "calendar", "gantt"];
 const viewIcons = { list: List, calendar: CalendarDays, gantt: ChartGantt } as const;
@@ -35,7 +38,8 @@ const ME = { name: "", initials: "", self: true };
  * Recreation of a project page reviewed in the Elynto beta: workspace shell,
  * project overview with health, and the list / calendar / Gantt views.
  */
-export function ProjectWorkspace({ data, app, badge }: Props) {
+export function ProjectWorkspace({ data, app, badge, lang }: Props) {
+  const ui = getProductUi(lang);
   const [view, setView] = useState<ProjectView>("list");
   const tabRefs = useRef<Partial<Record<ProjectView, HTMLButtonElement | null>>>({});
   const baseId = useId();
@@ -60,7 +64,7 @@ export function ProjectWorkspace({ data, app, badge }: Props) {
 
   return (
     <div>
-      <ProductShell active="Projects">
+      <ProductShell lang={lang} active="Projects">
           <div className="px-5 py-6 sm:px-8 sm:py-7">
             {/* Overview */}
             <p className="flex items-center gap-2 text-sm text-ink-subtle">
@@ -121,14 +125,14 @@ export function ProjectWorkspace({ data, app, badge }: Props) {
               </span>
             </div>
 
-            <div lang="en" className="mt-4 rounded-xl border border-line bg-white p-4">
-              <p className="text-sm font-semibold">Milestones</p>
+            <div lang={lang} className="mt-4 rounded-xl border border-line bg-white p-4">
+              <p className="text-sm font-semibold">{ui.milestones}</p>
               <div className="mt-3 rounded-lg border border-dashed border-line p-4 text-xs leading-relaxed text-ink-muted">
-                <p className="font-medium text-ink">Mark the moments that define project progress.</p>
-                <p className="mt-1">Milestones can be confirmed manually or achieved automatically when linked work or phases are completed.</p>
+                <p className="font-medium text-ink">{ui.milestoneTitle}</p>
+                <p className="mt-1">{ui.milestoneHelp}</p>
               </div>
             </div>
-            <p className="mt-6 text-base font-semibold">Work <span className="ml-1 font-normal text-ink-muted">12</span></p>
+            <p className="mt-6 text-base font-semibold">{ui.work} <span className="ml-1 font-normal text-ink-muted">12</span></p>
             {/* Views */}
             <div className="mt-7 flex flex-col gap-2 border-b border-line md:flex-row md:items-end md:justify-between">
               <div role="tablist" aria-label={data.viewsLabel} className="-mb-px flex gap-6">

@@ -1,4 +1,3 @@
-import { en } from "@/content/en";
 import { Check, Info } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ProductShot } from "@/components/ui/ProductShot";
@@ -37,7 +36,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             points={command.points}
             tip={command.tip}
           >
-            {commandShot ? <ProductShot image={commandShot} /> : <SentenceToTask copy={command} badge={illustration} />}
+            {commandShot ? <ProductShot image={commandShot} /> : <SentenceToTask lang={lang} copy={command} badge={illustration} />}
           </FeatureRow>
         </div>
 
@@ -55,7 +54,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             {delegateShot ? (
               <ProductShot image={delegateShot} />
             ) : (
-              <DelegatedView view={delegate.view} app={app} badge={illustration} />
+              <DelegatedView lang={lang} view={delegate.view} app={app} badge={illustration} />
             )}
           </FeatureRow>
         </div>
@@ -63,7 +62,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         {/* Then the day-to-day view of everything that needs you. */}
         <div className="mt-24 sm:mt-32">
           <FeatureRow id="feature-today" eyebrow={today.eyebrow} title={today.title} body={today.body} points={today.points}>
-            {todayShot ? <ProductShot image={todayShot} /> : <TodayView copy={today.mock} badge={illustration} />}
+            {todayShot ? <ProductShot image={todayShot} /> : <TodayView lang={lang} copy={today.mock} badge={illustration} />}
           </FeatureRow>
         </div>
       </Container>
@@ -107,7 +106,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             </ol>
 
             <div {...reveal("visual", 100)} className="mx-auto mt-12 max-w-5xl">
-              {planningShot ? <ProductShot image={planningShot} /> : <PlanDraft copy={planning.mock} badge={illustration} />}
+              {planningShot ? <ProductShot image={planningShot} /> : <PlanDraft lang={lang} copy={planning.mock} badge={illustration} />}
             </div>
 
             <p {...reveal()} className="mx-auto mt-6 flex max-w-2xl items-start justify-center gap-2 text-center text-sm leading-relaxed text-ink-muted">
@@ -151,7 +150,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             {projectShot ? (
               <ProductShot image={projectShot} />
             ) : (
-              <ProjectWorkspace data={en.views.data} app={en.app} badge={illustration} />
+              <ProjectWorkspace lang={lang} data={views.data} app={app} badge={illustration} />
             )}
           </div>
         </article>
