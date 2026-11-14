@@ -40,7 +40,7 @@ export const en: Dictionary = {
     caption: "One sentence. A task with a clear owner and deadline.",
     regionLabel: "Illustrative demo: from one sentence to a task",
     srDescription:
-      "Illustrative demo, not a live session in the app. The user writes: “Assign Alex to prepare the quotation, due Friday.” Elynto creates the task “Prepare the quotation”, assigned to Alex, due Friday, status Assigned.",
+      "Illustrative demo, not a live session in the app. The user writes: “Assign Alex to prepare the quotation, due Friday.” Elynto creates the task “Prepare the quotation”, assigned to Alex, due 20/11/2026, status Assigned.",
     placeholder: "What needs to get done?",
     command: "Assign Alex to prepare the quotation, due Friday.",
     send: "Send",
@@ -56,7 +56,7 @@ export const en: Dictionary = {
     result: {
       task: "Prepare the quotation",
       assignee: alex,
-      due: "Friday",
+      due: "20/11/2026",
       status: "Assigned",
     },
     controls: {
@@ -124,7 +124,7 @@ export const en: Dictionary = {
         ],
         task: "Prepare the quotation",
         assignee: alex,
-        due: "Friday",
+        due: "20/11/2026",
       },
       {
         id: "campaign",
@@ -139,7 +139,7 @@ export const en: Dictionary = {
         ],
         task: "Draft the November campaign content",
         assignee: sam,
-        due: "Next Wednesday",
+        due: "18/11/2026",
       },
       {
         id: "quote",
@@ -154,7 +154,7 @@ export const en: Dictionary = {
         ],
         task: "Send the quote to the client",
         assignee: me,
-        due: "Tomorrow",
+        due: "15/11/2026",
       },
     ],
     existing: [

@@ -40,7 +40,7 @@ export const vi: Dictionary = {
     caption: "Một câu nói. Công việc rõ người, rõ hạn.",
     regionLabel: "Minh họa: từ một câu nói đến công việc",
     srDescription:
-      "Minh họa, không phải phiên thao tác trực tiếp với ứng dụng. Người dùng viết: “Giao Minh làm báo giá, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo giá”, người phụ trách Minh, hạn hoàn thành Thứ Sáu, trạng thái Đã giao.",
+      "Minh họa, không phải phiên thao tác trực tiếp với ứng dụng. Người dùng viết: “Giao Minh làm báo giá, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo giá”, người phụ trách Minh, hạn hoàn thành 20/11/2026, trạng thái Đã giao.",
     placeholder: "Bạn cần làm gì?",
     command: "Giao Minh làm báo giá, hoàn thành trước thứ sáu.",
     send: "Gửi",
@@ -56,7 +56,7 @@ export const vi: Dictionary = {
     result: {
       task: "Làm báo giá",
       assignee: minh,
-      due: "Thứ Sáu",
+      due: "20/11/2026",
       status: "Đã giao",
     },
     controls: {
@@ -124,7 +124,7 @@ export const vi: Dictionary = {
         ],
         task: "Làm báo giá",
         assignee: minh,
-        due: "Thứ Sáu",
+        due: "20/11/2026",
       },
       {
         id: "campaign",
@@ -139,7 +139,7 @@ export const vi: Dictionary = {
         ],
         task: "Chuẩn bị nội dung chiến dịch tháng 11",
         assignee: lan,
-        due: "Thứ Tư tuần sau",
+        due: "18/11/2026",
       },
       {
         id: "quote",
@@ -154,7 +154,7 @@ export const vi: Dictionary = {
         ],
         task: "Gửi báo giá cho khách hàng",
         assignee: me,
-        due: "Ngày mai",
+        due: "15/11/2026",
       },
     ],
     existing: [
