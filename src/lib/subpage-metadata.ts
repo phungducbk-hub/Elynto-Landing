@@ -7,7 +7,7 @@ import { pagePath, type PageKey } from "@/lib/pages";
 export function subpageMetadata(lang: Locale, key: PageKey): Metadata {
   const page = getPages(lang)[key];
   const path = pagePath(key);
-  const title = `${page.navLabel} — Elynto`;
+  const title = `${page.navLabel} - Elynto`;
 
   return {
     title,

@@ -6,7 +6,6 @@ import { LoaderSkeleton } from "@/components/ui/loaders-skeleton";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 import { getProductUi } from "@/content/product-ui";
-import { usePrefersReducedMotion } from "./useMotionPreference";
 import { Logo } from "@/components/brand/Logo";
 import { cn } from "@/lib/cn";
 import { track } from "@/lib/analytics";
@@ -89,7 +88,7 @@ export function WorkTableScreen({ delegated = false, createdRow, lang = "en" }: 
         <thead className="border-b border-line text-[9px] font-normal text-ink-muted uppercase"><tr>{[ui.work, delegated ? ui.assignedTo : ui.assignedBy, ui.created, ui.due, ui.priority, ui.status, ui.files].map(label => <th scope="col" className="px-3 py-3 font-normal" key={label}>{label}</th>)}</tr></thead>
         <tbody className="divide-y divide-line">
           {!delegated && <tr className="bg-canvas"><td colSpan={7} className="px-3 py-2 text-ink-muted"><ChevronDown className="mr-2 inline size-3" />{ui.otherWork} <span className="ml-1">{rows.length}</span></td></tr>}
-          {rows.map((row, i) => <tr key={`${row.title}-${i}`} data-created-work={createdRow === row ? "" : undefined} className={createdRow === row ? "bg-brand-50 motion-safe:animate-rise" : undefined}><td className="max-w-[180px] px-3 py-4 leading-relaxed"><Flag className={cn("mr-2 inline size-3", i === 1 ? "fill-[#b95050] text-[#b95050]" : "text-ink-muted")} />{row.title}</td><td className="px-3 py-4"><span className="mr-1.5 inline-grid size-4 place-items-center rounded-full bg-brand/10 text-[8px] text-brand">{delegated ? row.name[0] : "A"}</span>{delegated ? row.name : ui.you}</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">14/11/2026</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">{row.due}</td><td className="px-3 py-4 text-ink-muted">{ui.medium}</td><td className="px-3 py-4"><span className={cn("whitespace-nowrap rounded border border-line px-1.5 py-0.5 text-[10px]", row.status === "In progress" ? "bg-[#e8f0fa] text-[#305b83]" : "bg-sunken text-ink")}>{row.status === "In progress" ? ui.inProgress : ui.assigned}</span></td><td className="px-3 py-4 text-ink-muted">{i === 1 ? "1" : "—"}</td></tr>)}
+          {rows.map((row, i) => <tr key={`${row.title}-${i}`} data-created-work={createdRow === row ? "" : undefined} className={createdRow === row ? "bg-brand-50 motion-safe:animate-rise" : undefined}><td className="max-w-[180px] px-3 py-4 leading-relaxed"><Flag className={cn("mr-2 inline size-3", i === 1 ? "fill-[#b95050] text-[#b95050]" : "text-ink-muted")} />{row.title}</td><td className="px-3 py-4"><span className="mr-1.5 inline-grid size-4 place-items-center rounded-full bg-brand/10 text-[8px] text-brand">{delegated ? row.name[0] : "A"}</span>{delegated ? row.name : ui.you}</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">14/11/2026</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">{row.due}</td><td className="px-3 py-4 text-ink-muted">{ui.medium}</td><td className="px-3 py-4"><span className={cn("whitespace-nowrap rounded border border-line px-1.5 py-0.5 text-[10px]", row.status === "In progress" ? "bg-[#e8f0fa] text-[#305b83]" : "bg-sunken text-ink")}>{row.status === "In progress" ? ui.inProgress : ui.assigned}</span></td><td className="px-3 py-4 text-ink-muted">{i === 1 ? "1" : "-"}</td></tr>)}
         </tbody>
       </table>
     </div>
@@ -100,7 +99,7 @@ type DemoPhase = "typing" | "ready" | "processing" | "card" | "done";
 type DemoSnapshot = { phase: DemoPhase; chars: number };
 
 function demoTimeline(length: number) {
-  const typingEnd = 300 + length * 38;
+  const typingEnd = 300 + length * 60;
   const processingAt = typingEnd + 850;
   const cardAt = processingAt + 1900;
   const doneAt = cardAt + 5000;
@@ -108,7 +107,7 @@ function demoTimeline(length: number) {
 }
 
 function demoSnapshot(time: number, length: number, timeline: ReturnType<typeof demoTimeline>): DemoSnapshot {
-  if (time < timeline.typingEnd) return { phase: "typing", chars: Math.max(0, Math.min(length, Math.floor((time - 300) / 38))) };
+  if (time < timeline.typingEnd) return { phase: "typing", chars: Math.max(0, Math.min(length, Math.floor((time - 300) / 60))) };
   if (time < timeline.processingAt) return { phase: "ready", chars: length };
   if (time < timeline.cardAt) return { phase: "processing", chars: length };
   if (time < timeline.doneAt) return { phase: "card", chars: length };
@@ -178,7 +177,6 @@ export function ProductDemo({ copy, examples, lang, label, caption }: {
   const [userPaused, setUserPaused] = useState(false);
   const [inView, setInView] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
-  const reducedMotion = usePrefersReducedMotion();
   const paused = userPaused;
   const running = screen === "Today" && inView && pageVisible && !paused;
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -192,16 +190,20 @@ export function ProductDemo({ copy, examples, lang, label, caption }: {
     if (!element) return;
     let wasVisible = false;
     const observer = new IntersectionObserver(([entry]) => {
-      const visible = entry.isIntersecting && entry.intersectionRatio >= 0.5;
-      if (visible && !wasVisible) {
+      if (!entry.isIntersecting) {
+        wasVisible = false;
+        setInView(false);
+        return;
+      }
+      if (!wasVisible && entry.intersectionRatio >= 0.5) {
         // Start from the request whenever the visitor scrolls back to the product viewport.
         elapsed.current = 0;
         created.current = false;
         setCreatedWork(null);
         setSnap({ phase: "typing", chars: 0 });
+        wasVisible = true;
+        setInView(true);
       }
-      wasVisible = visible;
-      setInView(visible);
     }, { threshold: [0, 0.5], rootMargin: "-80px 0px 0px 0px" });
     observer.observe(element);
     return () => observer.disconnect();
@@ -283,11 +285,11 @@ export function ProductDemo({ copy, examples, lang, label, caption }: {
     select(next, true);
   }
 
-  const typed = reducedMotion ? scenario.command : chars.slice(0, snap.chars).join("");
+  const typed = chars.slice(0, snap.chars).join("");
   const status = snap.phase === "card" || snap.phase === "done" ? copy.success : snap.phase === "processing" ? copy.processing : isVietnamese ? "Viết yêu cầu như cách bạn giao việc." : "Write a request as you would to a teammate.";
   const composer = (
     <div className="flex items-end gap-3 rounded-2xl border border-brand/40 bg-white p-3 shadow-sm">
-      <p lang={lang} className="min-h-10 flex-1 text-xs leading-relaxed text-ink">
+      <p data-demo-typed lang={lang} className="min-h-10 flex-1 text-xs leading-relaxed text-ink">
         {typed || <span className="text-ink-muted">{copy.placeholder}</span>}
         {snap.phase === "typing" && <span aria-hidden="true" className="ml-0.5 inline-block h-3 w-px animate-caret bg-brand motion-reduce:animate-none" />}
       </p>

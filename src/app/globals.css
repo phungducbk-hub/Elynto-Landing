@@ -61,7 +61,7 @@
   --color-st-completed: #1d6b43;
   --color-st-completed-bg: #e3f3ea;
 
-  /* Elevation — restrained */
+  /* Elevation - restrained */
   --shadow-card: 0 1px 2px rgb(16 28 43 / 0.04), 0 6px 20px -10px rgb(16 28 43 / 0.12);
   --shadow-float: 0 1px 2px rgb(16 28 43 / 0.05), 0 24px 48px -24px rgb(16 28 43 / 0.24);
 
@@ -95,7 +95,7 @@
     }
   }
 
-  /* Product visuals: a short, unhurried drift — lighter and slower than the text. */
+  /* Product visuals: a short, unhurried drift - lighter and slower than the text. */
   @keyframes enter-right {
     from {
       opacity: 0;
@@ -199,8 +199,7 @@
 /*
  * Scroll reveal. Text rises into place; product visuals drift in more gently and more slowly, from
  * the side they sit on (vertically on small screens). Elements start hidden only once the inline
- * script in the root layout has armed html[data-motion], so visitors without JavaScript, with
- * reduced motion, or printing the page always see everything. RevealObserver sets data-revealed.
+ * script in the root layout has armed html[data-motion], so visitors without JavaScript, or printing the page always see everything. RevealObserver sets data-revealed.
  */
 [data-reveal] {
   --reveal-from: translate3d(0, 1.5rem, 0);
@@ -217,8 +216,8 @@
 [data-reveal="from-left"],
 [data-reveal="from-right"] {
   --reveal-from: translate3d(0, 1rem, 0) scale(0.985);
-  --reveal-fade: 1.4s;
-  --reveal-move: 2.2s;
+  --reveal-fade: 0.7s;
+  --reveal-move: 1.1s;
   --reveal-ease: var(--ease-out-soft);
 }
 
@@ -232,11 +231,12 @@
   }
 }
 
-@media screen and (prefers-reduced-motion: no-preference) {
+@media screen {
   html[data-motion] [data-reveal] {
     transition:
       opacity var(--reveal-fade) var(--reveal-ease),
       transform var(--reveal-move) var(--reveal-ease);
+    transition-duration: var(--reveal-fade), var(--reveal-move) !important;
     transition-delay: var(--reveal-delay, 0ms);
   }
 
@@ -264,18 +264,20 @@
   .product-sidebar { display: none; }
 }
 
-/* Explicit Play on the card wall also works when the OS requests reduced motion. */
+/* Requested autoplay is explicit: the card wall moves without a manual Play action. */
+[data-testimonial-track] {
+  animation-duration: var(--testimonial-duration) !important;
+  animation-iteration-count: infinite !important;
+  will-change: transform;
+}
+
+/* Keep the requested entrances small, including when reduced motion is enabled. */
 @media (prefers-reduced-motion: reduce) {
-  [data-force-motion] [data-testimonial-track] {
-    animation: marquee-up var(--testimonial-duration) linear infinite !important;
-    animation-delay: var(--testimonial-delay) !important;
+  [data-reveal] {
+    --reveal-from: translate3d(0, 0.625rem, 0);
+    --reveal-fade: 0.45s;
+    --reveal-move: 0.65s;
   }
-  [data-force-motion][data-paused] [data-testimonial-track] {
-    animation-play-state: paused !important;
-  }
-  [data-force-motion] [data-testimonial-copy] { display: flex; }
-  [data-force-motion] [role="region"] {
-    max-height: 46rem;
-    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
-  }
+  [data-reveal="from-left"] { --reveal-from: translate3d(-0.75rem, 0, 0); }
+  [data-reveal="from-right"] { --reveal-from: translate3d(0.75rem, 0, 0); }
 }

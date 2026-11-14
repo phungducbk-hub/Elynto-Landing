@@ -4,7 +4,7 @@ import { inter } from "@/lib/fonts";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Thống kê truy cập — Elynto",
+  title: "Thống kê truy cập - Elynto",
   robots: { index: false, follow: false },
 };
 

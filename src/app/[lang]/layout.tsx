@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: LayoutParams): Promise<Metada
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const dict = getDictionary(lang);
-  const socialTitle = `Elynto — ${siteConfig.vision}`;
+  const socialTitle = `Elynto - ${siteConfig.vision}`;
 
   return {
     metadataBase: new URL(siteConfig.url),

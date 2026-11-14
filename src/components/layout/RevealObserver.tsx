@@ -20,10 +20,19 @@ export function RevealObserver() {
     const root = document.documentElement;
     window.clearTimeout(window.__revealTimer);
 
-    const motionOk = window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
-    if (window.__revealExpired || !motionOk || !("IntersectionObserver" in window)) {
+    if (!("IntersectionObserver" in window)) {
       root.removeAttribute("data-motion");
       return;
+    }
+
+    // A slow hydration can expire the boot fallback. Re-enable entrances below the fold,
+    // while leaving already visible content in place.
+    if (window.__revealExpired) {
+      document.querySelectorAll("[data-reveal]").forEach(element => {
+        const box = element.getBoundingClientRect();
+        if (box.top < window.innerHeight && box.bottom > 0) element.setAttribute("data-revealed", "");
+      });
+      window.__revealExpired = false;
     }
 
     const observer = new IntersectionObserver(

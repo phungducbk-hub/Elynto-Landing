@@ -7,7 +7,7 @@ const me = { name: "Bạn", initials: "B", self: true };
 
 export const vi: Dictionary = {
   meta: {
-    title: "Elynto — Quản lý công việc bằng AI",
+    title: "Elynto - Quản lý công việc bằng AI",
     description:
       "Mô tả việc cần làm bằng lời thường. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ trong một nơi.",
     ogDescription:
@@ -25,13 +25,13 @@ export const vi: Dictionary = {
     openMenu: "Mở menu",
     closeMenu: "Đóng menu",
     mainNav: "Điều hướng chính",
-    home: "Elynto — về đầu trang",
+    home: "Elynto - về đầu trang",
     language: "Ngôn ngữ",
   },
   hero: {
-    eyebrow: "Elynto — Quản lý công việc bằng AI",
+    eyebrow: "Elynto - Quản lý công việc bằng AI",
     description:
-      "Chỉ cần mô tả việc cần làm. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ — tất cả trong một nơi.",
+      "Chỉ cần mô tả việc cần làm. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ - tất cả trong một nơi.",
     primaryCta: "Dùng thử miễn phí",
     secondaryCta: "Xem Elynto hoạt động",
   },
@@ -40,9 +40,9 @@ export const vi: Dictionary = {
     caption: "Một câu nói. Công việc rõ người, rõ hạn.",
     regionLabel: "Minh họa: từ một câu nói đến công việc",
     srDescription:
-      "Minh họa, không phải phiên thao tác trực tiếp với ứng dụng. Người dùng viết: “Giao Minh làm báo cáo, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo cáo”, người phụ trách Minh, hạn hoàn thành Thứ Sáu, trạng thái Đã giao.",
+      "Minh họa, không phải phiên thao tác trực tiếp với ứng dụng. Người dùng viết: “Giao Minh làm báo giá, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo giá”, người phụ trách Minh, hạn hoàn thành Thứ Sáu, trạng thái Đã giao.",
     placeholder: "Bạn cần làm gì?",
-    command: "Giao Minh làm báo cáo, hoàn thành trước thứ sáu.",
+    command: "Giao Minh làm báo giá, hoàn thành trước thứ sáu.",
     send: "Gửi",
     newTask: "Công việc mới",
     processing: "Đang tạo công việc…",
@@ -54,7 +54,7 @@ export const vi: Dictionary = {
       status: "Trạng thái",
     },
     result: {
-      task: "Làm báo cáo",
+      task: "Làm báo giá",
       assignee: minh,
       due: "Thứ Sáu",
       status: "Đã giao",
@@ -117,12 +117,12 @@ export const vi: Dictionary = {
           "Giao ",
           { field: "assignee", text: "Minh" },
           " ",
-          { field: "task", text: "làm báo cáo" },
+          { field: "task", text: "làm báo giá" },
           ", hoàn thành ",
           { field: "due", text: "trước thứ sáu" },
           ".",
         ],
-        task: "Làm báo cáo",
+        task: "Làm báo giá",
         assignee: minh,
         due: "Thứ Sáu",
       },
@@ -338,7 +338,7 @@ export const vi: Dictionary = {
       reworkNote: "Chưa đạt? Chuyển sang Làm lại.",
       columns: { task: "Công việc", assignee: "Người nhận", due: "Hạn", status: "Trạng thái" },
       rows: [
-        { title: "Làm báo cáo", assignee: minh, due: 9, status: "submitted" },
+        { title: "Làm báo giá", assignee: minh, due: 9, status: "submitted" },
         { title: "Viết bài giới thiệu dịch vụ", assignee: lan, due: 10, status: "inProgress" },
         { title: "Cập nhật bảng giá trên website", assignee: huy, due: 7, status: "inProgress", overdue: true },
         { title: "Chuẩn bị hình ảnh sản phẩm", assignee: huy, due: 12, status: "accepted" },
@@ -391,7 +391,7 @@ export const vi: Dictionary = {
         title: "Nhóm nhỏ",
         who: "Người quản lý nhóm",
         body: "Ai cũng rõ mình phụ trách việc gì, hạn khi nào và đang đến đâu.",
-        examples: ["Chuẩn bị chiến dịch nội dung", "Làm báo cáo tuần"],
+        examples: ["Chuẩn bị chiến dịch nội dung", "Làm báo giá tuần"],
       },
       {
         title: "Chủ doanh nghiệp nhỏ",

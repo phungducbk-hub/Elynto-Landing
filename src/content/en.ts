@@ -7,7 +7,7 @@ const me = { name: "You", initials: "Y", self: true };
 
 export const en: Dictionary = {
   meta: {
-    title: "Elynto — AI-powered work management",
+    title: "Elynto - AI-powered work management",
     description:
       "Describe what needs to get done in plain words. Elynto helps you create and assign tasks, plan projects with AI and track progress in one place.",
     ogDescription:
@@ -25,13 +25,13 @@ export const en: Dictionary = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     mainNav: "Main navigation",
-    home: "Elynto — back to top",
+    home: "Elynto - back to top",
     language: "Language",
   },
   hero: {
-    eyebrow: "Elynto — AI-powered work management",
+    eyebrow: "Elynto - AI-powered work management",
     description:
-      "Just describe what needs to get done. Elynto helps you create and assign tasks, plan projects with AI, and track progress — all in one place.",
+      "Just describe what needs to get done. Elynto helps you create and assign tasks, plan projects with AI, and track progress - all in one place.",
     primaryCta: "Start free trial",
     secondaryCta: "See it in action",
   },
@@ -40,9 +40,9 @@ export const en: Dictionary = {
     caption: "One sentence. A task with a clear owner and deadline.",
     regionLabel: "Illustrative demo: from one sentence to a task",
     srDescription:
-      "Illustrative demo, not a live session in the app. The user writes: “Assign Alex to prepare the report, due Friday.” Elynto creates the task “Prepare the report”, assigned to Alex, due Friday, status Assigned.",
+      "Illustrative demo, not a live session in the app. The user writes: “Assign Alex to prepare the quotation, due Friday.” Elynto creates the task “Prepare the quotation”, assigned to Alex, due Friday, status Assigned.",
     placeholder: "What needs to get done?",
-    command: "Assign Alex to prepare the report, due Friday.",
+    command: "Assign Alex to prepare the quotation, due Friday.",
     send: "Send",
     newTask: "New task",
     processing: "Creating task…",
@@ -54,7 +54,7 @@ export const en: Dictionary = {
       status: "Status",
     },
     result: {
-      task: "Prepare the report",
+      task: "Prepare the quotation",
       assignee: alex,
       due: "Friday",
       status: "Assigned",
@@ -95,7 +95,7 @@ export const en: Dictionary = {
     title: "Work starts with a single sentence.",
     body: "Write it the way you’d normally hand off work. Elynto picks out the task, the owner and the deadline, then creates a task you can keep tracking and updating.",
     points: [
-      "Tasks are saved — nothing gets lost in a chat thread.",
+      "Tasks are saved - nothing gets lost in a chat thread.",
       "You can always review and edit directly.",
       "Works for your own to-dos and for work you hand to others.",
     ],
@@ -117,12 +117,12 @@ export const en: Dictionary = {
           "Assign ",
           { field: "assignee", text: "Alex" },
           " to ",
-          { field: "task", text: "prepare the report" },
+          { field: "task", text: "prepare the quotation" },
           ", ",
           { field: "due", text: "due Friday" },
           ".",
         ],
-        task: "Prepare the report",
+        task: "Prepare the quotation",
         assignee: alex,
         due: "Friday",
       },
@@ -338,7 +338,7 @@ export const en: Dictionary = {
       reworkNote: "Not quite right? Send it to Rework.",
       columns: { task: "Task", assignee: "Owner", due: "Due", status: "Status" },
       rows: [
-        { title: "Prepare the report", assignee: alex, due: 9, status: "submitted" },
+        { title: "Prepare the quotation", assignee: alex, due: 9, status: "submitted" },
         { title: "Write the services page copy", assignee: sam, due: 10, status: "inProgress" },
         { title: "Update pricing on the website", assignee: jordan, due: 7, status: "inProgress", overdue: true },
         { title: "Prepare product photos", assignee: jordan, due: 12, status: "accepted" },

@@ -6,7 +6,7 @@ const HERO_VISION = "The interface between you and work";
 
 const copy = {
   vi: {
-    eyebrow: "Elynto — Quản lý công việc bằng AI",
+    eyebrow: "Elynto - Quản lý công việc bằng AI",
     cta: "Dùng thử miễn phí",
     demoCta: "Xem Elynto hoạt động",
     illustration: "Demo tương tác bằng dữ liệu mẫu",
@@ -16,14 +16,12 @@ const copy = {
     faqAnswer: "Bạn có thể dùng Elynto để quản lý việc cá nhân",
     secondTab: "Lịch",
     secondTabContent: "Tháng 10",
-    title: "Elynto — Quản lý công việc bằng AI",
+    title: "Elynto - Quản lý công việc bằng AI",
     voicesTitle: "Những lúc công việc bắt đầu rối",
     voicesNote: "không phải lời của một khách hàng cụ thể",
-    voicesPause: "Tạm dừng chuyển động",
-    voicesPlay: "Tiếp tục chuyển động",
   },
   en: {
-    eyebrow: "Elynto — AI-powered work management",
+    eyebrow: "Elynto - AI-powered work management",
     cta: "Start free trial",
     demoCta: "See it in action",
     illustration: "Interactive demo with sample data",
@@ -33,11 +31,9 @@ const copy = {
     faqAnswer: "You can use Elynto to manage your own tasks",
     secondTab: "Calendar",
     secondTabContent: "October",
-    title: "Elynto — AI-powered work management",
+    title: "Elynto - AI-powered work management",
     voicesTitle: "The moments when work starts to slip",
     voicesNote: "not quotes from specific customers",
-    voicesPause: "Pause motion",
-    voicesPlay: "Resume motion",
   },
 } as const;
 
@@ -150,7 +146,7 @@ for (const lang of ["vi", "en"] as const) {
       await expect(demo.locator("[data-created-work]")).toHaveCount(0);
       await demo.getByRole("button", { name: lang === "vi" ? "Xem trong Việc của tôi" : "View in My Work", exact: true }).click();
       await expect(demo.locator("[data-created-work]")).toHaveCount(1);
-      await expect(demo.locator("[data-created-work]")).toContainText(lang === "vi" ? "Làm báo cáo" : "Prepare the report");
+      await expect(demo.locator("[data-created-work]")).toContainText(lang === "vi" ? "Làm báo giá" : "Prepare the quotation");
       await demo.getByRole("button", { name: lang === "vi" ? "Xem lại từ đầu" : "Replay from the start", exact: true }).click();
       await expect(demo.locator("[data-created-work]")).toHaveCount(0);
     });
@@ -217,21 +213,24 @@ for (const lang of ["vi", "en"] as const) {
       await expect(page.locator("body")).not.toContainText("ALEX INC");
     });
 
-    test("situations wall is labelled honestly and its motion can be paused", async ({ page }) => {
+    test("situations move automatically on entering view without a play button", async ({ page }) => {
       await page.goto(`/${lang}`);
       const section = page.locator("#voices");
+      await section.scrollIntoViewIfNeeded();
       await expect(section.getByRole("heading", { level: 2 })).toHaveText(t.voicesTitle);
       await expect(section).toContainText(t.voicesNote);
-      // Nine situations for assistive tech; the copy that closes the loop is hidden from it.
       await expect(section.getByRole("listitem")).toHaveCount(9);
+      await expect(section.getByRole("button")).toHaveCount(0);
+      await expect(section.locator("[data-wall-running]")).toHaveAttribute("data-wall-running", "true");
+      const visibleTrack = section.locator("[data-testimonial-track]:visible").first();
+      await expect(visibleTrack).toHaveCSS("animation-play-state", "running");
+      await expect(visibleTrack).toHaveCSS("animation-iteration-count", "infinite");
+    });
 
-      await section.getByRole("button", { name: t.voicesPause }).click();
-      await expect(section.getByRole("button", { name: t.voicesPlay })).toBeVisible();
-      const playState = await section
-        .locator('[role="region"] ul:not([aria-hidden])')
-        .first()
-        .evaluate((list) => getComputedStyle(list.parentElement!).animationPlayState);
-      expect(playState).toBe("paused");
+    test("visible copy and metadata use short hyphens", async ({ page }) => {
+      await page.goto(`/${lang}`);
+      expect(await page.title()).not.toMatch(/[\u2013\u2014]/);
+      expect(await page.locator("body").innerText()).not.toMatch(/[\u2013\u2014]/);
     });
 
     test("has no serious accessibility violations", async ({ page }) => {
@@ -290,21 +289,24 @@ test("content slides in as it scrolls into view", async ({ page }) => {
   await expect(heading).toHaveCSS("opacity", "1");
 });
 
-test("respects reduced motion: gentle transitions and visible content", async ({ browser }) => {
+test("requested typing, automatic cards and gentle reveals work with reduced-motion preferences", async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.clock.install();
   await page.goto("/vi");
-  await expect(page.locator("#demo").getByRole("tab", { name: "Tạo công việc", exact: true })).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator("#demo")).toContainText("DỮ LIỆU MẪU");
-
-  await expect(page.locator("html")).not.toHaveAttribute("data-motion");
-  // The requested word swap continues without rolling movement.
-  await page.clock.runFor(3_000);
-  await expect(page.locator("[data-current-word]")).toHaveText("your team");
-  await expect(page.locator("#faq-title")).toHaveCSS("opacity", "1");
-  // The visitor can explicitly opt into card movement.
-  await expect(page.locator("#voices").getByRole("button", { name: "Tiếp tục chuyển động" })).toBeVisible();
+  const demo = page.locator("#demo");
+  await demo.getByRole("tabpanel").scrollIntoViewIfNeeded();
+  await expect(demo).toHaveAttribute("data-demo-running", "true");
+  await page.clock.runFor(900);
+  const partial = await demo.locator("[data-demo-typed]").innerText();
+  expect(partial).toMatch(/^Giao/);
+  expect(partial).not.toContain("hoàn thành trước thứ sáu");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "live");
+  const wall = page.locator("#voices");
+  await wall.scrollIntoViewIfNeeded();
+  await expect(wall.locator("[data-wall-running]")).toHaveAttribute("data-wall-running", "true");
+  await expect(wall.getByRole("button")).toHaveCount(0);
+  await expect(wall.locator("[data-testimonial-track]:visible").first()).toHaveCSS("animation-iteration-count", "infinite");
   await context.close();
 });
 
@@ -331,7 +333,7 @@ test.describe("footer and subpages", () => {
 
   test("a subpage has its own metadata and keeps its path when switching language", async ({ page }) => {
     await page.goto("/vi/privacy");
-    await expect(page).toHaveTitle("Quyền riêng tư — Elynto");
+    await expect(page).toHaveTitle("Quyền riêng tư - Elynto");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/vi\/privacy$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quyền riêng tư trên website Elynto");
     await expect(page.locator("footer").getByRole("link", { name: "Quyền riêng tư" }).first()).toHaveAttribute("aria-current", "page");

@@ -6,7 +6,7 @@ import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
 import { defaultLocale, isLocale, locales } from "@/lib/i18n";
 
-export const alt = `Elynto — ${siteConfig.vision}`;
+export const alt = `Elynto - ${siteConfig.vision}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

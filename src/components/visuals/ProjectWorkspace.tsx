@@ -226,7 +226,7 @@ function ListView({ data, app }: { data: Data; app: App }) {
                 <span className="block h-full rounded-full bg-brand" style={{ width: `${(done / phase.tasks.length) * 100}%` }} />
               </span>
               <span className="text-[0.8125rem] text-ink-subtle">
-                {formatDay(app.datePattern, start)} – {formatDay(app.datePattern, due)}
+                {formatDay(app.datePattern, start)} - {formatDay(app.datePattern, due)}
               </span>
             </div>
             <ul className="divide-y divide-line">
@@ -423,7 +423,7 @@ function GanttView({ data, app }: { data: Data; app: App }) {
                 {phase.tasks.map((task) => (
                   <div key={task.title} className={cn("relative border-b border-line last:border-b-0", rowH)}>
                     <span
-                      title={`${task.title}: ${formatDay(app.datePattern, task.start)} – ${formatDay(app.datePattern, task.due)}`}
+                      title={`${task.title}: ${formatDay(app.datePattern, task.start)} - ${formatDay(app.datePattern, task.due)}`}
                       className={cn("absolute top-1/2 h-4 -translate-y-1/2 rounded-[0.3rem]", barTone(task.status))}
                       style={{ left: `calc(${gx(task.start)} + 2px)`, width: `calc(${gw(task.start, task.due)} - 4px)` }}
                     />

@@ -5,6 +5,7 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { WordSwap, type SwapWord } from "@/components/ui/WordSwap";
 import { productMedia } from "@/config/media";
+import { reveal } from "@/lib/reveal";
 import { siteConfig } from "@/config/site";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
@@ -80,7 +81,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         </div>
 
         {/* On load: the copy rises line by line, then the demo slides in from the right. */}
-        <div className="harbor-demo-stage w-full max-w-6xl rounded-2xl border border-brand-200/70 bg-brand-50 p-3 shadow-[0_32px_100px_-50px_rgb(26_98_137/0.35)] sm:p-5">
+        <div {...reveal("visual", 80)} className="harbor-demo-stage w-full max-w-6xl rounded-2xl border border-brand-200/70 bg-brand-50 p-3 shadow-[0_32px_100px_-50px_rgb(26_98_137/0.35)] sm:p-5">
           {video ? (
             <DemoVideo video={video} copy={demo} className={demoEntrance} />
           ) : (

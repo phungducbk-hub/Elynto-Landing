@@ -112,7 +112,7 @@ export default async function StatsPage({ searchParams }: Props) {
       <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
         <RangeForm preset={range.preset} from={range.from} to={range.to} granularity={range.granularity} />
         <p className="text-sm text-ink-subtle">
-          {dayLabel(range.from)} – {dayLabel(range.to)} · thay đổi so với {dayLabel(range.previous.from)} – {dayLabel(range.previous.to)}
+          {dayLabel(range.from)} - {dayLabel(range.to)} · thay đổi so với {dayLabel(range.previous.from)} - {dayLabel(range.previous.to)}
         </p>
       </div>
 

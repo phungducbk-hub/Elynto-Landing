@@ -37,7 +37,7 @@ export function Voices({ dict }: { dict: Dictionary }) {
           {voices.note}
         </p>
         <div {...reveal("scale", 120)} className="mt-12 sm:mt-14">
-          <Testimonials items={items} label={voices.regionLabel} pauseLabel={voices.pause} playLabel={voices.play} />
+          <Testimonials items={items} label={voices.regionLabel} />
         </div>
       </Container>
     </section>
