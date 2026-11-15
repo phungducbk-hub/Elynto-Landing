@@ -6,7 +6,7 @@ import { DelegatedView } from "@/components/visuals/DelegatedView";
 import { PlanDraft } from "@/components/visuals/PlanDraft";
 import { ProjectWorkspace } from "@/components/visuals/ProjectWorkspace";
 import { TeamCollaboration } from "@/components/visuals/TeamCollaboration";
-import { TodayView } from "@/components/visuals/TodayView";
+import { CollaborationWorkspace } from "@/components/visuals/CollaborationWorkspace";
 import { productMedia } from "@/config/media";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
@@ -14,12 +14,11 @@ import { reveal } from "@/lib/reveal";
 import { FeatureRow } from "./FeatureRow";
 
 export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
-  const { howItWorks, command, delegate, planning, today, views, app, illustration } = dict;
+  const { howItWorks, command, delegate, planning, collaboration, views, app, illustration } = dict;
 
   const delegateShot = productMedia.delegate[lang];
   const projectShot = productMedia.project[lang];
   const planningShot = productMedia.planning[lang];
-  const todayShot = productMedia.today[lang];
 
   return (
     <section id="how-it-works" aria-labelledby="how-title">
@@ -58,10 +57,10 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           </FeatureRow>
         </div>
 
-        {/* Then the day-to-day view of everything that needs you. */}
+        {/* Bring the conversation, meeting and shared work into one team context. */}
         <div className="mt-24 sm:mt-32">
-          <FeatureRow id="feature-today" eyebrow={today.eyebrow} title={today.title} body={today.body} points={today.points}>
-            {todayShot ? <ProductShot image={todayShot} /> : <TodayView lang={lang} copy={today.mock} badge={illustration} />}
+          <FeatureRow id="feature-collaboration" eyebrow={collaboration.eyebrow} title={collaboration.title} body={collaboration.body} points={collaboration.points} wideVisual>
+            <CollaborationWorkspace lang={lang} copy={collaboration.mock} />
           </FeatureRow>
         </div>
       </Container>

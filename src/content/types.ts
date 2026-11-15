@@ -139,6 +139,30 @@ export type Dictionary = {
       create: string;
     };
   };
+  collaboration: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    points: string[];
+    mock: {
+      label: string;
+      project: string;
+      meeting: string;
+      time: string;
+      live: string;
+      participants: string[];
+      chat: string;
+      messages: { name: string; text: string }[];
+      workLabel: string;
+      task: string;
+      assigneeLabel: string;
+      assignee: string;
+      dueLabel: string;
+      due: string;
+      status: string;
+      caption: string;
+    };
+  };
   today: {
     eyebrow: string;
     title: string;
