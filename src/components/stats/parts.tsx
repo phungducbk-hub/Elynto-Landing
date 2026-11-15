@@ -75,7 +75,7 @@ export function KpiRow({ totals, previous }: { totals: Totals; previous: Totals 
     },
     {
       key: "signup",
-      label: "Bấm “Đăng ký beta”",
+      label: "Bấm “Dùng thử miễn phí”",
       value: formatNumber(totals.signupClicks),
       note: `từ ${formatNumber(totals.signupVisitors)} người`,
       delta: <Delta current={totals.signupClicks} previous={previous.signupClicks} hasPrevious={hasPrevious} />,
@@ -89,7 +89,7 @@ export function KpiRow({ totals, previous }: { totals: Totals; previous: Totals 
     },
     {
       key: "signupRate",
-      label: "Tỷ lệ bấm đăng ký",
+      label: "Tỷ lệ bấm dùng thử",
       value: formatPercent(signupRate),
       note: "số người bấm / người truy cập",
       delta: <Delta current={signupRate} previous={previousRate} hasPrevious={hasPrevious} points />,
@@ -158,7 +158,7 @@ export function CtaLocationTable({ rows }: { rows: CtaLocationRow[] }) {
             Vị trí nút
           </th>
           <th scope="col" className="pb-2 text-right font-medium">
-            Đăng ký beta
+            Dùng thử miễn phí
           </th>
           <th scope="col" className="pb-2 text-right font-medium">
             Đăng nhập
@@ -179,7 +179,7 @@ export function CtaLocationTable({ rows }: { rows: CtaLocationRow[] }) {
 }
 
 export function PeriodTable({ periods, totals, granularity }: { periods: PeriodRow[]; totals: Totals; granularity: Granularity }) {
-  const columns = ["Người truy cập", "Lượt truy cập", "Lượt xem trang", "Bấm Đăng ký beta", "Bấm Đăng nhập"];
+  const columns = ["Người truy cập", "Lượt truy cập", "Lượt xem trang", "Bấm Dùng thử miễn phí", "Bấm Đăng nhập"];
   const cells = (row: Pick<PeriodRow, "visitors" | "visits" | "pageviews" | "signupClicks" | "loginClicks">) => [
     row.visitors,
     row.visits,

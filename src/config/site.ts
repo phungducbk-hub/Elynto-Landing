@@ -26,7 +26,7 @@ export const siteConfig = {
     subjects: ["you", "your team"],
     tail: "and work",
   },
-  /** Verified against the app's sign-up and sign-in route source; beta availability is managed by the app. */
+  /** Separate sign-up and sign-in routes, verified against the app source. */
   signupUrl: authUrl(process.env.NEXT_PUBLIC_SIGNUP_URL, "/sign-up"),
   loginUrl: authUrl(process.env.NEXT_PUBLIC_LOGIN_URL, "/sign-in"),
   /** Shown on the Contact page. No address has been confirmed yet, so it stays empty until set. */

@@ -68,7 +68,7 @@ src/
     sections/                 Hero, Benefits, HowItWorks, Audience, Voices, Faq, FinalCta
     demo/                     CommandDemo (minh họa HTML), DemoVideo (video thật)
     visuals/                  minh họa sản phẩm: SentenceToTask, PlanDraft, TodayView,
-                              DelegatedView và ProjectWorkspace (dựng lại từ giao diện beta)
+                              DelegatedView và ProjectWorkspace (dựng lại từ giao diện Elynto)
     layout/                   SiteHeader, SiteFooter, LanguageSwitch, AnalyticsListener, RevealObserver
     subpage/                  SubpageView (giao diện chung của trang con), CookieReset
     ui/, brand/               nút, khung minh họa, avatar, logo, Testimonials (tường thẻ trượt)
@@ -88,10 +88,10 @@ assets/fonts/                 font dùng để vẽ ảnh Open Graph (SIL OFL)
 
 | Biến | Mặc định | Ý nghĩa |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SIGNUP_URL` | `https://beta.elynto.io/sign-up` | Đích của mọi nút đăng ký beta |
+| `NEXT_PUBLIC_SIGNUP_URL` | `https://beta.elynto.io/sign-up` | Đích của mọi nút “Dùng thử miễn phí” |
 | `NEXT_PUBLIC_LOGIN_URL` | `https://beta.elynto.io/sign-in` | Đích của nút “Đăng nhập” |
 | `NEXT_PUBLIC_SITE_URL` | `https://elynto.io` | Canonical, sitemap, Open Graph |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | (trống) | Email hiện trên trang Liên hệ. Để trống thì ưu tiên hướng dẫn và lối vào beta |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | (trống) | Email hiện trên trang Liên hệ. Để trống thì ưu tiên hướng dẫn và lối vào dùng thử |
 | `SITE_INDEXABLE` | chỉ `true` trên Vercel Production | Cho phép công cụ tìm kiếm index |
 
 Biến `NEXT_PUBLIC_*` được đóng vào bản build. Sau khi đổi, cần build lại (trên Vercel: Redeploy).
@@ -115,7 +115,7 @@ Khi đã khai báo, trang tự dùng asset thật thay cho minh họa HTML. Vide
 - Hero giữ slogan tiếng Anh với `you / your team`, đổi mỗi 2,8 giây. Khi bật giảm chuyển động, chữ vẫn đổi nhưng không cuộn trong pill.
 - Demo tự chạy khi phần sản phẩm vào màn hình: gõ 60ms/ký tự → gửi → skeleton → work card giữ 5 giây → Việc của tôi. Dữ liệu chỉ là state mẫu trong trình duyệt. Không gọi AI hay ghi vào app beta.
 - Hero và các khối khi cuộn dùng chung 64px / 1 giây / easing đối xứng. Nhóm chữ chuyển động cùng nhau; hình đi từ cạnh bên ở desktop, từ dưới lên ở mobile. Không dùng scale. Fallback khi JS chậm bảo đảm nội dung được hiện.
-- Sau hero là khối tình huống, rồi ba chương: ý định → đội nhóm → tiến độ. Ảnh đội nhóm và ảnh họp được tối ưu WebP; thẻ AI Summary có nhãn Xem trước / Preview.
+- Sau hero là khối tình huống, rồi ba chương: ý định → đội nhóm → tiến độ. Ảnh đội nhóm và ảnh họp được tối ưu WebP; thẻ AI Summary giới thiệu kết luận và công việc ngay trong cuộc họp.
 - Chi tiết phạm vi, kiểm tra và các mục chưa kết nối: [`REDESIGN-2026-11-14.md`](./REDESIGN-2026-11-14.md).
 
 **Khối “Nghe có quen không?”** (`sections/Voices.tsx`) dùng component testimonial (`ui/Testimonials.tsx`, chỉnh từ `testimonial-v2` của 21st.dev). Hiện khối chứa các tình huống tổng hợp từ nghiên cứu khách hàng, ghi theo vai trò, không gắn tên hay ảnh người thật. Khi có lời nhận xét thật, đã được khách đồng ý cho đăng, có thể thay nội dung trong `voices.items`, đổi nhãn tiêu đề và bỏ dòng ghi chú. Không dùng tên, ảnh hoặc lời nhận xét dựng sẵn.
@@ -150,7 +150,7 @@ Website tự ghi nhận lượt truy cập, không dùng dịch vụ bên thứ 
 
 **Số liệu có trên trang:**
 - Người truy cập, lượt truy cập, lượt xem trang; người mới và người quay lại; số trang mỗi lượt; tỷ lệ thoát.
-- Lượt bấm đăng ký beta và đăng nhập (kèm số người bấm và vị trí nút); tỷ lệ bấm đăng ký.
+- Lượt bấm dùng thử miễn phí và đăng nhập (kèm số người bấm và vị trí nút); tỷ lệ bấm đăng ký.
 - Funnel demo theo lượt truy cập: xem demo → thấy work card → mở Việc của tôi → bấm đăng ký. Mỗi bước đếm một lần/lượt theo thứ tự; replay không tăng số. Chưa có dữ liệu xác nhận đăng ký thành công từ app, nên không coi lượt bấm là tài khoản đã tạo. CSV có thêm bốn mốc này.
 - Biểu đồ và bảng theo ngày, tháng hoặc năm. Khoảng thời gian chọn sẵn (hôm nay, 7/30/90 ngày, 12 tháng, từ đầu năm) hoặc tự chọn. Mỗi số đều có so sánh với kỳ trước cùng độ dài.
 - Phân tích theo thiết bị (điện thoại, máy tính bảng, máy tính), trình duyệt, hệ điều hành, quốc gia, nguồn truy cập, chiến dịch (`utm_source`), trang được xem và ngôn ngữ.

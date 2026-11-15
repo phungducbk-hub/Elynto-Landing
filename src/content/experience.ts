@@ -6,8 +6,7 @@ type ExperienceCopy = {
   chapterNav: string;
   chapters: { id: string; title: string; body: string }[];
   proof: { eyebrow: string; title: string; body: string; steps: { title: string; body: string }[]; cta: string; help: string; privacy: string; about: string };
-  start: { eyebrow: string; title: string; body: string; demoTitle: string; demoBody: string; demoCta: string; betaTitle: string; betaBody: string; betaCta: string; note: string; plans: string; login: string };
-  preview: string;
+  start: { eyebrow: string; title: string; body: string; demoTitle: string; demoBody: string; demoCta: string; trialTitle: string; trialBody: string; trialCta: string; login: string };
 };
 
 const copy: Record<Locale, ExperienceCopy> = {
@@ -33,13 +32,11 @@ const copy: Record<Locale, ExperienceCopy> = {
     },
     start: {
       eyebrow: "Bắt đầu theo cách của bạn", title: "Hiểu rõ trước. Bắt đầu dễ dàng.",
-      body: "Khám phá bản mẫu ngay tại đây, hoặc mở trang đăng ký để tham gia Elynto beta.",
+      body: "Khám phá bản mẫu ngay tại đây, hoặc dùng thử miễn phí để bắt đầu quản lý công việc với Elynto.",
       demoTitle: "Khám phá bản mẫu", demoBody: "Thử hành trình tạo việc với dữ liệu mẫu. Không cần tài khoản hoặc thẻ thanh toán.", demoCta: "Mở bản mẫu tương tác",
-      betaTitle: "Tham gia Elynto beta", betaBody: "Tạo tài khoản để bắt đầu theo đợt mở beta hiện tại. Đã có tài khoản? Bạn có thể đăng nhập và tiếp tục công việc.", betaCta: "Mở trang đăng ký beta",
-      note: "Quyền truy cập và tính năng trong app có thể khác nhau theo đợt beta. Các nội dung gắn nhãn Xem trước là minh họa trải nghiệm.",
-      plans: "Bảng giá, thời hạn dùng thử và hạn mức chính thức chưa được công bố trên trang này.", login: "Đã có tài khoản? Đăng nhập",
+      trialTitle: "Bắt đầu với Elynto", trialBody: "Đưa công việc, kế hoạch và cuộc trao đổi của đội nhóm vào cùng một nơi. Tạo tài khoản và bắt đầu với việc đầu tiên của bạn.", trialCta: "Dùng thử miễn phí",
+      login: "Đã có tài khoản? Đăng nhập",
     },
-    preview: "Xem trước",
   },
   en: {
     promise: "Assign work in a sentence. Everyone knows the next step.",
@@ -62,13 +59,11 @@ const copy: Record<Locale, ExperienceCopy> = {
     },
     start: {
       eyebrow: "Choose your starting point", title: "Explore first. Start with confidence.",
-      body: "Try the sample experience here, or open the sign-up page to join the Elynto beta.",
+      body: "Try the sample experience here, or start your free trial to manage your work with Elynto.",
       demoTitle: "Explore the sample experience", demoBody: "Try the work-creation flow with sample data. No account or payment card needed.", demoCta: "Open the interactive demo",
-      betaTitle: "Join the Elynto beta", betaBody: "Create an account according to the current beta availability. Already have one? Sign in and pick up your work.", betaCta: "Open beta sign-up",
-      note: "App access and available features may vary during beta. Items marked Preview illustrate the intended experience.",
-      plans: "Official pricing, trial duration and resource limits have not been published on this page.", login: "Already have an account? Log in",
+      trialTitle: "Get started with Elynto", trialBody: "Bring your team’s work, plans and conversations together. Create an account and start with your first task.", trialCta: "Start free trial",
+      login: "Already have an account? Log in",
     },
-    preview: "Preview",
   },
 };
 

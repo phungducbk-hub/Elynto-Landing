@@ -11,7 +11,7 @@
  * <AnalyticsListener />:
  *   <a data-track="cta_click" data-track-location="hero" data-track-cta="signup">
  *
- * Separately, page views, demo milestones and Beta-sign-up / Log-in clicks are recorded in the site's own
+ * Separately, page views, demo milestones and Free-trial / Log-in clicks are recorded in the site's own
  * statistics (lib/stats), shown on /stats.
  */
 import { recordCtaClick, recordDemoStage } from "@/lib/stats/client";

@@ -18,7 +18,7 @@ export type Totals = {
   returningVisitors: number;
   signupClicks: number;
   loginClicks: number;
-  /** Distinct visitors who clicked Join beta at least once. */
+  /** Distinct visitors who clicked Start free trial at least once. */
   signupVisitors: number;
   loginVisitors: number;
   /** Share of visits that saw a single page (0–1). */

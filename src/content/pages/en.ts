@@ -1,7 +1,7 @@
 import type { PagesDictionary } from "./types";
 
 /**
- * Subpage copy. Describes only what the beta screenshots or the brief confirm; nothing about
+ * Subpage copy. Describes only what the product references or the brief confirm; nothing about
  * pricing, integrations, automation or security that has not been verified.
  */
 export const en: PagesDictionary = {
@@ -120,7 +120,7 @@ export const en: PagesDictionary = {
       {
         heading: "Start the day here",
         body: [
-          "Open My Work to see your assigned work, due dates, priorities and statuses. Today at a glance in the beta currently displays sample data.",
+          "Open My Work to see your assigned work, due dates, priorities and statuses.",
         ],
       },
       {
@@ -172,7 +172,7 @@ export const en: PagesDictionary = {
     sections: [
       {
         heading: "Open Elynto",
-        body: ["Try the demo on the homepage, or choose Join beta to open account creation. If you already have an account, choose Log in. Access depends on the current beta release."],
+        body: ["Try the demo on the homepage, or choose Start free trial to create an account. If you already have an account, choose Log in."],
       },
       {
         heading: "Create your first task",
@@ -273,8 +273,8 @@ export const en: PagesDictionary = {
         ],
       },
       {
-        heading: "Where we are",
-        body: ["Elynto is in beta at beta.elynto.io and continues to be refined."],
+        heading: "Get started with Elynto",
+        body: ["Start your free trial to bring your team’s work, plans and conversations together in one place."],
       },
     ],
   },
@@ -294,7 +294,7 @@ export const en: PagesDictionary = {
       {
         heading: "Scope",
         body: [
-          "This page covers the Elynto marketing website. Data you enter in the Elynto app at beta.elynto.io is outside its scope.",
+          "This page covers the Elynto marketing website. Data you enter in the Elynto app is outside its scope.",
         ],
       },
       {
@@ -306,7 +306,7 @@ export const en: PagesDictionary = {
       {
         heading: "Visit statistics",
         body: [
-          "To understand how the website is used, it records the pages viewed, clicks on Join beta and Log in (with where the button was), and demo milestones for viewing the demo, work card and work list, the time, device type, browser, operating system, country and the website that referred you.",
+          "To understand how the website is used, it records the pages viewed, clicks on Start free trial and Log in (with where the button was), and demo milestones for viewing the demo, work card and work list, the time, device type, browser, operating system, country and the website that referred you.",
           "Country is derived from your IP address at the time of the visit. The IP address and the full browser identification string are not stored.",
         ],
       },
@@ -325,7 +325,7 @@ export const en: PagesDictionary = {
       {
         heading: "No forms collecting your details",
         body: [
-          "There are no sign-up or log-in forms on this website. The Join beta and Log in buttons take you to the Elynto app at beta.elynto.io.",
+          "There are no sign-up or log-in forms on this website. The Start free trial and Log in buttons take you to the Elynto app.",
         ],
       },
       {

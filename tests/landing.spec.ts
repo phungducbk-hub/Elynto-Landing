@@ -9,7 +9,7 @@ const HERO_VISION = "The interface between you and work";
 const copy = {
   vi: {
     eyebrow: "Elynto - Quản lý công việc bằng AI",
-    cta: "Đăng ký trải nghiệm beta",
+    cta: "Dùng thử miễn phí",
     demoCta: "Xem Elynto hoạt động",
     illustration: "Demo tương tác bằng dữ liệu mẫu",
     pause: "Tạm dừng minh họa",
@@ -24,7 +24,7 @@ const copy = {
   },
   en: {
     eyebrow: "Elynto - AI-powered work management",
-    cta: "Join the Elynto beta",
+    cta: "Start free trial",
     demoCta: "See it in action",
     illustration: "Interactive demo with sample data",
     pause: "Pause demo",
@@ -110,7 +110,7 @@ for (const lang of ["vi", "en"] as const) {
       await expect(heroCta).toHaveAttribute("href", SIGNUP_URL);
       await expect(heroCta).toContainText(t.cta);
 
-      // Every beta CTA points at the real sign-up entry point.
+      // Every trial CTA points at the real sign-up entry point.
       for (const href of await page.locator('a[data-track-cta="signup"]').evaluateAll((els) => els.map((el) => el.getAttribute("href")))) {
         expect(href).toBe(SIGNUP_URL);
       }
@@ -243,7 +243,9 @@ for (const lang of ["vi", "en"] as const) {
     test("visible copy and metadata use short hyphens", async ({ page }) => {
       await page.goto(`/${lang}`);
       expect(await page.title()).not.toMatch(/[\u2013\u2014]/);
-      expect(await page.locator("body").innerText()).not.toMatch(/[\u2013\u2014]/);
+      const visibleCopy = await page.locator("body").innerText();
+      expect(visibleCopy).not.toMatch(/[\u2013\u2014]/);
+      expect(visibleCopy).not.toMatch(/\bbeta\b/i);
     });
 
     test("has no serious accessibility violations", async ({ page }) => {

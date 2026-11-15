@@ -1,12 +1,10 @@
 import Image from "next/image";
 import { ArrowUpRight, Check, ListChecks, Sparkles } from "lucide-react";
-import { getExperienceCopy } from "@/content/experience";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 
 /** Illustrative hybrid meeting with a localized, reviewable AI Summary overlay. */
 export function CollaborationWorkspace({ copy, lang }: { copy: Dictionary["collaboration"]["mock"]; lang: Locale }) {
-  const { preview } = getExperienceCopy(lang);
   return (
     <figure lang={lang}>
       <div className="relative sm:pb-40">
@@ -23,7 +21,7 @@ export function CollaborationWorkspace({ copy, lang }: { copy: Dictionary["colla
         <div className="elynto-insight-card relative z-10 -mt-8 mr-3 ml-auto w-[92%] max-w-sm sm:absolute sm:right-5 sm:bottom-0 sm:m-0">
           <div className="flex flex-wrap items-center justify-between gap-2"><p className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand">
             <Sparkles aria-hidden="true" className="size-3.5" />AI Summary
-          </p><span className="rounded-full border border-line bg-canvas px-2 py-1 text-xs text-ink-muted">{preview}</span></div>
+          </p></div>
           <p className="mt-3 text-base font-semibold leading-snug text-ink">{copy.aiTitle}</p>
           <div className="mt-4 flex items-start gap-2">
             <Check aria-hidden="true" className="mt-0.5 size-3.5 shrink-0 text-brand" />

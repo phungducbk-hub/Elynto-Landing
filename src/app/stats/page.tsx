@@ -147,14 +147,14 @@ export default async function StatsPage({ searchParams }: Props) {
             ]}
           />
         </Card>
-        <Card title="Lượt bấm nút" description="Số lần bấm “Đăng ký beta” và “Đăng nhập”.">
+        <Card title="Lượt bấm nút" description="Số lần bấm “Dùng thử miễn phí” và “Đăng nhập”.">
           <TrendChart
             kind="columns"
             labels={labels}
             fullLabels={fullLabels}
-            ariaLabel="Biểu đồ cột lượt bấm Đăng ký beta và Đăng nhập theo kỳ"
+            ariaLabel="Biểu đồ cột lượt bấm Dùng thử miễn phí và Đăng nhập theo kỳ"
             series={[
-              { name: "Đăng ký beta", color: SERIES.first, values: report.periods.map((p) => p.signupClicks) },
+              { name: "Dùng thử miễn phí", color: SERIES.first, values: report.periods.map((p) => p.signupClicks) },
               { name: "Đăng nhập", color: SERIES.second, values: report.periods.map((p) => p.loginClicks) },
             ]}
           />

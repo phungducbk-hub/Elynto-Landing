@@ -89,7 +89,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           {video ? (
             <DemoVideo video={video} copy={demo} className={demoEntrance} />
           ) : (
-            <ProductDemo lang={lang} copy={demo} examples={dict.command.examples} label={lang === "vi" ? "Khám phá giao diện Elynto beta" : "Explore the Elynto beta interface"} caption={lang === "vi" ? "Demo tương tác bằng dữ liệu mẫu · Theo giao diện Elynto beta" : "Interactive demo with sample data · Based on the Elynto beta interface"} />
+            <ProductDemo lang={lang} copy={demo} examples={dict.command.examples} label={lang === "vi" ? "Khám phá giao diện Elynto" : "Explore the Elynto interface"} caption={lang === "vi" ? "Demo tương tác bằng dữ liệu mẫu · Khám phá Elynto" : "Interactive demo with sample data · Explore Elynto"} />
           )}
         </div>
       </Container>

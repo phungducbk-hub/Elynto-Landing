@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Check, FlaskConical, Play, ShieldCheck } from "lucide-react";
+import { ArrowRight, BookOpen, Play, Rocket, ShieldCheck } from "lucide-react";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -49,15 +49,13 @@ export function StartWithElynto({ lang }: { lang: Locale }) {
             <ButtonLink href="#demo" variant="secondary" className="mt-7 w-full" dataAttrs={{ "data-track": "cta_click", "data-track-cta": "see_demo", "data-track-location": "start" }}>{start.demoCta}<ArrowRight aria-hidden="true" className="size-4" /></ButtonLink>
           </div>
           <div {...reveal()} className="flex flex-col rounded-3xl border border-brand-200 bg-brand-50 p-6 sm:p-8">
-            <FlaskConical aria-hidden="true" className="size-6 text-brand" />
-            <h3 className="mt-5 text-xl font-semibold text-ink">{start.betaTitle}</h3>
-            <p className="mt-3 flex-1 text-base leading-relaxed text-ink-muted">{start.betaBody}</p>
-            <ButtonLink href={siteConfig.signupUrl} className="mt-7 w-full" dataAttrs={{ "data-track": "cta_click", "data-track-cta": "signup", "data-track-location": "start" }}>{start.betaCta}<ArrowRight aria-hidden="true" className="size-4" /></ButtonLink>
+            <Rocket aria-hidden="true" className="size-6 text-brand" />
+            <h3 className="mt-5 text-xl font-semibold text-ink">{start.trialTitle}</h3>
+            <p className="mt-3 flex-1 text-base leading-relaxed text-ink-muted">{start.trialBody}</p>
+            <ButtonLink href={siteConfig.signupUrl} className="mt-7 w-full" dataAttrs={{ "data-track": "cta_click", "data-track-cta": "signup", "data-track-location": "start" }}>{start.trialCta}<ArrowRight aria-hidden="true" className="size-4" /></ButtonLink>
           </div>
         </div>
         <div className="mx-auto mt-6 max-w-3xl text-center text-sm leading-relaxed text-ink-muted">
-          <p className="flex items-start justify-center gap-2"><Check aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-brand" />{start.note}</p>
-          <p className="mt-2">{start.plans}</p>
           <a href={siteConfig.loginUrl} data-track="cta_click" data-track-cta="login" data-track-location="start" className="mt-4 inline-block font-medium text-brand underline underline-offset-4">{start.login}</a>
         </div>
       </Container>

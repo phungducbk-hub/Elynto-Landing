@@ -1,7 +1,7 @@
 import type { PagesDictionary } from "./types";
 
 /**
- * Subpage copy. Describes only what the beta screenshots or the brief confirm; nothing about
+ * Subpage copy. Describes only what the product references or the brief confirm; nothing about
  * pricing, integrations, automation or security that has not been verified.
  */
 export const vi: PagesDictionary = {
@@ -120,7 +120,7 @@ export const vi: PagesDictionary = {
       {
         heading: "Bắt đầu ngày làm việc",
         body: [
-          "Mở Việc của tôi để xem việc được giao cho bạn, hạn hoàn thành, mức ưu tiên và trạng thái. Phần Tổng quan hôm nay trên beta hiện là dữ liệu mẫu.",
+          "Mở Việc của tôi để xem việc được giao cho bạn, hạn hoàn thành, mức ưu tiên và trạng thái.",
         ],
       },
       {
@@ -176,7 +176,7 @@ export const vi: PagesDictionary = {
     sections: [
       {
         heading: "Mở Elynto",
-        body: ["Thử bản mẫu ngay trên trang chủ, hoặc chọn Đăng ký beta để mở trang tạo tài khoản. Nếu đã có tài khoản, chọn Đăng nhập. Quyền truy cập phụ thuộc đợt beta hiện tại."],
+        body: ["Thử bản mẫu ngay trên trang chủ, hoặc chọn Dùng thử miễn phí để tạo tài khoản. Nếu đã có tài khoản, chọn Đăng nhập."],
       },
       {
         heading: "Tạo công việc đầu tiên",
@@ -277,8 +277,8 @@ export const vi: PagesDictionary = {
         ],
       },
       {
-        heading: "Giai đoạn hiện tại",
-        body: ["Elynto đang ở giai đoạn beta tại beta.elynto.io và tiếp tục được hoàn thiện."],
+        heading: "Bắt đầu với Elynto",
+        body: ["Dùng thử miễn phí để đưa công việc, kế hoạch và trao đổi của đội nhóm vào cùng một nơi."],
       },
     ],
   },
@@ -298,7 +298,7 @@ export const vi: PagesDictionary = {
       {
         heading: "Phạm vi",
         body: [
-          "Trang này áp dụng cho website giới thiệu Elynto. Dữ liệu bạn nhập trong ứng dụng Elynto tại beta.elynto.io không thuộc phạm vi trang này.",
+          "Trang này áp dụng cho website giới thiệu Elynto. Dữ liệu bạn nhập trong ứng dụng Elynto không thuộc phạm vi trang này.",
         ],
       },
       {
@@ -310,7 +310,7 @@ export const vi: PagesDictionary = {
       {
         heading: "Thống kê truy cập",
         body: [
-          "Để biết website được dùng thế nào, website tự ghi nhận: trang được xem, lượt bấm Đăng ký beta và Đăng nhập (kèm vị trí nút), các mốc xem bản mẫu, thấy thẻ công việc và mở danh sách công việc, thời điểm, loại thiết bị, trình duyệt, hệ điều hành, quốc gia và trang web đã dẫn bạn tới.",
+          "Để biết website được dùng thế nào, website tự ghi nhận: trang được xem, lượt bấm Dùng thử miễn phí và Đăng nhập (kèm vị trí nút), các mốc xem bản mẫu, thấy thẻ công việc và mở danh sách công việc, thời điểm, loại thiết bị, trình duyệt, hệ điều hành, quốc gia và trang web đã dẫn bạn tới.",
           "Quốc gia được suy ra từ địa chỉ IP lúc truy cập. Địa chỉ IP và chuỗi nhận dạng trình duyệt không được lưu.",
         ],
       },
@@ -329,7 +329,7 @@ export const vi: PagesDictionary = {
       {
         heading: "Không có biểu mẫu thu thập thông tin",
         body: [
-          "Website không có biểu mẫu đăng ký hay đăng nhập. Các nút Đăng ký beta và Đăng nhập chuyển bạn sang ứng dụng Elynto tại beta.elynto.io.",
+          "Website không có biểu mẫu đăng ký hay đăng nhập. Các nút Dùng thử miễn phí và Đăng nhập chuyển bạn sang ứng dụng Elynto.",
         ],
       },
       {
