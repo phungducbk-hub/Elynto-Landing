@@ -22,7 +22,7 @@ const subjects: SwapWord[] = heroVision.subjects.map((text, i) => ({
   pillClassName: subjectTints[i % subjectTints.length],
 }));
 
-const demoEntrance = "";
+const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-visual-in lg:motion-safe:animate-enter-right";
 
 export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const { hero, demo } = dict;
@@ -30,13 +30,13 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const video = productMedia.heroDemo[lang];
 
   return (
-    <section aria-labelledby="hero-title" className="harbor-hero relative overflow-hidden">
+    <section aria-labelledby="hero-title" className="harbor-hero relative overflow-hidden border-b border-line">
       {/* Brand atmosphere behind the product introduction. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(ellipse_at_50%_0%,var(--color-brand-100),transparent_70%)]"
       />
-      <Container className="flex flex-col items-center gap-12 pt-10 pb-16 sm:gap-14 sm:pt-16 lg:pt-20 lg:pb-20">
+      <Container className="flex flex-col items-center gap-12 pt-12 pb-16 sm:pt-16 lg:pt-20 lg:pb-20">
         {/* @container: the vision sizes itself to this column so its longest line never wraps. */}
         <div className="@container w-full max-w-4xl text-center">
           <h1 id="hero-title">
@@ -45,7 +45,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             </span>
             <span
               lang="en"
-              className="mt-7 block text-[clamp(1.75rem,8.3cqi,4.8rem)] leading-[1.1] font-semibold tracking-[-0.04em] text-ink [--enter-delay:80ms] motion-safe:animate-rise"
+              className="mt-7 block text-[clamp(2.25rem,8.5cqi,4.8rem)] leading-[1.1] font-semibold tracking-[-0.055em] text-ink [--enter-delay:80ms] motion-safe:animate-rise"
             >
               <span className="sr-only">{heroVisionText}</span>
               <span aria-hidden="true" className="block">
@@ -84,7 +84,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         </div>
 
         {/* The hero and demo share the approved 64px / 1s entrance settings. */}
-        <div {...reveal("visual", 80)} className="harbor-demo-stage w-full max-w-6xl rounded-3xl border border-brand-200/70 bg-brand-50 p-2 shadow-float sm:p-5">
+        <div {...reveal("visual", 80)} className="harbor-demo-stage w-full max-w-6xl rounded-2xl border border-brand-200/70 bg-brand-50 p-3 shadow-[0_32px_100px_-50px_rgb(26_98_137/0.35)] sm:p-5">
           {video ? (
             <DemoVideo video={video} copy={demo} className={demoEntrance} />
           ) : (

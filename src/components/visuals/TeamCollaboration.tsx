@@ -28,10 +28,10 @@ export function TeamCollaboration({ lang }: { lang: Locale }) {
           </span>
         </div>
         <p className="mt-3 text-base font-semibold leading-snug text-ink sm:text-lg">
-          {vi ? "Làm báo giá" : "Prepare the quotation"}
+          {vi ? "Việc rõ ràng. Đội nhóm đồng lòng." : "Clear work. A team moving together."}
         </p>
         <p className="mt-2 text-xs leading-relaxed text-ink-muted sm:text-sm">
-          {vi ? "Minh · 20/11/2026 · Đã giao" : "Alex · Nov 20, 2026 · Assigned"}
+          {vi ? "Từ một câu nói đến bước tiếp theo của cả nhóm." : "From one sentence to the whole team’s next step."}
         </p>
       </figcaption>
     </figure>

@@ -25,16 +25,6 @@ export function RevealObserver() {
       return;
     }
 
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const onMotionChange = () => {
-      if (media.matches) {
-        root.removeAttribute("data-motion");
-        document.querySelectorAll("[data-reveal]").forEach(el => el.setAttribute("data-revealed", ""));
-      }
-    };
-    if (media.matches) { root.removeAttribute("data-motion"); return; }
-    media.addEventListener("change", onMotionChange);
-
     // A slow hydration can expire the boot fallback. Re-enable entrances below the fold,
     // while leaving already visible content in place.
     if (window.__revealExpired) {
@@ -53,12 +43,12 @@ export function RevealObserver() {
           observer.unobserve(entry.target);
         }
       },
-      { rootMargin: "0px 0px 8% 0px", threshold: 0.05 },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.15 },
     );
     document.querySelectorAll("[data-reveal]:not([data-revealed])").forEach((element) => observer.observe(element));
     root.setAttribute("data-motion", "live");
 
-    return () => { observer.disconnect(); media.removeEventListener("change", onMotionChange); };
+    return () => observer.disconnect();
   }, [pathname]);
 
   return null;

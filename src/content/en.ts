@@ -30,7 +30,7 @@ export const en: Dictionary = {
   },
   hero: {
     eyebrow: "Elynto - AI-powered work management",
-    description: "Turn requests into tasks, plan projects with AI, and keep your team’s conversations and progress in one place.",
+    description: "Elynto helps freelancers and small teams create work, plan projects, discuss and follow progress in one place.",
     primaryCta: "Start free trial",
     secondaryCta: "See it in action",
   },
@@ -83,14 +83,14 @@ export const en: Dictionary = {
   },
   howItWorks: {
     eyebrow: "How it works",
-    title: "Clear tasks. Shared progress.",
+    title: "One flow, from intent to outcome.",
     intro:
-      "From the first request to the final result, everyone knows what comes next.",
+      "Elynto turns a plain description into structured tasks, helps you plan, and lets you follow everything in clear, visual views.",
   },
   command: {
     eyebrow: "Create and assign tasks",
     title: "Work starts with a single sentence.",
-    body: "Say what needs doing, who owns it and when it is due. Elynto creates a task you can review, adjust and follow.",
+    body: "Write it the way you’d normally hand off work. Elynto picks out the task, the owner and the deadline, then creates a task you can keep tracking and updating.",
     points: [
       "Tasks are saved - nothing gets lost in a chat thread.",
       "You can always review and edit directly.",
@@ -206,8 +206,8 @@ export const en: Dictionary = {
   },
   collaboration: {
     eyebrow: "Connected teamwork",
-    title: "Decide in the meeting. Move forward with tasks.",
-    body: "Chat, meet and call right alongside your work. Keep decisions and next steps together, so the team can move forward without searching across platforms.",
+    title: "Chat, meet and move work forward. Together.",
+    body: "Keep conversations, meetings and video calls alongside the work in Elynto. Everyone shares the context and knows what comes next, without piecing together updates across separate platforms.",
     points: [
       "Talk directly, in a group or with your project team.",
       "Arrange meetings and connect on video inside Elynto.",
@@ -222,7 +222,7 @@ export const en: Dictionary = {
       task: "Finalise the website content",
       assignee: "Sam",
       due: "20/11/2026",
-      action: "Explore work creation",
+      action: "Review & assign",
     },
   },
   today: {
@@ -266,7 +266,7 @@ export const en: Dictionary = {
   views: {
     eyebrow: "Follow your projects",
     title: "From today’s tasks to the whole project.",
-    body: "See the plan as a list, a calendar or a timeline. Keep the next milestone in view and know how each phase fits together.",
+    body: "Every project has an overview: how much is done, what’s overdue, how many days are left and its overall health. To go deeper, switch to the list by phase, the month calendar or the Gantt chart.",
     points: [
       "Drag a Gantt bar to reschedule or change its due date.",
       "Set milestones; they can complete themselves when their linked work is done.",
@@ -342,7 +342,7 @@ export const en: Dictionary = {
   delegate: {
     eyebrow: "Follow up on delegated work",
     title: "Assigned it? Always know where it stands.",
-    body: "Know who owns each task, when it is due and where it stands. Follow the work from assignment to approval in one clear list.",
+    body: "Each task moves through clear statuses, from assigned to approved. Delegated gathers everything you’ve handed to others in one place, with owner, due date and status.",
     points: [
       "See who has accepted, who’s working and what’s been submitted.",
       "Overdue work is clearly marked.",
@@ -489,10 +489,12 @@ export const en: Dictionary = {
     title: "Frequently asked questions",
     intro: "A few things you might want to know before you start.",
     items: [
+      { id: "what", q: "What is Elynto?", a: "Elynto is an AI-powered work management system for freelancers and small teams. Describe what needs to happen, then keep work, project plans and conversations in one place." },
       { id: "solo", q: "Can I use Elynto on my own?", a: "Yes. You can use Elynto to manage your own tasks and projects. When you work with others, assign work so everyone knows what they own." },
       { id: "prompt", q: "Do I need to know how to write prompts?", a: "No. Write as you would to a colleague: what needs doing, who owns it and when it is due. Once work is created, you can review and edit it directly." },
       { id: "trial", q: "Can I try it before signing up?", a: "Yes. Explore the work-creation journey on this page: choose a request, see the work card and follow the task in My Work." },
       { id: "teamwork", q: "Can our team discuss work inside Elynto?", a: "Yes. Chat, meetings and video calls let your team discuss work in one place, keeping conversations connected to the project instead of scattered across platforms." },
+      { id: "tracking", q: "How do I follow work after assigning it?", a: "Open Delegated to see owners, due dates and statuses. List, Calendar and Gantt views help you follow each task in the context of the whole project." },
       { id: "privacy", q: "Where can I learn about privacy?", a: "The Privacy page linked in the footer explains the information collected on this website. You can manage your statistics preferences on the Cookies page." },
       { id: "language", q: "How does Elynto support Vietnamese and English?", a: "The website and on-page experience are available in Vietnamese and English. Use the language selector in the footer to switch." },
       { id: "start", q: "How do I get started?", a: "Choose Start free trial to create an account, or Log in if you already have one. The Getting started and Writing effective requests guides help you find your way around Elynto." },
@@ -500,7 +502,7 @@ export const en: Dictionary = {
   },
   finalCta: {
     title: "Give your first task a clear place to land.",
-    body: "Bring your team’s tasks, plans and conversations together in one place.",
+    body: "See how Elynto works, then start your free trial when you are ready.",
     cta: "Start free trial",
     loginPrompt: "Already have an account?",
     login: "Log in",

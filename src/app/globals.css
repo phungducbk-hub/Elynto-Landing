@@ -19,8 +19,7 @@
   --color-ink-subtle: #5a6573;
 
   /* App surfaces */
-  --color-canvas: #fafbfc;
-  --color-harbor-deep: #123b50;
+  --color-canvas: #f7f7f8;
   --color-surface: #ffffff;
   --color-sunken: #ebeef2;
   --color-line: #dbe0e6;
@@ -223,7 +222,7 @@
   }
 }
 
-@media screen and (prefers-reduced-motion: no-preference) {
+@media screen {
   html[data-motion] [data-reveal] {
     transition:
       opacity var(--reveal-fade) var(--reveal-ease),
@@ -258,26 +257,12 @@
 
 /* Requested autoplay is explicit: the card wall moves without a manual Play action. */
 [data-testimonial-track] {
-  animation-duration: var(--testimonial-duration);
-  animation-iteration-count: infinite;
+  animation-duration: var(--testimonial-duration) !important;
+  animation-iteration-count: infinite !important;
   will-change: transform;
 }
 
 /* One visual family for the team photographs and their localized insight cards. */
 .elynto-photo-frame { overflow: hidden; border: 1px solid var(--color-line); border-radius: 1.5rem; background: white; box-shadow: var(--shadow-card); }
 .elynto-insight-card { border: 1px solid var(--color-brand-100); border-radius: 1.25rem; background: white; padding: 1rem; box-shadow: var(--shadow-float); }
-@media (min-width: 40rem) { .elynto-insight-card { padding: 1.125rem; } }
-
-/* Marketing hierarchy stays distinct from the product interface. */
-.section-title { font-size: clamp(1.875rem, 3.2vw, 2.75rem); line-height: 1.18; font-weight: 600; letter-spacing: -0.035em; color: var(--color-ink); text-wrap: balance; }
-.feature-title { font-size: clamp(1.5rem, 2.5vw, 2rem); line-height: 1.22; font-weight: 600; letter-spacing: -0.025em; color: var(--color-ink); text-wrap: balance; }
-.eyebrow { font-size: 0.875rem; font-weight: 600; color: var(--color-brand); }
-html[data-reduced-motion] [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
-html[data-reduced-motion] [data-testimonial-track] { animation-play-state: paused !important; }
-@media (prefers-reduced-motion: reduce) {
-  html[data-motion] [data-reveal] { opacity: 1; transform: none; transition: none !important; }
-  [data-testimonial-track] { animation: none !important; transform: none; }
-}
-
-html[data-reduced-motion] { scroll-behavior: auto; }
-html[data-reduced-motion] *, html[data-reduced-motion] *::before, html[data-reduced-motion] *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+@media (min-width: 40rem) { .elynto-insight-card { padding: 1.25rem; } }

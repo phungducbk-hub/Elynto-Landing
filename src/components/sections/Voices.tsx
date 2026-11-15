@@ -33,10 +33,10 @@ export function Voices({ dict }: { dict: Dictionary }) {
     <section id="voices" aria-labelledby="voices-title">
       <Container className="py-16 sm:py-20">
         <SectionHeading id="voices-title" eyebrow={voices.eyebrow} title={voices.title} intro={voices.intro} align="center" />
-        <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-ink-subtle text-pretty">
+        <p {...reveal("up", 200)} className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-ink-subtle text-pretty">
           {voices.note}
         </p>
-        <div {...reveal("scale")} className="mt-9 sm:mt-10">
+        <div {...reveal("scale", 120)} className="mt-9 sm:mt-10">
           <Testimonials items={items} label={voices.regionLabel} />
         </div>
       </Container>

@@ -116,7 +116,13 @@ export function ProjectWorkspace({ data, app, lang }: Props) {
                 </p>
                 <p className="mt-0.5 text-sm text-ink-subtle">{data.healthNote}</p>
               </div>
-
+              <span
+                aria-hidden="true"
+                className="inline-flex h-9 w-fit shrink-0 items-center gap-2 rounded-lg bg-surface px-3.5 text-sm font-semibold text-brand ring-1 ring-line-strong ring-inset"
+              >
+                <Sparkles className="size-4" />
+                {data.analyse}
+              </span>
             </div>
 
             <div lang={lang} className="mt-4 rounded-xl border border-line bg-white p-4">

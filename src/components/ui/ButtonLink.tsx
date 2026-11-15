@@ -1,7 +1,7 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "ghost" | "inverse" | "inverseOutline";
+type Variant = "primary" | "secondary" | "ghost" | "inverse";
 type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
@@ -9,13 +9,12 @@ const variants: Record<Variant, string> = {
   secondary: "bg-surface text-ink ring-1 ring-inset ring-line-strong hover:bg-sunken hover:ring-ink-subtle/40",
   ghost: "text-ink hover:bg-sunken",
   inverse: "bg-white text-brand shadow-sm hover:bg-brand-50",
-  inverseOutline: "border border-white/40 bg-transparent text-white hover:border-white/70 hover:bg-white/10",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-11 px-3.5 text-sm gap-1.5 rounded-[10px] lg:h-10",
-  md: "h-11 px-5 text-[0.9375rem] gap-2 rounded-[10px]",
-  lg: "h-12 px-6 text-base gap-2 rounded-[10px]",
+  sm: "h-9 px-3.5 text-sm gap-1.5 rounded-lg",
+  md: "h-11 px-5 text-[0.9375rem] gap-2 rounded-lg",
+  lg: "h-12 px-6 text-base gap-2 rounded-lg",
 };
 
 type Props = AnchorHTMLAttributes<HTMLAnchorElement> & {

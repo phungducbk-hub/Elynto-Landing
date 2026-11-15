@@ -31,7 +31,7 @@ export const vi: Dictionary = {
   hero: {
     eyebrow: "Elynto - Quản lý công việc bằng AI",
     description:
-      "Tạo việc, lập kế hoạch và trao đổi cùng đội nhóm. Mọi thứ liền mạch trong Elynto.",
+      "Elynto giúp freelancer và nhóm nhỏ tạo việc, lập kế hoạch, trao đổi và theo dõi tiến độ trong cùng một nơi.",
     primaryCta: "Dùng thử miễn phí",
     secondaryCta: "Xem Elynto hoạt động",
   },
@@ -84,14 +84,14 @@ export const vi: Dictionary = {
   },
   howItWorks: {
     eyebrow: "Cách hoạt động",
-    title: "Giao rõ việc. Nắm rõ tiến độ.",
+    title: "Một mạch làm việc, từ ý định đến kết quả.",
     intro:
-      "Từ lời nhắn đầu tiên đến khi hoàn thành, cả nhóm luôn biết bước tiếp theo.",
+      "Elynto chuyển lời mô tả thành công việc có cấu trúc, giúp bạn lập kế hoạch và theo dõi tất cả trên giao diện trực quan.",
   },
   command: {
     eyebrow: "Tạo và giao việc",
-    title: "Một câu nói. Cả nhóm rõ việc.",
-    body: "Nói việc cần làm, ai phụ trách và khi nào xong. Elynto tạo công việc để bạn xem lại, điều chỉnh và theo dõi.",
+    title: "Việc cần làm bắt đầu từ một câu nói.",
+    body: "Viết như cách bạn vẫn giao việc. Elynto nhận ra việc cần làm, người phụ trách và thời hạn, rồi tạo thành công việc để bạn tiếp tục theo dõi và cập nhật.",
     points: [
       "Công việc được lưu lại, không trôi mất trong tin nhắn.",
       "Bạn luôn có thể xem lại và chỉnh sửa trực tiếp.",
@@ -162,7 +162,7 @@ export const vi: Dictionary = {
   },
   planning: {
     eyebrow: "Lập kế hoạch dự án với AI",
-    title: "Có mục tiêu. Có đường đi.",
+    title: "Từ một mục tiêu đến kế hoạch có thể thực hiện.",
     body: "Nhập mục tiêu của bạn. AI phác thảo các giai đoạn và công việc cần làm. Bạn xem lại, thêm, bớt và điều chỉnh trước khi tạo dự án.",
     steps: [
       {
@@ -207,8 +207,8 @@ export const vi: Dictionary = {
   },
   collaboration: {
     eyebrow: "Kết nối đội nhóm",
-    title: "Chốt trong cuộc họp. Tiếp tục bằng công việc.",
-    body: "Chat, họp và gọi video ngay cạnh công việc. Cả nhóm cùng nắm quyết định và bước tiếp theo, không phải tìm lại thông tin qua nhiều nền tảng.",
+    title: "Trao đổi, họp và làm việc. Cùng một nơi.",
+    body: "Chat để làm rõ, họp để thống nhất, gọi video để cùng giải quyết. Công việc và cuộc trao đổi được giữ trong Elynto, để cả nhóm có chung bối cảnh thay vì phải ghép lại từ nhiều nền tảng.",
     points: [
       "Nhắn tin trực tiếp, theo nhóm hoặc theo dự án.",
       "Sắp xếp cuộc họp và gọi video ngay trong Elynto.",
@@ -223,7 +223,7 @@ export const vi: Dictionary = {
       task: "Hoàn thiện nội dung website",
       assignee: "Lan",
       due: "20/11/2026",
-      action: "Khám phá cách giao việc",
+      action: "Xem lại & giao việc",
     },
   },
   today: {
@@ -267,7 +267,7 @@ export const vi: Dictionary = {
   views: {
     eyebrow: "Theo dõi dự án",
     title: "Từ việc hôm nay đến tiến độ cả dự án.",
-    body: "Xem kế hoạch theo danh sách, lịch hoặc Gantt. Biết từng giai đoạn diễn ra khi nào và cột mốc nào đang ở phía trước.",
+    body: "Mỗi dự án có trang tổng quan: phần trăm hoàn thành, việc quá hạn, số ngày còn lại và tình trạng chung. Cần xem kỹ hơn, chuyển sang danh sách theo giai đoạn, lịch tháng hoặc Gantt.",
     points: [
       "Kéo thả thanh Gantt để dời lịch hoặc đổi ngày hạn.",
       "Đặt mốc quan trọng; mốc có thể tự hoàn thành khi các việc liên quan xong.",
@@ -343,7 +343,7 @@ export const vi: Dictionary = {
   delegate: {
     eyebrow: "Theo dõi việc đã giao",
     title: "Giao rồi, biết luôn việc đang ở đâu.",
-    body: "Xem ai phụ trách, khi nào đến hạn và việc đang ở bước nào. Theo dõi từ lúc giao đến khi duyệt, ngay trong một danh sách.",
+    body: "Mỗi việc đi qua các trạng thái rõ ràng, từ lúc giao đến lúc duyệt. Mục Việc đã giao gom mọi việc bạn đã giao cho người khác vào một chỗ, kèm người nhận, hạn và trạng thái.",
     points: [
       "Thấy ngay ai đã nhận việc, ai đang làm và việc nào đã nộp.",
       "Việc quá hạn được đánh dấu rõ ràng.",
@@ -397,7 +397,7 @@ export const vi: Dictionary = {
   },
   audience: {
     eyebrow: "Dành cho ai",
-    title: "Cho bạn. Cho cả đội nhóm.",
+    title: "Phù hợp với cách bạn đang làm việc",
     examplesLabel: "Ví dụ",
     items: [
       {
@@ -490,10 +490,12 @@ export const vi: Dictionary = {
     title: "Câu hỏi thường gặp",
     intro: "Những điều bạn có thể muốn biết trước khi bắt đầu.",
     items: [
+      { id: "what", q: "Elynto là gì?", a: "Elynto là hệ thống quản lý công việc bằng AI dành cho freelancer và nhóm nhỏ. Bạn mô tả việc cần làm, rồi theo dõi công việc, kế hoạch dự án và cuộc trao đổi trong cùng một nơi." },
       { id: "solo", q: "Tôi có thể dùng Elynto một mình không?", a: "Có. Bạn có thể dùng Elynto để quản lý việc cá nhân và dự án của riêng mình. Khi làm việc cùng người khác, bạn có thể giao việc cho từng người để ai cũng rõ phần việc của mình." },
       { id: "prompt", q: "Tôi có cần biết viết prompt không?", a: "Không. Bạn chỉ cần viết như khi nhắn việc cho đồng nghiệp: việc gì, ai làm, khi nào xong. Sau khi công việc được tạo, bạn có thể xem lại và chỉnh sửa trực tiếp." },
-      { id: "trial", q: "Tôi có thể thử trước khi đăng ký không?", a: "Có. Bạn có thể khám phá hành trình tạo công việc ngay trên trang: chọn yêu cầu, xem thẻ công việc và theo dõi công việc trong Việc của tôi." },
+      { id: "trial", q: "Tôi có thể thử trước khi đăng ký không?", a: "Có. Bạn có thể khám phá hành trình tạo công việc ngay trên trang: chọn yêu cầu, xem work card và theo dõi công việc trong Việc của tôi." },
       { id: "teamwork", q: "Đội nhóm có thể trao đổi ngay trong Elynto không?", a: "Có. Trò chuyện, cuộc họp và gọi video giúp các thành viên thảo luận công việc trong cùng một nơi, giữ thông tin gắn với dự án thay vì rải rác qua nhiều nền tảng." },
+      { id: "tracking", q: "Làm sao theo dõi công việc sau khi giao?", a: "Mở Việc đã giao để xem người phụ trách, thời hạn và trạng thái. Các cách xem Danh sách, Lịch và Gantt giúp bạn theo dõi công việc trong bối cảnh của cả dự án." },
       { id: "privacy", q: "Tôi tìm hiểu về quyền riêng tư ở đâu?", a: "Trang Quyền riêng tư ở chân trang giải thích những thông tin được ghi nhận trên website. Bạn có thể quản lý lựa chọn ghi nhận thống kê của mình tại trang Cookie." },
       { id: "language", q: "Elynto hỗ trợ tiếng Việt và tiếng Anh như thế nào?", a: "Trang giới thiệu và trải nghiệm trên trang có đầy đủ tiếng Việt và tiếng Anh. Bạn có thể đổi ngôn ngữ bằng bộ chọn ở chân trang." },
       { id: "start", q: "Tôi bắt đầu với Elynto ở đâu?", a: "Chọn Dùng thử miễn phí để tạo tài khoản, hoặc Đăng nhập nếu bạn đã có tài khoản. Các trang Hướng dẫn bắt đầu và Viết yêu cầu hiệu quả giúp bạn làm quen với Elynto." },
@@ -501,7 +503,7 @@ export const vi: Dictionary = {
   },
   finalCta: {
     title: "Đưa việc đầu tiên vào đúng chỗ.",
-    body: "Đưa công việc, kế hoạch và cuộc trao đổi của đội nhóm về cùng một nơi.",
+    body: "Khám phá cách Elynto hoạt động, hoặc dùng thử miễn phí để bắt đầu với công việc đầu tiên.",
     cta: "Dùng thử miễn phí",
     loginPrompt: "Đã có tài khoản?",
     login: "Đăng nhập",

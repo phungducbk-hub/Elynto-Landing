@@ -7,15 +7,14 @@ const QUERY = "(prefers-reduced-motion: reduce)";
 function subscribe(callback: () => void) {
   const media = window.matchMedia(QUERY);
   media.addEventListener("change", callback);
-  window.addEventListener("elynto-motion-change", callback);
-  return () => { media.removeEventListener("change", callback); window.removeEventListener("elynto-motion-change", callback); };
+  return () => media.removeEventListener("change", callback);
 }
 
 /** True when the visitor asked the OS/browser to reduce motion. */
 export function usePrefersReducedMotion() {
   return useSyncExternalStore(
     subscribe,
-    () => window.matchMedia(QUERY).matches || document.documentElement.hasAttribute("data-reduced-motion"),
+    () => window.matchMedia(QUERY).matches,
     () => false,
   );
 }

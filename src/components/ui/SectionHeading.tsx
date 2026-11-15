@@ -19,7 +19,7 @@ export function SectionHeading({ id, eyebrow, title, intro, align = "left", clas
       </p>
       <h2
         id={id}
-        className="section-title mt-3"
+        className="mt-3 text-[1.875rem] leading-[1.2] font-bold tracking-tight text-ink text-balance sm:text-4xl sm:leading-[1.15]"
       >
         {title}
       </h2>

@@ -25,7 +25,7 @@ export function FeatureRow({ id, eyebrow, title, body, points, tip, reverse, wid
       id={id}
       aria-labelledby={headingId}
       className={cn(
-        "grid items-center gap-10 lg:gap-16",
+        "grid items-center gap-10 border-t border-line pt-12 lg:gap-20 lg:pt-16",
         !wideVisual && "lg:grid-cols-2",
         wideVisual && !reverse && "lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]",
         wideVisual && reverse && "lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-14",
@@ -35,7 +35,7 @@ export function FeatureRow({ id, eyebrow, title, body, points, tip, reverse, wid
         <p className="text-sm font-semibold tracking-wide text-brand-600">
           {eyebrow}
         </p>
-        <Heading id={headingId} className="feature-title mt-3">
+        <Heading id={headingId} className="mt-3 text-[1.75rem] leading-[1.2] font-bold tracking-tight text-ink text-balance sm:text-[2rem]">
           {title}
         </Heading>
         <p className="mt-4 text-lg leading-relaxed text-ink-muted text-pretty">

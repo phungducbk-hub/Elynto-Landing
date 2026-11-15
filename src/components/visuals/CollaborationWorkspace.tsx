@@ -1,4 +1,3 @@
-import { formatWorkDate } from "@/lib/format";
 import Image from "next/image";
 import { ArrowUpRight, Check, ListChecks, Sparkles } from "lucide-react";
 import type { Dictionary } from "@/content/types";
@@ -8,7 +7,7 @@ import type { Locale } from "@/lib/i18n";
 export function CollaborationWorkspace({ copy, lang }: { copy: Dictionary["collaboration"]["mock"]; lang: Locale }) {
   return (
     <figure lang={lang}>
-      <div className="relative sm:pb-32">
+      <div className="relative sm:pb-40">
         <div className="elynto-photo-frame">
           <Image
             src="/media/elynto-hybrid-meeting.webp"
@@ -19,7 +18,7 @@ export function CollaborationWorkspace({ copy, lang }: { copy: Dictionary["colla
             className="block h-auto w-full"
           />
         </div>
-        <div className="elynto-insight-card relative z-10 -mt-8 mr-3 ml-auto w-[90%] max-w-[21rem] sm:absolute sm:right-5 sm:bottom-0 sm:m-0">
+        <div className="elynto-insight-card relative z-10 -mt-8 mr-3 ml-auto w-[92%] max-w-sm sm:absolute sm:right-5 sm:bottom-0 sm:m-0">
           <div className="flex flex-wrap items-center justify-between gap-2"><p className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand">
             <Sparkles aria-hidden="true" className="size-3.5" />AI Summary
           </p></div>
@@ -30,9 +29,9 @@ export function CollaborationWorkspace({ copy, lang }: { copy: Dictionary["colla
           </div>
           <div className="mt-3 flex items-start gap-2 border-t border-line pt-3">
             <ListChecks aria-hidden="true" className="mt-0.5 size-3.5 shrink-0 text-brand" />
-            <div className="min-w-0"><p className="text-xs font-medium text-ink-muted">{copy.taskLabel}</p><p className="mt-1 text-sm font-medium leading-relaxed text-ink">{copy.task}</p><p className="mt-1 text-xs text-ink-muted">{copy.assignee} · {formatWorkDate(copy.due, lang)}</p></div>
+            <div className="min-w-0"><p className="text-xs font-medium text-ink-muted">{copy.taskLabel}</p><p className="mt-1 text-sm font-medium leading-relaxed text-ink">{copy.task}</p><p className="mt-1 text-xs text-ink-muted">{copy.assignee} · {copy.due}</p></div>
           </div>
-          <a href={`/${lang}/features/natural-language-tasks`} className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-brand hover:underline">{copy.action}<ArrowUpRight aria-hidden="true" className="size-3.5" /></a>
+          <p className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-brand">{copy.action}<ArrowUpRight aria-hidden="true" className="size-3.5" /></p>
         </div>
       </div>
     </figure>

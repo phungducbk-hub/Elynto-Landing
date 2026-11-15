@@ -12,7 +12,7 @@ export function FinalCta({ dict, demoHref = "#demo" }: { dict: Dictionary; demoH
     <section aria-labelledby="final-cta-title">
       <Container className="pb-20 sm:pb-28">
         <div
-          className="relative isolate overflow-hidden rounded-3xl bg-harbor-deep px-6 py-14 text-center sm:px-12 sm:py-24"
+          className="relative isolate overflow-hidden rounded-2xl bg-brand px-6 py-14 text-center sm:px-12 sm:py-24"
         >
           <Logo
             variant="mark"
@@ -21,7 +21,7 @@ export function FinalCta({ dict, demoHref = "#demo" }: { dict: Dictionary; demoH
           />
           <div {...reveal()}><h2
             id="final-cta-title"
-            className="mx-auto max-w-2xl text-[1.875rem] leading-[1.2] font-semibold tracking-tight text-white text-balance sm:text-[2.5rem]"
+            className="mx-auto max-w-2xl text-[1.875rem] leading-[1.2] font-bold tracking-tight text-white text-balance sm:text-[2.5rem]"
           >
             {finalCta.title}
           </h2>
@@ -39,7 +39,7 @@ export function FinalCta({ dict, demoHref = "#demo" }: { dict: Dictionary; demoH
               {finalCta.cta}
               <ArrowRight className="size-4" aria-hidden="true" />
             </ButtonLink>
-            <ButtonLink href={demoHref} variant="inverseOutline" size="lg" className="w-full sm:w-auto" dataAttrs={{ "data-track": "cta_click", "data-track-cta": "see_demo", "data-track-location": "final_cta" }}>{dict.hero.secondaryCta}</ButtonLink>
+            <ButtonLink href={demoHref} variant="secondary" size="lg" className="w-full sm:w-auto" dataAttrs={{ "data-track": "cta_click", "data-track-cta": "see_demo", "data-track-location": "final_cta" }}>{dict.hero.secondaryCta}</ButtonLink>
           </div>
           <p className="mt-5 text-sm text-white/75">
             {finalCta.loginPrompt}{" "}

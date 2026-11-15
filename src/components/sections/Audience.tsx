@@ -1,16 +1,44 @@
 import { Building2, UserRound, UsersRound } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Dictionary } from "@/content/types";
 import { reveal } from "@/lib/reveal";
-const icons=[UserRound,UsersRound,Building2];
-export function Audience({dict}:{dict:Dictionary}) {
-  const {audience}=dict;
-  return <section aria-labelledby="audience-title" className="bg-white">
-    <Container className="py-14 sm:py-20">
-      <div {...reveal()} className="grid gap-8 lg:grid-cols-[0.8fr_2fr] lg:gap-14">
-        <div><p className="eyebrow">{audience.eyebrow}</p><h2 id="audience-title" className="mt-3 text-2xl leading-tight font-semibold tracking-tight text-ink sm:text-3xl">{audience.title}</h2></div>
-        <ul className="grid gap-7 sm:grid-cols-3">{audience.items.map((item,index)=>{const Icon=icons[index];return <li key={item.title}><Icon aria-hidden="true" className="size-5 text-brand" /><h3 className="mt-4 text-base font-semibold text-ink">{item.title}</h3><p className="mt-2 text-sm leading-relaxed text-ink-muted">{item.body}</p></li>;})}</ul>
-      </div>
-    </Container>
-  </section>;
+
+const icons = [UserRound, UsersRound, Building2];
+
+export function Audience({ dict }: { dict: Dictionary }) {
+  const { audience } = dict;
+  return (
+    <section aria-labelledby="audience-title" className="border-y border-line bg-surface">
+      <Container className="py-20 sm:py-24">
+        <SectionHeading id="audience-title" eyebrow={audience.eyebrow} title={audience.title} />
+        <ul className="mt-12 grid divide-y divide-line rounded-2xl border border-line bg-canvas md:grid-cols-3 md:divide-x md:divide-y-0">
+          {audience.items.map((item, index) => {
+            const Icon = icons[index % icons.length];
+            return (
+              <li key={item.title} {...reveal("up", index * 110)} className="flex flex-col p-6 sm:p-8">
+                <Icon className="size-6 text-brand" aria-hidden="true" />
+                <h3 className="mt-4 text-xl font-semibold text-ink">{item.title}</h3>
+                <p className="mt-1 text-sm text-ink-subtle">{item.who}</p>
+                <p className="mt-4 text-base leading-relaxed text-ink-muted text-pretty">{item.body}</p>
+                <div className="mt-6 pt-1">
+                  <p className="text-xs font-semibold tracking-wide text-ink-subtle uppercase">{audience.examplesLabel}</p>
+                  <ul className="mt-2 flex flex-wrap gap-2">
+                    {item.examples.map((example) => (
+                      <li
+                        key={example}
+                        className="rounded-full bg-surface px-3 py-1 text-sm text-ink-muted ring-1 ring-line ring-inset"
+                      >
+                        {example}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </Container>
+    </section>
+  );
 }
