@@ -1,7 +1,7 @@
 import type { PagesDictionary } from "./types";
 
 /**
- * Subpage copy. Describes only what the beta screenshots or the brief confirm; nothing about
+ * Subpage copy. Describes only what the product references or the brief confirm; nothing about
  * pricing, integrations, automation or security that has not been verified.
  */
 export const en: PagesDictionary = {
@@ -115,25 +115,25 @@ export const en: PagesDictionary = {
     eyebrow: "Every day",
     title: "Open Elynto. See what needs you.",
     description:
-      "Today and My Work bring your tasks together: overdue, due today, coming up, and the ones you’ve marked important.",
+      "Today is where you start a request. My Work gathers your assigned work into Upcoming, Overdue, Rework and Completed tabs.",
     sections: [
       {
         heading: "Start the day here",
         body: [
-          "Instead of digging through messages or piecing lists together, open Today to see what’s late and what needs finishing today.",
+          "Open My Work to see your assigned work, due dates, priorities and statuses.",
         ],
       },
       {
         heading: "Grouped by urgency",
         points: [
           "Overdue: past the due date.",
-          "Due today: needs finishing today.",
-          "Coming up: get ahead of the next few days.",
+          "Rework: items that need another pass.",
+          "Upcoming: keep track of what is coming next.",
         ],
       },
       {
         heading: "Important work stays visible",
-        body: ["Tasks you mark as important are kept apart, so they don’t get buried among small ones."],
+        body: ["Flag important work and use Focus to concentrate on the items that need your attention."],
       },
     ],
   },
@@ -172,7 +172,7 @@ export const en: PagesDictionary = {
     sections: [
       {
         heading: "Open Elynto",
-        body: ["Click Start free trial to open Elynto at beta.elynto.io. If you already have an account, choose Log in."],
+        body: ["See how Elynto works on the homepage, or choose Start free trial to create an account. If you already have an account, choose Log in."],
       },
       {
         heading: "Create your first task",
@@ -273,13 +273,13 @@ export const en: PagesDictionary = {
         ],
       },
       {
-        heading: "Where we are",
-        body: ["Elynto is in beta at beta.elynto.io and continues to be refined."],
+        heading: "Get started with Elynto",
+        body: ["Start your free trial to bring your team’s work, plans and conversations together in one place."],
       },
     ],
   },
   contact: {
-    navLabel: "Contact",
+    navLabel: "Help & contact",
     eyebrow: "Contact",
     title: "Contact Elynto",
     description: "Questions about the product, feedback or partnership ideas: get in touch.",
@@ -294,7 +294,7 @@ export const en: PagesDictionary = {
       {
         heading: "Scope",
         body: [
-          "This page covers the Elynto marketing website. Data you enter in the Elynto app at beta.elynto.io is outside its scope.",
+          "This page covers the Elynto marketing website. Data you enter in the Elynto app is outside its scope.",
         ],
       },
       {
@@ -306,7 +306,7 @@ export const en: PagesDictionary = {
       {
         heading: "Visit statistics",
         body: [
-          "To understand how the website is used, it records the pages viewed, clicks on Start free trial and Log in (with where the button was), the time, device type, browser, operating system, country and the website that referred you.",
+          "To understand how the website is used, it records the pages viewed, clicks on Start free trial and Log in (with where the button was), and work-creation milestones for viewing the experience, work card and work list, the time, device type, browser, operating system, country and the website that referred you.",
           "Country is derived from your IP address at the time of the visit. The IP address and the full browser identification string are not stored.",
         ],
       },
@@ -325,7 +325,7 @@ export const en: PagesDictionary = {
       {
         heading: "No forms collecting your details",
         body: [
-          "There are no sign-up or log-in forms on this website. The Start free trial and Log in buttons take you to the Elynto app at beta.elynto.io.",
+          "There are no sign-up or log-in forms on this website. The Start free trial and Log in buttons take you to the Elynto app.",
         ],
       },
       {
@@ -382,7 +382,7 @@ export const en: PagesDictionary = {
       {
         heading: "Clear your saved language",
         body: [
-          "Use the button below to remove the cookie and the saved language. Next time, the website will follow your browser’s language settings.",
+          "Use the button below to remove the cookie and the saved language. Next time you open a website address without a language prefix, visitors in Vietnam will see Vietnamese and international visitors will see English. If the country is unavailable, the website will use your browser’s language settings.",
         ],
         action: "clearLanguage",
       },

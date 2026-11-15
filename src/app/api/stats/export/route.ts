@@ -14,9 +14,9 @@ export async function GET(request: Request) {
   const report = aggregate(events, range.from, range.to, range.granularity);
 
   const rows = [
-    ["Kỳ", "Người truy cập", "Lượt truy cập", "Lượt xem trang", "Bấm Dùng thử miễn phí", "Bấm Đăng nhập"],
-    ...report.periods.map((p) => [periodLabel(p.key, range.granularity), p.visitors, p.visits, p.pageviews, p.signupClicks, p.loginClicks]),
-    ["Cả khoảng", report.totals.visitors, report.totals.visits, report.totals.pageviews, report.totals.signupClicks, report.totals.loginClicks],
+    ["Kỳ", "Người truy cập", "Lượt truy cập", "Lượt xem trang", "Bấm Dùng thử miễn phí", "Bấm Đăng nhập", "Xem trải nghiệm", "Thấy work card", "Mở My Work", "Bấm đăng ký sau trải nghiệm"],
+    ...report.periods.map((p) => [periodLabel(p.key, range.granularity), p.visitors, p.visits, p.pageviews, p.signupClicks, p.loginClicks, p.demoViews, p.workCards, p.workLists, p.signupAfterDemo]),
+    ["Cả khoảng", report.totals.visitors, report.totals.visits, report.totals.pageviews, report.totals.signupClicks, report.totals.loginClicks, report.totals.demoViews, report.totals.workCards, report.totals.workLists, report.totals.signupAfterDemo],
   ];
   const csv = rows.map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\r\n");
 

@@ -1,4 +1,4 @@
-import type { CollectPayload, StatsCta } from "./types";
+import type { CollectPayload, DemoStage, StatsCta } from "./types";
 
 const VISITOR_KEY = "elynto-vid";
 const VISIT_KEY = "elynto-visit";
@@ -81,6 +81,7 @@ function send(payload: Omit<CollectPayload, "visitor" | "visit" | "isNewVisitor"
     visit,
     isNewVisitor: payload.type === "pageview" && isNewVisitor,
     touch: navigator.maxTouchPoints > 0,
+    occurredAt: Date.now(),
   } satisfies CollectPayload);
 
   // sendBeacon survives the page unloading, which matters for clicks that leave the site.
@@ -105,4 +106,9 @@ export function recordPageview() {
 
 export function recordCtaClick(cta: StatsCta, location: string | undefined) {
   send({ type: "cta", cta, location, path: window.location.pathname, lang: document.documentElement.lang });
+}
+
+/** Only the milestone is recorded, never the sample command, names or work content. */
+export function recordDemoStage(stage: DemoStage) {
+  send({ type: "demo", stage, path: window.location.pathname, lang: document.documentElement.lang });
 }

@@ -5,7 +5,7 @@ import { AnalyticsListener } from "@/components/layout/AnalyticsListener";
 import { RevealObserver } from "@/components/layout/RevealObserver";
 import { isIndexable, siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
-import { beVietnam } from "@/lib/fonts";
+import { inter } from "@/lib/fonts";
 import { isLocale, locales, ogLocales } from "@/lib/i18n";
 import { revealBootScript } from "@/lib/reveal";
 import "../globals.css";
@@ -19,7 +19,7 @@ export function generateStaticParams() {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#fcfbf8",
+  themeColor: "#f7f7f8",
   colorScheme: "light",
 };
 
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: LayoutParams): Promise<Metada
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const dict = getDictionary(lang);
-  const socialTitle = `Elynto — ${siteConfig.vision}`;
+  const socialTitle = `Elynto - ${siteConfig.vision}`;
 
   return {
     metadataBase: new URL(siteConfig.url),
@@ -63,7 +63,7 @@ export default async function RootLayout({ children, params }: LayoutParams & { 
 
   return (
     // suppressHydrationWarning: the boot script sets data-motion on <html> before React hydrates.
-    <html lang={lang} className={beVietnam.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={lang} className={inter.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: revealBootScript }} />
       </head>

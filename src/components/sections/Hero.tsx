@@ -1,11 +1,13 @@
 import { ArrowRight, Play } from "lucide-react";
-import { CommandDemo } from "@/components/demo/CommandDemo";
+import { ProductDemo } from "@/components/demo/ProductDemo";
 import { DemoVideo } from "@/components/demo/DemoVideo";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { WordSwap, type SwapWord } from "@/components/ui/WordSwap";
 import { productMedia } from "@/config/media";
+import { reveal } from "@/lib/reveal";
 import { siteConfig } from "@/config/site";
+import { getExperienceCopy } from "@/content/experience";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 
@@ -24,40 +26,41 @@ const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-visual-in lg:mot
 
 export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const { hero, demo } = dict;
+  const experience = getExperienceCopy(lang);
   const video = productMedia.heroDemo[lang];
 
   return (
-    <section aria-labelledby="hero-title" className="relative overflow-hidden">
-      {/* Soft warm backdrop — no strong gradients. */}
+    <section aria-labelledby="hero-title" className="harbor-hero relative overflow-hidden border-b border-line">
+      {/* Brand atmosphere behind the product introduction. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(60%_60%_at_75%_30%,var(--color-brand-50),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(ellipse_at_50%_0%,var(--color-brand-100),transparent_70%)]"
       />
-      <Container className="grid items-center gap-12 pt-10 pb-16 sm:pt-14 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-14 lg:pt-20 lg:pb-24">
+      <Container className="flex flex-col items-center gap-12 pt-12 pb-16 sm:pt-16 lg:pt-20 lg:pb-20">
         {/* @container: the vision sizes itself to this column so its longest line never wraps. */}
-        <div className="@container max-w-xl">
+        <div className="@container w-full max-w-4xl text-center">
           <h1 id="hero-title">
-            <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-sm font-semibold text-brand ring-1 ring-brand-100 ring-inset motion-safe:animate-rise sm:text-[0.9375rem]">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-surface/70 px-4 py-2 text-xs font-medium tracking-wide text-brand motion-safe:animate-rise sm:text-[0.9375rem]">
               {hero.eyebrow}
             </span>
             <span
               lang="en"
-              className="mt-5 block text-[clamp(1.75rem,10cqi,3.6rem)] leading-[1.08] font-bold tracking-[-0.025em] text-brand [--enter-delay:80ms] motion-safe:animate-rise"
+              className="mt-7 block text-[clamp(2.25rem,8.5cqi,4.8rem)] leading-[1.1] font-semibold tracking-[-0.055em] text-ink [--enter-delay:80ms] motion-safe:animate-rise"
             >
               <span className="sr-only">{heroVisionText}</span>
               <span aria-hidden="true" className="block">
-                <span className="block text-field-task">{heroVision.lead}</span>
-                <span className="block">{heroVision.bridge}</span>
-                <span data-swap-line className="block whitespace-nowrap">
+                <span className="block">{heroVision.lead} {heroVision.bridge}</span>
+                <span data-swap-line className="mt-2 block whitespace-nowrap text-brand">
                   <WordSwap words={subjects} /> {heroVision.tail}
                 </span>
               </span>
             </span>
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-ink-muted text-pretty [--enter-delay:160ms] motion-safe:animate-rise sm:text-xl sm:leading-relaxed">
+          <p className="mx-auto mt-7 max-w-3xl text-lg font-semibold leading-snug text-ink text-balance [--enter-delay:160ms] motion-safe:animate-rise sm:text-2xl">{experience.promise}</p>
+          <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-muted text-pretty [--enter-delay:160ms] motion-safe:animate-rise sm:text-lg sm:leading-relaxed">
             {hero.description}
           </p>
-          <div className="mt-8 flex flex-col gap-3 [--enter-delay:240ms] motion-safe:animate-rise sm:flex-row sm:items-center">
+          <div className="mt-8 flex flex-col justify-center gap-3 [--enter-delay:240ms] motion-safe:animate-rise sm:flex-row sm:items-center">
             <ButtonLink
               href={siteConfig.signupUrl}
               size="lg"
@@ -80,12 +83,14 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           </div>
         </div>
 
-        {/* On load: the copy rises line by line, then the demo slides in from the right. */}
-        {video ? (
-          <DemoVideo video={video} copy={demo} className={demoEntrance} />
-        ) : (
-          <CommandDemo copy={demo} className={demoEntrance} />
-        )}
+        {/* The hero and demo share the approved 64px / 1s entrance settings. */}
+        <div {...reveal("visual", 80)} className="harbor-demo-stage w-full max-w-6xl rounded-2xl border border-brand-200/70 bg-brand-50 p-3 shadow-[0_32px_100px_-50px_rgb(26_98_137/0.35)] sm:p-5">
+          {video ? (
+            <DemoVideo video={video} copy={demo} className={demoEntrance} />
+          ) : (
+            <ProductDemo lang={lang} copy={demo} examples={dict.command.examples} label={lang === "vi" ? "Khám phá giao diện Elynto" : "Explore the Elynto interface"} />
+          )}
+        </div>
       </Container>
     </section>
   );

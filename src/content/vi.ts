@@ -7,7 +7,7 @@ const me = { name: "Bạn", initials: "B", self: true };
 
 export const vi: Dictionary = {
   meta: {
-    title: "Elynto — Quản lý công việc bằng AI",
+    title: "Elynto - Quản lý công việc bằng AI",
     description:
       "Mô tả việc cần làm bằng lời thường. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ trong một nơi.",
     ogDescription:
@@ -25,24 +25,23 @@ export const vi: Dictionary = {
     openMenu: "Mở menu",
     closeMenu: "Đóng menu",
     mainNav: "Điều hướng chính",
-    home: "Elynto — về đầu trang",
+    home: "Elynto - về đầu trang",
     language: "Ngôn ngữ",
   },
   hero: {
-    eyebrow: "Elynto — Quản lý công việc bằng AI",
+    eyebrow: "Elynto - Quản lý công việc bằng AI",
     description:
-      "Chỉ cần mô tả việc cần làm. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ — tất cả trong một nơi.",
+      "Elynto giúp freelancer và nhóm nhỏ tạo việc, lập kế hoạch, trao đổi và theo dõi tiến độ trong cùng một nơi.",
     primaryCta: "Dùng thử miễn phí",
     secondaryCta: "Xem Elynto hoạt động",
   },
   demo: {
-    badge: "Minh họa",
     caption: "Một câu nói. Công việc rõ người, rõ hạn.",
-    regionLabel: "Minh họa: từ một câu nói đến công việc",
+    regionLabel: "Từ một câu nói đến công việc",
     srDescription:
-      "Minh họa, không phải phiên thao tác trực tiếp với ứng dụng. Người dùng viết: “Giao Minh làm báo cáo, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo cáo”, người phụ trách Minh, hạn hoàn thành Thứ Sáu, trạng thái Đã giao.",
+      "Hành trình tạo công việc: “Giao Minh làm báo giá, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo giá”, người phụ trách Minh, hạn hoàn thành 20/11/2026, trạng thái Đã giao.",
     placeholder: "Bạn cần làm gì?",
-    command: "Giao Minh làm báo cáo, hoàn thành trước thứ sáu.",
+    command: "Giao Minh làm báo giá, hoàn thành trước thứ sáu.",
     send: "Gửi",
     newTask: "Công việc mới",
     processing: "Đang tạo công việc…",
@@ -54,14 +53,14 @@ export const vi: Dictionary = {
       status: "Trạng thái",
     },
     result: {
-      task: "Làm báo cáo",
+      task: "Làm báo giá",
       assignee: minh,
-      due: "Thứ Sáu",
+      due: "20/11/2026",
       status: "Đã giao",
     },
     controls: {
-      play: "Phát minh họa",
-      pause: "Tạm dừng minh họa",
+      play: "Phát tiếp",
+      pause: "Tạm dừng",
       replay: "Xem lại từ đầu",
     },
   },
@@ -85,11 +84,10 @@ export const vi: Dictionary = {
   },
   howItWorks: {
     eyebrow: "Cách hoạt động",
-    title: "Từ điều bạn muốn làm đến công việc rõ ràng",
+    title: "Một mạch làm việc, từ ý định đến kết quả.",
     intro:
       "Elynto chuyển lời mô tả thành công việc có cấu trúc, giúp bạn lập kế hoạch và theo dõi tất cả trên giao diện trực quan.",
   },
-  illustration: "Minh họa",
   command: {
     eyebrow: "Tạo và giao việc",
     title: "Việc cần làm bắt đầu từ một câu nói.",
@@ -117,14 +115,14 @@ export const vi: Dictionary = {
           "Giao ",
           { field: "assignee", text: "Minh" },
           " ",
-          { field: "task", text: "làm báo cáo" },
+          { field: "task", text: "làm báo giá" },
           ", hoàn thành ",
           { field: "due", text: "trước thứ sáu" },
           ".",
         ],
-        task: "Làm báo cáo",
+        task: "Làm báo giá",
         assignee: minh,
-        due: "Thứ Sáu",
+        due: "20/11/2026",
       },
       {
         id: "campaign",
@@ -139,7 +137,7 @@ export const vi: Dictionary = {
         ],
         task: "Chuẩn bị nội dung chiến dịch tháng 11",
         assignee: lan,
-        due: "Thứ Tư tuần sau",
+        due: "18/11/2026",
       },
       {
         id: "quote",
@@ -154,7 +152,7 @@ export const vi: Dictionary = {
         ],
         task: "Gửi báo giá cho khách hàng",
         assignee: me,
-        due: "Ngày mai",
+        due: "15/11/2026",
       },
     ],
     existing: [
@@ -164,7 +162,7 @@ export const vi: Dictionary = {
   },
   planning: {
     eyebrow: "Lập kế hoạch dự án với AI",
-    title: "Từ một mục tiêu đến kế hoạch chỉ trong 10 giây.",
+    title: "Từ một mục tiêu đến kế hoạch có thể thực hiện.",
     body: "Nhập mục tiêu của bạn. AI phác thảo các giai đoạn và công việc cần làm. Bạn xem lại, thêm, bớt và điều chỉnh trước khi tạo dự án.",
     steps: [
       {
@@ -207,14 +205,35 @@ export const vi: Dictionary = {
       create: "Tạo dự án",
     },
   },
+  collaboration: {
+    eyebrow: "Kết nối đội nhóm",
+    title: "Trao đổi, họp và làm việc. Cùng một nơi.",
+    body: "Chat để làm rõ, họp để thống nhất, gọi video để cùng giải quyết. Công việc và cuộc trao đổi được giữ trong Elynto, để cả nhóm có chung bối cảnh thay vì phải ghép lại từ nhiều nền tảng.",
+    points: [
+      "Nhắn tin trực tiếp, theo nhóm hoặc theo dự án.",
+      "Sắp xếp cuộc họp và gọi video ngay trong Elynto.",
+      "Thảo luận công việc cùng người phụ trách, thời hạn và trạng thái rõ ràng.",
+    ],
+    mock: {
+      imageAlt: "Đội nhóm châu Á ngồi họp trước màn hình lớn hiển thị cuộc gọi video Elynto với các đồng nghiệp từ xa",
+      aiTitle: "AI ghi kết luận, bạn giao việc ngay trong cuộc họp.",
+      conclusionLabel: "Kết luận",
+      conclusion: "Chốt phương án ra mắt website.",
+      taskLabel: "Việc cần giao",
+      task: "Hoàn thiện nội dung website",
+      assignee: "Lan",
+      due: "20/11/2026",
+      action: "Xem lại & giao việc",
+    },
+  },
   today: {
     eyebrow: "Mỗi ngày",
     title: "Mở Elynto. Biết việc nào cần bạn.",
-    body: "Việc quá hạn, đến hạn hôm nay và sắp đến hạn được gom về một chỗ, cùng những việc bạn đã đánh dấu quan trọng. Không cần lục lại tin nhắn hay tự tổng hợp danh sách.",
+    body: "Việc của tôi tập hợp việc được giao cho bạn theo các tab Sắp tới, Quá hạn, Làm lại và Đã hoàn thành. Xem hạn, mức ưu tiên và trạng thái ngay trên từng dòng.",
     points: [
       "Thấy ngay việc nào đang trễ.",
-      "Biết hôm nay cần hoàn thành gì.",
-      "Chuẩn bị trước cho những việc sắp đến hạn.",
+      "Theo dõi việc đang làm và việc cần làm lại.",
+      "Đánh dấu việc quan trọng để dễ tập trung.",
     ],
     mock: {
       title: "Hôm nay",
@@ -266,7 +285,8 @@ export const vi: Dictionary = {
         { label: "Công việc", value: "12 việc" },
         { label: "Quá hạn", value: "Không có" },
         { label: "Lịch trình", value: "Còn 16 ngày" },
-        { label: "Thời gian", value: "05/10 – 25/10" },
+        { label: "Bắt đầu", value: "05/10/2026" },
+        { label: "Thời hạn", value: "25/10/2026" },
       ],
       progress: 25,
       healthLabel: "Tình trạng dự án",
@@ -337,7 +357,7 @@ export const vi: Dictionary = {
       reworkNote: "Chưa đạt? Chuyển sang Làm lại.",
       columns: { task: "Công việc", assignee: "Người nhận", due: "Hạn", status: "Trạng thái" },
       rows: [
-        { title: "Làm báo cáo", assignee: minh, due: 9, status: "submitted" },
+        { title: "Làm báo giá", assignee: minh, due: 9, status: "submitted" },
         { title: "Viết bài giới thiệu dịch vụ", assignee: lan, due: 10, status: "inProgress" },
         { title: "Cập nhật bảng giá trên website", assignee: huy, due: 7, status: "inProgress", overdue: true },
         { title: "Chuẩn bị hình ảnh sản phẩm", assignee: huy, due: 12, status: "accepted" },
@@ -346,7 +366,7 @@ export const vi: Dictionary = {
     },
   },
   app: {
-    workspace: "Công ty Mẫu",
+    workspace: "Elynto Studio",
     nav: {
       today: "Hôm nay",
       inbox: "Hộp thư",
@@ -470,36 +490,20 @@ export const vi: Dictionary = {
     title: "Câu hỏi thường gặp",
     intro: "Những điều bạn có thể muốn biết trước khi bắt đầu.",
     items: [
-      {
-        id: "what",
-        q: "Elynto là gì?",
-        a: "Elynto là hệ thống quản lý công việc bằng AI. Bạn mô tả việc cần làm bằng lời thường, Elynto giúp biến nó thành công việc có người phụ trách, thời hạn và trạng thái. Bạn cũng có thể lập kế hoạch dự án với AI và theo dõi tiến độ trong một nơi.",
-      },
-      {
-        id: "solo",
-        q: "Tôi có thể dùng Elynto một mình không?",
-        a: "Có. Bạn có thể dùng Elynto để quản lý việc cá nhân và dự án của riêng mình. Khi làm việc cùng người khác, bạn có thể giao việc cho từng người để ai cũng rõ phần việc của mình.",
-      },
-      {
-        id: "prompt",
-        q: "Tôi có cần biết viết prompt không?",
-        a: "Không. Bạn chỉ cần viết như khi nhắn việc cho đồng nghiệp: việc gì, ai làm, khi nào xong. Sau khi công việc được tạo, bạn luôn có thể xem lại và chỉnh sửa trực tiếp trên giao diện.",
-      },
-      {
-        id: "language",
-        q: "Elynto hỗ trợ tiếng Việt và tiếng Anh như thế nào?",
-        a: "Trang giới thiệu này có đầy đủ tiếng Việt và tiếng Anh. Trong ứng dụng, bạn có thể mô tả công việc bằng tiếng Việt hoặc tiếng Anh. Elynto đang trong giai đoạn beta, nên một số phần của ứng dụng có thể chưa có đủ hai ngôn ngữ.",
-      },
-      {
-        id: "start",
-        q: "Tôi bắt đầu dùng thử ở đâu?",
-        a: "Nhấn “Dùng thử miễn phí” trên trang này để mở Elynto tại beta.elynto.io và bắt đầu. Nếu đã có tài khoản, hãy chọn “Đăng nhập”.",
-      },
+      { id: "what", q: "Elynto là gì?", a: "Elynto là hệ thống quản lý công việc bằng AI dành cho freelancer và nhóm nhỏ. Bạn mô tả việc cần làm, rồi theo dõi công việc, kế hoạch dự án và cuộc trao đổi trong cùng một nơi." },
+      { id: "solo", q: "Tôi có thể dùng Elynto một mình không?", a: "Có. Bạn có thể dùng Elynto để quản lý việc cá nhân và dự án của riêng mình. Khi làm việc cùng người khác, bạn có thể giao việc cho từng người để ai cũng rõ phần việc của mình." },
+      { id: "prompt", q: "Tôi có cần biết viết prompt không?", a: "Không. Bạn chỉ cần viết như khi nhắn việc cho đồng nghiệp: việc gì, ai làm, khi nào xong. Sau khi công việc được tạo, bạn có thể xem lại và chỉnh sửa trực tiếp." },
+      { id: "trial", q: "Tôi có thể thử trước khi đăng ký không?", a: "Có. Bạn có thể khám phá hành trình tạo công việc ngay trên trang: chọn yêu cầu, xem work card và theo dõi công việc trong Việc của tôi." },
+      { id: "teamwork", q: "Đội nhóm có thể trao đổi ngay trong Elynto không?", a: "Có. Trò chuyện, cuộc họp và gọi video giúp các thành viên thảo luận công việc trong cùng một nơi, giữ thông tin gắn với dự án thay vì rải rác qua nhiều nền tảng." },
+      { id: "tracking", q: "Làm sao theo dõi công việc sau khi giao?", a: "Mở Việc đã giao để xem người phụ trách, thời hạn và trạng thái. Các cách xem Danh sách, Lịch và Gantt giúp bạn theo dõi công việc trong bối cảnh của cả dự án." },
+      { id: "privacy", q: "Tôi tìm hiểu về quyền riêng tư ở đâu?", a: "Trang Quyền riêng tư ở chân trang giải thích những thông tin được ghi nhận trên website. Bạn có thể quản lý lựa chọn ghi nhận thống kê của mình tại trang Cookie." },
+      { id: "language", q: "Elynto hỗ trợ tiếng Việt và tiếng Anh như thế nào?", a: "Trang giới thiệu và trải nghiệm trên trang có đầy đủ tiếng Việt và tiếng Anh. Bạn có thể đổi ngôn ngữ bằng bộ chọn ở chân trang." },
+      { id: "start", q: "Tôi bắt đầu với Elynto ở đâu?", a: "Chọn Dùng thử miễn phí để tạo tài khoản, hoặc Đăng nhập nếu bạn đã có tài khoản. Các trang Hướng dẫn bắt đầu và Viết yêu cầu hiệu quả giúp bạn làm quen với Elynto." },
     ],
   },
   finalCta: {
-    title: "Bắt đầu với một việc bạn cần hoàn thành.",
-    body: "Đưa công việc của bạn vào Elynto và bắt đầu quản lý trong một nơi.",
+    title: "Đưa việc đầu tiên vào đúng chỗ.",
+    body: "Khám phá cách Elynto hoạt động, hoặc dùng thử miễn phí để bắt đầu với công việc đầu tiên.",
     cta: "Dùng thử miễn phí",
     loginPrompt: "Đã có tài khoản?",
     login: "Đăng nhập",
@@ -530,7 +534,7 @@ export const vi: Dictionary = {
     step: "Bước",
     contact: {
       emailLabel: "Email",
-      pending: "Kênh liên hệ chính thức sẽ được cập nhật tại đây.",
+      pending: "Bạn có thể tìm câu trả lời trong các hướng dẫn bên dưới hoặc bắt đầu dùng thử Elynto.",
       helpTitle: "Có thể bạn tìm thấy câu trả lời ở đây",
       helpBody: "Nhiều câu hỏi về cách bắt đầu và cách dùng Elynto đã có trong các trang sau.",
     },

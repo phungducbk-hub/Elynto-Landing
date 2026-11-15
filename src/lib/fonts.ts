@@ -1,9 +1,8 @@
-import { Be_Vietnam_Pro } from "next/font/google";
+import { Inter } from "next/font/google";
 
-// Be Vietnam Pro: designed for Vietnamese, with full diacritic support. Self-hosted by next/font.
-export const beVietnam = Be_Vietnam_Pro({
+// Matches the Elynto app, including Vietnamese glyphs; served locally by Next.js.
+export const inter = Inter({
   subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-be-vietnam",
+  variable: "--font-inter",
   display: "swap",
 });

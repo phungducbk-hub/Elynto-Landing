@@ -87,7 +87,7 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
           </nav>
         </div>
 
-        <div className="mt-14 flex flex-col-reverse gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-ink-subtle">
             © {year} {footer.rights}
           </p>

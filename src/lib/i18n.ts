@@ -1,8 +1,8 @@
 export const locales = ["vi", "en"] as const;
 export type Locale = (typeof locales)[number];
 
-/** Used when the browser sends no language preference at all. */
-export const defaultLocale: Locale = "vi";
+/** International fallback when neither country nor browser language is available. */
+export const defaultLocale: Locale = "en";
 
 /** Cookie + localStorage key that remembers the visitor's language choice. */
 export const LOCALE_COOKIE = "elynto-lang";
@@ -19,6 +19,18 @@ export const ogLocales: Record<Locale, string> = {
 
 export function isLocale(value: unknown): value is Locale {
   return typeof value === "string" && (locales as readonly string[]).includes(value);
+}
+
+/** A deliberate choice wins; otherwise use the visitor's country before browser language. */
+export function resolveLocale({ saved, country, acceptLanguage }: {
+  saved?: string | null;
+  country?: string | null;
+  acceptLanguage?: string | null;
+}): Locale {
+  if (isLocale(saved)) return saved;
+  const code = country?.trim().toUpperCase();
+  if (code && /^[A-Z]{2}$/.test(code)) return code === "VN" ? "vi" : "en";
+  return negotiateLocale(acceptLanguage);
 }
 
 /**

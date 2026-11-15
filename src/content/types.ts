@@ -74,7 +74,6 @@ export type Dictionary = {
     secondaryCta: string;
   };
   demo: {
-    badge: string;
     caption: string;
     regionLabel: string;
     srDescription: string;
@@ -98,7 +97,6 @@ export type Dictionary = {
     title: string;
     intro: string;
   };
-  illustration: string;
   command: {
     eyebrow: string;
     title: string;
@@ -137,6 +135,23 @@ export type Dictionary = {
       reviewHint: string;
       edit: string;
       create: string;
+    };
+  };
+  collaboration: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    points: string[];
+    mock: {
+      imageAlt: string;
+      aiTitle: string;
+      conclusionLabel: string;
+      conclusion: string;
+      taskLabel: string;
+      task: string;
+      assignee: string;
+      due: string;
+      action: string;
     };
   };
   today: {

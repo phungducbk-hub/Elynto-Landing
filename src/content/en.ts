@@ -7,7 +7,7 @@ const me = { name: "You", initials: "Y", self: true };
 
 export const en: Dictionary = {
   meta: {
-    title: "Elynto — AI-powered work management",
+    title: "Elynto - AI-powered work management",
     description:
       "Describe what needs to get done in plain words. Elynto helps you create and assign tasks, plan projects with AI and track progress in one place.",
     ogDescription:
@@ -25,24 +25,22 @@ export const en: Dictionary = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     mainNav: "Main navigation",
-    home: "Elynto — back to top",
+    home: "Elynto - back to top",
     language: "Language",
   },
   hero: {
-    eyebrow: "Elynto — AI-powered work management",
-    description:
-      "Just describe what needs to get done. Elynto helps you create and assign tasks, plan projects with AI, and track progress — all in one place.",
+    eyebrow: "Elynto - AI-powered work management",
+    description: "Elynto helps freelancers and small teams create work, plan projects, discuss and follow progress in one place.",
     primaryCta: "Start free trial",
     secondaryCta: "See it in action",
   },
   demo: {
-    badge: "Illustrative demo",
     caption: "One sentence. A task with a clear owner and deadline.",
-    regionLabel: "Illustrative demo: from one sentence to a task",
+    regionLabel: "From one sentence to a task",
     srDescription:
-      "Illustrative demo, not a live session in the app. The user writes: “Assign Alex to prepare the report, due Friday.” Elynto creates the task “Prepare the report”, assigned to Alex, due Friday, status Assigned.",
+      "The work-creation journey: “Assign Alex to prepare the quotation, due Friday.” Elynto creates the task “Prepare the quotation”, assigned to Alex, due 20/11/2026, status Assigned.",
     placeholder: "What needs to get done?",
-    command: "Assign Alex to prepare the report, due Friday.",
+    command: "Assign Alex to prepare the quotation, due Friday.",
     send: "Send",
     newTask: "New task",
     processing: "Creating task…",
@@ -54,14 +52,14 @@ export const en: Dictionary = {
       status: "Status",
     },
     result: {
-      task: "Prepare the report",
+      task: "Prepare the quotation",
       assignee: alex,
-      due: "Friday",
+      due: "20/11/2026",
       status: "Assigned",
     },
     controls: {
-      play: "Play demo",
-      pause: "Pause demo",
+      play: "Resume",
+      pause: "Pause",
       replay: "Replay from the start",
     },
   },
@@ -85,17 +83,16 @@ export const en: Dictionary = {
   },
   howItWorks: {
     eyebrow: "How it works",
-    title: "From what you want done to work that’s clear",
+    title: "One flow, from intent to outcome.",
     intro:
       "Elynto turns a plain description into structured tasks, helps you plan, and lets you follow everything in clear, visual views.",
   },
-  illustration: "Illustration",
   command: {
     eyebrow: "Create and assign tasks",
     title: "Work starts with a single sentence.",
     body: "Write it the way you’d normally hand off work. Elynto picks out the task, the owner and the deadline, then creates a task you can keep tracking and updating.",
     points: [
-      "Tasks are saved — nothing gets lost in a chat thread.",
+      "Tasks are saved - nothing gets lost in a chat thread.",
       "You can always review and edit directly.",
       "Works for your own to-dos and for work you hand to others.",
     ],
@@ -117,14 +114,14 @@ export const en: Dictionary = {
           "Assign ",
           { field: "assignee", text: "Alex" },
           " to ",
-          { field: "task", text: "prepare the report" },
+          { field: "task", text: "prepare the quotation" },
           ", ",
           { field: "due", text: "due Friday" },
           ".",
         ],
-        task: "Prepare the report",
+        task: "Prepare the quotation",
         assignee: alex,
-        due: "Friday",
+        due: "20/11/2026",
       },
       {
         id: "campaign",
@@ -139,7 +136,7 @@ export const en: Dictionary = {
         ],
         task: "Draft the November campaign content",
         assignee: sam,
-        due: "Next Wednesday",
+        due: "18/11/2026",
       },
       {
         id: "quote",
@@ -154,7 +151,7 @@ export const en: Dictionary = {
         ],
         task: "Send the quote to the client",
         assignee: me,
-        due: "Tomorrow",
+        due: "15/11/2026",
       },
     ],
     existing: [
@@ -164,7 +161,7 @@ export const en: Dictionary = {
   },
   planning: {
     eyebrow: "Plan projects with AI",
-    title: "From one goal to a plan in just 10 seconds.",
+    title: "From one goal to a plan you can act on.",
     body: "Type in your goal. AI sketches out the phases and the tasks in each one. You review, add, remove and adjust before creating the project.",
     steps: [
       {
@@ -207,14 +204,35 @@ export const en: Dictionary = {
       create: "Create project",
     },
   },
+  collaboration: {
+    eyebrow: "Connected teamwork",
+    title: "Chat, meet and move work forward. Together.",
+    body: "Keep conversations, meetings and video calls alongside the work in Elynto. Everyone shares the context and knows what comes next, without piecing together updates across separate platforms.",
+    points: [
+      "Talk directly, in a group or with your project team.",
+      "Arrange meetings and connect on video inside Elynto.",
+      "Discuss work with its owner, deadline and status in view.",
+    ],
+    mock: {
+      imageAlt: "An Asian team meeting in front of a large screen showing an Elynto video call with remote colleagues",
+      aiTitle: "AI captures decisions. Assign work in the meeting.",
+      conclusionLabel: "Decision",
+      conclusion: "Agree on the website launch plan.",
+      taskLabel: "Action to assign",
+      task: "Finalise the website content",
+      assignee: "Sam",
+      due: "20/11/2026",
+      action: "Review & assign",
+    },
+  },
   today: {
     eyebrow: "Every day",
     title: "Open Elynto. See what needs you.",
-    body: "Overdue, due today and coming up — gathered in one place, along with the tasks you’ve marked important. No digging through messages or piecing lists together.",
+    body: "My Work gathers the work assigned to you into Upcoming, Overdue, Rework and Completed tabs. Due dates, priorities and statuses stay visible in each row.",
     points: [
       "Spot what’s running late at a glance.",
-      "Know what needs finishing today.",
-      "Get ahead of what’s due next.",
+      "Track work in progress and items that need rework.",
+      "Flag important work to keep your focus.",
     ],
     mock: {
       title: "Today",
@@ -266,7 +284,8 @@ export const en: Dictionary = {
         { label: "Work", value: "12 tasks" },
         { label: "Overdue", value: "None" },
         { label: "Schedule", value: "16 days left" },
-        { label: "Dates", value: "Oct 5 – Oct 25" },
+        { label: "Start", value: "5 Oct 2026" },
+        { label: "Due", value: "25 Oct 2026" },
       ],
       progress: 25,
       healthLabel: "Project health",
@@ -275,7 +294,7 @@ export const en: Dictionary = {
       analyse: "Analyse with AI",
       viewsLabel: "Project views",
       views: { list: "List", calendar: "Calendar", gantt: "Gantt" },
-      dragHint: "Drag a bar to move it, or its edge to change the start or due date.",
+      dragHint: "Follow phases, dependencies and due dates in one timeline.",
       columns: {
         task: "Task",
         assignee: "Owner",
@@ -337,7 +356,7 @@ export const en: Dictionary = {
       reworkNote: "Not quite right? Send it to Rework.",
       columns: { task: "Task", assignee: "Owner", due: "Due", status: "Status" },
       rows: [
-        { title: "Prepare the report", assignee: alex, due: 9, status: "submitted" },
+        { title: "Prepare the quotation", assignee: alex, due: 9, status: "submitted" },
         { title: "Write the services page copy", assignee: sam, due: 10, status: "inProgress" },
         { title: "Update pricing on the website", assignee: jordan, due: 7, status: "inProgress", overdue: true },
         { title: "Prepare product photos", assignee: jordan, due: 12, status: "accepted" },
@@ -346,7 +365,7 @@ export const en: Dictionary = {
     },
   },
   app: {
-    workspace: "Sample Co.",
+    workspace: "Elynto Studio",
     nav: {
       today: "Today",
       inbox: "Inbox",
@@ -470,36 +489,20 @@ export const en: Dictionary = {
     title: "Frequently asked questions",
     intro: "A few things you might want to know before you start.",
     items: [
-      {
-        id: "what",
-        q: "What is Elynto?",
-        a: "Elynto is an AI-powered work management system. You describe what needs to get done in plain words, and Elynto helps turn it into tasks with an owner, a due date and a status. You can also plan projects with AI and track progress in one place.",
-      },
-      {
-        id: "solo",
-        q: "Can I use Elynto on my own?",
-        a: "Yes. You can use Elynto to manage your own tasks and projects. When you work with others, you can assign tasks to each person so everyone knows what they own.",
-      },
-      {
-        id: "prompt",
-        q: "Do I need to know how to write prompts?",
-        a: "No. Just write it the way you’d message a colleague: what needs doing, who’s doing it and when it’s due. Once a task is created, you can always review and edit it directly.",
-      },
-      {
-        id: "language",
-        q: "How does Elynto handle Vietnamese and English?",
-        a: "This website is fully available in Vietnamese and English. In the app, you can describe tasks in either Vietnamese or English. Elynto is in beta, so some parts of the app may not be available in both languages yet.",
-      },
-      {
-        id: "start",
-        q: "Where do I start a free trial?",
-        a: "Click “Start free trial” on this page to open Elynto at beta.elynto.io and get started. If you already have an account, choose “Log in”.",
-      },
+      { id: "what", q: "What is Elynto?", a: "Elynto is an AI-powered work management system for freelancers and small teams. Describe what needs to happen, then keep work, project plans and conversations in one place." },
+      { id: "solo", q: "Can I use Elynto on my own?", a: "Yes. You can use Elynto to manage your own tasks and projects. When you work with others, assign work so everyone knows what they own." },
+      { id: "prompt", q: "Do I need to know how to write prompts?", a: "No. Write as you would to a colleague: what needs doing, who owns it and when it is due. Once work is created, you can review and edit it directly." },
+      { id: "trial", q: "Can I try it before signing up?", a: "Yes. Explore the work-creation journey on this page: choose a request, see the work card and follow the task in My Work." },
+      { id: "teamwork", q: "Can our team discuss work inside Elynto?", a: "Yes. Chat, meetings and video calls let your team discuss work in one place, keeping conversations connected to the project instead of scattered across platforms." },
+      { id: "tracking", q: "How do I follow work after assigning it?", a: "Open Delegated to see owners, due dates and statuses. List, Calendar and Gantt views help you follow each task in the context of the whole project." },
+      { id: "privacy", q: "Where can I learn about privacy?", a: "The Privacy page linked in the footer explains the information collected on this website. You can manage your statistics preferences on the Cookies page." },
+      { id: "language", q: "How does Elynto support Vietnamese and English?", a: "The website and on-page experience are available in Vietnamese and English. Use the language selector in the footer to switch." },
+      { id: "start", q: "How do I get started?", a: "Choose Start free trial to create an account, or Log in if you already have one. The Getting started and Writing effective requests guides help you find your way around Elynto." },
     ],
   },
   finalCta: {
-    title: "Start with one thing you need to get done.",
-    body: "Bring your work into Elynto and start managing it all in one place.",
+    title: "Give your first task a clear place to land.",
+    body: "See how Elynto works, then start your free trial when you are ready.",
     cta: "Start free trial",
     loginPrompt: "Already have an account?",
     login: "Log in",
@@ -530,7 +533,7 @@ export const en: Dictionary = {
     step: "Step",
     contact: {
       emailLabel: "Email",
-      pending: "Our official contact channel will be listed here.",
+      pending: "Find answers in the guides below, or get started with Elynto.",
       helpTitle: "Your answer may already be here",
       helpBody: "Many questions about getting started and using Elynto are covered on these pages.",
     },

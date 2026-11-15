@@ -1,43 +1,39 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-const SIGNUP_URL = process.env.NEXT_PUBLIC_SIGNUP_URL ?? "https://beta.elynto.io";
+import { siteConfig } from "../src/config/site";
+
+const SIGNUP_URL = siteConfig.signupUrl;
 const HERO_VISION = "The interface between you and work";
 
 const copy = {
   vi: {
-    eyebrow: "Elynto — Quản lý công việc bằng AI",
+    eyebrow: "Elynto - Quản lý công việc bằng AI",
     cta: "Dùng thử miễn phí",
     demoCta: "Xem Elynto hoạt động",
-    illustration: "Minh họa",
-    pause: "Tạm dừng minh họa",
-    play: "Phát minh họa",
+    pause: "Tạm dừng",
+    play: "Phát tiếp",
     faq: "Tôi có thể dùng Elynto một mình không?",
     faqAnswer: "Bạn có thể dùng Elynto để quản lý việc cá nhân",
     secondTab: "Lịch",
     secondTabContent: "Tháng 10",
-    title: "Elynto — Quản lý công việc bằng AI",
+    title: "Elynto - Quản lý công việc bằng AI",
     voicesTitle: "Những lúc công việc bắt đầu rối",
     voicesNote: "không phải lời của một khách hàng cụ thể",
-    voicesPause: "Tạm dừng chuyển động",
-    voicesPlay: "Tiếp tục chuyển động",
   },
   en: {
-    eyebrow: "Elynto — AI-powered work management",
+    eyebrow: "Elynto - AI-powered work management",
     cta: "Start free trial",
     demoCta: "See it in action",
-    illustration: "Illustrative demo",
-    pause: "Pause demo",
-    play: "Play demo",
+    pause: "Pause",
+    play: "Resume",
     faq: "Can I use Elynto on my own?",
     faqAnswer: "You can use Elynto to manage your own tasks",
     secondTab: "Calendar",
     secondTabContent: "October",
-    title: "Elynto — AI-powered work management",
+    title: "Elynto - AI-powered work management",
     voicesTitle: "The moments when work starts to slip",
     voicesNote: "not quotes from specific customers",
-    voicesPause: "Pause motion",
-    voicesPlay: "Resume motion",
   },
 } as const;
 
@@ -57,7 +53,7 @@ async function revealAll(page: Page) {
 }
 
 test.describe("language routing", () => {
-  test("root redirects using Accept-Language", async ({ request }) => {
+  test("root uses browser language when country is unavailable", async ({ request }) => {
     const en = await request.get("/", { headers: { "accept-language": "en-US,en;q=0.9" }, maxRedirects: 0 });
     expect(en.status()).toBe(307);
     expect(en.headers().location).toMatch(/\/en$/);
@@ -66,9 +62,20 @@ test.describe("language routing", () => {
     expect(vi.headers().location).toMatch(/\/vi$/);
   });
 
+  test("country determines the initial language before browser preferences", async ({ request }) => {
+    for (const [country, browser, locale] of [["VN", "en-US", "vi"], ["US", "vi-VN", "en"], ["JP", "vi-VN", "en"]]) {
+      const response = await request.get("/", {
+        headers: { "x-vercel-ip-country": country, "accept-language": browser }, maxRedirects: 0,
+      });
+      expect(response.status()).toBe(307);
+      expect(response.headers().location).toMatch(new RegExp(`/${locale}$`));
+      expect(response.headers()["cache-control"]).toBe("private, no-store");
+    }
+  });
+
   test("a remembered choice wins over the browser language", async ({ request }) => {
     const res = await request.get("/", {
-      headers: { "accept-language": "en-US", cookie: "elynto-lang=vi" },
+      headers: { "x-vercel-ip-country": "US", "accept-language": "en-US", cookie: "elynto-lang=vi" },
       maxRedirects: 0,
     });
     expect(res.headers().location).toMatch(/\/vi$/);
@@ -106,7 +113,6 @@ for (const lang of ["vi", "en"] as const) {
         expect(href).toBe(SIGNUP_URL);
       }
 
-      await expect(page.locator("#demo")).toContainText(t.illustration);
 
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(overflow).toBeLessThanOrEqual(0);
@@ -125,12 +131,59 @@ for (const lang of ["vi", "en"] as const) {
 
     test("demo controls and 'see it in action' work", async ({ page }) => {
       await page.goto(`/${lang}`);
-      await page.getByRole("link", { name: t.demoCta }).click();
+      await page.locator('a[data-track-location="hero"][data-track-cta="see_demo"]').click();
       await expect(page.locator("#demo")).toBeInViewport();
 
-      const pause = page.getByRole("button", { name: t.pause });
-      await pause.click();
-      await expect(page.getByRole("button", { name: t.play })).toBeVisible();
+      const demo = page.locator("#demo");
+      await demo.getByRole("tab", { name: lang === "vi" ? "Việc của tôi" : "My Work", exact: true }).click();
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Người giao" : "Assigned by");
+      await demo.getByRole("tab", { name: lang === "vi" ? "Việc của tôi" : "My Work", exact: true }).press("ArrowRight");
+      await expect(demo.getByRole("tab", { name: lang === "vi" ? "Việc đã giao" : "Delegated", exact: true })).toBeFocused();
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Giao cho" : "Assigned to");
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Chờ duyệt" : "Approval");
+    });
+
+    test("sending creates a sample task, shows loading, and replay clears it", async ({ page }) => {
+      await page.clock.install();
+      await page.goto(`/${lang}`);
+      await page.locator('a[data-track-location="hero"][data-track-cta="see_demo"]').click();
+      const demo = page.locator("#demo");
+      const send = lang === "vi" ? "Gửi" : "Send";
+      await demo.getByRole("button", { name: send, exact: true }).click();
+      await expect(demo.locator("[data-demo-loading]")).toBeVisible();
+      await page.clock.runFor(2_100);
+      await expect(demo.locator("[data-work-card]")).toBeVisible();
+      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+      await demo.getByRole("button", { name: lang === "vi" ? "Xem trong Việc của tôi" : "View in My Work", exact: true }).click();
+      await expect(demo.locator("[data-created-work]")).toHaveCount(1);
+      await expect(demo.locator("[data-created-work]")).toContainText(lang === "vi" ? "Làm báo giá" : "Prepare the quotation");
+      await demo.getByRole("button", { name: lang === "vi" ? "Xem lại từ đầu" : "Replay from the start", exact: true }).click();
+      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+    });
+
+    test("scrolling starts the demo, shows the work card, then the work list", async ({ page }) => {
+      await page.clock.install();
+      await page.goto(`/${lang}`);
+      const demo = page.locator("#demo");
+      await demo.getByRole("tabpanel").scrollIntoViewIfNeeded();
+      await expect(demo).toHaveAttribute("data-demo-running", "true");
+      await page.clock.runFor(6_500);
+      await expect(demo.locator("[data-work-card]")).toBeVisible();
+      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+      await page.clock.runFor(5_000);
+      await expect(demo.locator("[data-created-work]")).toHaveCount(1);
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Người giao" : "Assigned by");
+    });
+
+    test("product preview language follows the page locale", async ({ page }) => {
+      await page.goto(`/${lang}`);
+      const demo = page.locator("#demo");
+      await expect(demo).toContainText(lang === "vi" ? "Hỏi Elynto" : "Ask Elynto");
+      if (lang === "vi") {
+        await expect(demo).not.toContainText("Upcoming");
+        await expect(page.locator("#feature-planning")).not.toContainText("Generate plan");
+        await expect(page.locator("#feature-views")).not.toContainText("Project health");
+      }
     });
 
     test("FAQ expands", async ({ page }) => {
@@ -141,13 +194,14 @@ for (const lang of ["vi", "en"] as const) {
 
     test("view tabs switch with mouse and keyboard", async ({ page }) => {
       await page.goto(`/${lang}`);
-      const second = page.getByRole("tab", { name: t.secondTab });
+      const project = page.locator("#feature-views");
+      const second = project.getByRole("tab", { name: t.secondTab });
       await second.click();
       await expect(second).toHaveAttribute("aria-selected", "true");
-      await expect(page.getByRole("tabpanel")).toContainText(t.secondTabContent);
+      await expect(project.getByRole("tabpanel")).toContainText(t.secondTabContent);
 
       await second.press("ArrowRight");
-      const third = page.getByRole("tab").nth(2);
+      const third = project.getByRole("tab").nth(2);
       await expect(third).toHaveAttribute("aria-selected", "true");
       await expect(third).toBeFocused();
     });
@@ -161,21 +215,33 @@ for (const lang of ["vi", "en"] as const) {
       expect(events).toContainEqual(expect.objectContaining({ event: "cta_click", cta: "signup", location: "hero" }));
     });
 
-    test("situations wall is labelled honestly and its motion can be paused", async ({ page }) => {
+    test("product experience never links to private work", async ({ page }) => {
+      await page.goto(`/${lang}`);
+      await expect(page.locator('a[href*="beta.elynto.io/work/"], a[href*="beta.elynto.io/projects/"]')).toHaveCount(0);
+      await expect(page.locator("body")).not.toContainText("Phong Du");
+      await expect(page.locator("body")).not.toContainText("ALEX INC");
+    });
+
+    test("situations move automatically on entering view without a play button", async ({ page }) => {
       await page.goto(`/${lang}`);
       const section = page.locator("#voices");
+      await section.scrollIntoViewIfNeeded();
       await expect(section.getByRole("heading", { level: 2 })).toHaveText(t.voicesTitle);
       await expect(section).toContainText(t.voicesNote);
-      // Nine situations for assistive tech; the copy that closes the loop is hidden from it.
       await expect(section.getByRole("listitem")).toHaveCount(9);
+      await expect(section.getByRole("button")).toHaveCount(0);
+      await expect(section.locator("[data-wall-running]")).toHaveAttribute("data-wall-running", "true");
+      const visibleTrack = section.locator("[data-testimonial-track]:visible").first();
+      await expect(visibleTrack).toHaveCSS("animation-play-state", "running");
+      await expect(visibleTrack).toHaveCSS("animation-iteration-count", "infinite");
+    });
 
-      await section.getByRole("button", { name: t.voicesPause }).click();
-      await expect(section.getByRole("button", { name: t.voicesPlay })).toBeVisible();
-      const playState = await section
-        .locator('[role="region"] ul:not([aria-hidden])')
-        .first()
-        .evaluate((list) => getComputedStyle(list.parentElement!).animationPlayState);
-      expect(playState).toBe("paused");
+    test("visible copy and metadata use short hyphens", async ({ page }) => {
+      await page.goto(`/${lang}`);
+      expect(await page.title()).not.toMatch(/[\u2013\u2014]/);
+      const visibleCopy = await page.locator("body").innerText();
+      expect(visibleCopy).not.toMatch(/[\u2013\u2014]/);
+      expect(visibleCopy).not.toMatch(/\b(beta|demo|sample|illustrative|illustration)\b|dữ liệu mẫu|bản mẫu|minh họa|minh hoạ/i);
     });
 
     test("has no serious accessibility violations", async ({ page }) => {
@@ -188,14 +254,12 @@ for (const lang of ["vi", "en"] as const) {
   });
 }
 
-test("switching language keeps the choice", async ({ page, isMobile }) => {
+test("footer language selector keeps the choice and is absent from the header", async ({ page }) => {
   await page.goto("/vi");
-  if (isMobile) {
-    await page.getByRole("button", { name: "Mở menu" }).click();
-    await page.locator("#mobile-menu").getByRole("link", { name: "English" }).click();
-  } else {
-    await page.locator("header").getByRole("link", { name: "English" }).click();
-  }
+  await expect(page.locator("header").getByRole("combobox")).toHaveCount(0);
+  const selector = page.locator("footer").getByRole("combobox", { name: "Ngôn ngữ" });
+  await expect(selector).toHaveValue("vi");
+  await selector.selectOption("en");
   await expect(page).toHaveURL(/\/en$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 
@@ -219,37 +283,39 @@ test("hero subject cycles between 'you' and 'your team'", async ({ page }) => {
   await page.goto("/en");
   const line = page.locator("[data-swap-line]");
   await expect(line).toBeVisible();
-  await expect(line.locator(".animate-word-in")).toHaveCount(0);
-  // Each word holds for 10 seconds, then the next one rolls in.
-  await page.clock.runFor(10_500);
-  await expect(line.locator(".animate-word-in")).toHaveText("your team");
+  await expect(line.locator("[data-current-word]")).toHaveText("you");
+  await page.clock.runFor(3_000);
+  await expect(line.locator("[data-current-word]")).toHaveText("your team");
 });
 
 test("content slides in as it scrolls into view", async ({ page }) => {
   await page.goto("/vi");
   await expect(page.locator("html")).toHaveAttribute("data-motion", "live");
-  const heading = page.locator("#faq-title");
+  const heading = page.locator('[data-reveal]:has(> #faq-title)');
   await expect(heading).toHaveCSS("opacity", "0");
   await heading.scrollIntoViewIfNeeded();
   await expect(heading).toHaveAttribute("data-revealed", "");
   await expect(heading).toHaveCSS("opacity", "1");
 });
 
-test("respects reduced motion: demo starts paused, nothing waits to slide in", async ({ browser }) => {
+test("requested typing, automatic cards and gentle reveals work with reduced-motion preferences", async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.clock.install();
   await page.goto("/vi");
-  await expect(page.getByRole("button", { name: "Phát minh họa" })).toBeVisible();
-  await expect(page.locator("#demo")).toContainText("Đã tạo công việc");
-
-  await expect(page.locator("html")).not.toHaveAttribute("data-motion");
-  // The hero subject holds on "you".
-  await page.clock.runFor(20_000);
-  await expect(page.locator("[data-swap-line] .animate-word-in")).toHaveCount(0);
-  await expect(page.locator("#faq-title")).toHaveCSS("opacity", "1");
-  // The situations wall stands still, so it needs no pause control.
-  await expect(page.locator("#voices").getByRole("button", { name: "Tạm dừng chuyển động" })).toBeHidden();
+  const demo = page.locator("#demo");
+  await demo.getByRole("tabpanel").scrollIntoViewIfNeeded();
+  await expect(demo).toHaveAttribute("data-demo-running", "true");
+  await page.clock.runFor(900);
+  const partial = await demo.locator("[data-demo-typed]").innerText();
+  expect(partial).toMatch(/^Giao/);
+  expect(partial).not.toContain("hoàn thành trước thứ sáu");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "live");
+  const wall = page.locator("#voices");
+  await wall.scrollIntoViewIfNeeded();
+  await expect(wall.locator("[data-wall-running]")).toHaveAttribute("data-wall-running", "true");
+  await expect(wall.getByRole("button")).toHaveCount(0);
+  await expect(wall.locator("[data-testimonial-track]:visible").first()).toHaveCSS("animation-iteration-count", "infinite");
   await context.close();
 });
 
@@ -276,19 +342,19 @@ test.describe("footer and subpages", () => {
 
   test("a subpage has its own metadata and keeps its path when switching language", async ({ page }) => {
     await page.goto("/vi/privacy");
-    await expect(page).toHaveTitle("Quyền riêng tư — Elynto");
+    await expect(page).toHaveTitle("Quyền riêng tư - Elynto");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/vi\/privacy$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quyền riêng tư trên website Elynto");
     await expect(page.locator("footer").getByRole("link", { name: "Quyền riêng tư" }).first()).toHaveAttribute("aria-current", "page");
 
-    await page.locator("footer").getByRole("link", { name: "English" }).click();
+    await page.locator("footer").getByRole("combobox").selectOption("en");
     await expect(page).toHaveURL(/\/en\/privacy$/);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
   });
 
   test("the cookies page clears the saved language", async ({ page, context }) => {
     await page.goto("/vi");
-    await page.locator("footer").getByRole("link", { name: "English" }).click();
+    await page.locator("footer").getByRole("combobox").selectOption("en");
     await expect(page).toHaveURL(/\/en$/);
     expect((await context.cookies()).some((c) => c.name === "elynto-lang")).toBe(true);
 

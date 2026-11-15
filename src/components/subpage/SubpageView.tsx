@@ -22,19 +22,18 @@ import { CookieReset } from "./CookieReset";
 import { StatsOptOut } from "./StatsOptOut";
 
 /** Feature visuals reused from the home page. The wide ones sit below the intro, the others beside it. */
-function FeatureVisual({ pageKey, dict }: { pageKey: FeaturePageKey; dict: Dictionary }) {
-  const badge = dict.illustration;
+function FeatureVisual({ pageKey, dict, lang }: { pageKey: FeaturePageKey; dict: Dictionary; lang: Locale }) {
   switch (pageKey) {
     case "natural-language-tasks":
-      return <SentenceToTask copy={dict.command} badge={badge} />;
+      return <SentenceToTask lang={lang} copy={dict.command} />;
     case "ai-planning":
-      return <PlanDraft copy={dict.planning.mock} badge={badge} />;
+      return <PlanDraft lang={lang} copy={dict.planning.mock} />;
     case "delegated-work":
-      return <DelegatedView view={dict.delegate.view} app={dict.app} badge={badge} />;
+      return <DelegatedView lang={lang} view={dict.delegate.view} app={dict.app} />;
     case "today":
-      return <TodayView copy={dict.today.mock} badge={badge} />;
+      return <TodayView lang={lang} copy={dict.today.mock} />;
     case "project-views":
-      return <ProjectWorkspace data={dict.views.data} app={dict.app} badge={badge} />;
+      return <ProjectWorkspace lang={lang} data={dict.views.data} app={dict.app} />;
   }
 }
 
@@ -227,7 +226,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
               <div className="mt-10 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
                 {intro}
                 <div {...reveal("from-right", 120)} className="min-w-0">
-                  <FeatureVisual pageKey={feature} dict={dict} />
+                  <FeatureVisual pageKey={feature} dict={dict} lang={lang} />
                 </div>
               </div>
             ) : (
@@ -235,7 +234,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
                 {intro}
                 {feature ? (
                   <div {...reveal("visual", 120)} className="mt-12 sm:mt-14">
-                    <FeatureVisual pageKey={feature} dict={dict} />
+                    <FeatureVisual pageKey={feature} dict={dict} lang={lang} />
                   </div>
                 ) : null}
               </div>
@@ -295,6 +294,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
                     {subpage.contact.pending}
                   </p>
                 )}
+                {!siteConfig.contactEmail ? <div className="mt-5"><ButtonLink href={siteConfig.signupUrl}>{dict.nav.startTrial}<ArrowRight aria-hidden="true" className="size-4" /></ButtonLink></div> : null}
               </div>
               <h2 {...reveal()} className="mt-14 text-xl font-semibold text-ink">
                 {subpage.contact.helpTitle}
@@ -333,7 +333,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
 
         {group !== "legal" ? (
           <div className="pt-16 sm:pt-20">
-            <FinalCta dict={dict} />
+            <FinalCta dict={dict} demoHref={`/${lang}#demo`} />
           </div>
         ) : null}
       </main>

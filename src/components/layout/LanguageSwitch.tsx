@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { ChevronDown, Languages } from "lucide-react";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { LOCALE_COOKIE, localeNames, locales, type Locale } from "@/lib/i18n";
@@ -26,38 +27,24 @@ export function LanguageSwitch({ current, label, location, className }: Props) {
   const rest = usePathname().replace(new RegExp(`^/${current}(?=/|$)`), "");
 
   return (
-    <div role="group" aria-label={label} className={cn("inline-flex rounded-lg bg-sunken p-0.5 ring-1 ring-line ring-inset", className)}>
-      {locales.map((locale) => {
-        const active = locale === current;
-        return (
-          <a
-            key={locale}
-            href={`/${locale}${rest}`}
-            lang={locale}
-            hrefLang={locale}
-            aria-current={active ? "true" : undefined}
-            title={localeNames[locale]}
-            onClick={(event) => {
-              rememberLocale(locale);
-              if (active) {
-                event.preventDefault();
-                return;
-              }
-              track("language_switch", { from: current, to: locale, location });
-              // Plain link navigation (full page load) so <html lang> and metadata switch too.
-              // Keep the visitor on the same section.
-              event.currentTarget.href = `/${locale}${rest}${window.location.hash}`;
-            }}
-            className={cn(
-              "inline-flex h-8 min-w-10 items-center justify-center rounded-md px-2 text-xs font-semibold tracking-wide transition-colors",
-              active ? "bg-surface text-ink shadow-sm ring-1 ring-line" : "text-ink-subtle hover:text-ink",
-            )}
-          >
-            <span aria-hidden="true">{locale.toUpperCase()}</span>
-            <span className="sr-only">{localeNames[locale]}</span>
-          </a>
-        );
-      })}
+    <div className={cn("relative inline-flex shrink-0 items-center", className)}>
+      <Languages aria-hidden="true" className="pointer-events-none absolute left-4 size-4 text-ink" />
+      <select
+        aria-label={label}
+        value={current}
+        onChange={(event) => {
+          const locale = event.target.value as Locale;
+          rememberLocale(locale);
+          if (locale === current) return;
+          track("language_switch", { from: current, to: locale, location });
+          // Reload so the document language and metadata match, preserving page and section.
+          window.location.assign(`/${locale}${rest}${window.location.search}${window.location.hash}`);
+        }}
+        className="min-h-11 min-w-44 appearance-none rounded-full border border-line bg-white py-2.5 pr-10 pl-10 text-sm font-medium text-ink transition-colors hover:border-line-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+      >
+        {locales.map(locale => <option key={locale} value={locale} lang={locale}>{localeNames[locale]}</option>)}
+      </select>
+      <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-4 size-3.5 text-ink-muted" />
     </div>
   );
 }

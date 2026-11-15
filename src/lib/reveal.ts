@@ -16,8 +16,8 @@ export function reveal(from: RevealFrom = "up", delayMs = 0) {
 }
 
 /**
- * Runs in <head> before first paint: arms the hidden state only when motion is welcome and the
+ * Runs in <head> before first paint: arms the hidden state when the
  * observer can run. If the app has not taken over within a few seconds (script blocked, slow
  * device), it disarms so content is never left invisible.
  */
-export const revealBootScript = `(function(){try{var d=document.documentElement;if(!("IntersectionObserver" in window)||!matchMedia("(prefers-reduced-motion: no-preference)").matches)return;d.setAttribute("data-motion","ready");window.__revealTimer=setTimeout(function(){window.__revealExpired=true;d.removeAttribute("data-motion")},4000)}catch(e){}})()`;
+export const revealBootScript = `(function(){try{var d=document.documentElement;if(!("IntersectionObserver" in window))return;d.setAttribute("data-motion","ready");window.__revealTimer=setTimeout(function(){window.__revealExpired=true;d.removeAttribute("data-motion")},4000)}catch(e){}})()`;
