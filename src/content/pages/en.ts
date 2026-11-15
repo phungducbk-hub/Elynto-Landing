@@ -382,7 +382,7 @@ export const en: PagesDictionary = {
       {
         heading: "Clear your saved language",
         body: [
-          "Use the button below to remove the cookie and the saved language. Next time, the website will follow your browser’s language settings.",
+          "Use the button below to remove the cookie and the saved language. Next time you open a website address without a language prefix, visitors in Vietnam will see Vietnamese and international visitors will see English. If the country is unavailable, the website will use your browser’s language settings.",
         ],
         action: "clearLanguage",
       },

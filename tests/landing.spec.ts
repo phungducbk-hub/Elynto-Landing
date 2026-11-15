@@ -53,7 +53,7 @@ async function revealAll(page: Page) {
 }
 
 test.describe("language routing", () => {
-  test("root redirects using Accept-Language", async ({ request }) => {
+  test("root uses browser language when country is unavailable", async ({ request }) => {
     const en = await request.get("/", { headers: { "accept-language": "en-US,en;q=0.9" }, maxRedirects: 0 });
     expect(en.status()).toBe(307);
     expect(en.headers().location).toMatch(/\/en$/);
@@ -62,9 +62,20 @@ test.describe("language routing", () => {
     expect(vi.headers().location).toMatch(/\/vi$/);
   });
 
+  test("country determines the initial language before browser preferences", async ({ request }) => {
+    for (const [country, browser, locale] of [["VN", "en-US", "vi"], ["US", "vi-VN", "en"], ["JP", "vi-VN", "en"]]) {
+      const response = await request.get("/", {
+        headers: { "x-vercel-ip-country": country, "accept-language": browser }, maxRedirects: 0,
+      });
+      expect(response.status()).toBe(307);
+      expect(response.headers().location).toMatch(new RegExp(`/${locale}$`));
+      expect(response.headers()["cache-control"]).toBe("private, no-store");
+    }
+  });
+
   test("a remembered choice wins over the browser language", async ({ request }) => {
     const res = await request.get("/", {
-      headers: { "accept-language": "en-US", cookie: "elynto-lang=vi" },
+      headers: { "x-vercel-ip-country": "US", "accept-language": "en-US", cookie: "elynto-lang=vi" },
       maxRedirects: 0,
     });
     expect(res.headers().location).toMatch(/\/vi$/);
@@ -243,14 +254,12 @@ for (const lang of ["vi", "en"] as const) {
   });
 }
 
-test("switching language keeps the choice", async ({ page, isMobile }) => {
+test("footer language selector keeps the choice and is absent from the header", async ({ page }) => {
   await page.goto("/vi");
-  if (isMobile) {
-    await page.getByRole("button", { name: "Mở menu" }).click();
-    await page.locator("#mobile-menu").getByRole("link", { name: "English" }).click();
-  } else {
-    await page.locator("header").getByRole("link", { name: "English" }).click();
-  }
+  await expect(page.locator("header").getByRole("combobox")).toHaveCount(0);
+  const selector = page.locator("footer").getByRole("combobox", { name: "Ngôn ngữ" });
+  await expect(selector).toHaveValue("vi");
+  await selector.selectOption("en");
   await expect(page).toHaveURL(/\/en$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 
@@ -338,14 +347,14 @@ test.describe("footer and subpages", () => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quyền riêng tư trên website Elynto");
     await expect(page.locator("footer").getByRole("link", { name: "Quyền riêng tư" }).first()).toHaveAttribute("aria-current", "page");
 
-    await page.locator("footer").getByRole("link", { name: "English" }).click();
+    await page.locator("footer").getByRole("combobox").selectOption("en");
     await expect(page).toHaveURL(/\/en\/privacy$/);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
   });
 
   test("the cookies page clears the saved language", async ({ page, context }) => {
     await page.goto("/vi");
-    await page.locator("footer").getByRole("link", { name: "English" }).click();
+    await page.locator("footer").getByRole("combobox").selectOption("en");
     await expect(page).toHaveURL(/\/en$/);
     expect((await context.cookies()).some((c) => c.name === "elynto-lang")).toBe(true);
 

@@ -8,7 +8,6 @@ import type { Dictionary } from "@/content/types";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import type { Locale } from "@/lib/i18n";
-import { LanguageSwitch } from "./LanguageSwitch";
 
 type Props = {
   lang: Locale;
@@ -19,7 +18,7 @@ type Props = {
   homePath?: string;
 };
 
-export function SiteHeader({ lang, nav, signupUrl, loginUrl, homePath = "" }: Props) {
+export function SiteHeader({ nav, signupUrl, loginUrl, homePath = "" }: Props) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -92,9 +91,6 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl, homePath = "" }: Pr
         </nav>
 
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
-          <div className="hidden lg:block">
-            <LanguageSwitch current={lang} label={nav.language} location="header" />
-          </div>
           <a
             href={loginUrl}
             data-track="cta_click"
@@ -145,7 +141,6 @@ export function SiteHeader({ lang, nav, signupUrl, loginUrl, homePath = "" }: Pr
             ))}
           </ul>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <LanguageSwitch current={lang} label={nav.language} location="mobile_menu" />
             <a
               href={loginUrl}
               data-track="cta_click"

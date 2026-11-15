@@ -386,7 +386,7 @@ export const vi: PagesDictionary = {
       {
         heading: "Xóa lựa chọn ngôn ngữ",
         body: [
-          "Nhấn nút bên dưới để xóa cookie và lựa chọn ngôn ngữ đã lưu. Lần tới, website sẽ chọn ngôn ngữ theo cài đặt trình duyệt của bạn.",
+          "Nhấn nút bên dưới để xóa cookie và lựa chọn ngôn ngữ đã lưu. Lần tới khi mở địa chỉ website không có tiền tố ngôn ngữ, khách tại Việt Nam sẽ thấy tiếng Việt, khách quốc tế thấy tiếng Anh. Nếu không xác định được quốc gia, website sẽ dùng cài đặt ngôn ngữ của trình duyệt.",
         ],
         action: "clearLanguage",
       },
