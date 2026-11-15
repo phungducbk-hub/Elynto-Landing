@@ -31,7 +31,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
 
   return (
     <section aria-labelledby="hero-title" className="harbor-hero relative overflow-hidden border-b border-line">
-      {/* Brand atmosphere; product media remains explicitly illustrative until verified. */}
+      {/* Brand atmosphere behind the product introduction. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(ellipse_at_50%_0%,var(--color-brand-100),transparent_70%)]"
@@ -81,7 +81,6 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               {hero.secondaryCta}
             </ButtonLink>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-ink-muted sm:text-sm">{experience.assurance}</p>
         </div>
 
         {/* The hero and demo share the approved 64px / 1s entrance settings. */}
@@ -89,7 +88,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           {video ? (
             <DemoVideo video={video} copy={demo} className={demoEntrance} />
           ) : (
-            <ProductDemo lang={lang} copy={demo} examples={dict.command.examples} label={lang === "vi" ? "Khám phá giao diện Elynto" : "Explore the Elynto interface"} caption={lang === "vi" ? "Demo tương tác bằng dữ liệu mẫu · Khám phá Elynto" : "Interactive demo with sample data · Explore Elynto"} />
+            <ProductDemo lang={lang} copy={demo} examples={dict.command.examples} label={lang === "vi" ? "Khám phá giao diện Elynto" : "Explore the Elynto interface"} />
           )}
         </div>
       </Container>

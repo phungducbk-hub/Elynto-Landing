@@ -23,18 +23,17 @@ import { StatsOptOut } from "./StatsOptOut";
 
 /** Feature visuals reused from the home page. The wide ones sit below the intro, the others beside it. */
 function FeatureVisual({ pageKey, dict, lang }: { pageKey: FeaturePageKey; dict: Dictionary; lang: Locale }) {
-  const badge = dict.illustration;
   switch (pageKey) {
     case "natural-language-tasks":
-      return <SentenceToTask lang={lang} copy={dict.command} badge={badge} />;
+      return <SentenceToTask lang={lang} copy={dict.command} />;
     case "ai-planning":
-      return <PlanDraft lang={lang} copy={dict.planning.mock} badge={badge} />;
+      return <PlanDraft lang={lang} copy={dict.planning.mock} />;
     case "delegated-work":
-      return <DelegatedView lang={lang} view={dict.delegate.view} app={dict.app} badge={badge} />;
+      return <DelegatedView lang={lang} view={dict.delegate.view} app={dict.app} />;
     case "today":
-      return <TodayView lang={lang} copy={dict.today.mock} badge={badge} />;
+      return <TodayView lang={lang} copy={dict.today.mock} />;
     case "project-views":
-      return <ProjectWorkspace lang={lang} data={dict.views.data} app={dict.app} badge={badge} />;
+      return <ProjectWorkspace lang={lang} data={dict.views.data} app={dict.app} />;
   }
 }
 

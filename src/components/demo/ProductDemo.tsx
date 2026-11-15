@@ -48,8 +48,7 @@ export function TodayScreen({ command, composer, loading, paused, result, lang =
       <p className="text-lg font-semibold tracking-tight sm:text-xl">{ui.greeting}</p>
       <p className="mt-2 text-xs leading-relaxed text-ink-muted">{ui.intro}</p>
       {loading ? <LoadingWork paused={paused} /> : result ?? <div className="mt-5 rounded-xl border border-line bg-white p-4 sm:p-5">
-        <div className="flex items-center justify-between gap-2"><p className="text-sm font-medium">{ui.briefing}</p><span className="rounded-full border border-line px-2 py-0.5 font-mono text-[8px] tracking-widest text-ink-muted">{ui.sample}</span></div>
-        <p className="mt-1 text-[10px] leading-relaxed text-ink-muted">{ui.sampleNote}</p>
+        <p className="text-sm font-medium">{ui.briefing}</p>
         <ul className="mt-4 space-y-3 text-xs">
           <li className="flex gap-2.5"><TriangleAlert className="size-3.5 shrink-0 text-[#ad5a28]" /><span>{ui.overdueBrief}<span className="mt-1 block text-[10px] text-ink-muted">{ui.overdueHint}</span></span></li>
           <li className="flex gap-2.5"><CalendarDays className="size-3.5 text-ink-muted" />{ui.dueWeek}</li>
@@ -152,12 +151,11 @@ function LoadingWork({ paused }: { paused?: boolean }) {
 }
 
 /** A working, browser-local sample: the send action creates a new work row in demo state. */
-export function ProductDemo({ copy, examples, lang, label, caption }: {
+export function ProductDemo({ copy, examples, lang, label }: {
   copy: Dictionary["demo"];
   examples: Dictionary["command"]["examples"];
   lang: Locale;
   label: string;
-  caption: string;
 }) {
   const [screen, setScreen] = useState<Screen>("Today");
   const [exampleIndex, setExampleIndex] = useState(0);
@@ -329,7 +327,7 @@ export function ProductDemo({ copy, examples, lang, label, caption }: {
         </div>
       </div>
       {screen === "Today" && (
-        <div className="mb-3 flex flex-wrap gap-2" aria-label={isVietnamese ? "Chọn yêu cầu mẫu" : "Choose a sample request"}>
+        <div className="mb-3 flex flex-wrap gap-2" aria-label={isVietnamese ? "Chọn yêu cầu" : "Choose a request"}>
           {scenarios.map((item, index) => <button key={item.label} type="button" aria-pressed={index === exampleIndex} onClick={() => { setExampleIndex(index); replay("example"); }} className={cn("rounded-full border px-3 py-1.5 text-xs transition-colors", index === exampleIndex ? "border-brand/30 bg-white font-medium text-brand" : "border-line text-ink-muted hover:bg-white")}>{item.label}</button>)}
         </div>
       )}
@@ -346,7 +344,7 @@ export function ProductDemo({ copy, examples, lang, label, caption }: {
       </div>
       <div className="mt-4 flex items-center justify-between gap-3">
         <p aria-live="polite" aria-atomic="true" className={cn("text-xs font-medium", (snap.phase === "card" || snap.phase === "done") ? "text-status-done" : "text-ink-muted")}>
-          {screen === "Today" ? status : caption}
+          {screen === "Today" ? status : ui.nav[screen]}
         </p>
         <div className="flex shrink-0 gap-1">
           <button type="button" onClick={() => { setUserPaused(!paused); setScreen("Today"); track(paused ? "demo_play" : "demo_pause", { demo: "create_work" }); }} aria-label={paused ? copy.controls.play : copy.controls.pause} className="grid size-9 place-items-center rounded-lg border border-line bg-white text-ink-muted hover:text-brand">
@@ -355,15 +353,14 @@ export function ProductDemo({ copy, examples, lang, label, caption }: {
           <button type="button" onClick={() => replay("button")} aria-label={copy.controls.replay} className="grid size-9 place-items-center rounded-lg border border-line bg-white text-ink-muted hover:text-brand"><RotateCcw className="size-4" aria-hidden="true" /></button>
         </div>
       </div>
-      <figcaption className="mt-3 text-center text-xs leading-relaxed text-ink-muted">{caption}</figcaption>
     </figure>
   );
 }
 
-export function CommandScreen({ command, badge, lang = "en" }: { command: string; badge: string; lang?: Locale }) {
+export function CommandScreen({ command, lang = "en" }: { command: string; lang?: Locale }) {
   const ui = getProductUi(lang);
   return <div><div lang={lang} className="overflow-hidden rounded-xl border border-line bg-white shadow-card">
     <div className="flex items-center gap-2 border-b border-line px-5 py-4 text-sm font-semibold"><Sparkles className="size-4 text-brand" />{ui.ask}<span className="rounded-full border border-line px-2 py-0.5 text-[10px] font-normal text-ink-muted">{ui.projectPage}</span></div>
     <div className="flex min-h-[310px] flex-col p-5"><p className="text-sm leading-relaxed text-ink-muted">{ui.commandHelp}</p><p className="mt-3 text-sm leading-relaxed text-ink-muted">{ui.commandContext}</p><div className="mt-auto flex items-end gap-3 rounded-2xl border border-brand/50 p-3 text-sm"><p className="flex-1 leading-relaxed">{command}</p><span aria-hidden="true" className="grid size-7 shrink-0 place-items-center rounded-full bg-sunken"><ArrowUp className="size-3.5" /></span></div></div>
-  </div><p className="mt-3 text-xs text-ink-muted">{badge}</p></div>;
+  </div></div>;
 }

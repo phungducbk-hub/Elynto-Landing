@@ -25,7 +25,7 @@ import { formatDay } from "@/lib/format";
 type App = Dictionary["app"];
 type Data = Dictionary["views"]["data"];
 
-type Props = { data: Data; app: App; badge: string; lang: Locale };
+type Props = { data: Data; app: App; lang: Locale };
 
 const views: ProjectView[] = ["list", "calendar", "gantt"];
 const viewIcons = { list: List, calendar: CalendarDays, gantt: ChartGantt } as const;
@@ -38,7 +38,7 @@ const ME = { name: "", initials: "", self: true };
  * Recreation of a project page reviewed in the Elynto beta: workspace shell,
  * project overview with health, and the list / calendar / Gantt views.
  */
-export function ProjectWorkspace({ data, app, badge, lang }: Props) {
+export function ProjectWorkspace({ data, app, lang }: Props) {
   const ui = getProductUi(lang);
   const [view, setView] = useState<ProjectView>("list");
   const tabRefs = useRef<Partial<Record<ProjectView, HTMLButtonElement | null>>>({});
@@ -180,7 +180,6 @@ export function ProjectWorkspace({ data, app, badge, lang }: Props) {
             </div>
           </div>
       </ProductShell>
-      <p className="mt-3 text-xs text-ink-muted">{badge}</p>
     </div>
   );
 }

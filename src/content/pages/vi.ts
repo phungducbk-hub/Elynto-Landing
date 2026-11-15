@@ -176,7 +176,7 @@ export const vi: PagesDictionary = {
     sections: [
       {
         heading: "Mở Elynto",
-        body: ["Thử bản mẫu ngay trên trang chủ, hoặc chọn Dùng thử miễn phí để tạo tài khoản. Nếu đã có tài khoản, chọn Đăng nhập."],
+        body: ["Khám phá cách Elynto hoạt động ngay trên trang chủ, hoặc chọn Dùng thử miễn phí để tạo tài khoản. Nếu đã có tài khoản, chọn Đăng nhập."],
       },
       {
         heading: "Tạo công việc đầu tiên",
@@ -310,7 +310,7 @@ export const vi: PagesDictionary = {
       {
         heading: "Thống kê truy cập",
         body: [
-          "Để biết website được dùng thế nào, website tự ghi nhận: trang được xem, lượt bấm Dùng thử miễn phí và Đăng nhập (kèm vị trí nút), các mốc xem bản mẫu, thấy thẻ công việc và mở danh sách công việc, thời điểm, loại thiết bị, trình duyệt, hệ điều hành, quốc gia và trang web đã dẫn bạn tới.",
+          "Để biết website được dùng thế nào, website tự ghi nhận: trang được xem, lượt bấm Dùng thử miễn phí và Đăng nhập (kèm vị trí nút), các mốc trải nghiệm tạo việc, thấy thẻ công việc và mở danh sách công việc, thời điểm, loại thiết bị, trình duyệt, hệ điều hành, quốc gia và trang web đã dẫn bạn tới.",
           "Quốc gia được suy ra từ địa chỉ IP lúc truy cập. Địa chỉ IP và chuỗi nhận dạng trình duyệt không được lưu.",
         ],
       },

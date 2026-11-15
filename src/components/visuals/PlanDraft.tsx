@@ -2,7 +2,7 @@ import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 import { getProductUi } from "@/content/product-ui";
 
-export function PlanDraft({ copy, badge, lang }: { copy: Dictionary["planning"]["mock"]; badge: string; lang: Locale }) {
+export function PlanDraft({ copy, lang }: { copy: Dictionary["planning"]["mock"]; lang: Locale }) {
   const ui = getProductUi(lang);
   return (
     <div>
@@ -16,7 +16,6 @@ export function PlanDraft({ copy, badge, lang }: { copy: Dictionary["planning"][
           <span className="mt-3 inline-flex rounded-md bg-brand px-3 py-2 text-xs font-medium text-white">{ui.generate}</span>
         </div>
       </div>
-      <p className="mt-3 text-xs text-ink-muted">{badge}</p>
     </div>
   );
 }

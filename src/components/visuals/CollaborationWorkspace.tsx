@@ -34,7 +34,6 @@ export function CollaborationWorkspace({ copy, lang }: { copy: Dictionary["colla
           <p className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-brand">{copy.action}<ArrowUpRight aria-hidden="true" className="size-3.5" /></p>
         </div>
       </div>
-      <figcaption className="mt-4 text-sm leading-relaxed text-ink-muted">{copy.caption}</figcaption>
     </figure>
   );
 }

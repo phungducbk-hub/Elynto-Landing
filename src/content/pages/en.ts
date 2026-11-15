@@ -172,7 +172,7 @@ export const en: PagesDictionary = {
     sections: [
       {
         heading: "Open Elynto",
-        body: ["Try the demo on the homepage, or choose Start free trial to create an account. If you already have an account, choose Log in."],
+        body: ["See how Elynto works on the homepage, or choose Start free trial to create an account. If you already have an account, choose Log in."],
       },
       {
         heading: "Create your first task",
@@ -306,7 +306,7 @@ export const en: PagesDictionary = {
       {
         heading: "Visit statistics",
         body: [
-          "To understand how the website is used, it records the pages viewed, clicks on Start free trial and Log in (with where the button was), and demo milestones for viewing the demo, work card and work list, the time, device type, browser, operating system, country and the website that referred you.",
+          "To understand how the website is used, it records the pages viewed, clicks on Start free trial and Log in (with where the button was), and work-creation milestones for viewing the experience, work card and work list, the time, device type, browser, operating system, country and the website that referred you.",
           "Country is derived from your IP address at the time of the visit. The IP address and the full browser identification string are not stored.",
         ],
       },

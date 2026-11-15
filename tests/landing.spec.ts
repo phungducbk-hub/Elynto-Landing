@@ -11,9 +11,8 @@ const copy = {
     eyebrow: "Elynto - Quản lý công việc bằng AI",
     cta: "Dùng thử miễn phí",
     demoCta: "Xem Elynto hoạt động",
-    illustration: "Demo tương tác bằng dữ liệu mẫu",
-    pause: "Tạm dừng minh họa",
-    play: "Phát minh họa",
+    pause: "Tạm dừng",
+    play: "Phát tiếp",
     faq: "Tôi có thể dùng Elynto một mình không?",
     faqAnswer: "Bạn có thể dùng Elynto để quản lý việc cá nhân",
     secondTab: "Lịch",
@@ -26,9 +25,8 @@ const copy = {
     eyebrow: "Elynto - AI-powered work management",
     cta: "Start free trial",
     demoCta: "See it in action",
-    illustration: "Interactive demo with sample data",
-    pause: "Pause demo",
-    play: "Play demo",
+    pause: "Pause",
+    play: "Resume",
     faq: "Can I use Elynto on my own?",
     faqAnswer: "You can use Elynto to manage your own tasks",
     secondTab: "Calendar",
@@ -115,7 +113,6 @@ for (const lang of ["vi", "en"] as const) {
         expect(href).toBe(SIGNUP_URL);
       }
 
-      await expect(page.locator("#demo")).toContainText(t.illustration);
 
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(overflow).toBeLessThanOrEqual(0);
@@ -218,9 +215,8 @@ for (const lang of ["vi", "en"] as const) {
       expect(events).toContainEqual(expect.objectContaining({ event: "cta_click", cta: "signup", location: "hero" }));
     });
 
-    test("product previews disclose sample data and never link to private work", async ({ page }) => {
+    test("product experience never links to private work", async ({ page }) => {
       await page.goto(`/${lang}`);
-      await expect(page.locator("#demo")).toContainText(t.illustration);
       await expect(page.locator('a[href*="beta.elynto.io/work/"], a[href*="beta.elynto.io/projects/"]')).toHaveCount(0);
       await expect(page.locator("body")).not.toContainText("Phong Du");
       await expect(page.locator("body")).not.toContainText("ALEX INC");
@@ -245,7 +241,7 @@ for (const lang of ["vi", "en"] as const) {
       expect(await page.title()).not.toMatch(/[\u2013\u2014]/);
       const visibleCopy = await page.locator("body").innerText();
       expect(visibleCopy).not.toMatch(/[\u2013\u2014]/);
-      expect(visibleCopy).not.toMatch(/\bbeta\b/i);
+      expect(visibleCopy).not.toMatch(/\b(beta|demo|sample|illustrative|illustration)\b|dữ liệu mẫu|bản mẫu|minh họa|minh hoạ/i);
     });
 
     test("has no serious accessibility violations", async ({ page }) => {

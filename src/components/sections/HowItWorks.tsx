@@ -24,7 +24,7 @@ function ChapterHeading({ chapter, number }: { chapter: Chapter; number: number 
 }
 
 export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
-  const { howItWorks, command, delegate, planning, collaboration, views, app, illustration } = dict;
+  const { howItWorks, command, delegate, planning, collaboration, views, app } = dict;
   const { chapters, chapterNav } = getExperienceCopy(lang);
   const [intent, together, progress] = chapters;
   const delegateShot = productMedia.delegate[lang];
@@ -57,7 +57,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             <ol {...reveal()} className="mt-7 grid gap-5 sm:grid-cols-3">
               {planning.steps.map((step, index) => <li key={step.title} className="border-t border-brand-200 pt-4"><p className="text-sm font-semibold text-ink"><span aria-hidden="true" className="mr-2 text-brand">0{index + 1}</span>{step.title}</p><p className="mt-2 text-sm leading-relaxed text-ink-muted">{step.body}</p></li>)}
             </ol>
-            <div {...reveal("visual")} className="mx-auto mt-8 max-w-5xl">{planningShot ? <ProductShot image={planningShot} /> : <PlanDraft lang={lang} copy={planning.mock} badge={illustration} />}</div>
+            <div {...reveal("visual")} className="mx-auto mt-8 max-w-5xl">{planningShot ? <ProductShot image={planningShot} /> : <PlanDraft lang={lang} copy={planning.mock} />}</div>
             <p className="mt-5 flex items-start gap-2 text-sm leading-relaxed text-ink-muted"><Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-brand" />{planning.note}</p>
           </article>
         </Container>
@@ -76,14 +76,14 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         <Container className="py-16 sm:py-20">
           <ChapterHeading chapter={progress} number={3} />
           <FeatureRow id="feature-delegate" headingLevel={4} eyebrow={delegate.eyebrow} title={delegate.title} body={delegate.body} points={delegate.points} reverse wideVisual>
-            {delegateShot ? <ProductShot image={delegateShot} /> : <DelegatedView lang={lang} view={delegate.view} app={app} badge={illustration} />}
+            {delegateShot ? <ProductShot image={delegateShot} /> : <DelegatedView lang={lang} view={delegate.view} app={app} />}
           </FeatureRow>
           <article id="feature-views" aria-labelledby="feature-views-title" className="mt-16 border-t border-line pt-12 sm:mt-20">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-16">
               <div {...reveal()}><p className="text-sm font-semibold text-brand">{views.eyebrow}</p><h4 id="feature-views-title" className="mt-3 text-2xl font-semibold leading-tight text-ink text-balance sm:text-3xl">{views.title}</h4><p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">{views.body}</p></div>
               <ul {...reveal()} className="space-y-3 self-end">{views.points.map(point => <li key={point} className="flex gap-3 text-base leading-relaxed text-ink"><Check aria-hidden="true" className="mt-1 size-4 shrink-0 text-brand" />{point}</li>)}</ul>
             </div>
-            <div {...reveal("visual")} className="mt-9">{projectShot ? <ProductShot image={projectShot} /> : <ProjectWorkspace lang={lang} data={views.data} app={app} badge={illustration} />}</div>
+            <div {...reveal("visual")} className="mt-9">{projectShot ? <ProductShot image={projectShot} /> : <ProjectWorkspace lang={lang} data={views.data} app={app} />}</div>
           </article>
         </Container>
       </section>

@@ -35,11 +35,10 @@ export const en: Dictionary = {
     secondaryCta: "See it in action",
   },
   demo: {
-    badge: "Illustrative demo",
     caption: "One sentence. A task with a clear owner and deadline.",
-    regionLabel: "Illustrative demo: from one sentence to a task",
+    regionLabel: "From one sentence to a task",
     srDescription:
-      "Illustrative demo, not a live session in the app. The user writes: “Assign Alex to prepare the quotation, due Friday.” Elynto creates the task “Prepare the quotation”, assigned to Alex, due 20/11/2026, status Assigned.",
+      "The work-creation journey: “Assign Alex to prepare the quotation, due Friday.” Elynto creates the task “Prepare the quotation”, assigned to Alex, due 20/11/2026, status Assigned.",
     placeholder: "What needs to get done?",
     command: "Assign Alex to prepare the quotation, due Friday.",
     send: "Send",
@@ -59,8 +58,8 @@ export const en: Dictionary = {
       status: "Assigned",
     },
     controls: {
-      play: "Play demo",
-      pause: "Pause demo",
+      play: "Resume",
+      pause: "Pause",
       replay: "Replay from the start",
     },
   },
@@ -88,7 +87,6 @@ export const en: Dictionary = {
     intro:
       "Elynto turns a plain description into structured tasks, helps you plan, and lets you follow everything in clear, visual views.",
   },
-  illustration: "Illustrative Elynto interface · Sample data",
   command: {
     eyebrow: "Create and assign tasks",
     title: "Work starts with a single sentence.",
@@ -225,7 +223,6 @@ export const en: Dictionary = {
       assignee: "Sam",
       due: "20/11/2026",
       action: "Review & assign",
-      caption: "Illustrative meeting and AI Summary · Sample data",
     },
   },
   today: {
@@ -297,7 +294,7 @@ export const en: Dictionary = {
       analyse: "Analyse with AI",
       viewsLabel: "Project views",
       views: { list: "List", calendar: "Calendar", gantt: "Gantt" },
-      dragHint: "Sample schedule. Editing is available in the Elynto app.",
+      dragHint: "Follow phases, dependencies and due dates in one timeline.",
       columns: {
         task: "Task",
         assignee: "Owner",
@@ -368,7 +365,7 @@ export const en: Dictionary = {
     },
   },
   app: {
-    workspace: "Sample Co.",
+    workspace: "Elynto Studio",
     nav: {
       today: "Today",
       inbox: "Inbox",
@@ -495,17 +492,17 @@ export const en: Dictionary = {
       { id: "what", q: "What is Elynto?", a: "Elynto is an AI-powered work management system for freelancers and small teams. Describe what needs to happen, then keep work, project plans and conversations in one place." },
       { id: "solo", q: "Can I use Elynto on my own?", a: "Yes. You can use Elynto to manage your own tasks and projects. When you work with others, assign work so everyone knows what they own." },
       { id: "prompt", q: "Do I need to know how to write prompts?", a: "No. Write as you would to a colleague: what needs doing, who owns it and when it is due. Once work is created, you can review and edit it directly." },
-      { id: "trial", q: "Can I try it before signing up?", a: "Yes. The interactive demo uses sample data and needs no account or payment card. Choose a request, see the work card and open the new task in My Work." },
+      { id: "trial", q: "Can I try it before signing up?", a: "Yes. Explore the work-creation journey on this page: choose a request, see the work card and follow the task in My Work." },
       { id: "teamwork", q: "Can our team discuss work inside Elynto?", a: "Yes. Chat, meetings and video calls let your team discuss work in one place, keeping conversations connected to the project instead of scattered across platforms." },
       { id: "tracking", q: "How do I follow work after assigning it?", a: "Open Delegated to see owners, due dates and statuses. List, Calendar and Gantt views help you follow each task in the context of the whole project." },
-      { id: "privacy", q: "Does the demo use my real work data?", a: "No. The demo uses fictional browser-local data. It does not call an AI service or create work in your account. The Website privacy page explains the website usage statistics collected on this site." },
-      { id: "language", q: "How does Elynto support Vietnamese and English?", a: "The website and demo are available in Vietnamese and English. Use the language selector in the footer to switch." },
+      { id: "privacy", q: "Where can I learn about privacy?", a: "The Privacy page linked in the footer explains the information collected on this website. You can manage your statistics preferences on the Cookies page." },
+      { id: "language", q: "How does Elynto support Vietnamese and English?", a: "The website and on-page experience are available in Vietnamese and English. Use the language selector in the footer to switch." },
       { id: "start", q: "How do I get started?", a: "Choose Start free trial to create an account, or Log in if you already have one. The Getting started and Writing effective requests guides help you find your way around Elynto." },
     ],
   },
   finalCta: {
     title: "Give your first task a clear place to land.",
-    body: "Explore the sample experience, then start your free trial when you are ready.",
+    body: "See how Elynto works, then start your free trial when you are ready.",
     cta: "Start free trial",
     loginPrompt: "Already have an account?",
     login: "Log in",

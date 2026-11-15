@@ -36,11 +36,10 @@ export const vi: Dictionary = {
     secondaryCta: "Xem Elynto hoạt động",
   },
   demo: {
-    badge: "Minh họa",
     caption: "Một câu nói. Công việc rõ người, rõ hạn.",
-    regionLabel: "Minh họa: từ một câu nói đến công việc",
+    regionLabel: "Từ một câu nói đến công việc",
     srDescription:
-      "Minh họa, không phải phiên thao tác trực tiếp với ứng dụng. Người dùng viết: “Giao Minh làm báo giá, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo giá”, người phụ trách Minh, hạn hoàn thành 20/11/2026, trạng thái Đã giao.",
+      "Hành trình tạo công việc: “Giao Minh làm báo giá, hoàn thành trước thứ sáu.” Elynto tạo công việc “Làm báo giá”, người phụ trách Minh, hạn hoàn thành 20/11/2026, trạng thái Đã giao.",
     placeholder: "Bạn cần làm gì?",
     command: "Giao Minh làm báo giá, hoàn thành trước thứ sáu.",
     send: "Gửi",
@@ -60,8 +59,8 @@ export const vi: Dictionary = {
       status: "Đã giao",
     },
     controls: {
-      play: "Phát minh họa",
-      pause: "Tạm dừng minh họa",
+      play: "Phát tiếp",
+      pause: "Tạm dừng",
       replay: "Xem lại từ đầu",
     },
   },
@@ -89,7 +88,6 @@ export const vi: Dictionary = {
     intro:
       "Elynto chuyển lời mô tả thành công việc có cấu trúc, giúp bạn lập kế hoạch và theo dõi tất cả trên giao diện trực quan.",
   },
-  illustration: "Minh họa giao diện Elynto · Dữ liệu mẫu",
   command: {
     eyebrow: "Tạo và giao việc",
     title: "Việc cần làm bắt đầu từ một câu nói.",
@@ -226,7 +224,6 @@ export const vi: Dictionary = {
       assignee: "Lan",
       due: "20/11/2026",
       action: "Xem lại & giao việc",
-      caption: "Minh họa cuộc họp và AI Summary · Dữ liệu mẫu",
     },
   },
   today: {
@@ -369,7 +366,7 @@ export const vi: Dictionary = {
     },
   },
   app: {
-    workspace: "Công ty Mẫu",
+    workspace: "Elynto Studio",
     nav: {
       today: "Hôm nay",
       inbox: "Hộp thư",
@@ -496,17 +493,17 @@ export const vi: Dictionary = {
       { id: "what", q: "Elynto là gì?", a: "Elynto là hệ thống quản lý công việc bằng AI dành cho freelancer và nhóm nhỏ. Bạn mô tả việc cần làm, rồi theo dõi công việc, kế hoạch dự án và cuộc trao đổi trong cùng một nơi." },
       { id: "solo", q: "Tôi có thể dùng Elynto một mình không?", a: "Có. Bạn có thể dùng Elynto để quản lý việc cá nhân và dự án của riêng mình. Khi làm việc cùng người khác, bạn có thể giao việc cho từng người để ai cũng rõ phần việc của mình." },
       { id: "prompt", q: "Tôi có cần biết viết prompt không?", a: "Không. Bạn chỉ cần viết như khi nhắn việc cho đồng nghiệp: việc gì, ai làm, khi nào xong. Sau khi công việc được tạo, bạn có thể xem lại và chỉnh sửa trực tiếp." },
-      { id: "trial", q: "Tôi có thể thử trước khi đăng ký không?", a: "Có. Bản mẫu tương tác trên trang dùng dữ liệu mẫu, không cần tài khoản hoặc thẻ thanh toán. Bạn có thể chọn yêu cầu, xem work card được tạo và mở công việc trong Việc của tôi." },
+      { id: "trial", q: "Tôi có thể thử trước khi đăng ký không?", a: "Có. Bạn có thể khám phá hành trình tạo công việc ngay trên trang: chọn yêu cầu, xem work card và theo dõi công việc trong Việc của tôi." },
       { id: "teamwork", q: "Đội nhóm có thể trao đổi ngay trong Elynto không?", a: "Có. Trò chuyện, cuộc họp và gọi video giúp các thành viên thảo luận công việc trong cùng một nơi, giữ thông tin gắn với dự án thay vì rải rác qua nhiều nền tảng." },
       { id: "tracking", q: "Làm sao theo dõi công việc sau khi giao?", a: "Mở Việc đã giao để xem người phụ trách, thời hạn và trạng thái. Các cách xem Danh sách, Lịch và Gantt giúp bạn theo dõi công việc trong bối cảnh của cả dự án." },
-      { id: "privacy", q: "Bản mẫu có sử dụng dữ liệu công việc thật của tôi không?", a: "Không. Bản mẫu chạy với dữ liệu giả ngay trong trình duyệt, không gửi yêu cầu AI hay tạo công việc trong tài khoản của bạn. Trang Quyền riêng tư giải thích những thống kê được ghi nhận trên website." },
-      { id: "language", q: "Elynto hỗ trợ tiếng Việt và tiếng Anh như thế nào?", a: "Trang giới thiệu và bản mẫu có đầy đủ tiếng Việt và tiếng Anh. Bạn có thể đổi ngôn ngữ bằng bộ chọn ở chân trang." },
+      { id: "privacy", q: "Tôi tìm hiểu về quyền riêng tư ở đâu?", a: "Trang Quyền riêng tư ở chân trang giải thích những thông tin được ghi nhận trên website. Bạn có thể quản lý lựa chọn ghi nhận thống kê của mình tại trang Cookie." },
+      { id: "language", q: "Elynto hỗ trợ tiếng Việt và tiếng Anh như thế nào?", a: "Trang giới thiệu và trải nghiệm trên trang có đầy đủ tiếng Việt và tiếng Anh. Bạn có thể đổi ngôn ngữ bằng bộ chọn ở chân trang." },
       { id: "start", q: "Tôi bắt đầu với Elynto ở đâu?", a: "Chọn Dùng thử miễn phí để tạo tài khoản, hoặc Đăng nhập nếu bạn đã có tài khoản. Các trang Hướng dẫn bắt đầu và Viết yêu cầu hiệu quả giúp bạn làm quen với Elynto." },
     ],
   },
   finalCta: {
     title: "Đưa việc đầu tiên vào đúng chỗ.",
-    body: "Khám phá bản mẫu ngay trên trang, hoặc dùng thử miễn phí để bắt đầu với Elynto.",
+    body: "Khám phá cách Elynto hoạt động, hoặc dùng thử miễn phí để bắt đầu với công việc đầu tiên.",
     cta: "Dùng thử miễn phí",
     loginPrompt: "Đã có tài khoản?",
     login: "Đăng nhập",
