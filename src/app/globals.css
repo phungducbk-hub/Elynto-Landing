@@ -159,7 +159,7 @@
 
 :root {
   --entrance-distance: 4rem;
-  --entrance-duration: 1.8s;
+  --entrance-duration: 1s;
   --entrance-ease: cubic-bezier(0.37, 0, 0.63, 1);
 }
 
@@ -202,7 +202,7 @@
   }
 }
 
-/* Scroll entrances share the same 64px travel and 1.8s timing for text and visuals.
+/* Scroll entrances share the same 64px travel and 1s timing for text and visuals.
    Side entrances retain their direction on desktop; smaller screens enter from below.
    The boot script and observer keep content visible when JavaScript is unavailable. */
 [data-reveal] {
