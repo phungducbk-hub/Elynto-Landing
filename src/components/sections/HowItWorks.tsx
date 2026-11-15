@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DelegatedView } from "@/components/visuals/DelegatedView";
 import { PlanDraft } from "@/components/visuals/PlanDraft";
 import { ProjectWorkspace } from "@/components/visuals/ProjectWorkspace";
-import { SentenceToTask } from "@/components/visuals/SentenceToTask";
+import { TeamCollaboration } from "@/components/visuals/TeamCollaboration";
 import { TodayView } from "@/components/visuals/TodayView";
 import { productMedia } from "@/config/media";
 import type { Dictionary } from "@/content/types";
@@ -16,7 +16,6 @@ import { FeatureRow } from "./FeatureRow";
 export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const { howItWorks, command, delegate, planning, today, views, app, illustration } = dict;
 
-  const commandShot = productMedia.command[lang];
   const delegateShot = productMedia.delegate[lang];
   const projectShot = productMedia.project[lang];
   const planningShot = productMedia.planning[lang];
@@ -36,7 +35,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             points={command.points}
             tip={command.tip}
           >
-            {commandShot ? <ProductShot image={commandShot} /> : <SentenceToTask lang={lang} copy={command} badge={illustration} />}
+            <TeamCollaboration lang={lang} />
           </FeatureRow>
         </div>
 
