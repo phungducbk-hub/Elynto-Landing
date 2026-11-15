@@ -8,7 +8,6 @@ import { FinalCta } from "@/components/sections/FinalCta";
 import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Voices } from "@/components/sections/Voices";
-import { Confidence, StartWithElynto } from "@/components/sections/GettingStarted";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/content";
 import { getPages } from "@/content/pages";
@@ -55,8 +54,6 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         <Benefits dict={dict} />
         <HowItWorks lang={lang} dict={dict} />
         <Audience dict={dict} />
-        <Confidence lang={lang} />
-        <StartWithElynto lang={lang} />
         <Faq dict={dict} />
         <FinalCta dict={dict} />
       </main>

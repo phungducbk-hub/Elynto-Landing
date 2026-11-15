@@ -1,6 +1,6 @@
 "use client";
 
-import { LazyMotion, m, useReducedMotion } from "framer-motion";
+import { LazyMotion, m } from "framer-motion";
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
@@ -43,7 +43,7 @@ export function Testimonials({ items, label }: Props) {
         <div
           role="region"
           aria-label={label}
-          className="group/region flex max-h-[32rem] sm:max-h-[36rem] justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"
+          className="group/region flex max-h-[28rem] sm:max-h-[30rem] justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_5%,black_95%,transparent)]"
         >
           {/* Phones: one column with every card. Wider: columns at different speeds and start
               offsets, so they are out of step from the first frame. */}
@@ -101,11 +101,10 @@ function TestimonialList({ items, belowLg, duplicate = false }: ListProps) {
 }
 
 function TestimonialCard({ text, name, avatar, tag, className }: Testimonial & { className?: string }) {
-  const reduceMotion = useReducedMotion();
 
   return (
     <m.li
-      whileHover={reduceMotion ? undefined : { y: -6, scale: 1.02 }}
+      whileHover={undefined}
       transition={{ type: "spring", stiffness: 400, damping: 17 }}
       className={cn(
         "rounded-2xl border border-line bg-surface p-6 shadow-card transition-[border-color,box-shadow] duration-300 hover:border-line-strong hover:shadow-float sm:p-7",

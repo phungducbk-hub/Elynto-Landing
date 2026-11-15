@@ -286,7 +286,7 @@ export const vi: PagesDictionary = {
     navLabel: "Trợ giúp & liên hệ",
     eyebrow: "Liên hệ",
     title: "Liên hệ với Elynto",
-    description: "Câu hỏi về sản phẩm, góp ý hay đề xuất hợp tác, hãy gửi cho chúng tôi.",
+    description: "Tìm hướng dẫn bắt đầu, cách sử dụng và câu trả lời cho những câu hỏi thường gặp về Elynto.",
     sections: [],
   },
   privacy: {

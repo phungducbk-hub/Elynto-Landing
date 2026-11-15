@@ -282,7 +282,7 @@ export const en: PagesDictionary = {
     navLabel: "Help & contact",
     eyebrow: "Contact",
     title: "Contact Elynto",
-    description: "Questions about the product, feedback or partnership ideas: get in touch.",
+    description: "Find getting-started guides, product help and answers to common questions about Elynto.",
     sections: [],
   },
   privacy: {

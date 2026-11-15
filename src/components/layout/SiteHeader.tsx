@@ -63,11 +63,11 @@ export function SiteHeader({ nav, signupUrl, loginUrl, homePath = "" }: Props) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-canvas/90 backdrop-blur-xl transition-[border-color,box-shadow] duration-200",
+        "sticky top-0 z-50 border-b bg-canvas/95 backdrop-blur-md transition-[border-color,box-shadow] duration-200",
         scrolled || open ? "border-line shadow-[0_1px_0_rgb(16_28_43/0.02)]" : "border-transparent",
       )}
     >
-      <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 w-full sm:h-20 max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
         <a href={homePath || "#top"} className="-m-1 shrink-0 rounded-md p-1 text-brand" aria-label={nav.home}>
           <Logo className="h-7 w-auto sm:h-8" title={null} />
         </a>
@@ -114,7 +114,7 @@ export function SiteHeader({ nav, signupUrl, loginUrl, homePath = "" }: Props) {
             onClick={toggle}
             aria-expanded={open}
             aria-controls="mobile-menu"
-            className="-mr-1 inline-grid size-10 place-items-center rounded-lg text-ink transition-colors hover:bg-sunken lg:hidden"
+            className="-mr-1 inline-grid size-11 place-items-center rounded-lg text-ink transition-colors hover:bg-sunken lg:hidden"
           >
             <span className="sr-only">{open ? nav.closeMenu : nav.openMenu}</span>
             {open ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}

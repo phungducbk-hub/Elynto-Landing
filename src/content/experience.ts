@@ -14,7 +14,7 @@ const copy: Record<Locale, ExperienceCopy> = {
     chapterNav: "Khám phá cách Elynto giúp bạn làm việc",
     chapters: [
       { id: "chapter-intent", title: "Từ ý định thành công việc", body: "Nói điều cần làm. Biến một yêu cầu hoặc mục tiêu thành việc có thể bắt đầu." },
-      { id: "chapter-together", title: "Cùng đội nhóm triển khai", body: "Giữ cuộc trao đổi, cuộc họp và công việc trong cùng một bối cảnh." },
+      { id: "chapter-together", title: "Cùng đội nhóm triển khai", body: "Trao đổi ngay bên công việc. Chốt rõ điều cần làm tiếp theo." },
       { id: "chapter-progress", title: "Nắm tiến độ để quyết định", body: "Thấy ai đang làm gì, việc nào cần bạn và dự án đang đến đâu." },
     ],
     proof: {
@@ -23,7 +23,7 @@ const copy: Record<Locale, ExperienceCopy> = {
       body: "Theo dõi cách một yêu cầu trở thành công việc rõ người, rõ hạn và được quản lý trong cùng một nơi.",
       steps: [
         { title: "Bắt đầu bằng một câu", body: "Chọn một yêu cầu và theo dõi từng bước tạo công việc." },
-        { title: "Xem công việc được tạo", body: "Work card hiển thị tên việc, người phụ trách, thời hạn và trạng thái." },
+        { title: "Xem công việc được tạo", body: "Thẻ công việc hiển thị tên việc, người phụ trách, thời hạn và trạng thái." },
         { title: "Theo dõi trong Việc của tôi", body: "Mở danh sách để thấy công việc vừa tạo, rồi thử lại với tình huống khác." },
       ],
       cta: "Xem cách tạo công việc", help: "Hướng dẫn bắt đầu", privacy: "Quyền riêng tư trên website", about: "Tìm hiểu về Elynto",

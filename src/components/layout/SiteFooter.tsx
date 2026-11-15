@@ -5,6 +5,7 @@ import type { PagesDictionary } from "@/content/pages/types";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 import { pageGroups, pagePath, type PageKey } from "@/lib/pages";
+import { MotionPreference } from "./MotionPreference";
 import { LanguageSwitch } from "./LanguageSwitch";
 
 type Props = {
@@ -59,8 +60,8 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
           </div>
 
           {/* Two columns on phones; from md up, one row of columns sized to their longest link. */}
-          <nav aria-label={footer.navLabel} className="grid grid-cols-2 gap-x-8 gap-y-10 md:flex md:justify-between md:gap-6">
-            {pageGroups.map((group) => (
+          <nav aria-label={footer.navLabel} className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-3 md:gap-6">
+            {pageGroups.filter(group => group.id !== "legal").map((group) => (
               <div key={group.id}>
                 <h2 className="text-[0.8125rem] font-semibold tracking-wide text-ink uppercase">{footer.groups[group.id]}</h2>
                 <ul className="mt-4 space-y-1">
@@ -70,10 +71,10 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
                         href={href(key)}
                         aria-current={key === current ? "page" : undefined}
                         {...track(key)}
-                        className={`inline-block py-1 text-[0.9375rem] leading-snug md:whitespace-nowrap ${linkClass}`}
+                        className={`inline-flex min-h-9 items-center py-1 text-[0.9375rem] leading-snug  ${linkClass}`}
                       >
                         {pages[key].navLabel}
-                        {pages[key].badge ? (
+                        {pages[key].badge && !pages[key].navLabel.toLowerCase().includes(pages[key].badge!.toLowerCase()) ? (
                           <span className="ml-2 inline-block rounded-md bg-brand-50 px-1.5 py-px align-[0.08em] text-[0.6875rem] leading-4 font-semibold tracking-wide text-brand-600 ring-1 ring-brand-100 ring-inset">
                             {pages[key].badge}
                           </span>
@@ -101,6 +102,7 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
                 </li>
               ))}
             </ul>
+            <MotionPreference lang={lang} />
             <LanguageSwitch current={lang} label={footer.languageLabel} location="footer" />
           </div>
         </div>
