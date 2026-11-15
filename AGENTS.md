@@ -7,3 +7,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+
+## Release policy
+
+The user requires preview-first work for every change. Implement on a separate branch and deploy only a preview for review. Do not merge into main, deploy Production, or promote a preview until the user explicitly approves that specific preview. Approval to implement a proposal is not release approval.

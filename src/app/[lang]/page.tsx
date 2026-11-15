@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { CustomerGallery } from "@/components/sections/CustomerGallery";
 import { Audience } from "@/components/sections/Audience";
 import { Benefits } from "@/components/sections/Benefits";
 import { Faq } from "@/components/sections/Faq";
@@ -55,6 +56,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         <Benefits dict={dict} />
         <HowItWorks lang={lang} dict={dict} />
         <Audience dict={dict} />
+        <CustomerGallery lang={lang} />
         <Confidence lang={lang} />
         <StartWithElynto lang={lang} />
         <Faq dict={dict} />
