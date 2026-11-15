@@ -176,7 +176,7 @@ export const vi: PagesDictionary = {
     sections: [
       {
         heading: "Mở Elynto",
-        body: ["Nhấn Dùng thử miễn phí để mở Elynto tại beta.elynto.io. Nếu đã có tài khoản, chọn Đăng nhập."],
+        body: ["Thử bản mẫu ngay trên trang chủ, hoặc chọn Đăng ký beta để mở trang tạo tài khoản. Nếu đã có tài khoản, chọn Đăng nhập. Quyền truy cập phụ thuộc đợt beta hiện tại."],
       },
       {
         heading: "Tạo công việc đầu tiên",
@@ -283,7 +283,7 @@ export const vi: PagesDictionary = {
     ],
   },
   contact: {
-    navLabel: "Liên hệ",
+    navLabel: "Trợ giúp & liên hệ",
     eyebrow: "Liên hệ",
     title: "Liên hệ với Elynto",
     description: "Câu hỏi về sản phẩm, góp ý hay đề xuất hợp tác, hãy gửi cho chúng tôi.",
@@ -310,7 +310,7 @@ export const vi: PagesDictionary = {
       {
         heading: "Thống kê truy cập",
         body: [
-          "Để biết website được dùng thế nào, website tự ghi nhận: trang được xem, lượt bấm Dùng thử miễn phí và Đăng nhập (kèm vị trí nút), thời điểm, loại thiết bị, trình duyệt, hệ điều hành, quốc gia và trang web đã dẫn bạn tới.",
+          "Để biết website được dùng thế nào, website tự ghi nhận: trang được xem, lượt bấm Đăng ký beta và Đăng nhập (kèm vị trí nút), các mốc xem bản mẫu, thấy thẻ công việc và mở danh sách công việc, thời điểm, loại thiết bị, trình duyệt, hệ điều hành, quốc gia và trang web đã dẫn bạn tới.",
           "Quốc gia được suy ra từ địa chỉ IP lúc truy cập. Địa chỉ IP và chuỗi nhận dạng trình duyệt không được lưu.",
         ],
       },
@@ -329,7 +329,7 @@ export const vi: PagesDictionary = {
       {
         heading: "Không có biểu mẫu thu thập thông tin",
         body: [
-          "Website không có biểu mẫu đăng ký hay đăng nhập. Các nút Dùng thử miễn phí và Đăng nhập chuyển bạn sang ứng dụng Elynto tại beta.elynto.io.",
+          "Website không có biểu mẫu đăng ký hay đăng nhập. Các nút Đăng ký beta và Đăng nhập chuyển bạn sang ứng dụng Elynto tại beta.elynto.io.",
         ],
       },
       {

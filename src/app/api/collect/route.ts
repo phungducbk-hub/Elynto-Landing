@@ -4,7 +4,7 @@ import { isBot } from "@/lib/stats/user-agent";
 
 const MAX_BODY = 4_096;
 
-/** Receives page views and button clicks from the site's own pages (see lib/stats/client.ts). */
+/** Receives page views, demo milestones and button clicks from the site's own pages. */
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
   const host = request.headers.get("host");

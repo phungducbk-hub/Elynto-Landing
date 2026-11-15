@@ -122,6 +122,18 @@ export default async function StatsPage({ searchParams }: Props) {
         <KpiRow totals={totals} previous={previous} />
       </div>
 
+      <section aria-labelledby="demo-funnel-title" className="mt-4 rounded-2xl border border-line bg-surface p-5 sm:p-6">
+        <h2 id="demo-funnel-title" className="text-base font-semibold text-ink">Từ bản mẫu đến lượt bấm đăng ký</h2>
+        <p className="mt-2 text-sm leading-relaxed text-ink-muted">Mỗi bước đếm một lần cho một lượt truy cập, theo đúng thứ tự. Phát lại không làm tăng số lượt.</p>
+        <dl className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {[
+            ["Xem bản mẫu", totals.demoViews], ["Thấy work card", totals.workCards],
+            ["Mở My Work", totals.workLists], ["Bấm đăng ký sau demo", totals.signupAfterDemo],
+          ].map(([label, value]) => <div key={label} className="rounded-xl border border-line bg-canvas p-4"><dt className="text-xs text-ink-muted">{label}</dt><dd className="mt-2 text-2xl font-semibold text-ink">{formatNumber(Number(value))}</dd></div>)}
+        </dl>
+        <p className="mt-4 text-xs leading-relaxed text-ink-muted">Đăng ký thành công: chưa kết nối dữ liệu xác nhận từ app. Lượt bấm đăng ký không được tính là tài khoản đã tạo. Các mốc demo chỉ có dữ liệu từ lần cập nhật này.</p>
+      </section>
+
       <div className="mt-4 grid gap-4 xl:grid-cols-2">
         <Card title="Người truy cập và lượt truy cập" description="Một người vào nhiều lần vẫn tính là một người truy cập.">
           <TrendChart
@@ -135,14 +147,14 @@ export default async function StatsPage({ searchParams }: Props) {
             ]}
           />
         </Card>
-        <Card title="Lượt bấm nút" description="Số lần bấm “Dùng thử miễn phí” và “Đăng nhập”.">
+        <Card title="Lượt bấm nút" description="Số lần bấm “Đăng ký beta” và “Đăng nhập”.">
           <TrendChart
             kind="columns"
             labels={labels}
             fullLabels={fullLabels}
-            ariaLabel="Biểu đồ cột lượt bấm Dùng thử miễn phí và Đăng nhập theo kỳ"
+            ariaLabel="Biểu đồ cột lượt bấm Đăng ký beta và Đăng nhập theo kỳ"
             series={[
-              { name: "Dùng thử miễn phí", color: SERIES.first, values: report.periods.map((p) => p.signupClicks) },
+              { name: "Đăng ký beta", color: SERIES.first, values: report.periods.map((p) => p.signupClicks) },
               { name: "Đăng nhập", color: SERIES.second, values: report.periods.map((p) => p.loginClicks) },
             ]}
           />

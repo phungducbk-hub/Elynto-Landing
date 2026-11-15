@@ -21,7 +21,7 @@ export const en: Dictionary = {
     howItWorks: "How it works",
     faq: "FAQ",
     login: "Log in",
-    startTrial: "Start free trial",
+    startTrial: "Join beta",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     mainNav: "Main navigation",
@@ -30,9 +30,8 @@ export const en: Dictionary = {
   },
   hero: {
     eyebrow: "Elynto - AI-powered work management",
-    description:
-      "Just describe what needs to get done. Elynto helps you create and assign tasks, plan projects with AI, and track progress - all in one place.",
-    primaryCta: "Start free trial",
+    description: "Elynto helps freelancers and small teams create work, plan projects, discuss and follow progress in one place.",
+    primaryCta: "Join the Elynto beta",
     secondaryCta: "See it in action",
   },
   demo: {
@@ -85,7 +84,7 @@ export const en: Dictionary = {
   },
   howItWorks: {
     eyebrow: "How it works",
-    title: "From what you want done to work that’s clear",
+    title: "One flow, from intent to outcome.",
     intro:
       "Elynto turns a plain description into structured tasks, helps you plan, and lets you follow everything in clear, visual views.",
   },
@@ -493,37 +492,21 @@ export const en: Dictionary = {
     title: "Frequently asked questions",
     intro: "A few things you might want to know before you start.",
     items: [
-      {
-        id: "what",
-        q: "What is Elynto?",
-        a: "Elynto is an AI-powered work management system. You describe what needs to get done in plain words, and Elynto helps turn it into tasks with an owner, a due date and a status. You can also plan projects with AI and track progress in one place.",
-      },
-      {
-        id: "solo",
-        q: "Can I use Elynto on my own?",
-        a: "Yes. You can use Elynto to manage your own tasks and projects. When you work with others, you can assign tasks to each person so everyone knows what they own.",
-      },
-      {
-        id: "prompt",
-        q: "Do I need to know how to write prompts?",
-        a: "No. Just write it the way you’d message a colleague: what needs doing, who’s doing it and when it’s due. Once a task is created, you can always review and edit it directly.",
-      },
-      {
-        id: "language",
-        q: "How does Elynto handle Vietnamese and English?",
-        a: "This website is fully available in Vietnamese and English. In the app, you can describe tasks in either Vietnamese or English. Elynto is in beta, so some parts of the app may not be available in both languages yet.",
-      },
-      {
-        id: "start",
-        q: "Where do I start a free trial?",
-        a: "Click “Start free trial” on this page to open Elynto at beta.elynto.io and get started. If you already have an account, choose “Log in”.",
-      },
+      { id: "what", q: "What is Elynto?", a: "Elynto is an AI-powered work management system for freelancers and small teams. Describe what needs to happen, then keep work, project plans and conversations in one place." },
+      { id: "solo", q: "Can I use Elynto on my own?", a: "Yes. You can use Elynto to manage your own tasks and projects. When you work with others, assign work so everyone knows what they own." },
+      { id: "prompt", q: "Do I need to know how to write prompts?", a: "No. Write as you would to a colleague: what needs doing, who owns it and when it is due. Once work is created, you can review and edit it directly." },
+      { id: "trial", q: "Can I try it before signing up?", a: "Yes. The interactive demo uses sample data and needs no account or payment card. Choose a request, see the work card and open the new task in My Work." },
+      { id: "availability", q: "Is everything shown available to every account?", a: "Elynto is in beta. Access and features may vary between beta releases. The AI Summary card marked Preview illustrates the intended experience; your workspace shows the features available to you." },
+      { id: "plans", q: "How do pricing, trials and AI limits work?", a: "Official pricing, trial duration and AI/video limits have not been published on this page. The on-page demo is free. Check the current beta information when signing up before using Elynto for real work." },
+      { id: "privacy", q: "Does the demo use my real work data?", a: "No. The demo uses fictional browser-local data. It does not call an AI service or create work in your account. The Website privacy page explains the website usage statistics collected on this site." },
+      { id: "language", q: "How does Elynto support Vietnamese and English?", a: "The website and demo support Vietnamese and English. Use the footer selector to switch language. Language coverage in the beta app depends on the features currently available." },
+      { id: "start", q: "How do I get started?", a: "Choose Join beta to open account creation, or Log in if you already have an account. Access depends on current beta availability. The Getting started and Writing effective requests guides help you explore first." },
     ],
   },
   finalCta: {
-    title: "Start with one thing you need to get done.",
-    body: "Bring your work into Elynto and start managing it all in one place.",
-    cta: "Start free trial",
+    title: "Give your first task a clear place to land.",
+    body: "Explore the sample experience, then join the beta when you are ready.",
+    cta: "Join the Elynto beta",
     loginPrompt: "Already have an account?",
     login: "Log in",
   },
@@ -553,7 +536,7 @@ export const en: Dictionary = {
     step: "Step",
     contact: {
       emailLabel: "Email",
-      pending: "Our official contact channel will be listed here.",
+      pending: "Explore the guides below, or open the beta app to check the access available to you.",
       helpTitle: "Your answer may already be here",
       helpBody: "Many questions about getting started and using Elynto are covered on these pages.",
     },

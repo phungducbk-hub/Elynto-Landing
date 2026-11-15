@@ -84,8 +84,8 @@ export function WorkTableScreen({ delegated = false, createdRow, lang = "en" }: 
       <div aria-hidden="true" className="hidden shrink-0 items-center gap-3 text-ink-muted xl:flex"><Search className="size-3.5" /><SlidersHorizontal className="size-3.5" /><CalendarDays className="size-3.5" /><Plus className="size-3.5" /></div>
     </div>
     <div role="region" aria-label={delegated ? ui.delegatedTable : ui.myWorkTable} tabIndex={0} className="overflow-x-auto rounded-xl border border-line bg-white">
-      <table className="w-full min-w-[560px] text-left text-[11px]">
-        <thead className="border-b border-line text-[9px] font-normal text-ink-muted uppercase"><tr>{[ui.work, delegated ? ui.assignedTo : ui.assignedBy, ui.created, ui.due, ui.priority, ui.status, ui.files].map(label => <th scope="col" className="px-3 py-3 font-normal" key={label}>{label}</th>)}</tr></thead>
+      <table className="w-full min-w-[560px] text-left text-xs">
+        <thead className="border-b border-line text-[11px] font-normal text-ink-muted uppercase"><tr>{[ui.work, delegated ? ui.assignedTo : ui.assignedBy, ui.created, ui.due, ui.priority, ui.status, ui.files].map(label => <th scope="col" className="px-3 py-3 font-normal" key={label}>{label}</th>)}</tr></thead>
         <tbody className="divide-y divide-line">
           {!delegated && <tr className="bg-canvas"><td colSpan={7} className="px-3 py-2 text-ink-muted"><ChevronDown className="mr-2 inline size-3" />{ui.otherWork} <span className="ml-1">{rows.length}</span></td></tr>}
           {rows.map((row, i) => <tr key={`${row.title}-${i}`} data-created-work={createdRow === row ? "" : undefined} className={createdRow === row ? "bg-brand-50 motion-safe:animate-rise" : undefined}><td className="max-w-[180px] px-3 py-4 leading-relaxed"><Flag className={cn("mr-2 inline size-3", i === 1 ? "fill-[#b95050] text-[#b95050]" : "text-ink-muted")} />{row.title}</td><td className="px-3 py-4"><span className="mr-1.5 inline-grid size-4 place-items-center rounded-full bg-brand/10 text-[8px] text-brand">{delegated ? row.name[0] : "A"}</span>{delegated ? row.name : ui.you}</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">14/11/2026</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">{row.due}</td><td className="px-3 py-4 text-ink-muted">{ui.medium}</td><td className="px-3 py-4"><span className={cn("whitespace-nowrap rounded border border-line px-1.5 py-0.5 text-[10px]", row.status === "In progress" ? "bg-[#e8f0fa] text-[#305b83]" : "bg-sunken text-ink")}>{row.status === "In progress" ? ui.inProgress : ui.assigned}</span></td><td className="px-3 py-4 text-ink-muted">{i === 1 ? "1" : "-"}</td></tr>)}
@@ -120,7 +120,7 @@ function CreatedWorkCard({ work, success, lang, onOpen }: { work: DemoWorkRow; s
     <article data-work-card aria-label={success} className="mt-5 rounded-xl border border-line bg-white p-5 shadow-card motion-safe:animate-rise">
       <p className="flex items-center gap-2 text-sm font-semibold text-status-done"><CircleCheck className="size-4" aria-hidden="true" />{success}</p>
       <p className="mt-4 text-base font-semibold text-ink">{work.title}</p>
-      <dl className="mt-4 grid grid-cols-[7rem_1fr] gap-x-3 gap-y-3 text-xs">
+      <dl className="mt-4 grid grid-cols-[7rem_1fr] gap-x-3 gap-y-3 text-sm">
         <dt className="text-ink-muted">{ui.assignedTo}</dt><dd className="font-medium">{work.name}</dd>
         <dt className="text-ink-muted">{ui.due}</dt><dd className="font-medium">{work.due}</dd>
         <dt className="text-ink-muted">{ui.priority}</dt><dd>{ui.medium}</dd>
@@ -172,6 +172,7 @@ export function ProductDemo({ copy, examples, lang, label, caption }: {
   const timeline = useMemo(() => demoTimeline(chars.length), [chars.length]);
   const elapsed = useRef(0);
   const created = useRef(false);
+  const milestones = useRef(new Set<string>());
   const [snap, setSnap] = useState<DemoSnapshot>({ phase: "typing", chars: 0 });
   const [createdWork, setCreatedWork] = useState<DemoWorkRow | null>(null);
   const [userPaused, setUserPaused] = useState(false);
@@ -241,6 +242,22 @@ export function ProductDemo({ copy, examples, lang, label, caption }: {
     return () => cancelAnimationFrame(frame);
   }, [running, timeline, chars.length, scenario]);
 
+  useEffect(() => {
+    if (!inView || !pageVisible) {
+      // Re-entry may start a new visit after inactivity; aggregation deduplicates existing visits.
+      milestones.current.clear();
+      return;
+    }
+    const stages = ["view"];
+    if (screen === "Today" && snap.phase === "card" && createdWork) stages.push("work_card");
+    if (createdWork && (screen === "My Work" || (screen === "Today" && snap.phase === "done"))) stages.push("work_list");
+    for (const stage of stages) {
+      if (milestones.current.has(stage)) continue;
+      milestones.current.add(stage);
+      track("demo_milestone", { stage });
+    }
+  }, [inView, pageVisible, screen, snap.phase, createdWork]);
+
   const replay = useCallback((source: string) => {
     elapsed.current = 0;
     created.current = false;
@@ -289,7 +306,7 @@ export function ProductDemo({ copy, examples, lang, label, caption }: {
   const status = snap.phase === "card" || snap.phase === "done" ? copy.success : snap.phase === "processing" ? copy.processing : isVietnamese ? "Viết yêu cầu như cách bạn giao việc." : "Write a request as you would to a teammate.";
   const composer = (
     <div className="flex items-end gap-3 rounded-2xl border border-brand/40 bg-white p-3 shadow-sm">
-      <p data-demo-typed lang={lang} className="min-h-10 flex-1 text-xs leading-relaxed text-ink">
+      <p data-demo-typed lang={lang} className="min-h-10 flex-1 text-sm leading-relaxed text-ink">
         {typed || <span className="text-ink-muted">{copy.placeholder}</span>}
         {snap.phase === "typing" && <span aria-hidden="true" className="ml-0.5 inline-block h-3 w-px animate-caret bg-brand motion-reduce:animate-none" />}
       </p>

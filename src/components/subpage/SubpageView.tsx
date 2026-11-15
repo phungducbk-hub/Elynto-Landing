@@ -295,6 +295,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
                     {subpage.contact.pending}
                   </p>
                 )}
+                {!siteConfig.contactEmail ? <div className="mt-5"><ButtonLink href={siteConfig.signupUrl}>{dict.nav.startTrial}<ArrowRight aria-hidden="true" className="size-4" /></ButtonLink></div> : null}
               </div>
               <h2 {...reveal()} className="mt-14 text-xl font-semibold text-ink">
                 {subpage.contact.helpTitle}
@@ -333,7 +334,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
 
         {group !== "legal" ? (
           <div className="pt-16 sm:pt-20">
-            <FinalCta dict={dict} />
+            <FinalCta dict={dict} demoHref={`/${lang}#demo`} />
           </div>
         ) : null}
       </main>

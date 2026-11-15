@@ -7,6 +7,7 @@ import { WordSwap, type SwapWord } from "@/components/ui/WordSwap";
 import { productMedia } from "@/config/media";
 import { reveal } from "@/lib/reveal";
 import { siteConfig } from "@/config/site";
+import { getExperienceCopy } from "@/content/experience";
 import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 
@@ -25,6 +26,7 @@ const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-visual-in lg:mot
 
 export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const { hero, demo } = dict;
+  const experience = getExperienceCopy(lang);
   const video = productMedia.heroDemo[lang];
 
   return (
@@ -34,7 +36,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(ellipse_at_50%_0%,var(--color-brand-100),transparent_70%)]"
       />
-      <Container className="flex flex-col items-center gap-12 pt-14 pb-16 sm:gap-16 sm:pt-20 lg:pt-24 lg:pb-24">
+      <Container className="flex flex-col items-center gap-12 pt-12 pb-16 sm:pt-16 lg:pt-20 lg:pb-20">
         {/* @container: the vision sizes itself to this column so its longest line never wraps. */}
         <div className="@container w-full max-w-4xl text-center">
           <h1 id="hero-title">
@@ -54,7 +56,8 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               </span>
             </span>
           </h1>
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-ink-muted text-pretty [--enter-delay:160ms] motion-safe:animate-rise sm:text-lg sm:leading-relaxed">
+          <p className="mx-auto mt-7 max-w-3xl text-lg font-semibold leading-snug text-ink text-balance [--enter-delay:160ms] motion-safe:animate-rise sm:text-2xl">{experience.promise}</p>
+          <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-muted text-pretty [--enter-delay:160ms] motion-safe:animate-rise sm:text-lg sm:leading-relaxed">
             {hero.description}
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 [--enter-delay:240ms] motion-safe:animate-rise sm:flex-row sm:items-center">
@@ -78,9 +81,10 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               {hero.secondaryCta}
             </ButtonLink>
           </div>
+          <p className="mt-4 text-xs leading-relaxed text-ink-muted sm:text-sm">{experience.assurance}</p>
         </div>
 
-        {/* On load: the copy rises line by line, then the demo slides in from the right. */}
+        {/* The hero and demo share the approved 64px / 1s entrance settings. */}
         <div {...reveal("visual", 80)} className="harbor-demo-stage w-full max-w-6xl rounded-2xl border border-brand-200/70 bg-brand-50 p-3 shadow-[0_32px_100px_-50px_rgb(26_98_137/0.35)] sm:p-5">
           {video ? (
             <DemoVideo video={video} copy={demo} className={demoEntrance} />

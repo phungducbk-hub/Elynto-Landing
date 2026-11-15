@@ -3,6 +3,13 @@ function envOr(value: string | undefined, fallback: string) {
   return trimmed ? trimmed : fallback;
 }
 
+/** Older deployments used the beta root for both actions; keep their env overrides working. */
+function authUrl(value: string | undefined, path: "/sign-up" | "/sign-in") {
+  const url = new URL(envOr(value, `https://beta.elynto.io${path}`));
+  if (url.origin === "https://beta.elynto.io" && url.pathname === "/") url.pathname = path;
+  return url.toString();
+}
+
 export const siteConfig = {
   name: "Elynto",
   /** Public URL of this landing page — used for canonical links, sitemap and Open Graph. */
@@ -19,14 +26,9 @@ export const siteConfig = {
     subjects: ["you", "your team"],
     tail: "and work",
   },
-  /**
-   * Sign-up entry point for every "Start free trial" button.
-   * The dedicated sign-up route of beta.elynto.io has not been confirmed yet,
-   * so the app root is used. Override with NEXT_PUBLIC_SIGNUP_URL once known.
-   */
-  signupUrl: envOr(process.env.NEXT_PUBLIC_SIGNUP_URL, "https://beta.elynto.io"),
-  /** Log-in entry point. Same note as above. */
-  loginUrl: envOr(process.env.NEXT_PUBLIC_LOGIN_URL, "https://beta.elynto.io"),
+  /** Verified against the app's sign-up and sign-in route source; beta availability is managed by the app. */
+  signupUrl: authUrl(process.env.NEXT_PUBLIC_SIGNUP_URL, "/sign-up"),
+  loginUrl: authUrl(process.env.NEXT_PUBLIC_LOGIN_URL, "/sign-in"),
   /** Shown on the Contact page. No address has been confirmed yet, so it stays empty until set. */
   contactEmail: envOr(process.env.NEXT_PUBLIC_CONTACT_EMAIL, ""),
 };

@@ -21,7 +21,7 @@ export const vi: Dictionary = {
     howItWorks: "Cách hoạt động",
     faq: "Câu hỏi thường gặp",
     login: "Đăng nhập",
-    startTrial: "Dùng thử miễn phí",
+    startTrial: "Đăng ký beta",
     openMenu: "Mở menu",
     closeMenu: "Đóng menu",
     mainNav: "Điều hướng chính",
@@ -31,8 +31,8 @@ export const vi: Dictionary = {
   hero: {
     eyebrow: "Elynto - Quản lý công việc bằng AI",
     description:
-      "Chỉ cần mô tả việc cần làm. Elynto giúp bạn tạo và giao việc, lập kế hoạch dự án với AI và theo dõi tiến độ - tất cả trong một nơi.",
-    primaryCta: "Dùng thử miễn phí",
+      "Elynto giúp freelancer và nhóm nhỏ tạo việc, lập kế hoạch, trao đổi và theo dõi tiến độ trong cùng một nơi.",
+    primaryCta: "Đăng ký trải nghiệm beta",
     secondaryCta: "Xem Elynto hoạt động",
   },
   demo: {
@@ -85,7 +85,7 @@ export const vi: Dictionary = {
   },
   howItWorks: {
     eyebrow: "Cách hoạt động",
-    title: "Từ điều bạn muốn làm đến công việc rõ ràng",
+    title: "Một mạch làm việc, từ ý định đến kết quả.",
     intro:
       "Elynto chuyển lời mô tả thành công việc có cấu trúc, giúp bạn lập kế hoạch và theo dõi tất cả trên giao diện trực quan.",
   },
@@ -413,7 +413,7 @@ export const vi: Dictionary = {
         title: "Nhóm nhỏ",
         who: "Người quản lý nhóm",
         body: "Ai cũng rõ mình phụ trách việc gì, hạn khi nào và đang đến đâu.",
-        examples: ["Chuẩn bị chiến dịch nội dung", "Làm báo giá tuần"],
+        examples: ["Chuẩn bị chiến dịch nội dung", "Làm báo cáo tuần"],
       },
       {
         title: "Chủ doanh nghiệp nhỏ",
@@ -493,37 +493,21 @@ export const vi: Dictionary = {
     title: "Câu hỏi thường gặp",
     intro: "Những điều bạn có thể muốn biết trước khi bắt đầu.",
     items: [
-      {
-        id: "what",
-        q: "Elynto là gì?",
-        a: "Elynto là hệ thống quản lý công việc bằng AI. Bạn mô tả việc cần làm bằng lời thường, Elynto giúp biến nó thành công việc có người phụ trách, thời hạn và trạng thái. Bạn cũng có thể lập kế hoạch dự án với AI và theo dõi tiến độ trong một nơi.",
-      },
-      {
-        id: "solo",
-        q: "Tôi có thể dùng Elynto một mình không?",
-        a: "Có. Bạn có thể dùng Elynto để quản lý việc cá nhân và dự án của riêng mình. Khi làm việc cùng người khác, bạn có thể giao việc cho từng người để ai cũng rõ phần việc của mình.",
-      },
-      {
-        id: "prompt",
-        q: "Tôi có cần biết viết prompt không?",
-        a: "Không. Bạn chỉ cần viết như khi nhắn việc cho đồng nghiệp: việc gì, ai làm, khi nào xong. Sau khi công việc được tạo, bạn luôn có thể xem lại và chỉnh sửa trực tiếp trên giao diện.",
-      },
-      {
-        id: "language",
-        q: "Elynto hỗ trợ tiếng Việt và tiếng Anh như thế nào?",
-        a: "Trang giới thiệu này có đầy đủ tiếng Việt và tiếng Anh. Trong ứng dụng, bạn có thể mô tả công việc bằng tiếng Việt hoặc tiếng Anh. Elynto đang trong giai đoạn beta, nên một số phần của ứng dụng có thể chưa có đủ hai ngôn ngữ.",
-      },
-      {
-        id: "start",
-        q: "Tôi bắt đầu dùng thử ở đâu?",
-        a: "Nhấn “Dùng thử miễn phí” trên trang này để mở Elynto tại beta.elynto.io và bắt đầu. Nếu đã có tài khoản, hãy chọn “Đăng nhập”.",
-      },
+      { id: "what", q: "Elynto là gì?", a: "Elynto là hệ thống quản lý công việc bằng AI dành cho freelancer và nhóm nhỏ. Bạn mô tả việc cần làm, rồi theo dõi công việc, kế hoạch dự án và cuộc trao đổi trong cùng một nơi." },
+      { id: "solo", q: "Tôi có thể dùng Elynto một mình không?", a: "Có. Bạn có thể dùng Elynto để quản lý việc cá nhân và dự án của riêng mình. Khi làm việc cùng người khác, bạn có thể giao việc cho từng người để ai cũng rõ phần việc của mình." },
+      { id: "prompt", q: "Tôi có cần biết viết prompt không?", a: "Không. Bạn chỉ cần viết như khi nhắn việc cho đồng nghiệp: việc gì, ai làm, khi nào xong. Sau khi công việc được tạo, bạn có thể xem lại và chỉnh sửa trực tiếp." },
+      { id: "trial", q: "Tôi có thể thử trước khi đăng ký không?", a: "Có. Bản mẫu tương tác trên trang dùng dữ liệu mẫu, không cần tài khoản hoặc thẻ thanh toán. Bạn có thể chọn yêu cầu, xem work card được tạo và mở công việc trong Việc của tôi." },
+      { id: "availability", q: "Các tính năng trong hình có sẵn cho mọi tài khoản không?", a: "Elynto đang trong giai đoạn beta. Quyền truy cập và tính năng có thể khác nhau theo đợt mở. Thẻ AI Summary gắn nhãn Xem trước minh họa trải nghiệm; bạn sẽ thấy các tính năng khả dụng trong workspace của mình." },
+      { id: "plans", q: "Giá, thời hạn dùng thử và hạn mức AI được tính thế nào?", a: "Trang này chưa công bố bảng giá, thời hạn trial hoặc hạn mức AI/video chính thức. Bản mẫu trên trang là miễn phí. Hãy kiểm tra thông tin của đợt beta khi đăng ký trước khi đưa công việc thực tế vào sử dụng." },
+      { id: "privacy", q: "Bản mẫu có sử dụng dữ liệu công việc thật của tôi không?", a: "Không. Bản mẫu chạy với dữ liệu giả ngay trong trình duyệt, không gửi yêu cầu AI hay tạo công việc trong tài khoản của bạn. Trang Quyền riêng tư giải thích những thống kê được ghi nhận trên website." },
+      { id: "language", q: "Elynto hỗ trợ tiếng Việt và tiếng Anh như thế nào?", a: "Trang giới thiệu và bản mẫu có tiếng Việt/Anh. Bạn có thể đổi ngôn ngữ ở chân trang. Trong app beta, khả năng hiển thị hai ngôn ngữ phụ thuộc phần tính năng đang được mở." },
+      { id: "start", q: "Tôi bắt đầu với Elynto ở đâu?", a: "Chọn Đăng ký beta để mở trang tạo tài khoản, hoặc Đăng nhập nếu bạn đã có tài khoản. Quyền tham gia phụ thuộc đợt mở beta hiện tại. Các trang Hướng dẫn bắt đầu và Viết yêu cầu hiệu quả giúp bạn làm quen trước." },
     ],
   },
   finalCta: {
-    title: "Bắt đầu với một việc bạn cần hoàn thành.",
-    body: "Đưa công việc của bạn vào Elynto và bắt đầu quản lý trong một nơi.",
-    cta: "Dùng thử miễn phí",
+    title: "Đưa việc đầu tiên vào đúng chỗ.",
+    body: "Khám phá bản mẫu ngay trên trang, hoặc đăng ký beta để bắt đầu với Elynto.",
+    cta: "Đăng ký trải nghiệm beta",
     loginPrompt: "Đã có tài khoản?",
     login: "Đăng nhập",
   },
@@ -553,7 +537,7 @@ export const vi: Dictionary = {
     step: "Bước",
     contact: {
       emailLabel: "Email",
-      pending: "Kênh liên hệ chính thức sẽ được cập nhật tại đây.",
+      pending: "Bạn có thể bắt đầu bằng các hướng dẫn bên dưới hoặc mở trang đăng ký beta. Kênh liên hệ trực tiếp sẽ được bổ sung khi được công bố.",
       helpTitle: "Có thể bạn tìm thấy câu trả lời ở đây",
       helpBody: "Nhiều câu hỏi về cách bắt đầu và cách dùng Elynto đã có trong các trang sau.",
     },

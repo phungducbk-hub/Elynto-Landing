@@ -43,7 +43,7 @@ export function Testimonials({ items, label }: Props) {
         <div
           role="region"
           aria-label={label}
-          className="group/region flex max-h-[46rem] justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"
+          className="group/region flex max-h-[32rem] sm:max-h-[36rem] justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"
         >
           {/* Phones: one column with every card. Wider: columns at different speeds and start
               offsets, so they are out of step from the first frame. */}

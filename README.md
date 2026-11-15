@@ -30,6 +30,7 @@ Kiểm tra chất lượng:
 ```bash
 npm run lint
 npm run typecheck
+npm run test:unit                 # collector, funnel, quyền riêng tư và đích CTA
 npx playwright install chromium   # chỉ cần lần đầu
 npm run test:e2e                  # tự build và chạy server ở cổng 3100
 ```
@@ -50,8 +51,8 @@ src/
     globals.css               design tokens (@theme) + style nền
     icon.svg, favicon.ico, apple-icon.png
     robots.ts, sitemap.ts
-  proxy.ts                    "/" → /vi hoặc /en (cookie → Accept-Language → mặc định vi)
-  content/vi.ts, en.ts        TOÀN BỘ nội dung chữ, có kiểu dữ liệu chung (types.ts)
+  proxy.ts                    "/" → /vi hoặc /en (cookie → quốc gia → Accept-Language → mặc định en)
+  content/vi.ts, en.ts        nội dung chính (lời dẫn hành trình trong content/experience.ts), có kiểu dữ liệu chung (types.ts)
   content/pages/vi.ts, en.ts  nội dung các trang con
   lib/pages.ts                danh sách trang con, nhóm cột footer, đường dẫn
   config/site.ts              URL trang, URL đăng ký/đăng nhập, email liên hệ, quy tắc index
@@ -61,7 +62,7 @@ src/
   lib/stats/                  thống kê truy cập: ghi nhận (client.ts), kiểm tra (collect.ts),
                               lưu trữ (store.ts), tổng hợp (aggregate.ts), đăng nhập (auth.ts)
   app/stats/                  trang thống kê /stats và trang đăng nhập (layout riêng, không index)
-  app/api/collect/            nhận lượt xem trang và lượt bấm nút
+  app/api/collect/            nhận lượt xem trang, mốc demo và lượt bấm nút
   app/api/stats/export/       tải bảng số liệu dạng CSV
   components/
     sections/                 Hero, Benefits, HowItWorks, Audience, Voices, Faq, FinalCta
@@ -87,10 +88,10 @@ assets/fonts/                 font dùng để vẽ ảnh Open Graph (SIL OFL)
 
 | Biến | Mặc định | Ý nghĩa |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SIGNUP_URL` | `https://beta.elynto.io` | Đích của mọi nút “Dùng thử miễn phí” |
-| `NEXT_PUBLIC_LOGIN_URL` | `https://beta.elynto.io` | Đích của nút “Đăng nhập” |
+| `NEXT_PUBLIC_SIGNUP_URL` | `https://beta.elynto.io/sign-up` | Đích của mọi nút đăng ký beta |
+| `NEXT_PUBLIC_LOGIN_URL` | `https://beta.elynto.io/sign-in` | Đích của nút “Đăng nhập” |
 | `NEXT_PUBLIC_SITE_URL` | `https://elynto.io` | Canonical, sitemap, Open Graph |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | (trống) | Email hiện trên trang Liên hệ. Để trống thì trang ghi “sẽ được cập nhật” |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | (trống) | Email hiện trên trang Liên hệ. Để trống thì ưu tiên hướng dẫn và lối vào beta |
 | `SITE_INDEXABLE` | chỉ `true` trên Vercel Production | Cho phép công cụ tìm kiếm index |
 
 Biến `NEXT_PUBLIC_*` được đóng vào bản build. Sau khi đổi, cần build lại (trên Vercel: Redeploy).
@@ -109,12 +110,13 @@ planning: {
 
 Khi đã khai báo, trang tự dùng asset thật thay cho minh họa HTML. Video luôn tắt tiếng, có poster và nút phát/dừng, chỉ tải khi gần tới vùng nhìn thấy và tự dừng khi ra khỏi màn hình. Chỉ dùng dữ liệu mẫu, không quay dữ liệu khách hàng thật.
 
-**Hiệu ứng trượt** — có hai lớp:
+**Hành trình và chuyển động**
 
-- Phần mở đầu: chữ hiện dần từng dòng, sau đó khung demo trượt vào từ bên phải. Hiệu ứng chạy bằng CSS (`animate-rise`, `animate-enter-right`), độ trễ đặt bằng `[--enter-delay:80ms]`.
-- Hero dùng bản rút gọn của câu vision, chia ba dòng: “The interface” / “between” / “[you | your team] and work”. Nội dung khai báo ở `heroVision` trong `src/config/site.ts`. Câu vision đầy đủ (`vision`: “The interface between you and your work”) vẫn được dùng cho title, ảnh chia sẻ và footer. Chữ trong pill đổi qua lại giữa “you” và “your team” theo kiểu Notion (`ui/WordSwap.tsx`): mỗi chữ hiện 10 giây (`HOLD_MS`), chỉ đổi khi hero đang trên màn hình, và đứng yên ở “you” khi người xem bật giảm chuyển động. Trình đọc màn hình nhận câu “The interface between you and work”. Cỡ chữ tự co theo độ rộng cột (container query) để dòng dài nhất không xuống dòng.
-- Các phần còn lại: thêm `{...reveal("up" | "scale" | "visual" | "from-left" | "from-right", delayMs)}` vào phần tử. Khi phần tử cuộn vào màn hình, `RevealObserver` gắn `data-revealed` và nó trượt vào một lần. Chữ (`up`) trượt trong khoảng 1 giây. Hình sản phẩm (`visual`, `from-left`, `from-right`) trượt nhẹ hơn (lệch 1–1,5rem) và chậm hơn, khoảng 2,2 giây. `from-left`/`from-right` chỉ trượt ngang từ màn hình rộng ≥ 1024px; màn hình nhỏ trượt lên. Thời lượng và độ lệch nằm trong `src/app/globals.css` (`--reveal-move`, `--reveal-fade`, `--reveal-from`).
-- Script trong `<head>` chỉ ẩn phần tử trước khi hiện khi trình duyệt cho phép chuyển động. Người tắt chuyển động, không có JavaScript, hoặc in trang đều thấy đủ nội dung ngay. Nếu ứng dụng chưa chạy sau 4 giây, nội dung tự hiện.
+- Hero giữ slogan tiếng Anh với `you / your team`, đổi mỗi 2,8 giây. Khi bật giảm chuyển động, chữ vẫn đổi nhưng không cuộn trong pill.
+- Demo tự chạy khi phần sản phẩm vào màn hình: gõ 60ms/ký tự → gửi → skeleton → work card giữ 5 giây → Việc của tôi. Dữ liệu chỉ là state mẫu trong trình duyệt. Không gọi AI hay ghi vào app beta.
+- Hero và các khối khi cuộn dùng chung 64px / 1 giây / easing đối xứng. Nhóm chữ chuyển động cùng nhau; hình đi từ cạnh bên ở desktop, từ dưới lên ở mobile. Không dùng scale. Fallback khi JS chậm bảo đảm nội dung được hiện.
+- Sau hero là khối tình huống, rồi ba chương: ý định → đội nhóm → tiến độ. Ảnh đội nhóm và ảnh họp được tối ưu WebP; thẻ AI Summary có nhãn Xem trước / Preview.
+- Chi tiết phạm vi, kiểm tra và các mục chưa kết nối: [`REDESIGN-2026-11-14.md`](./REDESIGN-2026-11-14.md).
 
 **Khối “Nghe có quen không?”** (`sections/Voices.tsx`) dùng component testimonial (`ui/Testimonials.tsx`, chỉnh từ `testimonial-v2` của 21st.dev). Hiện khối chứa các tình huống tổng hợp từ nghiên cứu khách hàng, ghi theo vai trò, không gắn tên hay ảnh người thật. Khi có lời nhận xét thật, đã được khách đồng ý cho đăng, có thể thay nội dung trong `voices.items`, đổi nhãn tiêu đề và bỏ dòng ghi chú. Không dùng tên, ảnh hoặc lời nhận xét dựng sẵn.
 
@@ -135,9 +137,9 @@ Chưa kết nối dịch vụ nào. Mọi sự kiện được:
 | `example_select` | Chọn ví dụ ở phần “Tạo và giao việc” | `example` |
 | `view_tab_select` | Đổi tab cách xem của dự án (Danh sách, Lịch, Gantt) | `view` |
 | `faq_toggle` | Mở/đóng câu hỏi | `question`, `open` |
-| `testimonials_motion_toggle` | Dừng/chạy lại tường tình huống | `paused` |
+| `demo_milestone` | Demo, work card hoặc danh sách thực sự được hiển thị | `stage` (`view`, `work_card`, `work_list`) |
 
-Lượt bấm `cta_click` có `cta` là `signup` hoặc `login` đồng thời được ghi vào thống kê của website (mục Thống kê truy cập).
+Các mốc `demo_milestone` và lượt bấm `cta_click` có `cta` là `signup` hoặc `login` được ghi vào nơi lưu thống kê hiện hữu. Chỉ lưu mốc, không lưu câu lệnh hay nội dung công việc.
 | `mobile_menu_toggle` | Mở/đóng menu mobile | `open` |
 
 Mọi sự kiện đều có thêm `page_language`. Để theo dõi thêm một phần tử mới, thêm thuộc tính `data-track="cta_click" data-track-location="..."`.
@@ -148,7 +150,8 @@ Website tự ghi nhận lượt truy cập, không dùng dịch vụ bên thứ 
 
 **Số liệu có trên trang:**
 - Người truy cập, lượt truy cập, lượt xem trang; người mới và người quay lại; số trang mỗi lượt; tỷ lệ thoát.
-- Lượt bấm “Dùng thử miễn phí” và “Đăng nhập” (kèm số người bấm và vị trí nút); tỷ lệ bấm dùng thử.
+- Lượt bấm đăng ký beta và đăng nhập (kèm số người bấm và vị trí nút); tỷ lệ bấm đăng ký.
+- Funnel demo theo lượt truy cập: xem demo → thấy work card → mở Việc của tôi → bấm đăng ký. Mỗi bước đếm một lần/lượt theo thứ tự; replay không tăng số. Chưa có dữ liệu xác nhận đăng ký thành công từ app, nên không coi lượt bấm là tài khoản đã tạo. CSV có thêm bốn mốc này.
 - Biểu đồ và bảng theo ngày, tháng hoặc năm. Khoảng thời gian chọn sẵn (hôm nay, 7/30/90 ngày, 12 tháng, từ đầu năm) hoặc tự chọn. Mỗi số đều có so sánh với kỳ trước cùng độ dài.
 - Phân tích theo thiết bị (điện thoại, máy tính bảng, máy tính), trình duyệt, hệ điều hành, quốc gia, nguồn truy cập, chiến dịch (`utm_source`), trang được xem và ngôn ngữ.
 - Tải bảng số liệu dạng CSV.
@@ -185,8 +188,8 @@ Dữ liệu được đọc thẳng từ từng ngày và tổng hợp khi mở 
 
 ## Song ngữ
 
-- URL: `/vi` và `/en`. Truy cập `/` sẽ được chuyển hướng 307 theo thứ tự: lựa chọn đã lưu (cookie `elynto-lang`) → ngôn ngữ trình duyệt → `vi`. Trình duyệt chỉ có ngôn ngữ khác (ví dụ tiếng Pháp) sẽ nhận `en`.
-- Nút VI/EN ghi nhớ lựa chọn (cookie + localStorage) và giữ nguyên vị trí section (`#hash`).
+- URL: `/vi` và `/en`. Truy cập `/` sẽ được chuyển hướng 307 theo thứ tự: lựa chọn đã lưu (cookie `elynto-lang`) → quốc gia (`VN`: `vi`, quốc gia khác: `en`) → ngôn ngữ trình duyệt khi thiếu quốc gia → `en`. URL có `/vi` hoặc `/en` luôn được giữ nguyên; redirect cá nhân hóa dùng private/no-store.
+- Bộ chọn ngôn ngữ chỉ nằm ở footer, ghi nhớ lựa chọn (cookie + localStorage) và giữ nguyên trang con, query, section (`#hash`).
 - Mỗi ngôn ngữ có title, description, Open Graph, `hreflang` và ảnh chia sẻ riêng.
 - Câu vision “The interface between you and your work” giữ nguyên tiếng Anh ở cả hai bản và có `lang="en"`.
 

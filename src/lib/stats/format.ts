@@ -56,6 +56,8 @@ const locationNames: Record<string, string> = {
   final_cta: "Khối cuối trang",
   footer: "Chân trang",
   subpage: "Trang con",
+  start: "Lựa chọn bắt đầu",
+  proof: "Trải nghiệm bản mẫu",
 };
 
 export function ctaLocationLabel(location: string) {

@@ -31,12 +31,12 @@ export function Voices({ dict }: { dict: Dictionary }) {
 
   return (
     <section id="voices" aria-labelledby="voices-title">
-      <Container className="py-20 sm:py-28">
+      <Container className="py-16 sm:py-20">
         <SectionHeading id="voices-title" eyebrow={voices.eyebrow} title={voices.title} intro={voices.intro} align="center" />
         <p {...reveal("up", 200)} className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-ink-subtle text-pretty">
           {voices.note}
         </p>
-        <div {...reveal("scale", 120)} className="mt-12 sm:mt-14">
+        <div {...reveal("scale", 120)} className="mt-9 sm:mt-10">
           <Testimonials items={items} label={voices.regionLabel} />
         </div>
       </Container>

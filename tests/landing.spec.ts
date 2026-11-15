@@ -1,13 +1,15 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-const SIGNUP_URL = process.env.NEXT_PUBLIC_SIGNUP_URL ?? "https://beta.elynto.io";
+import { siteConfig } from "../src/config/site";
+
+const SIGNUP_URL = siteConfig.signupUrl;
 const HERO_VISION = "The interface between you and work";
 
 const copy = {
   vi: {
     eyebrow: "Elynto - Quản lý công việc bằng AI",
-    cta: "Dùng thử miễn phí",
+    cta: "Đăng ký trải nghiệm beta",
     demoCta: "Xem Elynto hoạt động",
     illustration: "Demo tương tác bằng dữ liệu mẫu",
     pause: "Tạm dừng minh họa",
@@ -22,7 +24,7 @@ const copy = {
   },
   en: {
     eyebrow: "Elynto - AI-powered work management",
-    cta: "Start free trial",
+    cta: "Join the Elynto beta",
     demoCta: "See it in action",
     illustration: "Interactive demo with sample data",
     pause: "Pause demo",
@@ -108,7 +110,7 @@ for (const lang of ["vi", "en"] as const) {
       await expect(heroCta).toHaveAttribute("href", SIGNUP_URL);
       await expect(heroCta).toContainText(t.cta);
 
-      // Every trial CTA points at the real sign-up entry point.
+      // Every beta CTA points at the real sign-up entry point.
       for (const href of await page.locator('a[data-track-cta="signup"]').evaluateAll((els) => els.map((el) => el.getAttribute("href")))) {
         expect(href).toBe(SIGNUP_URL);
       }
@@ -132,7 +134,7 @@ for (const lang of ["vi", "en"] as const) {
 
     test("demo controls and 'see it in action' work", async ({ page }) => {
       await page.goto(`/${lang}`);
-      await page.getByRole("link", { name: t.demoCta }).click();
+      await page.locator('a[data-track-location="hero"][data-track-cta="see_demo"]').click();
       await expect(page.locator("#demo")).toBeInViewport();
 
       const demo = page.locator("#demo");
@@ -147,7 +149,7 @@ for (const lang of ["vi", "en"] as const) {
     test("sending creates a sample task, shows loading, and replay clears it", async ({ page }) => {
       await page.clock.install();
       await page.goto(`/${lang}`);
-      await page.getByRole("link", { name: t.demoCta }).click();
+      await page.locator('a[data-track-location="hero"][data-track-cta="see_demo"]').click();
       const demo = page.locator("#demo");
       const send = lang === "vi" ? "Gửi" : "Send";
       await demo.getByRole("button", { name: send, exact: true }).click();
@@ -291,7 +293,7 @@ test("hero subject cycles between 'you' and 'your team'", async ({ page }) => {
 test("content slides in as it scrolls into view", async ({ page }) => {
   await page.goto("/vi");
   await expect(page.locator("html")).toHaveAttribute("data-motion", "live");
-  const heading = page.locator("#faq-title");
+  const heading = page.locator('[data-reveal]:has(> #faq-title)');
   await expect(heading).toHaveCSS("opacity", "0");
   await heading.scrollIntoViewIfNeeded();
   await expect(heading).toHaveAttribute("data-revealed", "");

@@ -4,6 +4,11 @@ import type { StatsEvent } from "./types";
 export type Granularity = "day" | "month" | "year";
 
 export type Totals = {
+  demoViews: number;
+  workCards: number;
+  workLists: number;
+  signupAfterDemo: number;
+
   /** Distinct browsers (the random visitor ID), however often they came back. */
   visitors: number;
   /** Distinct visits; a visit ends after 30 minutes without activity. */
@@ -13,7 +18,7 @@ export type Totals = {
   returningVisitors: number;
   signupClicks: number;
   loginClicks: number;
-  /** Distinct visitors who clicked Start free trial at least once. */
+  /** Distinct visitors who clicked Join beta at least once. */
   signupVisitors: number;
   loginVisitors: number;
   /** Share of visits that saw a single page (0–1). */
@@ -22,6 +27,11 @@ export type Totals = {
 };
 
 export type PeriodRow = {
+  demoViews: number;
+  workCards: number;
+  workLists: number;
+  signupAfterDemo: number;
+
   key: string;
   visitors: number;
   visits: number;
@@ -61,6 +71,32 @@ export function periodKey(day: string, granularity: Granularity) {
   return granularity === "day" ? day : granularity === "month" ? day.slice(0, 7) : day.slice(0, 4);
 }
 
+/** Ordered milestones, counted once per visit. Replays and duplicate beacons do not inflate the funnel. */
+export function demoFunnel(events: StatsEvent[]) {
+  const visits = new Map<string, { view: boolean; card: boolean; list: boolean; signup: boolean }>();
+  const order = (event: StatsEvent) => event.type === "demo"
+    ? event.stage === "view" ? 1 : event.stage === "work_card" ? 2 : 3
+    : event.type === "cta" ? 4 : 0;
+  for (const event of [...events].sort((a, b) => a.ts - b.ts || order(a) - order(b))) {
+    const key = `${event.visitor}:${event.visit}`;
+    const state = visits.get(key) ?? { view: false, card: false, list: false, signup: false };
+    if (event.type === "demo") {
+      if (event.stage === "view") state.view = true;
+      if (event.stage === "work_card" && state.view) state.card = true;
+      if (event.stage === "work_list" && state.card) state.list = true;
+    }
+    if (event.type === "cta" && event.cta === "signup" && state.list) state.signup = true;
+    visits.set(key, state);
+  }
+  const rows = [...visits.values()];
+  return {
+    demoViews: rows.filter(row => row.view).length,
+    workCards: rows.filter(row => row.card).length,
+    workLists: rows.filter(row => row.list).length,
+    signupAfterDemo: rows.filter(row => row.signup).length,
+  };
+}
+
 function totalsOf(events: StatsEvent[]): Totals {
   const visitors = new Set<string>();
   const visits = new Set<string>();
@@ -91,6 +127,7 @@ function totalsOf(events: StatsEvent[]): Totals {
   const viewedVisits = pagesInVisit.size;
   const bounced = [...pagesInVisit.values()].filter((count) => count === 1).length;
   return {
+    ...demoFunnel(events),
     visitors: visitors.size,
     visits: visits.size,
     pageviews,
@@ -118,6 +155,7 @@ export function aggregate(allEvents: StatsEvent[], from: string, to: string, gra
     const t = totalsOf(byPeriod.get(key)!);
     return {
       key,
+      demoViews: t.demoViews, workCards: t.workCards, workLists: t.workLists, signupAfterDemo: t.signupAfterDemo,
       visitors: t.visitors,
       visits: t.visits,
       pageviews: t.pageviews,

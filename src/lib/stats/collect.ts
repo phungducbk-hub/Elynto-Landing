@@ -31,19 +31,24 @@ export function toStatsEvent(
   if (!body || typeof body !== "object") return null;
   const input = body as Partial<CollectPayload>;
 
-  if (input.type !== "pageview" && input.type !== "cta") return null;
+  if (input.type !== "pageview" && input.type !== "cta" && input.type !== "demo") return null;
   if (typeof input.visitor !== "string" || !ID.test(input.visitor)) return null;
   if (typeof input.visit !== "string" || !ID.test(input.visit)) return null;
   if (typeof input.path !== "string" || !input.path.startsWith("/") || input.path.length > 200) return null;
   if (input.type === "cta" && input.cta !== "signup" && input.cta !== "login") return null;
 
+  if (input.type === "demo" && input.stage !== "view" && input.stage !== "work_card" && input.stage !== "work_list") return null;
+
   const now = context.now ?? Date.now();
+  // Beacons may reach the server out of order. Bound browser clock drift and never accept arbitrary dates.
+  const occurredAt = typeof input.occurredAt === "number" && Number.isFinite(input.occurredAt)
+    && Math.abs(input.occurredAt - now) <= 5 * 60 * 1000 ? input.occurredAt : now;
   const country = context.country && /^[A-Z]{2}$/.test(context.country) ? context.country : undefined;
   const location = typeof input.location === "string" && SLUG.test(input.location) ? input.location : undefined;
 
   return {
-    ts: now,
-    day: dayKey(now),
+    ts: occurredAt,
+    day: dayKey(occurredAt),
     type: input.type,
     visitor: input.visitor,
     visit: input.visit,
@@ -57,5 +62,6 @@ export function toStatsEvent(
     utmMedium: clean(input.utmMedium),
     utmCampaign: clean(input.utmCampaign),
     ...(input.type === "cta" ? { cta: input.cta, location } : {}),
+    ...(input.type === "demo" ? { stage: input.stage } : {}),
   };
 }

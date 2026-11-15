@@ -49,8 +49,8 @@ test.describe("stats: counting rules", () => {
       loginClicks: 1,
     });
     expect(report.periods).toEqual([
-      { key: "2026-10-01", visitors: 1, visits: 2, pageviews: 3, signupClicks: 0, loginClicks: 0 },
-      { key: "2026-10-02", visitors: 2, visits: 2, pageviews: 3, signupClicks: 1, loginClicks: 1 },
+      { key: "2026-10-01", visitors: 1, visits: 2, pageviews: 3, signupClicks: 0, loginClicks: 0, demoViews: 0, workCards: 0, workLists: 0, signupAfterDemo: 0 },
+      { key: "2026-10-02", visitors: 2, visits: 2, pageviews: 3, signupClicks: 1, loginClicks: 1, demoViews: 0, workCards: 0, workLists: 0, signupAfterDemo: 0 },
     ]);
     // a2 and b1 saw one page each, out of four visits.
     expect(report.totals.bounceRate).toBe(0.5);

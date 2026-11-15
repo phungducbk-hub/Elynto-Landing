@@ -11,10 +11,10 @@
  * <AnalyticsListener />:
  *   <a data-track="cta_click" data-track-location="hero" data-track-cta="signup">
  *
- * Separately, page views and Start-free-trial / Log-in clicks are recorded in the site's own
+ * Separately, page views, demo milestones and Beta-sign-up / Log-in clicks are recorded in the site's own
  * statistics (lib/stats), shown on /stats.
  */
-import { recordCtaClick } from "@/lib/stats/client";
+import { recordCtaClick, recordDemoStage } from "@/lib/stats/client";
 
 export type AnalyticsEvent =
   | "cta_click"
@@ -22,6 +22,7 @@ export type AnalyticsEvent =
   | "language_switch"
   | "mobile_menu_toggle"
   | "demo_screen_select"
+  | "demo_milestone"
   | "demo_view"
   | "demo_play"
   | "demo_pause"
@@ -54,6 +55,10 @@ export function track(event: AnalyticsEvent, props: AnalyticsProps = {}) {
 
   if (event === "cta_click" && (props.cta === "signup" || props.cta === "login")) {
     recordCtaClick(props.cta, typeof props.location === "string" ? props.location : undefined);
+  }
+
+  if (event === "demo_milestone" && (props.stage === "view" || props.stage === "work_card" || props.stage === "work_list")) {
+    recordDemoStage(props.stage);
   }
 
   if (process.env.NODE_ENV === "development") {

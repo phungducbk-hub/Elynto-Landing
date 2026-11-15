@@ -10,7 +10,7 @@ export function TeamCollaboration({ lang }: { lang: Locale }) {
   return (
     <figure className="relative isolate pb-20 pl-4 sm:pb-16 sm:pl-8">
       <div aria-hidden="true" className="absolute top-9 right-0 bottom-12 left-12 -z-10 rounded-2xl bg-brand-100 sm:top-10 sm:bottom-8 sm:left-16" />
-      <div className="mr-3 overflow-hidden rounded-2xl border border-brand-100 bg-white shadow-card">
+      <div className="elynto-photo-frame mr-3">
         <Image
           src="/media/elynto-team-collaboration.webp"
           width={1200}
@@ -20,7 +20,7 @@ export function TeamCollaboration({ lang }: { lang: Locale }) {
           className="block h-auto w-full"
         />
       </div>
-      <figcaption className="absolute bottom-0 left-0 w-[92%] max-w-sm rounded-2xl border border-line bg-white p-4 shadow-float sm:p-5">
+      <figcaption className="elynto-insight-card absolute bottom-0 left-0 w-[92%] max-w-sm">
         <div className="flex items-center justify-between gap-4">
           <Logo className="h-6 w-auto text-brand" />
           <span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-field-assignee-soft text-brand">
