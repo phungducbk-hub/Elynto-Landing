@@ -145,21 +145,15 @@ export type Dictionary = {
     body: string;
     points: string[];
     mock: {
-      label: string;
-      project: string;
-      meeting: string;
-      time: string;
-      live: string;
-      participants: string[];
-      chat: string;
-      messages: { name: string; text: string }[];
-      workLabel: string;
+      imageAlt: string;
+      aiTitle: string;
+      conclusionLabel: string;
+      conclusion: string;
+      taskLabel: string;
       task: string;
-      assigneeLabel: string;
       assignee: string;
-      dueLabel: string;
       due: string;
-      status: string;
+      action: string;
       caption: string;
     };
   };
