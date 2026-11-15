@@ -91,22 +91,22 @@
   @keyframes rise {
     from {
       opacity: 0;
-      transform: translate3d(0, 1.25rem, 0);
+      transform: translate3d(0, var(--entrance-distance), 0);
     }
   }
 
-  /* Product visuals: a short, unhurried drift - lighter and slower than the text. */
+  /* Text and product entrances share distance, duration and easing. */
   @keyframes enter-right {
     from {
       opacity: 0;
-      transform: translate3d(1rem, 0, 0) scale(0.99);
+      transform: translate3d(var(--entrance-distance), 0, 0);
     }
   }
 
   @keyframes visual-in {
     from {
       opacity: 0;
-      transform: translate3d(0, 1rem, 0) scale(0.985);
+      transform: translate3d(0, var(--entrance-distance), 0);
     }
   }
 
@@ -149,12 +149,18 @@
 
 /* Inlined so --enter-delay resolves on each element, letting hero lines stagger. */
 @theme inline {
-  --animate-rise: rise 0.9s var(--ease-out-expo) var(--enter-delay, 0s) both;
-  --animate-enter-right: enter-right 2.2s var(--ease-out-soft) var(--enter-delay, 0s) both;
-  --animate-visual-in: visual-in 2.2s var(--ease-out-soft) var(--enter-delay, 0s) both;
+  --animate-rise: rise var(--entrance-duration) var(--entrance-ease) var(--enter-delay, 0s) both;
+  --animate-enter-right: enter-right var(--entrance-duration) var(--entrance-ease) var(--enter-delay, 0s) both;
+  --animate-visual-in: visual-in var(--entrance-duration) var(--entrance-ease) var(--enter-delay, 0s) both;
   --font-sans:
     var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
+}
+
+:root {
+  --entrance-distance: 4rem;
+  --entrance-duration: 1.8s;
+  --entrance-ease: cubic-bezier(0.37, 0, 0.63, 1);
 }
 
 @layer base {
@@ -196,38 +202,23 @@
   }
 }
 
-/*
- * Scroll reveal. Text rises into place; product visuals drift in more gently and more slowly, from
- * the side they sit on (vertically on small screens). Elements start hidden only once the inline
- * script in the root layout has armed html[data-motion], so visitors without JavaScript, or printing the page always see everything. RevealObserver sets data-revealed.
- */
+/* Scroll entrances share the same 64px travel and 1.8s timing for text and visuals.
+   Side entrances retain their direction on desktop; smaller screens enter from below.
+   The boot script and observer keep content visible when JavaScript is unavailable. */
 [data-reveal] {
-  --reveal-from: translate3d(0, 1.5rem, 0);
-  --reveal-fade: 0.7s;
-  --reveal-move: 1s;
-  --reveal-ease: var(--ease-out-expo);
-}
-
-[data-reveal="scale"] {
-  --reveal-from: translate3d(0, 2rem, 0) scale(0.97);
-}
-
-[data-reveal="visual"],
-[data-reveal="from-left"],
-[data-reveal="from-right"] {
-  --reveal-from: translate3d(0, clamp(2.5rem, 5vw, 4.5rem), 0);
-  --reveal-fade: 0.9s;
-  --reveal-move: 4.8s;
-  --reveal-ease: cubic-bezier(0.37, 0, 0.63, 1);
+  --reveal-from: translate3d(0, var(--entrance-distance), 0);
+  --reveal-fade: var(--entrance-duration);
+  --reveal-move: var(--entrance-duration);
+  --reveal-ease: var(--entrance-ease);
 }
 
 @media (min-width: 64rem) {
   [data-reveal="from-left"] {
-    --reveal-from: translate3d(-6rem, 0, 0);
+    --reveal-from: translate3d(calc(-1 * var(--entrance-distance)), 0, 0);
   }
 
   [data-reveal="from-right"] {
-    --reveal-from: translate3d(6rem, 0, 0);
+    --reveal-from: translate3d(var(--entrance-distance), 0, 0);
   }
 }
 
@@ -269,14 +260,4 @@
   animation-duration: var(--testimonial-duration) !important;
   animation-iteration-count: infinite !important;
   will-change: transform;
-}
-
-/* The explicitly requested product entrances keep the same travel and timing in every
-   preference mode; unrelated text entrances retain their reduced-motion treatment. */
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal]:not([data-reveal="visual"]):not([data-reveal="from-left"]):not([data-reveal="from-right"]) {
-    --reveal-from: translate3d(0, 0.625rem, 0);
-    --reveal-fade: 0.45s;
-    --reveal-move: 0.65s;
-  }
 }
