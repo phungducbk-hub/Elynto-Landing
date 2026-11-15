@@ -27,7 +27,7 @@ export function WordSwap({words}:{words:SwapWord[]}) {
     {words.map(word=><span key={word.text} aria-hidden="true" className={cn(pillBase,"pointer-events-none invisible col-start-1 row-start-1")}>{word.text}</span>)}
     <span ref={pillRef} className={cn(pillBase,"col-start-1 row-start-1 overflow-clip text-center transition-colors duration-500",current.pillClassName)}>
       <span className="relative inline-block">
-        {previous!==null&&!reduced?<span key={`out-${previous}`} className="absolute top-0 left-0 animate-word-out">{words[previous].text}</span>:null}
+        {previous!==null&&!reduced?<span key={`out-${previous}`} className="absolute top-0 left-1/2 -translate-x-1/2 animate-word-out">{words[previous].text}</span>:null}
         <span key={`in-${index}`} data-current-word className={cn("inline-block",previous!==null&&!reduced&&"animate-word-in")}>{current.text}</span>
       </span>
     </span>

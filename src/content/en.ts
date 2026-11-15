@@ -342,7 +342,7 @@ export const en: Dictionary = {
   delegate: {
     eyebrow: "Follow up on delegated work",
     title: "Assigned it? Always know where it stands.",
-    body: "Each task moves through clear statuses, from assigned to approved. Delegated gathers everything you’ve handed to others in one place, with owner, due date and status.",
+    body: "Know who owns each task, when it is due and where it stands. Follow the work from assignment to approval in one clear list.",
     points: [
       "See who has accepted, who’s working and what’s been submitted.",
       "Overdue work is clearly marked.",
@@ -500,7 +500,7 @@ export const en: Dictionary = {
   },
   finalCta: {
     title: "Give your first task a clear place to land.",
-    body: "See how Elynto works, then start your free trial when you are ready.",
+    body: "Bring your team’s tasks, plans and conversations together in one place.",
     cta: "Start free trial",
     loginPrompt: "Already have an account?",
     login: "Log in",

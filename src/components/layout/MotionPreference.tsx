@@ -2,7 +2,7 @@
 import { usePrefersReducedMotion } from "@/components/demo/useMotionPreference";
 import type { Locale } from "@/lib/i18n";
 
-/** Session-only display preference; the OS setting always takes precedence. */
+/** Page-only display preference; the OS setting always takes precedence. */
 export function MotionPreference({lang}:{lang:Locale}) {
   const reduced = usePrefersReducedMotion();
   return <label className="inline-flex min-h-11 cursor-pointer items-center gap-2 text-sm text-ink-muted">

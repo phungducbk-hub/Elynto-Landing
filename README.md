@@ -112,7 +112,7 @@ Khi đã khai báo, trang tự dùng asset thật thay cho minh họa HTML. Vide
 
 **Hành trình và chuyển động**
 
-- Hero giữ slogan tiếng Anh với `you / your team`, đổi mỗi 2,8 giây. Khi bật giảm chuyển động, chữ vẫn đổi nhưng không cuộn trong pill.
+- Hero giữ slogan tiếng Anh với `you / your team`, đổi mỗi 2,8 giây. Khi bật giảm chuyển động, chữ dừng ở từ hiện tại.
 - Demo tự chạy khi phần sản phẩm vào màn hình: gõ 60ms/ký tự → gửi → skeleton → work card giữ 5 giây → Việc của tôi. Dữ liệu chỉ là state mẫu trong trình duyệt. Không gọi AI hay ghi vào app beta.
 - Hero và các khối khi cuộn dùng chung 64px / 1 giây / easing đối xứng. Nhóm chữ chuyển động cùng nhau; hình đi từ cạnh bên ở desktop, từ dưới lên ở mobile. Không dùng scale. Fallback khi JS chậm bảo đảm nội dung được hiện.
 - Sau hero là khối tình huống, rồi ba chương: ý định → đội nhóm → tiến độ. Ảnh đội nhóm và ảnh họp được tối ưu WebP; thẻ AI Summary giới thiệu kết luận và công việc ngay trong cuộc họp.
@@ -204,3 +204,16 @@ Code đã được đẩy lên `github.com/phungducbk-hub/Elynto-Landing`, nhán
 5. **Gắn tên miền** (chỉ khi đã sẵn sàng công khai) — *Settings → Domains* → thêm `elynto.io` (và `www.elynto.io` chuyển hướng về `elynto.io`), rồi cập nhật DNS theo hướng dẫn của Vercel. Bản Production trên Vercel sẽ tự cho phép index.
 
 > Kho code này **chưa** được triển khai lên Vercel và **chưa** thay đổi DNS. Việc công khai trang do bạn quyết định.
+
+
+## Premium refinement - 15/11/2026
+
+- Simplified the page to three product chapters and removed the duplicate proof/start sections.
+- Added a shared heading scale, light reading surfaces and a deep Harbor closing CTA.
+- Product tables now focus on four readable columns, with working status filters and mobile work cards.
+- Planning shows the goal and an expandable three-phase plan. Project overview offers keyboard-accessible List / Calendar / Gantt views with a stable viewport.
+- The hero retains typing, creation, a work card before the list and concrete localized dates. The rotating subject reserves space before hydration.
+- Reduced-motion settings are respected; a page display control lives in the footer. Situation cards autoplay by default without a resume button.
+- Preview desktop QA verified both locales, plan expansion, work filtering, project views, language switching and the creation result. At 1363 × 936 the Vietnamese page measured 8386px (previously 12457px), with 20 reveal groups (previously 37).
+- TypeScript, production build and 8 unit tests passed. Full local browser tests could not start because the environment returned uv_interface_addresses; mobile browser QA and Core Web Vitals remain unverified.
+- Contact email still requires the actual official address. The existing NEXT_PUBLIC_CONTACT_EMAIL setting is ready; no address has been invented.

@@ -343,7 +343,7 @@ export const vi: Dictionary = {
   delegate: {
     eyebrow: "Theo dõi việc đã giao",
     title: "Giao rồi, biết luôn việc đang ở đâu.",
-    body: "Mỗi việc đi qua các trạng thái rõ ràng, từ lúc giao đến lúc duyệt. Mục Việc đã giao gom mọi việc bạn đã giao cho người khác vào một chỗ, kèm người nhận, hạn và trạng thái.",
+    body: "Xem ai phụ trách, khi nào đến hạn và việc đang ở bước nào. Theo dõi từ lúc giao đến khi duyệt, ngay trong một danh sách.",
     points: [
       "Thấy ngay ai đã nhận việc, ai đang làm và việc nào đã nộp.",
       "Việc quá hạn được đánh dấu rõ ràng.",
