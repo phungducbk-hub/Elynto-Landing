@@ -16,7 +16,7 @@ const copy = {
     faq: "Tôi có thể dùng Elynto một mình không?",
     faqAnswer: "Bạn có thể dùng Elynto để quản lý việc cá nhân",
     secondTab: "Lịch",
-    secondTabContent: "Tháng 10",
+    secondTabContent: "11/2026",
     title: "Elynto - Quản lý công việc bằng AI",
     voicesTitle: "Những lúc công việc bắt đầu rối",
     voicesNote: "không phải lời của một khách hàng cụ thể",
@@ -30,7 +30,7 @@ const copy = {
     faq: "Can I use Elynto on my own?",
     faqAnswer: "You can use Elynto to manage your own tasks",
     secondTab: "Calendar",
-    secondTabContent: "October",
+    secondTabContent: "Nov",
     title: "Elynto - AI-powered work management",
     voicesTitle: "The moments when work starts to slip",
     voicesNote: "not quotes from specific customers",
@@ -140,7 +140,7 @@ for (const lang of ["vi", "en"] as const) {
       await demo.getByRole("tab", { name: lang === "vi" ? "Việc của tôi" : "My Work", exact: true }).press("ArrowRight");
       await expect(demo.getByRole("tab", { name: lang === "vi" ? "Việc đã giao" : "Delegated", exact: true })).toBeFocused();
       await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Giao cho" : "Assigned to");
-      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Chờ duyệt" : "Approval");
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Đang làm" : "In progress");
     });
 
     test("sending creates a sample task, shows loading, and replay clears it", async ({ page }) => {
@@ -153,12 +153,12 @@ for (const lang of ["vi", "en"] as const) {
       await expect(demo.locator("[data-demo-loading]")).toBeVisible();
       await page.clock.runFor(2_100);
       await expect(demo.locator("[data-work-card]")).toBeVisible();
-      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+      await expect(demo.locator("[data-created-work]:visible")).toHaveCount(0);
       await demo.getByRole("button", { name: lang === "vi" ? "Xem trong Việc của tôi" : "View in My Work", exact: true }).click();
-      await expect(demo.locator("[data-created-work]")).toHaveCount(1);
-      await expect(demo.locator("[data-created-work]")).toContainText(lang === "vi" ? "Làm báo giá" : "Prepare the quotation");
+      await expect(demo.locator("[data-created-work]:visible")).toHaveCount(1);
+      await expect(demo.locator("[data-created-work]:visible")).toContainText(lang === "vi" ? "Làm báo giá" : "Prepare the quotation");
       await demo.getByRole("button", { name: lang === "vi" ? "Xem lại từ đầu" : "Replay from the start", exact: true }).click();
-      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+      await expect(demo.locator("[data-created-work]:visible")).toHaveCount(0);
     });
 
     test("scrolling starts the demo, shows the work card, then the work list", async ({ page }) => {
@@ -169,9 +169,9 @@ for (const lang of ["vi", "en"] as const) {
       await expect(demo).toHaveAttribute("data-demo-running", "true");
       await page.clock.runFor(6_500);
       await expect(demo.locator("[data-work-card]")).toBeVisible();
-      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
+      await expect(demo.locator("[data-created-work]:visible")).toHaveCount(0);
       await page.clock.runFor(5_000);
-      await expect(demo.locator("[data-created-work]")).toHaveCount(1);
+      await expect(demo.locator("[data-created-work]:visible")).toHaveCount(1);
       await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Người giao" : "Assigned by");
     });
 
@@ -310,12 +310,12 @@ test("requested typing, automatic cards and gentle reveals work with reduced-mot
   const partial = await demo.locator("[data-demo-typed]").innerText();
   expect(partial).toMatch(/^Giao/);
   expect(partial).not.toContain("hoàn thành trước thứ sáu");
-  await expect(page.locator("html")).toHaveAttribute("data-motion", "live");
+  await expect(page.locator("html")).not.toHaveAttribute("data-motion", "live");
   const wall = page.locator("#voices");
   await wall.scrollIntoViewIfNeeded();
   await expect(wall.locator("[data-wall-running]")).toHaveAttribute("data-wall-running", "true");
   await expect(wall.getByRole("button")).toHaveCount(0);
-  await expect(wall.locator("[data-testimonial-track]:visible").first()).toHaveCSS("animation-iteration-count", "infinite");
+  await expect(wall.locator("[data-testimonial-track]:visible").first()).toHaveCSS("animation-name", "none");
   await context.close();
 });
 
@@ -323,10 +323,10 @@ test.describe("footer and subpages", () => {
   test("footer links every subpage, in both languages", async ({ page, request }) => {
     await page.goto("/vi");
     const footer = page.locator("footer");
-    for (const heading of ["Sản phẩm", "Tài nguyên", "Công ty", "Pháp lý"]) {
+    for (const heading of ["Sản phẩm", "Tài nguyên", "Công ty"]) {
       await expect(footer.getByRole("heading", { name: heading })).toBeVisible();
     }
-    const hrefs = await footer.locator("nav a").evaluateAll((links) => links.map((a) => a.getAttribute("href")!));
+    const hrefs = await footer.locator("nav a, ul[aria-label] a").evaluateAll((links) => links.map((a) => a.getAttribute("href")!));
     expect(hrefs).toHaveLength(12);
     for (const href of hrefs) {
       for (const path of [href, href.replace(/^\/vi\//, "/en/")]) {

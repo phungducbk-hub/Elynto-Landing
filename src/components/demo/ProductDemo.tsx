@@ -7,6 +7,7 @@ import type { Dictionary } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 import { getProductUi } from "@/content/product-ui";
 import { Logo } from "@/components/brand/Logo";
+import { formatWorkDate } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { track } from "@/lib/analytics";
 
@@ -46,10 +47,10 @@ export function TodayScreen({ command, composer, loading, paused, result, lang =
   return <div className="flex min-h-[410px] flex-col px-4 pt-8 pb-5 sm:min-h-[470px] sm:px-10">
     <div className="mx-auto w-full max-w-[600px]">
       <p className="text-lg font-semibold tracking-tight sm:text-xl">{ui.greeting}</p>
-      <p className="mt-2 text-xs leading-relaxed text-ink-muted">{ui.intro}</p>
+      <p className="mt-2 text-sm leading-relaxed text-ink-muted">{ui.intro}</p>
       {loading ? <LoadingWork paused={paused} /> : result ?? <div className="mt-5 rounded-xl border border-line bg-white p-4 sm:p-5">
         <p className="text-sm font-medium">{ui.briefing}</p>
-        <ul className="mt-4 space-y-3 text-xs">
+        <ul className="mt-4 space-y-3 text-sm">
           <li className="flex gap-2.5"><TriangleAlert className="size-3.5 shrink-0 text-[#ad5a28]" /><span>{ui.overdueBrief}<span className="mt-1 block text-[10px] text-ink-muted">{ui.overdueHint}</span></span></li>
           <li className="flex gap-2.5"><CalendarDays className="size-3.5 text-ink-muted" />{ui.dueWeek}</li>
           <li className="flex gap-2.5"><UsersRound className="size-3.5 text-ink-muted" />{ui.overloaded}</li>
@@ -73,24 +74,31 @@ const sampleRows: DemoWorkRow[] = [
   { title: "Send the client quotation", name: "Minh", due: "27/11/2026", status: "Assigned" },
 ];
 
-export function WorkTableScreen({ delegated = false, createdRow, lang = "en" }: { delegated?: boolean; createdRow?: DemoWorkRow | null; lang?: Locale }) {
+export function WorkTableScreen({ delegated = false, createdRow, lang = "en", compact = false }: { delegated?: boolean; createdRow?: DemoWorkRow | null; lang?: Locale; compact?: boolean }) {
   const ui = getProductUi(lang);
-  const localizedRows = sampleRows.map((row, index) => ({ ...row, title: ui.rows[index] }));
-  const rows = createdRow ? [createdRow, ...localizedRows] : localizedRows;
-  return <div className="min-h-[410px] p-3 sm:min-h-[470px] sm:p-5">
-    <div className="mb-4 flex items-center justify-between gap-2 border-b border-line">
-      <div className="flex min-w-0 gap-4 overflow-x-auto text-xs whitespace-nowrap"><span className="border-b-2 border-brand py-3">{ui.upcoming}</span><span className="py-3 text-[#a4592d]">{ui.overdue} (1)</span><span className="py-3 text-ink-muted">{delegated ? ui.approval : ui.rework}</span><span className="py-3 text-ink-muted">{ui.completed}</span><span className="py-3 text-ink-muted">{ui.archived}</span></div>
-      <div aria-hidden="true" className="hidden shrink-0 items-center gap-3 text-ink-muted xl:flex"><Search className="size-3.5" /><SlidersHorizontal className="size-3.5" /><CalendarDays className="size-3.5" /><Plus className="size-3.5" /></div>
-    </div>
-    <div role="region" aria-label={delegated ? ui.delegatedTable : ui.myWorkTable} tabIndex={0} className="overflow-x-auto rounded-xl border border-line bg-white">
-      <table className="w-full min-w-[560px] text-left text-xs">
-        <thead className="border-b border-line text-[11px] font-normal text-ink-muted uppercase"><tr>{[ui.work, delegated ? ui.assignedTo : ui.assignedBy, ui.created, ui.due, ui.priority, ui.status, ui.files].map(label => <th scope="col" className="px-3 py-3 font-normal" key={label}>{label}</th>)}</tr></thead>
-        <tbody className="divide-y divide-line">
-          {!delegated && <tr className="bg-canvas"><td colSpan={7} className="px-3 py-2 text-ink-muted"><ChevronDown className="mr-2 inline size-3" />{ui.otherWork} <span className="ml-1">{rows.length}</span></td></tr>}
-          {rows.map((row, i) => <tr key={`${row.title}-${i}`} data-created-work={createdRow === row ? "" : undefined} className={createdRow === row ? "bg-brand-50 motion-safe:animate-rise" : undefined}><td className="max-w-[180px] px-3 py-4 leading-relaxed"><Flag className={cn("mr-2 inline size-3", i === 1 ? "fill-[#b95050] text-[#b95050]" : "text-ink-muted")} />{row.title}</td><td className="px-3 py-4"><span className="mr-1.5 inline-grid size-4 place-items-center rounded-full bg-brand/10 text-[8px] text-brand">{delegated ? row.name[0] : "A"}</span>{delegated ? row.name : ui.you}</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">14/11/2026</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">{row.due}</td><td className="px-3 py-4 text-ink-muted">{ui.medium}</td><td className="px-3 py-4"><span className={cn("whitespace-nowrap rounded border border-line px-1.5 py-0.5 text-[10px]", row.status === "In progress" ? "bg-[#e8f0fa] text-[#305b83]" : "bg-sunken text-ink")}>{row.status === "In progress" ? ui.inProgress : ui.assigned}</span></td><td className="px-3 py-4 text-ink-muted">{i === 1 ? "1" : "-"}</td></tr>)}
-        </tbody>
+  const [filter, setFilter] = useState("all");
+  const rows = [...(createdRow ? [createdRow] : []), ...sampleRows.map((row,index) => ({...row,title:ui.rows[index]}))];
+  const shown = rows.filter(row => filter === "progress" ? row.status === "In progress" : filter === "assigned" ? row.status !== "In progress" : true).slice(0,compact ? 4 : 6);
+  const status = (row:DemoWorkRow) => <span className={cn("inline-flex rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap",row.status === "In progress" ? "bg-st-progress-bg text-st-progress" : "bg-st-assigned-bg text-st-assigned")}>{row.status === "In progress" ? ui.inProgress : ui.assigned}</span>;
+  const date = (value: string) => formatWorkDate(value, lang);
+  const filters = [{id:"all",label:lang==="vi"?"Tất cả":"All work"},{id:"progress",label:ui.inProgress},{id:"assigned",label:ui.assigned}];
+  return <div className={cn("p-4 sm:p-5",!compact && "min-h-[410px] sm:min-h-[470px]")}>
+    <div aria-label={lang === "vi" ? "Lọc công việc" : "Filter work"} className="mb-4 flex flex-wrap gap-2">{filters.map(item => <button type="button" key={item.id} aria-pressed={filter===item.id} onClick={()=>setFilter(item.id)} className={cn("min-h-11 rounded-[10px] px-3 text-sm transition-colors",filter===item.id?"bg-brand-50 font-medium text-brand":"text-ink-muted hover:bg-sunken")}>{item.label}</button>)}</div>
+    <div className="hidden overflow-hidden rounded-2xl border border-line bg-white md:block">
+      <table className="w-full text-left text-sm">
+        <caption className="sr-only">{delegated ? ui.delegatedTable : ui.myWorkTable}</caption>
+        <thead className="border-b border-line bg-canvas text-xs text-ink-muted"><tr>{[ui.work,delegated?ui.assignedTo:ui.assignedBy,ui.due,ui.status].map(label=><th key={label} scope="col" className="px-4 py-3 font-medium">{label}</th>)}</tr></thead>
+        <tbody className="divide-y divide-line">{shown.map((row,index)=><tr key={row.title+index} data-created-work={createdRow===row?"":undefined} className={createdRow===row?"bg-brand-50":undefined}>
+          <td className="max-w-[230px] px-4 py-4 leading-relaxed font-medium">{row.title}</td>
+          <td className="px-4 py-4 whitespace-nowrap">{delegated?row.name:ui.you}</td>
+          <td className="px-4 py-4 whitespace-nowrap text-ink-muted">{date(row.due)}</td>
+          <td className="px-4 py-4">{status(row)}</td>
+        </tr>)}</tbody>
       </table>
     </div>
+    <ul aria-label={delegated?ui.delegatedTable:ui.myWorkTable} className="divide-y divide-line rounded-2xl border border-line bg-white md:hidden">
+      {shown.map((row,index)=><li key={row.title+index} data-created-work={createdRow===row?"":undefined} className={cn("p-4",createdRow===row&&"bg-brand-50")}><p className="text-sm leading-relaxed font-medium">{row.title}</p><dl className="mt-3 grid grid-cols-2 gap-3 text-xs"><div><dt className="text-ink-muted">{ui.assignedTo}</dt><dd className="mt-1 text-sm">{delegated?row.name:ui.you}</dd></div><div><dt className="text-ink-muted">{ui.due}</dt><dd className="mt-1 text-sm">{date(row.due)}</dd></div></dl><div className="mt-3">{status(row)}</div></li>)}
+    </ul>
   </div>;
 }
 
@@ -121,11 +129,11 @@ function CreatedWorkCard({ work, success, lang, onOpen }: { work: DemoWorkRow; s
       <p className="mt-4 text-base font-semibold text-ink">{work.title}</p>
       <dl className="mt-4 grid grid-cols-[7rem_1fr] gap-x-3 gap-y-3 text-sm">
         <dt className="text-ink-muted">{ui.assignedTo}</dt><dd className="font-medium">{work.name}</dd>
-        <dt className="text-ink-muted">{ui.due}</dt><dd className="font-medium">{work.due}</dd>
+        <dt className="text-ink-muted">{ui.due}</dt><dd className="font-medium">{formatWorkDate(work.due,lang)}</dd>
         <dt className="text-ink-muted">{ui.priority}</dt><dd>{ui.medium}</dd>
         <dt className="text-ink-muted">{ui.status}</dt><dd><span className="rounded border border-line bg-sunken px-2 py-0.5">{ui.assigned}</span></dd>
       </dl>
-      <button type="button" onClick={onOpen} className="mt-5 rounded-lg bg-brand px-4 py-2 text-xs font-medium text-white hover:bg-brand-hover">{ui.openWork}</button>
+      <button type="button" onClick={onOpen} className="mt-5 min-h-11 rounded-[10px] bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-hover">{ui.openWork}</button>
     </article>
   );
 }
@@ -308,7 +316,7 @@ export function ProductDemo({ copy, examples, lang, label }: {
         {typed || <span className="text-ink-muted">{copy.placeholder}</span>}
         {snap.phase === "typing" && <span aria-hidden="true" className="ml-0.5 inline-block h-3 w-px animate-caret bg-brand motion-reduce:animate-none" />}
       </p>
-      <button type="button" onClick={send} disabled={snap.phase === "processing"} aria-label={copy.send} className="grid size-9 shrink-0 place-items-center rounded-full bg-brand text-white transition-colors hover:bg-brand-hover disabled:bg-sunken disabled:text-ink-muted">
+      <button type="button" onClick={send} disabled={snap.phase === "processing"} aria-label={copy.send} className="grid size-11 shrink-0 place-items-center rounded-full bg-brand text-white transition-colors hover:bg-brand-hover disabled:bg-sunken disabled:text-ink-muted">
         <ArrowUp className="size-4" aria-hidden="true" />
       </button>
     </div>
@@ -320,7 +328,7 @@ export function ProductDemo({ copy, examples, lang, label }: {
         <span className="flex items-center gap-2 text-xs font-medium text-ink-muted"><span className="size-1.5 rounded-full bg-brand" />{label}</span>
         <div role="tablist" aria-label={label} className="inline-flex rounded-lg border border-line bg-white p-1">
           {screens.map((item, index) => (
-            <button key={item} type="button" ref={element => { tabRefs.current[index] = element; }} role="tab" id={`${id}-${index}`} aria-selected={screen === item} aria-controls={`${id}-panel`} tabIndex={screen === item ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)} className={cn("rounded-md px-3 py-2 text-xs transition-colors sm:px-4", screen === item ? "bg-brand text-white" : "text-ink-muted hover:bg-canvas")}>
+            <button key={item} type="button" ref={element => { tabRefs.current[index] = element; }} role="tab" id={`${id}-${index}`} aria-selected={screen === item} aria-controls={`${id}-panel`} tabIndex={screen === item ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)} className={cn("min-h-11 rounded-lg px-3 py-2 text-xs transition-colors sm:px-4", screen === item ? "bg-brand text-white" : "text-ink-muted hover:bg-canvas")}>
               {item === "Today" ? isVietnamese ? "Tạo công việc" : "Create work" : ui.nav[item]}
             </button>
           ))}
@@ -328,7 +336,7 @@ export function ProductDemo({ copy, examples, lang, label }: {
       </div>
       {screen === "Today" && (
         <div className="mb-3 flex flex-wrap gap-2" aria-label={isVietnamese ? "Chọn yêu cầu" : "Choose a request"}>
-          {scenarios.map((item, index) => <button key={item.label} type="button" aria-pressed={index === exampleIndex} onClick={() => { setExampleIndex(index); replay("example"); }} className={cn("rounded-full border px-3 py-1.5 text-xs transition-colors", index === exampleIndex ? "border-brand/30 bg-white font-medium text-brand" : "border-line text-ink-muted hover:bg-white")}>{item.label}</button>)}
+          {scenarios.map((item, index) => <button key={item.label} type="button" aria-pressed={index === exampleIndex} onClick={() => { setExampleIndex(index); replay("example"); }} className={cn("min-h-10 rounded-full border px-3 py-1.5 text-xs transition-colors", index === exampleIndex ? "border-brand/30 bg-white font-medium text-brand" : "border-line text-ink-muted hover:bg-white")}>{item.label}</button>)}
         </div>
       )}
       <div ref={viewportRef} role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-${screens.indexOf(screen)}`} tabIndex={0}>
@@ -347,10 +355,10 @@ export function ProductDemo({ copy, examples, lang, label }: {
           {screen === "Today" ? status : ui.nav[screen]}
         </p>
         <div className="flex shrink-0 gap-1">
-          <button type="button" onClick={() => { setUserPaused(!paused); setScreen("Today"); track(paused ? "demo_play" : "demo_pause", { demo: "create_work" }); }} aria-label={paused ? copy.controls.play : copy.controls.pause} className="grid size-9 place-items-center rounded-lg border border-line bg-white text-ink-muted hover:text-brand">
+          <button type="button" onClick={() => { setUserPaused(!paused); setScreen("Today"); track(paused ? "demo_play" : "demo_pause", { demo: "create_work" }); }} aria-label={paused ? copy.controls.play : copy.controls.pause} className="grid size-11 place-items-center rounded-[10px] border border-line bg-white text-ink-muted hover:text-brand">
             {paused ? <Play className="size-4" aria-hidden="true" /> : <Pause className="size-4" aria-hidden="true" />}
           </button>
-          <button type="button" onClick={() => replay("button")} aria-label={copy.controls.replay} className="grid size-9 place-items-center rounded-lg border border-line bg-white text-ink-muted hover:text-brand"><RotateCcw className="size-4" aria-hidden="true" /></button>
+          <button type="button" onClick={() => replay("button")} aria-label={copy.controls.replay} className="grid size-11 place-items-center rounded-[10px] border border-line bg-white text-ink-muted hover:text-brand"><RotateCcw className="size-4" aria-hidden="true" /></button>
         </div>
       </div>
     </figure>
