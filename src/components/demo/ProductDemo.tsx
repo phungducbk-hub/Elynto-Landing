@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { ArrowUp, BookOpen, CalendarDays, ChartColumn, ChevronDown, CircleCheck, Flag, FolderKanban, Inbox, ListChecks, MessageSquare, Mic, PanelLeftClose, Pause, Play, Plus, RotateCcw, Search, Settings, SlidersHorizontal, Sparkles, Sun, TriangleAlert, UserRoundCheck, UsersRound } from "lucide-react";
+import { ArrowUp, BookOpen, CalendarClock, CalendarDays, ChartColumn, ChevronDown, CircleCheck, CircleDot, Flag, FolderKanban, Inbox, ListChecks, MessageSquare, Mic, PanelLeftClose, Pause, Play, Plus, RotateCcw, Search, Settings, SlidersHorizontal, Sparkles, Sun, TriangleAlert, UserRound, UserRoundCheck, UsersRound } from "lucide-react";
+import { Avatar } from "@/components/ui/Avatar";
 import { LoaderSkeleton } from "@/components/ui/loaders-skeleton";
-import type { Dictionary } from "@/content/types";
+import type { Dictionary, Person } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 import { getProductUi } from "@/content/product-ui";
 import { Logo } from "@/components/brand/Logo";
@@ -63,7 +64,7 @@ export function TodayScreen({ command, composer, loading, paused, result, lang =
   </div>;
 }
 
-export type DemoWorkRow = { title: string; name: string; due: string; status: string };
+export type DemoWorkRow = { title: string; name: string; due: string; status: string; assignee?: Person };
 
 const sampleRows: DemoWorkRow[] = [
   { title: "Prepare the monthly report", name: "Minh", due: "20/11/2026", status: "Assigned" },
@@ -119,11 +120,12 @@ function CreatedWorkCard({ work, success, lang, onOpen }: { work: DemoWorkRow; s
     <article data-work-card aria-label={success} className="mt-5 rounded-xl border border-line bg-white p-5 shadow-card motion-safe:animate-rise">
       <p className="flex items-center gap-2 text-sm font-semibold text-status-done"><CircleCheck className="size-4" aria-hidden="true" />{success}</p>
       <p className="mt-4 text-base font-semibold text-ink">{work.title}</p>
-      <dl className="mt-4 grid grid-cols-[7rem_1fr] gap-x-3 gap-y-3 text-sm">
-        <dt className="text-ink-muted">{ui.assignedTo}</dt><dd className="font-medium">{work.name}</dd>
-        <dt className="text-ink-muted">{ui.due}</dt><dd className="font-medium">{work.due}</dd>
-        <dt className="text-ink-muted">{ui.priority}</dt><dd>{ui.medium}</dd>
-        <dt className="text-ink-muted">{ui.status}</dt><dd><span className="rounded border border-line bg-sunken px-2 py-0.5">{ui.assigned}</span></dd>
+      <dl className="mt-4 grid grid-cols-[7rem_1fr] items-center gap-x-3 gap-y-3 text-sm">
+        <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><UserRound className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.assignedTo}</dt>
+        <dd className="flex min-w-0 items-center gap-2 font-medium"><Avatar person={work.assignee ?? { name: work.name, initials: Array.from(work.name)[0] ?? "" }} /><span>{work.name}</span></dd>
+        <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><CalendarClock className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.due}</dt><dd className="font-medium">{work.due}</dd>
+        <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><Flag className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.priority}</dt><dd>{ui.medium}</dd>
+        <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><CircleDot className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.status}</dt><dd><span className="rounded border border-line bg-sunken px-2 py-0.5">{ui.assigned}</span></dd>
       </dl>
       <button type="button" onClick={onOpen} className="mt-5 rounded-lg bg-brand px-4 py-2 text-xs font-medium text-white hover:bg-brand-hover">{ui.openWork}</button>
     </article>
@@ -163,7 +165,7 @@ export function ProductDemo({ copy, examples, lang, label }: {
     label: example.label,
     self: example.assignee.self ?? false,
     command: example.segments.map(segment => typeof segment === "string" ? segment : segment.text).join(""),
-    task: { title: example.task, name: example.assignee.name, due: example.due, status: "Assigned" },
+    task: { title: example.task, name: example.assignee.name, assignee: example.assignee, due: example.due, status: "Assigned" },
   })), [examples]);
   const scenario = scenarios[exampleIndex];
   const chars = useMemo(() => Array.from(scenario.command), [scenario.command]);
