@@ -1,115 +1,75 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 
 export type SwapWord = {
   text: string;
-  /** Pill background for this word. */
   pillClassName: string;
 };
 
-/** How long each word stays before the next one rolls in. */
+type Phase = "holding" | "deleting" | "typing";
 const HOLD_MS = 2_800;
+const DELETE_MS = 160;
+const TYPE_MS = 120;
+const EMPTY_MS = 500;
 
-// Vertical padding clears ascenders and descenders inside the clipped pill; the matching negative
-// margin keeps the pill from making its line taller than the others.
-const pillBase =
-  "-my-[0.12em] inline-block rounded-full px-[0.32em] py-[0.12em] text-[0.92em] font-semibold whitespace-nowrap align-baseline";
-
-/**
- * A word in a tinted pill that cycles through alternatives, after Notion's hero: the old word rolls
- * up and out, the new one rolls in, and the pill changes colour and eases to the new width, carrying
- * the rest of the line with it. Decorative — the caller gives assistive tech the full sentence.
- * Under reduced motion the words still change, without the rolling animation.
- * Only cycles while on screen.
- */
+/** Decorative typewriter; the heading supplies the full accessible sentence. */
 export function WordSwap({ words }: { words: SwapWord[] }) {
-  const [{ index, previous }, setState] = useState<{ index: number; previous: number | null }>({
+  const [state, setState] = useState<{ index: number; chars: number; phase: Phase }>({
     index: 0,
-    previous: null,
+    chars: Array.from(words[0]?.text ?? "").length,
+    phase: "holding",
   });
-  const [widths, setWidths] = useState<number[]>([]);
+  const [active, setActive] = useState(false);
   const pillRef = useRef<HTMLSpanElement>(null);
-  const measureRefs = useRef<Array<HTMLSpanElement | null>>([]);
-
-  // Width of each word's pill, measured from hidden copies. Re-measured when the web font arrives
-  // or the heading's fluid type size changes.
-  useLayoutEffect(() => {
-    const measure = () => setWidths(measureRefs.current.map((el) => el?.offsetWidth ?? 0));
-    measure();
-    document.fonts?.ready.then(measure);
-    const observer = new ResizeObserver(measure);
-    const line = pillRef.current?.closest("[data-swap-line]");
-    if (line) observer.observe(line);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     const pill = pillRef.current;
-    if (!pill || words.length < 2) return;
-
-    let timer: number | undefined;
-    let onScreen = false;
-    const schedule = () => {
-      window.clearTimeout(timer);
-      if (onScreen && !document.hidden) timer = window.setTimeout(advance, HOLD_MS);
-    };
-    const advance = () => {
-      setState((s) => ({ index: (s.index + 1) % words.length, previous: s.index }));
-      schedule();
-    };
-
+    if (!pill) return;
+    let inView = false;
+    const sync = () => setActive(inView && !document.hidden);
     const observer = new IntersectionObserver(([entry]) => {
-      onScreen = entry.isIntersecting;
-      schedule();
+      inView = entry.isIntersecting;
+      sync();
     });
     observer.observe(pill);
-    document.addEventListener("visibilitychange", schedule);
+    document.addEventListener("visibilitychange", sync);
     return () => {
-      window.clearTimeout(timer);
       observer.disconnect();
-      document.removeEventListener("visibilitychange", schedule);
+      document.removeEventListener("visibilitychange", sync);
     };
-  }, [words.length]);
+  }, [words]);
 
-  const current = words[index];
+  useEffect(() => {
+    if (!active || words.length < 2) return;
+    // Text is edited in place, including with reduced motion. Only the cursor's
+    // blinking is suppressed by that preference; never swap an entire word.
+    const delay = state.phase === "holding" ? HOLD_MS
+      : state.phase === "typing" ? TYPE_MS
+      : state.chars === 0 ? EMPTY_MS : DELETE_MS;
+    const timer = window.setTimeout(() => setState(current => {
+      const nextIndex = (current.index + 1) % words.length;
+      if (current.phase === "holding") return { ...current, chars: Math.max(0, current.chars - 1), phase: "deleting" };
+      if (current.phase === "deleting") return current.chars > 0
+        ? { ...current, chars: current.chars - 1 }
+        : { index: nextIndex, chars: 0, phase: "typing" };
+      const length = Array.from(words[current.index].text).length;
+      const chars = Math.min(length, current.chars + 1);
+      return { ...current, chars, phase: chars === length ? "holding" : "typing" };
+    }), delay);
+    return () => window.clearTimeout(timer);
+  }, [active, state, words]);
+
+  const current = words[state.index];
+  if (!current) return null;
+  const text = Array.from(current.text).slice(0, state.chars).join("");
 
   return (
-    <span className="relative inline-block">
-      <span
-        ref={pillRef}
-        className={cn(
-          pillBase,
-          "[overflow:clip] transition-[width,background-color] duration-500 ease-[var(--ease-out-expo)]",
-          current.pillClassName,
-        )}
-        style={{ width: widths[index] || undefined }}
-      >
-        <span className="relative inline-block">
-          {previous !== null ? (
-            <span key={`out-${previous}`} className="absolute top-0 left-0 hidden motion-safe:block motion-safe:animate-word-out">
-              {words[previous].text}
-            </span>
-          ) : null}
-          <span key={`in-${index}`} data-current-word
-            className={cn("inline-block", previous !== null && "motion-safe:animate-word-in")}>
-            {current.text}
-          </span>
-        </span>
-      </span>
-
-      {words.map((word, i) => (
-        <span
-          key={word.text}
-          ref={(el) => {
-            measureRefs.current[i] = el;
-          }}
-          className={cn(pillBase, "pointer-events-none invisible absolute top-0 left-0")}
-        >
-          {word.text}
-        </span>
-      ))}
+    <span ref={pillRef} data-typewriter-phase={state.phase}
+      className={cn("-my-[0.12em] inline-block min-w-[2.45em] rounded-full px-[0.32em] py-[0.12em] text-[0.92em] font-semibold whitespace-nowrap align-baseline", current.pillClassName)}>
+      <span data-current-word className="inline-block">{text}</span>
+      <span aria-hidden="true" className={cn("ml-[0.035em] inline-block h-[0.8em] w-[0.025em] bg-current align-[-0.025em] motion-reduce:hidden", state.phase === "holding" && "motion-safe:animate-caret")} />
     </span>
   );
 }

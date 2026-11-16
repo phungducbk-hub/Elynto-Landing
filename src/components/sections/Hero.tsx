@@ -16,11 +16,10 @@ const { heroVision } = siteConfig;
 /** What screen readers hear: the sentence as first shown. */
 const heroVisionText = [heroVision.lead, heroVision.bridge, heroVision.subjects[0], heroVision.tail].join(" ");
 
-/** "you" on the brand blue tint, "your team" on the teal used for people across the product visuals. */
-const subjectTints = ["bg-field-task-soft", "bg-field-assignee-soft"];
-const subjects: SwapWord[] = heroVision.subjects.map((text, i) => ({
+/** Both subjects share the pale mint highlight sampled from the approved reference. */
+const subjects: SwapWord[] = heroVision.subjects.map(text => ({
   text,
-  pillClassName: subjectTints[i % subjectTints.length],
+  pillClassName: "bg-[#e0f1ee]",
 }));
 
 const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-visual-in lg:motion-safe:animate-enter-right";
@@ -40,7 +39,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
       <AetherFlowBackground />
       <Container className="flex flex-col items-center gap-12 pt-12 pb-16 sm:pt-16 lg:pt-20 lg:pb-20">
         {/* @container: the vision sizes itself to this column so its longest line never wraps. */}
-        <div className="@container w-full max-w-4xl text-center">
+        <div className="hero-copy @container relative isolate w-full max-w-4xl text-center">
           <h1 id="hero-title">
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-surface/70 px-4 py-2 text-xs font-medium tracking-wide text-brand motion-safe:animate-rise sm:text-[0.9375rem]">
               {hero.eyebrow}
