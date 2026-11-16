@@ -30,11 +30,11 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const video = productMedia.heroDemo[lang];
 
   return (
-    <section aria-labelledby="hero-title" className="harbor-hero relative overflow-hidden border-b border-line">
+    <section aria-labelledby="hero-title" className="harbor-hero relative isolate overflow-hidden border-b border-line">
       {/* Brand atmosphere behind the product introduction. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(ellipse_at_50%_0%,var(--color-brand-100),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[52rem] bg-[radial-gradient(ellipse_54%_64%_at_50%_26%,#c0dce9_0%,#d4e6ef_38%,rgb(230_240_245/0.55)_68%,transparent_100%)]"
       />
       <Container className="flex flex-col items-center gap-12 pt-12 pb-16 sm:pt-16 lg:pt-20 lg:pb-20">
         {/* @container: the vision sizes itself to this column so its longest line never wraps. */}
@@ -57,7 +57,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             </span>
           </h1>
           <p className="mx-auto mt-7 max-w-3xl text-lg font-semibold leading-snug text-ink text-balance [--enter-delay:160ms] motion-safe:animate-rise sm:text-2xl">{experience.promise}</p>
-          <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-muted text-pretty [--enter-delay:160ms] motion-safe:animate-rise sm:text-lg sm:leading-relaxed">
+          <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-[#4c5c6b] text-pretty [--enter-delay:160ms] motion-safe:animate-rise sm:text-lg sm:leading-relaxed">
             {hero.description}
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 [--enter-delay:240ms] motion-safe:animate-rise sm:flex-row sm:items-center">
