@@ -31,6 +31,20 @@ export function AetherFlowBackground() {
       ) * 0.6);
     }
 
+    function connectionVisibility(p: Particle, q: Particle) {
+      if (!pointer) return 1;
+      // Measure the whole segment, so a line cannot bridge across the cursor gap.
+      const dx = q.x - p.x;
+      const dy = q.y - p.y;
+      const lengthSquared = dx * dx + dy * dy;
+      const t = lengthSquared ? Math.max(0, Math.min(1,
+        ((pointer.x - p.x) * dx + (pointer.y - p.y) * dy) / lengthSquared,
+      )) : 0;
+      const distance = Math.hypot(pointer.x - p.x - dx * t, pointer.y - p.y - dy * t);
+      const fade = Math.max(0, Math.min(1, (distance - 72) / 72));
+      return fade * fade * (3 - 2 * fade);
+    }
+
     function draw() {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
@@ -45,9 +59,10 @@ export function AetherFlowBackground() {
           if (distanceSquared >= reachSquared) continue;
           const x = (p.x + q.x) / 2;
           const y = (p.y + q.y) / 2;
-          const nearPointer = pointer && Math.hypot(x - pointer.x, y - pointer.y) < 160;
-          const alpha = (1 - distanceSquared / reachSquared) * emphasis(x, y);
-          ctx.strokeStyle = `rgba(26, 98, 137, ${alpha * (nearPointer ? 0.55 : 0.34)})`;
+          const visibility = connectionVisibility(p, q);
+          if (!visibility) continue;
+          const alpha = (1 - distanceSquared / reachSquared) * emphasis(x, y) * visibility;
+          ctx.strokeStyle = `rgba(26, 98, 137, ${alpha * 0.34})`;
           ctx.lineWidth = 0.8;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
@@ -72,12 +87,12 @@ export function AetherFlowBackground() {
         for (const p of particles) {
           p.x += p.vx * dt;
           p.y += p.vy * dt;
-          if (pointer && !reducedMotion.matches) {
+          if (pointer) {
             const dx = p.x - pointer.x;
             const dy = p.y - pointer.y;
             const distance = Math.hypot(dx, dy);
-            if (distance > 0 && distance < 160) {
-              const force = (1 - distance / 160) * 240 * dt;
+            if (distance > 0 && distance < 200) {
+              const force = (1 - distance / 200) * 300 * dt;
               p.x += dx / distance * force;
               p.y += dy / distance * force;
             }
@@ -108,7 +123,7 @@ export function AetherFlowBackground() {
       pointer = null;
       if (!onScreen || document.hidden) return;
       draw();
-      // Keep the requested autonomous drift; reduced motion slows it and omits repulsion.
+      // Keep drift and cursor interaction available; reduced motion slows their pace.
       frame = requestAnimationFrame(tick);
     }
 
@@ -139,7 +154,7 @@ export function AetherFlowBackground() {
     }
 
     function move(event: PointerEvent) {
-      if (!canvas || reducedMotion.matches || event.pointerType === "touch") return;
+      if (!canvas || event.pointerType === "touch") return;
       const rect = canvas.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
