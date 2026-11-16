@@ -15,9 +15,9 @@ type Screen = "Today" | "My Work" | "Delegated";
 const screens: Screen[] = ["Today", "My Work", "Delegated"];
 const demoPortraits: Record<string, string> = {
   Minh: "/media/demo-avatars/minh.webp",
-  Alex: "/media/demo-avatars/minh.webp",
+  Alex: "/media/demo-avatars/alex.webp",
   Lan: "/media/demo-avatars/lan.webp",
-  Sam: "/media/demo-avatars/lan.webp",
+  Sam: "/media/demo-avatars/sam.webp",
   Bạn: "/media/demo-avatars/self.webp",
   You: "/media/demo-avatars/self.webp",
 };
