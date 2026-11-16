@@ -47,7 +47,7 @@ export function AetherFlowBackground() {
           const y = (p.y + q.y) / 2;
           const nearPointer = pointer && Math.hypot(x - pointer.x, y - pointer.y) < 160;
           const alpha = (1 - distanceSquared / reachSquared) * emphasis(x, y);
-          ctx.strokeStyle = `rgba(26, 98, 137, ${alpha * (nearPointer ? 0.42 : 0.26)})`;
+          ctx.strokeStyle = `rgba(26, 98, 137, ${alpha * (nearPointer ? 0.55 : 0.34)})`;
           ctx.lineWidth = 0.8;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
@@ -63,20 +63,21 @@ export function AetherFlowBackground() {
 
     function tick(now: number) {
       frame = 0;
-      if (!onScreen || document.hidden || reducedMotion.matches) return;
+      if (!onScreen || document.hidden) return;
       // Cap painting at 30 fps; speed remains independent of display refresh rate.
       if (!lastTime || now - lastTime >= 1000 / 30) {
-        const dt = lastTime ? Math.min((now - lastTime) / 1000, 0.05) : 0;
+        const elapsed = lastTime ? Math.min((now - lastTime) / 1000, 0.05) : 0;
+        const dt = elapsed * (reducedMotion.matches ? 0.6 : 1);
         lastTime = now;
         for (const p of particles) {
           p.x += p.vx * dt;
           p.y += p.vy * dt;
-          if (pointer) {
+          if (pointer && !reducedMotion.matches) {
             const dx = p.x - pointer.x;
             const dy = p.y - pointer.y;
             const distance = Math.hypot(dx, dy);
             if (distance > 0 && distance < 160) {
-              const force = (1 - distance / 160) * 36 * dt;
+              const force = (1 - distance / 160) * 240 * dt;
               p.x += dx / distance * force;
               p.y += dy / distance * force;
             }
@@ -107,8 +108,8 @@ export function AetherFlowBackground() {
       pointer = null;
       if (!onScreen || document.hidden) return;
       draw();
-      // Reduced motion gets a static network, without cursor repulsion.
-      if (!reducedMotion.matches) frame = requestAnimationFrame(tick);
+      // Keep the requested autonomous drift; reduced motion slows it and omits repulsion.
+      frame = requestAnimationFrame(tick);
     }
 
     function resize() {
@@ -122,13 +123,18 @@ export function AetherFlowBackground() {
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const count = Math.min(width < 640 ? 32 : 90, Math.round(width * height / 12000));
-      particles = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 14,
-        vy: (Math.random() - 0.5) * 14,
-        size: 1 + Math.random() * 1.2,
-      }));
+      particles = Array.from({ length: count }, () => {
+        // A minimum speed prevents almost-stationary nodes and makes the flow apparent.
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 18 + Math.random() * 12;
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: 1 + Math.random() * 1.2,
+        };
+      });
       sync();
     }
 
