@@ -4,6 +4,7 @@ import { DemoVideo } from "@/components/demo/DemoVideo";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { WordSwap, type SwapWord } from "@/components/ui/WordSwap";
+import { AetherFlowBackground } from "@/components/ui/AetherFlowBackground";
 import { productMedia } from "@/config/media";
 import { reveal } from "@/lib/reveal";
 import { siteConfig } from "@/config/site";
@@ -36,6 +37,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[52rem] bg-[radial-gradient(ellipse_54%_64%_at_50%_26%,#c0dce9_0%,#d4e6ef_38%,rgb(230_240_245/0.55)_68%,transparent_100%)] opacity-50"
       />
+      <AetherFlowBackground />
       <Container className="flex flex-col items-center gap-12 pt-12 pb-16 sm:pt-16 lg:pt-20 lg:pb-20">
         {/* @container: the vision sizes itself to this column so its longest line never wraps. */}
         <div className="@container w-full max-w-4xl text-center">
