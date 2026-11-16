@@ -14,12 +14,12 @@ import { track } from "@/lib/analytics";
 type Screen = "Today" | "My Work" | "Delegated";
 const screens: Screen[] = ["Today", "My Work", "Delegated"];
 const demoPortraits: Record<string, string> = {
-  Minh: "/media/customer-gallery/quang-minh.webp",
-  Alex: "/media/customer-gallery/quang-minh.webp",
-  Lan: "/media/customer-gallery/linh-tran.webp",
-  Sam: "/media/customer-gallery/linh-tran.webp",
-  Bạn: "/media/customer-gallery/daniel-park.webp",
-  You: "/media/customer-gallery/daniel-park.webp",
+  Minh: "/media/demo-avatars/minh.webp",
+  Alex: "/media/demo-avatars/minh.webp",
+  Lan: "/media/demo-avatars/lan.webp",
+  Sam: "/media/demo-avatars/lan.webp",
+  Bạn: "/media/demo-avatars/self.webp",
+  You: "/media/demo-avatars/self.webp",
 };
 const navigation = [
   [Sun, "Today"], [Inbox, "Inbox"], [MessageSquare, "Chat"], [CalendarDays, "Meetings"],
@@ -85,7 +85,8 @@ const sampleRows: DemoWorkRow[] = [
 export function WorkTableScreen({ delegated = false, createdRow, lang = "en" }: { delegated?: boolean; createdRow?: DemoWorkRow | null; lang?: Locale }) {
   const ui = getProductUi(lang);
   const localizedRows = sampleRows.map((row, index) => ({ ...row, title: ui.rows[index] }));
-  const rows = createdRow ? [createdRow, ...localizedRows] : localizedRows;
+  const visibleCreatedRow = createdRow && (delegated ? !createdRow.assignee?.self : createdRow.assignee?.self) ? createdRow : null;
+  const rows = visibleCreatedRow ? [visibleCreatedRow, ...localizedRows] : localizedRows;
   return <div className="min-h-[410px] p-3 sm:min-h-[470px] sm:p-5">
     <div className="mb-4 flex items-center justify-between gap-2 border-b border-line">
       <div className="flex min-w-0 gap-4 overflow-x-auto text-xs whitespace-nowrap"><span className="border-b-2 border-brand py-3">{ui.upcoming}</span><span className="py-3 text-[#a4592d]">{ui.overdue} (1)</span><span className="py-3 text-ink-muted">{delegated ? ui.approval : ui.rework}</span><span className="py-3 text-ink-muted">{ui.completed}</span><span className="py-3 text-ink-muted">{ui.archived}</span></div>
@@ -96,7 +97,7 @@ export function WorkTableScreen({ delegated = false, createdRow, lang = "en" }: 
         <thead className="border-b border-line text-[11px] font-normal text-ink-muted uppercase"><tr>{[ui.work, delegated ? ui.assignedTo : ui.assignedBy, ui.created, ui.due, ui.priority, ui.status, ui.files].map(label => <th scope="col" className="px-3 py-3 font-normal" key={label}>{label}</th>)}</tr></thead>
         <tbody className="divide-y divide-line">
           {!delegated && <tr className="bg-canvas"><td colSpan={7} className="px-3 py-2 text-ink-muted"><ChevronDown className="mr-2 inline size-3" />{ui.otherWork} <span className="ml-1">{rows.length}</span></td></tr>}
-          {rows.map((row, i) => <tr key={`${row.title}-${i}`} data-created-work={createdRow === row ? "" : undefined} className={createdRow === row ? "bg-brand-50 motion-safe:animate-rise" : undefined}><td className="max-w-[180px] px-3 py-4 leading-relaxed"><Flag className={cn("mr-2 inline size-3", i === 1 ? "fill-[#b95050] text-[#b95050]" : "text-ink-muted")} />{row.title}</td><td className="px-3 py-4"><span className="mr-1.5 inline-grid size-4 place-items-center rounded-full bg-brand/10 text-[8px] text-brand">{delegated ? row.name[0] : "A"}</span>{delegated ? row.name : ui.you}</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">14/11/2026</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">{row.due}</td><td className="px-3 py-4 text-ink-muted">{ui.medium}</td><td className="px-3 py-4"><span className={cn("whitespace-nowrap rounded border border-line px-1.5 py-0.5 text-[10px]", row.status === "In progress" ? "bg-[#e8f0fa] text-[#305b83]" : "bg-sunken text-ink")}>{row.status === "In progress" ? ui.inProgress : ui.assigned}</span></td><td className="px-3 py-4 text-ink-muted">{i === 1 ? "1" : "-"}</td></tr>)}
+          {rows.map((row, i) => <tr key={`${row.title}-${i}`} data-created-work={createdRow === row ? "" : undefined} className={createdRow === row ? "bg-brand-50 motion-safe:animate-rise" : undefined}><td className="max-w-[180px] px-3 py-4 leading-relaxed"><Flag className={cn("mr-2 inline size-3", i === 1 ? "fill-[#b95050] text-[#b95050]" : "text-ink-muted")} />{row.title}</td><td className="px-3 py-4"><span className="inline-flex items-center gap-1.5"><Avatar size="sm" person={delegated ? row.assignee ?? { name: row.name, initials: row.name[0] } : { name: ui.you, initials: "", self: true }} imageSrc={demoPortraits[delegated ? row.name : ui.you]} /><span>{delegated ? row.name : ui.you}</span></span></td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">14/11/2026</td><td className="px-3 py-4 whitespace-nowrap text-ink-muted">{row.due}</td><td className="px-3 py-4 text-ink-muted">{ui.medium}</td><td className="px-3 py-4"><span className={cn("whitespace-nowrap rounded border border-line px-1.5 py-0.5 text-[10px]", row.status === "In progress" ? "bg-[#e8f0fa] text-[#305b83]" : "bg-sunken text-ink")}>{row.status === "In progress" ? ui.inProgress : ui.assigned}</span></td><td className="px-3 py-4 text-ink-muted">{i === 1 ? "1" : "-"}</td></tr>)}
         </tbody>
       </table>
     </div>
@@ -135,7 +136,7 @@ function CreatedWorkCard({ work, success, lang, onOpen }: { work: DemoWorkRow; s
         <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><Flag className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.priority}</dt><dd>{ui.medium}</dd>
         <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><CircleDot className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.status}</dt><dd><span className="rounded border border-line bg-sunken px-2 py-0.5">{ui.assigned}</span></dd>
       </dl>
-      <button type="button" onClick={onOpen} className="mt-5 rounded-lg bg-brand px-4 py-2 text-xs font-medium text-white hover:bg-brand-hover">{ui.openWork}</button>
+      <button type="button" onClick={onOpen} className="mt-5 rounded-lg bg-brand px-4 py-2 text-xs font-medium text-white hover:bg-brand-hover">{work.assignee?.self ? ui.openWork : ui.openDelegated}</button>
     </article>
   );
 }
@@ -186,6 +187,8 @@ export function ProductDemo({ copy, examples, lang, label }: {
   const [userPaused, setUserPaused] = useState(false);
   const [inView, setInView] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
+  const resultScreen: Screen = scenario.self ? "My Work" : "Delegated";
+  const visibleScreen = screen === "Today" && snap.phase === "done" ? resultScreen : screen;
   const paused = userPaused;
   const running = screen === "Today" && inView && pageVisible && !paused;
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -258,13 +261,13 @@ export function ProductDemo({ copy, examples, lang, label }: {
     }
     const stages = ["view"];
     if (screen === "Today" && snap.phase === "card" && createdWork) stages.push("work_card");
-    if (createdWork && (screen === "My Work" || (screen === "Today" && snap.phase === "done"))) stages.push("work_list");
+    if (createdWork && visibleScreen === resultScreen) stages.push("work_list");
     for (const stage of stages) {
       if (milestones.current.has(stage)) continue;
       milestones.current.add(stage);
       track("demo_milestone", { stage });
     }
-  }, [inView, pageVisible, screen, snap.phase, createdWork]);
+  }, [inView, pageVisible, screen, visibleScreen, resultScreen, snap.phase, createdWork]);
 
   const replay = useCallback((source: string) => {
     elapsed.current = 0;
@@ -294,7 +297,8 @@ export function ProductDemo({ copy, examples, lang, label }: {
   }
 
   function select(index: number, focus = false) {
-    setScreen(screens[index]);
+    if (index === 0 && snap.phase === "done") replay("tab");
+    else setScreen(screens[index]);
     if (focus) tabRefs.current[index]?.focus();
     track("demo_screen_select", { screen: screens[index] });
   }
@@ -330,7 +334,7 @@ export function ProductDemo({ copy, examples, lang, label }: {
         <span className="flex items-center gap-2 text-xs font-medium text-ink-muted"><span className="size-1.5 rounded-full bg-brand" />{label}</span>
         <div role="tablist" aria-label={label} className="inline-flex rounded-lg border border-line bg-white p-1">
           {screens.map((item, index) => (
-            <button key={item} type="button" ref={element => { tabRefs.current[index] = element; }} role="tab" id={`${id}-${index}`} aria-selected={screen === item} aria-controls={`${id}-panel`} tabIndex={screen === item ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)} className={cn("rounded-md px-3 py-2 text-xs transition-colors sm:px-4", screen === item ? "bg-brand text-white" : "text-ink-muted hover:bg-canvas")}>
+            <button key={item} type="button" ref={element => { tabRefs.current[index] = element; }} role="tab" id={`${id}-${index}`} aria-selected={visibleScreen === item} aria-controls={`${id}-panel`} tabIndex={visibleScreen === item ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)} className={cn("rounded-md px-3 py-2 text-xs transition-colors sm:px-4", visibleScreen === item ? "bg-brand text-white" : "text-ink-muted hover:bg-canvas")}>
               {item === "Today" ? isVietnamese ? "Tạo công việc" : "Create work" : ui.nav[item]}
             </button>
           ))}
@@ -341,15 +345,13 @@ export function ProductDemo({ copy, examples, lang, label }: {
           {scenarios.map((item, index) => <button key={item.label} type="button" aria-pressed={index === exampleIndex} onClick={() => { setExampleIndex(index); replay("example"); }} className={cn("rounded-full border px-3 py-1.5 text-xs transition-colors", index === exampleIndex ? "border-brand/30 bg-white font-medium text-brand" : "border-line text-ink-muted hover:bg-white")}>{item.label}</button>)}
         </div>
       )}
-      <div ref={viewportRef} role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-${screens.indexOf(screen)}`} tabIndex={0}>
-        <ProductShell lang={lang} active={screen === "Today" && snap.phase === "done" ? "My Work" : screen}>
-          {screen === "Today" ? snap.phase === "done" ? (
-            <WorkTableScreen lang={lang} createdRow={createdWork} />
-          ) : (
+      <div ref={viewportRef} role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-${screens.indexOf(visibleScreen)}`} tabIndex={0}>
+        <ProductShell lang={lang} active={visibleScreen}>
+          {visibleScreen === "Today" ? (
             <TodayScreen lang={lang} command={scenario.command} composer={composer} loading={snap.phase === "processing"} paused={paused}
               result={snap.phase === "card" && createdWork ? <CreatedWorkCard lang={lang} work={createdWork} success={copy.success} onOpen={() => { elapsed.current = timeline.doneAt; setSnap({ phase: "done", chars: chars.length }); }} /> : undefined}
             />
-          ) : <WorkTableScreen lang={lang} delegated={screen === "Delegated"} createdRow={createdWork} />}
+          ) : <WorkTableScreen lang={lang} delegated={visibleScreen === "Delegated"} createdRow={createdWork} />}
         </ProductShell>
       </div>
       <div className="mt-4 flex items-center justify-between gap-3">

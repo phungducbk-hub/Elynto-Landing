@@ -24,7 +24,7 @@ const copy: Record<Locale, ExperienceCopy> = {
       steps: [
         { title: "Bắt đầu bằng một câu", body: "Chọn một yêu cầu và theo dõi từng bước tạo công việc." },
         { title: "Xem công việc được tạo", body: "Work card hiển thị tên việc, người phụ trách, thời hạn và trạng thái." },
-        { title: "Theo dõi trong Việc của tôi", body: "Mở danh sách để thấy công việc vừa tạo, rồi thử lại với tình huống khác." },
+        { title: "Theo dõi đúng người phụ trách", body: "Việc giao cho đồng đội nằm trong Việc đã giao; việc của riêng bạn nằm trong Việc của tôi." },
       ],
       cta: "Xem cách tạo công việc", help: "Hướng dẫn bắt đầu", privacy: "Quyền riêng tư trên website", about: "Tìm hiểu về Elynto",
     },
@@ -50,7 +50,7 @@ const copy: Record<Locale, ExperienceCopy> = {
       steps: [
         { title: "Start with a sentence", body: "Choose a request and follow each step of creating work." },
         { title: "See the work card", body: "The card shows the task, owner, due date and status." },
-        { title: "Follow it in My Work", body: "Open the list to see the new task, then replay another scenario." },
+        { title: "Follow work by owner", body: "Work assigned to teammates appears in Delegated; your own tasks appear in My Work." },
       ],
       cta: "Explore work creation", help: "Getting started", privacy: "Website privacy", about: "About Elynto",
     },

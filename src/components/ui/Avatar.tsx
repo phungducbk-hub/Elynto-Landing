@@ -22,7 +22,7 @@ export function Avatar({ person, imageSrc, size = "md", className }: { person: P
   if (imageSrc) {
     return (
       <span aria-hidden="true" className={cn("relative inline-block shrink-0 overflow-hidden rounded-full bg-sunken ring-1 ring-black/5", dims, className)}>
-        <Image src={imageSrc} alt="" fill sizes="48px" className="origin-[50%_25%] scale-[1.7] object-cover object-[50%_15%]" />
+        <Image src={imageSrc} alt="" fill sizes={size === "sm" ? "20px" : "24px"} className="object-cover" />
       </span>
     );
   }

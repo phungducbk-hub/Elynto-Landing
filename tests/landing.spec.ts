@@ -154,7 +154,7 @@ for (const lang of ["vi", "en"] as const) {
       await page.clock.runFor(2_100);
       await expect(demo.locator("[data-work-card]")).toBeVisible();
       await expect(demo.locator("[data-created-work]")).toHaveCount(0);
-      await demo.getByRole("button", { name: lang === "vi" ? "Xem trong Việc của tôi" : "View in My Work", exact: true }).click();
+      await demo.getByRole("button", { name: lang === "vi" ? "Xem trong Việc đã giao" : "View in Delegated", exact: true }).click();
       await expect(demo.locator("[data-created-work]")).toHaveCount(1);
       await expect(demo.locator("[data-created-work]")).toContainText(lang === "vi" ? "Làm báo giá" : "Prepare the quotation");
       await demo.getByRole("button", { name: lang === "vi" ? "Xem lại từ đầu" : "Replay from the start", exact: true }).click();
@@ -172,7 +172,11 @@ for (const lang of ["vi", "en"] as const) {
       await expect(demo.locator("[data-created-work]")).toHaveCount(0);
       await page.clock.runFor(5_000);
       await expect(demo.locator("[data-created-work]")).toHaveCount(1);
-      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Người giao" : "Assigned by");
+      await expect(demo.getByRole("tabpanel")).toContainText(lang === "vi" ? "Giao cho" : "Assigned to");
+      await expect(demo.getByRole("tab", { name: lang === "vi" ? "Việc đã giao" : "Delegated", exact: true })).toHaveAttribute("aria-selected", "true");
+      await expect(demo.locator("[data-created-work] img")).toHaveAttribute("src", /demo-avatars/);
+      await demo.getByRole("tab", { name: lang === "vi" ? "Việc của tôi" : "My Work", exact: true }).click();
+      await expect(demo.locator("[data-created-work]")).toHaveCount(0);
     });
 
     test("product preview language follows the page locale", async ({ page }) => {
