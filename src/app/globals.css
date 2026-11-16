@@ -182,10 +182,10 @@
 .hero-copy::before {
   content: "";
   position: absolute;
-  inset: -3rem -3rem;
+  inset: -4rem -6rem;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(ellipse 72% 82% at 50% 50%,
+  background: radial-gradient(ellipse 50% 50% at 50% 50%,
     rgb(255 255 255 / 98%) 0%,
     rgb(255 255 255 / 97%) 65%,
     rgb(255 255 255 / 60%) 80%,
@@ -194,7 +194,7 @@
 
 @media (min-width: 640px) {
   .hero-copy::before {
-    inset: -4rem -8rem;
+    inset: -8rem -16rem;
   }
 }
 
