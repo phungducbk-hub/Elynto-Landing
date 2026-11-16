@@ -72,8 +72,6 @@
 
   --animate-caret: caret 1s steps(1) infinite;
   --animate-shimmer: shimmer 1.4s ease-in-out infinite;
-  --animate-word-in: word-in 0.6s var(--ease-out-expo) both;
-  --animate-word-out: word-out 0.45s var(--ease-out-expo) both;
   /* Each column sets its own animation-duration inline so the columns drift out of step. */
   --animate-marquee: marquee-up 30s linear infinite;
 
@@ -107,23 +105,6 @@
     from {
       opacity: 0;
       transform: translate3d(0, var(--entrance-distance), 0);
-    }
-  }
-
-  /* Hero word swap: the new word rolls up into the pill, the old one rolls up and out. */
-  @keyframes word-in {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 0.5em, 0);
-      filter: blur(0.06em);
-    }
-  }
-
-  @keyframes word-out {
-    to {
-      opacity: 0;
-      transform: translate3d(0, -0.5em, 0);
-      filter: blur(0.06em);
     }
   }
 
@@ -199,6 +180,23 @@
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Demo results enter independently from the page's larger scroll reveals. */
+  #demo [data-work-card],
+  #demo [data-created-work] {
+    animation: demo-work-rise 1s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+}
+
+@keyframes demo-work-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 

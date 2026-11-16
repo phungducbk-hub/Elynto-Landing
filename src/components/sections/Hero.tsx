@@ -16,11 +16,10 @@ const { heroVision } = siteConfig;
 /** What screen readers hear: the sentence as first shown. */
 const heroVisionText = [heroVision.lead, heroVision.bridge, heroVision.subjects[0], heroVision.tail].join(" ");
 
-/** Warm highlights stand out against the blue hero atmosphere. */
-const subjectTints = ["bg-[#fce4a0]", "bg-[#ffd2b8]"];
-const subjects: SwapWord[] = heroVision.subjects.map((text, i) => ({
+/** One pale beige highlight keeps the typewriter calm against the blue atmosphere. */
+const subjects: SwapWord[] = heroVision.subjects.map(text => ({
   text,
-  pillClassName: subjectTints[i % subjectTints.length],
+  pillClassName: "bg-[#f6edcf]",
 }));
 
 const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-visual-in lg:motion-safe:animate-enter-right";
