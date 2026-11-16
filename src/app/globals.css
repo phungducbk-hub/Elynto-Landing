@@ -181,12 +181,15 @@
   html {
     scroll-behavior: smooth;
   }
+}
 
-  /* Demo results enter independently from the page's larger scroll reveals. */
-  #demo [data-work-card],
-  #demo [data-created-work] {
-    animation: demo-work-rise 1s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  }
+/* These two brief result entrances are part of the requested demo sequence.
+   Keep them independent of the page's decorative motion preferences. */
+#demo [data-work-card],
+#demo [data-created-work] {
+  animation: demo-work-rise 1s cubic-bezier(0.4, 0, 0.2, 1) both;
+  /* Override the global reduced-motion duration only for these two results. */
+  animation-duration: 1s !important;
 }
 
 @keyframes demo-work-rise {

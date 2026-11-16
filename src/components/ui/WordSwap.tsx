@@ -11,7 +11,7 @@ export type SwapWord = {
 type Phase = "holding" | "deleting" | "typing";
 const HOLD_MS = 2_800;
 const DELETE_MS = 160;
-const TYPE_MS = 180;
+const TYPE_MS = 120;
 const EMPTY_MS = 500;
 
 /** Decorative typewriter; the heading supplies the full accessible sentence. */
