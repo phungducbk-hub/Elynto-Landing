@@ -84,8 +84,8 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           </div>
         </div>
 
-        {/* Keep the opaque demo surface above the copy's decorative light. */}
-        <div {...reveal("visual", 80)} className="harbor-demo-stage relative z-10 w-full max-w-6xl rounded-2xl border border-brand-200/70 bg-brand-50 p-3 shadow-[0_32px_100px_-50px_rgb(26_98_137/0.35)] sm:p-5">
+        {/* The hero and demo share the approved 64px / 1s entrance settings. */}
+        <div {...reveal("visual", 80)} className="harbor-demo-stage w-full max-w-6xl rounded-2xl border border-brand-200/70 bg-brand-50 p-3 shadow-[0_32px_100px_-50px_rgb(26_98_137/0.35)] sm:p-5">
           {video ? (
             <DemoVideo video={video} copy={demo} className={demoEntrance} />
           ) : (
