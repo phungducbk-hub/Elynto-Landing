@@ -177,6 +177,27 @@
   }
 }
 
+/* A feathered white focus follows the copy's responsive bounds. It brightens
+   the reading area and gently obscures the moving network beneath the text. */
+.hero-copy::before {
+  content: "";
+  position: absolute;
+  inset: -3rem -3rem;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 72% 82% at 50% 50%,
+    rgb(255 255 255 / 98%) 0%,
+    rgb(255 255 255 / 97%) 65%,
+    rgb(255 255 255 / 60%) 80%,
+    transparent 100%);
+}
+
+@media (min-width: 640px) {
+  .hero-copy::before {
+    inset: -4rem -8rem;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
