@@ -16,10 +16,10 @@ const { heroVision } = siteConfig;
 /** What screen readers hear: the sentence as first shown. */
 const heroVisionText = [heroVision.lead, heroVision.bridge, heroVision.subjects[0], heroVision.tail].join(" ");
 
-/** One pale beige highlight keeps the typewriter calm against the blue atmosphere. */
+/** Both subjects share the pale mint highlight sampled from the approved reference. */
 const subjects: SwapWord[] = heroVision.subjects.map(text => ({
   text,
-  pillClassName: "bg-[#f6edcf]",
+  pillClassName: "bg-[#e0f1ee]",
 }));
 
 const demoEntrance = "[--enter-delay:200ms] motion-safe:animate-visual-in lg:motion-safe:animate-enter-right";
