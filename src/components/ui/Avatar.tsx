@@ -1,4 +1,5 @@
 import { UserRound } from "lucide-react";
+import Image from "next/image";
 import type { Person } from "@/content/types";
 import { cn } from "@/lib/cn";
 
@@ -16,8 +17,15 @@ function toneFor(name: string) {
   return tones[hash % tones.length];
 }
 
-export function Avatar({ person, size = "md", className }: { person: Person; size?: "sm" | "md"; className?: string }) {
+export function Avatar({ person, imageSrc, size = "md", className }: { person: Person; imageSrc?: string; size?: "sm" | "md"; className?: string }) {
   const dims = size === "sm" ? "size-5 text-[0.625rem]" : "size-6 text-[0.6875rem]";
+  if (imageSrc) {
+    return (
+      <span aria-hidden="true" className={cn("relative inline-block shrink-0 overflow-hidden rounded-full bg-sunken ring-1 ring-black/5", dims, className)}>
+        <Image src={imageSrc} alt="" fill sizes="48px" className="origin-[50%_25%] scale-[1.7] object-cover object-[50%_15%]" />
+      </span>
+    );
+  }
   if (person.self) {
     return (
       <span

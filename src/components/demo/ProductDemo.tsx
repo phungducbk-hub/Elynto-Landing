@@ -13,6 +13,14 @@ import { track } from "@/lib/analytics";
 
 type Screen = "Today" | "My Work" | "Delegated";
 const screens: Screen[] = ["Today", "My Work", "Delegated"];
+const demoPortraits: Record<string, string> = {
+  Minh: "/media/customer-gallery/quang-minh.webp",
+  Alex: "/media/customer-gallery/quang-minh.webp",
+  Lan: "/media/customer-gallery/linh-tran.webp",
+  Sam: "/media/customer-gallery/linh-tran.webp",
+  Bạn: "/media/customer-gallery/daniel-park.webp",
+  You: "/media/customer-gallery/daniel-park.webp",
+};
 const navigation = [
   [Sun, "Today"], [Inbox, "Inbox"], [MessageSquare, "Chat"], [CalendarDays, "Meetings"],
   [ListChecks, "My Work"], [UserRoundCheck, "Delegated"], [FolderKanban, "Projects"],
@@ -122,7 +130,7 @@ function CreatedWorkCard({ work, success, lang, onOpen }: { work: DemoWorkRow; s
       <p className="mt-4 text-base font-semibold text-ink">{work.title}</p>
       <dl className="mt-4 grid grid-cols-[7rem_1fr] items-center gap-x-3 gap-y-3 text-sm">
         <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><UserRound className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.assignedTo}</dt>
-        <dd className="flex min-w-0 items-center gap-2 font-medium"><Avatar person={work.assignee ?? { name: work.name, initials: Array.from(work.name)[0] ?? "" }} /><span>{work.name}</span></dd>
+        <dd className="flex min-w-0 items-center gap-2 font-medium"><Avatar person={work.assignee ?? { name: work.name, initials: Array.from(work.name)[0] ?? "" }} imageSrc={demoPortraits[work.name]} /><span>{work.name}</span></dd>
         <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><CalendarClock className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.due}</dt><dd className="font-medium">{work.due}</dd>
         <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><Flag className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.priority}</dt><dd>{ui.medium}</dd>
         <dt className="flex items-center gap-1.5 whitespace-nowrap text-ink-muted"><CircleDot className="size-3.5 shrink-0 opacity-60" aria-hidden="true" />{ui.status}</dt><dd><span className="rounded border border-line bg-sunken px-2 py-0.5">{ui.assigned}</span></dd>
