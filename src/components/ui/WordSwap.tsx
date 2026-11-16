@@ -10,9 +10,9 @@ export type SwapWord = {
 
 type Phase = "holding" | "deleting" | "typing";
 const HOLD_MS = 2_800;
-const DELETE_MS = 85;
-const TYPE_MS = 120;
-const EMPTY_MS = 300;
+const DELETE_MS = 160;
+const TYPE_MS = 180;
+const EMPTY_MS = 500;
 
 /** Decorative typewriter; the heading supplies the full accessible sentence. */
 export function WordSwap({ words }: { words: SwapWord[] }) {
@@ -33,31 +33,23 @@ export function WordSwap({ words }: { words: SwapWord[] }) {
       inView = entry.isIntersecting;
       sync();
     });
-    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const onPreference = () => setState(current => ({
-      ...current,
-      chars: Array.from(words[current.index]?.text ?? "").length,
-      phase: "holding",
-    }));
     observer.observe(pill);
     document.addEventListener("visibilitychange", sync);
-    preference.addEventListener("change", onPreference);
     return () => {
       observer.disconnect();
       document.removeEventListener("visibilitychange", sync);
-      preference.removeEventListener("change", onPreference);
     };
   }, [words]);
 
   useEffect(() => {
     if (!active || words.length < 2) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const delay = reduced || state.phase === "holding" ? HOLD_MS
+    // Text is edited in place, including with reduced motion. Only the cursor's
+    // blinking is suppressed by that preference; never swap an entire word.
+    const delay = state.phase === "holding" ? HOLD_MS
       : state.phase === "typing" ? TYPE_MS
       : state.chars === 0 ? EMPTY_MS : DELETE_MS;
     const timer = window.setTimeout(() => setState(current => {
       const nextIndex = (current.index + 1) % words.length;
-      if (reduced) return { index: nextIndex, chars: Array.from(words[nextIndex].text).length, phase: "holding" };
       if (current.phase === "holding") return { ...current, chars: Math.max(0, current.chars - 1), phase: "deleting" };
       if (current.phase === "deleting") return current.chars > 0
         ? { ...current, chars: current.chars - 1 }
