@@ -4,6 +4,7 @@ import { DemoVideo } from "@/components/demo/DemoVideo";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { WordSwap, type SwapWord } from "@/components/ui/WordSwap";
+import { AetherFlowBackground } from "@/components/ui/AetherFlowBackground";
 import { productMedia } from "@/config/media";
 import { reveal } from "@/lib/reveal";
 import { siteConfig } from "@/config/site";
@@ -30,12 +31,13 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const video = productMedia.heroDemo[lang];
 
   return (
-    <section aria-labelledby="hero-title" className="harbor-hero relative overflow-hidden border-b border-line">
+    <section aria-labelledby="hero-title" className="harbor-hero relative isolate overflow-hidden border-b border-line">
       {/* Brand atmosphere behind the product introduction. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(ellipse_at_50%_0%,var(--color-brand-100),transparent_70%)]"
       />
+      <AetherFlowBackground />
       <Container className="flex flex-col items-center gap-12 pt-12 pb-16 sm:pt-16 lg:pt-20 lg:pb-20">
         {/* @container: the vision sizes itself to this column so its longest line never wraps. */}
         <div className="@container w-full max-w-4xl text-center">
