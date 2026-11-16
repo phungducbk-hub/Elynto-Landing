@@ -16,8 +16,8 @@ const { heroVision } = siteConfig;
 /** What screen readers hear: the sentence as first shown. */
 const heroVisionText = [heroVision.lead, heroVision.bridge, heroVision.subjects[0], heroVision.tail].join(" ");
 
-/** "you" on the brand blue tint, "your team" on the teal used for people across the product visuals. */
-const subjectTints = ["bg-field-task-soft", "bg-field-assignee-soft"];
+/** Warm highlights stand out against the blue hero atmosphere. */
+const subjectTints = ["bg-[#fce4a0]", "bg-[#ffd2b8]"];
 const subjects: SwapWord[] = heroVision.subjects.map((text, i) => ({
   text,
   pillClassName: subjectTints[i % subjectTints.length],
@@ -32,6 +32,11 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dictionary }) {
 
   return (
     <section aria-labelledby="hero-title" className="harbor-hero relative isolate overflow-hidden border-b border-line">
+      {/* Brand atmosphere behind the product introduction. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(ellipse_at_50%_0%,var(--color-brand-100),transparent_70%)]"
+      />
       <AetherFlowBackground />
       <Container className="flex flex-col items-center gap-12 pt-12 pb-16 sm:pt-16 lg:pt-20 lg:pb-20">
         {/* @container: the vision sizes itself to this column so its longest line never wraps. */}
