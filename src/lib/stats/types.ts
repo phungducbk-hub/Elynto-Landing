@@ -35,6 +35,7 @@ export type StatsEvent = {
 
 /** What the browser sends to /api/collect. Device, browser, OS and country are derived on the server. */
 export type CollectPayload = {
+  consentVersion: 1;
   type: "pageview" | "cta" | "demo";
   visitor: string;
   visit: string;

@@ -17,7 +17,9 @@ export type StatsStore = {
 };
 
 /** Events older than this are dropped automatically (Redis only). */
-const RETENTION_DAYS = Number(process.env.STATS_RETENTION_DAYS) || 400;
+const configuredRetention = Number(process.env.STATS_RETENTION_DAYS);
+const RETENTION_DAYS = Number.isFinite(configuredRetention) && configuredRetention > 0
+  ? Math.max(1, Math.min(400, Math.floor(configuredRetention))) : 400;
 const KEY_PREFIX = "elynto:stats:";
 
 function parseLines(lines: string[]) {

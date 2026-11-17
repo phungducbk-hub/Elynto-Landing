@@ -1,46 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { setStatsOptOut, STATS_OPT_OUT_KEY } from "@/lib/stats/client";
+import { useSyncExternalStore } from "react";
+import { serverStatisticsChoice, setStatsOptOut, statisticsChoice, subscribeStatisticsChoice } from "@/lib/stats/client";
 
 type Copy = { on: string; off: string; signal: string; disable: string; enable: string };
 
-/** Lets a visitor stop (or resume) the site's own visit statistics for this browser. */
 export function StatsOptOut({ copy }: { copy: Copy }) {
-  // null until mounted: the choice lives in this browser, not on the server.
-  const [state, setState] = useState<{ optedOut: boolean; signal: boolean } | null>(null);
-
-  useEffect(() => {
-    let optedOut = false;
-    try {
-      optedOut = window.localStorage.getItem(STATS_OPT_OUT_KEY) === "1";
-    } catch {
-      // Storage blocked: nothing can be remembered, nothing is stored either.
-    }
-    const nav = navigator as Navigator & { globalPrivacyControl?: boolean };
-    // Reading browser-only settings after hydration is the point of this effect.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setState({ optedOut, signal: nav.globalPrivacyControl === true || navigator.doNotTrack === "1" });
-  }, []);
-
-  const toggle = () => {
-    if (!state) return;
-    setStatsOptOut(!state.optedOut);
-    setState({ ...state, optedOut: !state.optedOut });
-  };
-
+  const choice = useSyncExternalStore(subscribeStatisticsChoice, statisticsChoice, serverStatisticsChoice);
+  const allowed = choice === "allow";
   return (
-    <div className="mt-6">
-      <button
-        type="button"
-        onClick={toggle}
-        disabled={!state || state.signal}
-        className="inline-flex h-11 items-center rounded-xl bg-surface px-5 text-[0.9375rem] font-semibold text-ink ring-1 ring-line-strong transition-colors ring-inset hover:bg-sunken disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {state?.optedOut ? copy.enable : copy.disable}
+    <div className="mt-5">
+      <button type="button" onClick={() => setStatsOptOut(allowed)} disabled={choice === "server" || choice === "signal"}
+        className="inline-flex min-h-11 items-center justify-center rounded-xl border border-line-strong bg-surface px-5 py-2 text-sm font-semibold text-ink transition-colors hover:bg-sunken disabled:cursor-not-allowed disabled:opacity-60">
+        {allowed ? copy.disable : copy.enable}
       </button>
-      <p role="status" className="mt-3 min-h-6 text-sm font-medium text-ink-muted">
-        {state ? (state.signal ? copy.signal : state.optedOut ? copy.off : copy.on) : ""}
+      <p role="status" className="mt-3 min-h-6 text-sm leading-relaxed text-ink-muted">
+        {choice === "server" ? "" : choice === "signal" ? copy.signal : allowed ? copy.on : copy.off}
       </p>
     </div>
   );

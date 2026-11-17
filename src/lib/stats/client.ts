@@ -3,6 +3,9 @@ import type { CollectPayload, DemoStage, StatsCta } from "./types";
 const VISITOR_KEY = "elynto-vid";
 const VISIT_KEY = "elynto-visit";
 export const STATS_OPT_OUT_KEY = "elynto-stats-optout";
+export const STATS_CONSENT_KEY = "elynto-stats-consent";
+export const STATS_CHOICE_EVENT = "elynto:statistics-choice";
+export type StatisticsChoice = "allow" | "deny" | "unset" | "signal" | "server";
 
 /** A visit ends after this long without a page view or click. */
 const VISIT_TIMEOUT_MS = 30 * 60 * 1000;
@@ -11,6 +14,7 @@ const VISIT_TIMEOUT_MS = 30 * 60 * 1000;
 const memory = new Map<string, string>();
 
 function read(key: string) {
+  if (memory.has(key)) return memory.get(key)!;
   try {
     return window.localStorage.getItem(key);
   } catch {
@@ -21,6 +25,7 @@ function read(key: string) {
 function write(key: string, value: string) {
   try {
     window.localStorage.setItem(key, value);
+    memory.delete(key);
   } catch {
     memory.set(key, value);
   }
@@ -32,23 +37,47 @@ function randomId() {
     : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`;
 }
 
-/** Visitors can switch statistics off on the Cookies page; GPC and Do Not Track are honoured too. */
-export function statsOptedOut() {
-  if (read(STATS_OPT_OUT_KEY) === "1") return true;
+/** No optional collection or visitor ID until explicit, versioned consent. */
+export function statisticsChoice(): StatisticsChoice {
+  if (typeof window === "undefined") return "server";
   const nav = navigator as Navigator & { globalPrivacyControl?: boolean };
-  return nav.globalPrivacyControl === true || navigator.doNotTrack === "1";
+  if (nav.globalPrivacyControl === true || navigator.doNotTrack === "1") return "signal";
+  if (read(STATS_OPT_OUT_KEY) === "1" || read(STATS_CONSENT_KEY) === "v1:no") return "deny";
+  return read(STATS_CONSENT_KEY) === "v1:yes" ? "allow" : "unset";
+}
+
+export function serverStatisticsChoice(): StatisticsChoice { return "server"; }
+
+export function subscribeStatisticsChoice(listener: () => void) {
+  window.addEventListener(STATS_CHOICE_EVENT, listener);
+  window.addEventListener("storage", listener);
+  return () => {
+    window.removeEventListener(STATS_CHOICE_EVENT, listener);
+    window.removeEventListener("storage", listener);
+  };
+}
+
+export function statsOptedOut() {
+  return statisticsChoice() !== "allow";
 }
 
 export function setStatsOptOut(optOut: boolean) {
+  write(STATS_CONSENT_KEY, optOut ? "v1:no" : "v1:yes");
   if (optOut) {
     write(STATS_OPT_OUT_KEY, "1");
+    for (const key of [VISITOR_KEY, VISIT_KEY]) {
+      memory.delete(key);
+      try { window.localStorage.removeItem(key); } catch { /* Blocked storage. */ }
+    }
   } else {
+    memory.delete(STATS_OPT_OUT_KEY);
     try {
       window.localStorage.removeItem(STATS_OPT_OUT_KEY);
     } catch {
       memory.delete(STATS_OPT_OUT_KEY);
     }
   }
+  if (typeof window.dispatchEvent === "function") window.dispatchEvent(new Event(STATS_CHOICE_EVENT));
 }
 
 function identity() {
@@ -72,11 +101,12 @@ function identity() {
   return { visitor, visit: visit.id, isNewVisitor };
 }
 
-function send(payload: Omit<CollectPayload, "visitor" | "visit" | "isNewVisitor" | "touch">) {
+function send(payload: Omit<CollectPayload, "visitor" | "visit" | "isNewVisitor" | "touch" | "consentVersion">) {
   if (statsOptedOut()) return;
   const { visitor, visit, isNewVisitor } = identity();
   const body = JSON.stringify({
     ...payload,
+    consentVersion: 1,
     visitor,
     visit,
     isNewVisitor: payload.type === "pageview" && isNewVisitor,

@@ -288,3 +288,7 @@
 .elynto-photo-frame { overflow: hidden; border: 1px solid var(--color-line); border-radius: 1.5rem; background: white; box-shadow: var(--shadow-card); }
 .elynto-insight-card { border: 1px solid var(--color-brand-100); border-radius: 1.25rem; background: white; padding: 1rem; box-shadow: var(--shadow-float); }
 @media (min-width: 40rem) { .elynto-insight-card { padding: 1.25rem; } }
+
+.privacy-dialog::backdrop {
+  background: rgb(26 37 48 / 38%);
+}

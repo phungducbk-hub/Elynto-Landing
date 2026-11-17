@@ -4,7 +4,7 @@ import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 import { LOCALE_COOKIE } from "@/lib/i18n";
 
-/** Clears the remembered language (cookie + localStorage) — the only thing this site stores. */
+/** Clears the remembered language (cookie + localStorage) without changing the statistics choice. */
 export function CookieReset({ label, done }: { label: string; done: string }) {
   const [cleared, setCleared] = useState(false);
 

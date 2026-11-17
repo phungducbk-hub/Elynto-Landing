@@ -1,3 +1,5 @@
+import { TeamCollaboration } from "@/components/visuals/TeamCollaboration";
+import { getSupportFaq } from "@/content/pages/trust/faq";
 import { ArrowRight, Check, ChevronRight, Mail } from "lucide-react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -24,6 +26,8 @@ import { StatsOptOut } from "./StatsOptOut";
 /** Feature visuals reused from the home page. The wide ones sit below the intro, the others beside it. */
 function FeatureVisual({ pageKey, dict, lang }: { pageKey: FeaturePageKey; dict: Dictionary; lang: Locale }) {
   switch (pageKey) {
+    case "collaboration":
+      return <TeamCollaboration lang={lang} />;
     case "natural-language-tasks":
       return <SentenceToTask lang={lang} copy={dict.command} />;
     case "ai-planning":
@@ -58,7 +62,8 @@ function Points({ points, check }: { points: string[]; check?: boolean }) {
   );
 }
 
-function SectionBody({ section, check, dict }: { section: PageSection; check?: boolean; dict: Dictionary }) {
+function SectionBody({ section, check, dict, lang }: { section: PageSection; check?: boolean; dict: Dictionary; lang: Locale }) {
+  const pages = getPages(lang);
   return (
     <>
       {section.table ? (
@@ -99,6 +104,12 @@ function SectionBody({ section, check, dict }: { section: PageSection; check?: b
           {paragraph}
         </p>
       ))}
+      {section.links?.length ? (
+        <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-1">
+          {section.links.map((link) => <li key={link.page}><a href={`/${lang}/${pagePath(link.page)}`} className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-brand underline-offset-4 hover:underline">{link.label ?? pages[link.page].navLabel}<ArrowRight aria-hidden="true" className="size-3.5 shrink-0" /></a></li>)}
+        </ul>
+      ) : null}
+      {section.emailSubject ? <a href={`mailto:${siteConfig.contactEmail}?subject=${encodeURIComponent(section.emailSubject)}`} className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-brand underline-offset-4 hover:underline"><Mail aria-hidden="true" className="size-4" />{section.emailSubject}</a> : null}
       {section.points ? <Points points={section.points} check={check} /> : null}
       {section.action === "clearLanguage" ? (
         <CookieReset label={dict.subpage.cookies.clear} done={dict.subpage.cookies.cleared} />
@@ -144,6 +155,9 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
   const sideVisual = feature !== null && !wideVisuals.includes(feature);
   const related = pageGroups.find((g) => g.id === group)!.pages.filter((key) => key !== pageKey);
   const { subpage } = dict;
+  const article = group === "legal" || pageKey === "security";
+  const sectionId = (index: number) => page.sections[index].action === "statsOptOut" ? "privacy-controls" : `${pageKey}-section-${index + 1}`;
+  const updatedDate = page.updatedAt ? new Intl.DateTimeFormat(lang === "vi" ? "vi-VN" : "en-GB", { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${page.updatedAt}T00:00:00Z`)) : null;
 
   const intro = (
     <div className="max-w-2xl">
@@ -172,9 +186,9 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
           </ButtonLink>
         </div>
       ) : null}
-      {group === "legal" ? (
+      {page.updatedAt ? (
         <p {...reveal("up", 210)} className="mt-6 text-sm text-ink-subtle">
-          {subpage.updated}
+          {subpage.updated} <time dateTime={page.updatedAt}>{updatedDate}</time>
         </p>
       ) : null}
     </div>
@@ -248,7 +262,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
               {page.sections.map((section, index) => (
                 <section key={section.heading} {...reveal("up", (index % 2) * 90)}>
                   <h2 className="text-xl font-semibold text-ink">{section.heading}</h2>
-                  <SectionBody section={section} check dict={dict} />
+                  <SectionBody section={section} check dict={dict} lang={lang} />
                 </section>
               ))}
             </div>
@@ -262,14 +276,14 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
                   </span>
                   <div className="pt-1">
                     <h2 className="text-xl font-semibold text-ink">{section.heading}</h2>
-                    <SectionBody section={section} dict={dict} />
+                    <SectionBody section={section} dict={dict} lang={lang} />
                   </div>
                 </li>
               ))}
             </ol>
           ) : pageKey === "faq" ? (
             <div {...reveal()} className="max-w-3xl">
-              <FaqList items={dict.faq.items} />
+              <FaqList items={getSupportFaq(lang, dict.faq.items)} />
             </div>
           ) : pageKey === "contact" ? (
             <div className="max-w-3xl">
@@ -282,7 +296,7 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
                       data-track="cta_click"
                       data-track-cta="contact_email"
                       data-track-location="subpage"
-                      className="mt-1 inline-flex items-center gap-2 text-xl font-semibold text-brand underline-offset-4 hover:underline"
+                      className="mt-1 inline-flex min-h-11 items-center gap-2 text-xl font-semibold text-brand underline-offset-4 hover:underline"
                     >
                       <Mail className="size-5" aria-hidden="true" />
                       {siteConfig.contactEmail}
@@ -296,6 +310,9 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
                 )}
                 {!siteConfig.contactEmail ? <div className="mt-5"><ButtonLink href={siteConfig.signupUrl}>{dict.nav.startTrial}<ArrowRight aria-hidden="true" className="size-4" /></ButtonLink></div> : null}
               </div>
+              <div className="mt-10 space-y-10">
+                {page.sections.map((section) => <section key={section.heading}><h2 className="text-xl font-semibold text-ink">{section.heading}</h2><SectionBody section={section} dict={dict} lang={lang} /></section>)}
+              </div>
               <h2 {...reveal()} className="mt-14 text-xl font-semibold text-ink">
                 {subpage.contact.helpTitle}
               </h2>
@@ -306,12 +323,24 @@ export function SubpageView({ lang, pageKey }: { lang: Locale; pageKey: PageKey 
                 <PageLinkCards lang={lang} keys={["faq", "getting-started", "writing-tasks"]} pages={pages} />
               </div>
             </div>
+          ) : article ? (
+            <div className="grid items-start gap-10 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-16">
+              <nav aria-label={lang === "vi" ? "Mục lục trang" : "On this page"} className="rounded-2xl border border-line bg-surface p-5 lg:sticky lg:top-24">
+                <p className="text-sm font-semibold text-ink">{lang === "vi" ? "Trong trang này" : "On this page"}</p>
+                <ol className="mt-3 space-y-1">
+                  {page.sections.map((section, index) => <li key={section.heading}><a href={`#${sectionId(index)}`} className="flex min-h-11 items-center rounded-lg py-2 text-sm leading-relaxed text-ink-muted hover:text-brand">{section.heading}</a></li>)}
+                </ol>
+              </nav>
+              <article aria-label={page.navLabel} className="max-w-3xl min-w-0 space-y-12">
+                {page.sections.map((section, index) => <section id={sectionId(index)} key={section.heading}><h2 className="text-xl font-semibold text-ink sm:text-2xl">{section.heading}</h2><SectionBody section={section} dict={dict} lang={lang} /></section>)}
+              </article>
+            </div>
           ) : (
             <div className="max-w-3xl space-y-12">
               {page.sections.map((section) => (
                 <section key={section.heading} {...reveal()}>
                   <h2 className="text-xl font-semibold text-ink sm:text-2xl">{section.heading}</h2>
-                  <SectionBody section={section} dict={dict} />
+                  <SectionBody section={section} dict={dict} lang={lang} />
                 </section>
               ))}
             </div>

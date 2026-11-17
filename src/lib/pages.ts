@@ -8,9 +8,10 @@ export const featurePageKeys = [
   "today",
   "ai-planning",
   "project-views",
+  "collaboration",
 ] as const;
 
-export const infoPageKeys = ["getting-started", "writing-tasks", "faq", "about", "contact", "privacy", "cookies"] as const;
+export const infoPageKeys = ["help-center", "getting-started", "writing-tasks", "faq", "about", "contact", "security", "terms", "privacy", "cookies", "cancellation"] as const;
 
 export type FeaturePageKey = (typeof featurePageKeys)[number];
 export type InfoPageKey = (typeof infoPageKeys)[number];
@@ -21,9 +22,9 @@ export type PageGroup = "product" | "resources" | "company" | "legal";
 /** Footer columns, in order. Each page belongs to exactly one. */
 export const pageGroups: { id: PageGroup; pages: PageKey[] }[] = [
   { id: "product", pages: [...featurePageKeys] },
-  { id: "resources", pages: ["getting-started", "writing-tasks", "faq"] },
-  { id: "company", pages: ["about", "contact"] },
-  { id: "legal", pages: ["privacy", "cookies"] },
+  { id: "resources", pages: ["help-center", "getting-started", "writing-tasks", "faq"] },
+  { id: "company", pages: ["about", "contact", "security"] },
+  { id: "legal", pages: ["terms", "privacy", "cookies", "cancellation"] },
 ];
 
 export function isFeaturePage(key: string): key is FeaturePageKey {

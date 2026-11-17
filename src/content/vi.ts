@@ -496,7 +496,7 @@ export const vi: Dictionary = {
       { id: "trial", q: "Tôi có thể thử trước khi đăng ký không?", a: "Có. Bạn có thể khám phá hành trình tạo công việc ngay trên trang: chọn yêu cầu, xem work card và theo dõi công việc trong Việc đã giao hoặc Việc của tôi tùy người phụ trách." },
       { id: "teamwork", q: "Đội nhóm có thể trao đổi ngay trong Elynto không?", a: "Có. Trò chuyện, cuộc họp và gọi video giúp các thành viên thảo luận công việc trong cùng một nơi, giữ thông tin gắn với dự án thay vì rải rác qua nhiều nền tảng." },
       { id: "tracking", q: "Làm sao theo dõi công việc sau khi giao?", a: "Mở Việc đã giao để xem người phụ trách, thời hạn và trạng thái. Các cách xem Danh sách, Lịch và Gantt giúp bạn theo dõi công việc trong bối cảnh của cả dự án." },
-      { id: "privacy", q: "Tôi tìm hiểu về quyền riêng tư ở đâu?", a: "Trang Quyền riêng tư ở chân trang giải thích những thông tin được ghi nhận trên website. Bạn có thể quản lý lựa chọn ghi nhận thống kê của mình tại trang Cookie." },
+      { id: "privacy", q: "Tôi tìm hiểu về quyền riêng tư ở đâu?", a: "Chính sách quyền riêng tư ở chân trang giải thích cách xử lý thông tin trên website và trong ứng dụng. Mở Cài đặt quyền riêng tư để quản lý thống kê website tùy chọn." },
       { id: "language", q: "Elynto hỗ trợ tiếng Việt và tiếng Anh như thế nào?", a: "Trang giới thiệu và trải nghiệm trên trang có đầy đủ tiếng Việt và tiếng Anh. Bạn có thể đổi ngôn ngữ bằng bộ chọn ở chân trang." },
       { id: "start", q: "Tôi bắt đầu với Elynto ở đâu?", a: "Chọn Dùng thử miễn phí để tạo tài khoản, hoặc Đăng nhập nếu bạn đã có tài khoản. Các trang Hướng dẫn bắt đầu và Viết yêu cầu hiệu quả giúp bạn làm quen với Elynto." },
     ],
@@ -530,7 +530,7 @@ export const vi: Dictionary = {
       company: "Thông tin khác",
       legal: "Thông tin pháp lý khác",
     },
-    updated: "Cập nhật lần cuối: 04/10/2026",
+    updated: "Cập nhật lần cuối:",
     step: "Bước",
     contact: {
       emailLabel: "Email",
@@ -546,8 +546,8 @@ export const vi: Dictionary = {
       on: "Thống kê đang bật cho trình duyệt này.",
       off: "Đã tắt. Lượt truy cập từ trình duyệt này không được ghi nhận.",
       signal: "Trình duyệt của bạn đang bật Do Not Track hoặc Global Privacy Control, nên lượt truy cập không được ghi nhận.",
-      disable: "Không ghi nhận lượt truy cập của tôi",
-      enable: "Bật lại thống kê",
+      disable: "Tắt thống kê",
+      enable: "Cho phép thống kê",
     },
   },
 };
