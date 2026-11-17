@@ -4,6 +4,9 @@ const VISITOR_KEY = "elynto-vid";
 const VISIT_KEY = "elynto-visit";
 export const STATS_OPT_OUT_KEY = "elynto-stats-optout";
 export const STATS_CONSENT_KEY = "elynto-stats-consent";
+/** The versioned values of STATS_CONSENT_KEY (also read by the UTM forwarder, src/lib/utm-forward.ts). */
+export const STATS_CONSENT_YES = "v1:yes";
+export const STATS_CONSENT_NO = "v1:no";
 export const STATS_CHOICE_EVENT = "elynto:statistics-choice";
 export type StatisticsChoice = "allow" | "deny" | "unset" | "signal" | "server";
 
@@ -42,8 +45,8 @@ export function statisticsChoice(): StatisticsChoice {
   if (typeof window === "undefined") return "server";
   const nav = navigator as Navigator & { globalPrivacyControl?: boolean };
   if (nav.globalPrivacyControl === true || navigator.doNotTrack === "1") return "signal";
-  if (read(STATS_OPT_OUT_KEY) === "1" || read(STATS_CONSENT_KEY) === "v1:no") return "deny";
-  return read(STATS_CONSENT_KEY) === "v1:yes" ? "allow" : "unset";
+  if (read(STATS_OPT_OUT_KEY) === "1" || read(STATS_CONSENT_KEY) === STATS_CONSENT_NO) return "deny";
+  return read(STATS_CONSENT_KEY) === STATS_CONSENT_YES ? "allow" : "unset";
 }
 
 export function serverStatisticsChoice(): StatisticsChoice { return "server"; }
@@ -62,7 +65,7 @@ export function statsOptedOut() {
 }
 
 export function setStatsOptOut(optOut: boolean) {
-  write(STATS_CONSENT_KEY, optOut ? "v1:no" : "v1:yes");
+  write(STATS_CONSENT_KEY, optOut ? STATS_CONSENT_NO : STATS_CONSENT_YES);
   if (optOut) {
     write(STATS_OPT_OUT_KEY, "1");
     for (const key of [VISITOR_KEY, VISIT_KEY]) {

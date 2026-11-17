@@ -378,3 +378,97 @@ test.describe("footer and subpages", () => {
     });
   }
 });
+
+test.describe("UTM forwarding to the app", () => {
+  const CAMPAIGN = "utm_source=test&utm_medium=manual&utm_campaign=kiemtra";
+
+  /** Stand-in for the app: records where each click goes and never reaches the real app. */
+  async function stubApp(page: Page) {
+    const leaving: string[] = [];
+    await page.route(/^https:\/\/(beta|app)\.elynto\.io\//, async (route) => {
+      leaving.push(route.request().url());
+      await route.fulfill({ status: 200, contentType: "text/html", body: "<p>app</p>" });
+    });
+    return leaving;
+  }
+
+  /** As if the visitor chose "Allow statistics" earlier (the site's own versioned consent value). */
+  async function allowStatistics(page: Page) {
+    await page.addInitScript(() => window.localStorage.setItem("elynto-stats-consent", "v1:yes"));
+  }
+
+  async function leftWith(leaving: string[]) {
+    await expect.poll(() => leaving.length).toBeGreaterThan(0);
+    const url = new URL(leaving[0]);
+    expect(url.origin + url.pathname).toBe(new URL(SIGNUP_URL).origin + new URL(SIGNUP_URL).pathname);
+    return Object.fromEntries(url.searchParams);
+  }
+
+  test("with statistics allowed, the first campaign touch is kept and added to the sign-up link; click ids are not", async ({
+    page,
+  }) => {
+    const leaving = await stubApp(page);
+    await allowStatistics(page);
+    await page.goto(`/vi?${CAMPAIGN}&fbclid=abc`);
+    const stored = await page.evaluate(() => window.localStorage.getItem("ely_attr"));
+    expect(JSON.parse(stored ?? "{}")).toMatchObject({
+      utm_source: "test",
+      utm_medium: "manual",
+      utm_campaign: "kiemtra",
+      landing: "/vi",
+    });
+    expect(stored).not.toContain("fbclid");
+
+    // A later campaign never replaces the first touch.
+    await page.goto("/vi?utm_source=other");
+    const signup = page.getByRole("link", { name: copy.vi.cta }).filter({ visible: true }).first();
+    await expect(signup).toHaveAttribute("href", SIGNUP_URL);
+    await signup.click();
+    expect(await leftWith(leaving)).toEqual({
+      utm_source: "test",
+      utm_medium: "manual",
+      utm_campaign: "kiemtra",
+      landing: "/vi",
+    });
+  });
+
+  test("without a statistics choice nothing is stored, and the link carries only this page's campaign", async ({
+    page,
+  }) => {
+    const leaving = await stubApp(page);
+    await page.goto(`/vi?${CAMPAIGN}&fbclid=abc`, { referer: "https://l.facebook.com/" });
+    expect(await page.evaluate(() => window.localStorage.getItem("ely_attr"))).toBeNull();
+    await page.getByRole("link", { name: copy.vi.cta }).filter({ visible: true }).first().click();
+    expect(await leftWith(leaving)).toEqual({ utm_source: "test", utm_medium: "manual", utm_campaign: "kiemtra" });
+  });
+
+  test("a click made before the page's JavaScript has loaded still carries the campaign", async ({ page }) => {
+    const leaving = await stubApp(page);
+    // Hold back every script chunk until after the click, so the page is not hydrated when it is clicked.
+    let release: () => void = () => {};
+    const held = new Promise<void>((resolve) => (release = resolve));
+    let waiting = 0;
+    await page.route(/\/_next\/static\/.*\.js(\?.*)?$/, async (route) => {
+      waiting += 1;
+      await held;
+      await route.continue().catch(() => {});
+    });
+    try {
+      await page.goto(`/vi?${CAMPAIGN}`, { waitUntil: "domcontentloaded" });
+      expect(waiting).toBeGreaterThan(0);
+      await page.getByRole("link", { name: copy.vi.cta }).first().click();
+      expect(await leftWith(leaving)).toEqual({ utm_source: "test", utm_medium: "manual", utm_campaign: "kiemtra" });
+    } finally {
+      release();
+    }
+  });
+
+  test("without a campaign the sign-up link is left exactly as it is", async ({ page }) => {
+    const leaving = await stubApp(page);
+    await allowStatistics(page);
+    await page.goto("/en");
+    await page.getByRole("link", { name: copy.en.cta }).filter({ visible: true }).first().click();
+    await expect.poll(() => leaving.length).toBeGreaterThan(0);
+    expect(leaving[0]).toBe(SIGNUP_URL);
+  });
+});

@@ -8,7 +8,45 @@ import { getDictionary } from "@/content";
 import { inter } from "@/lib/fonts";
 import { isLocale, locales, ogLocales } from "@/lib/i18n";
 import { revealBootScript } from "@/lib/reveal";
+import {
+  STATS_CHOICE_EVENT,
+  STATS_CONSENT_KEY,
+  STATS_CONSENT_NO,
+  STATS_CONSENT_YES,
+  STATS_OPT_OUT_KEY,
+} from "@/lib/stats/client";
+import {
+  APP_HOSTS,
+  FIRST_TOUCH_KEY,
+  FIRST_TOUCH_MAX_AGE_MS,
+  MAX_VALUE_LENGTH,
+  UTM_KEYS,
+  utmForwardBootScript,
+} from "@/lib/utm-forward";
 import "../globals.css";
+
+/**
+ * Campaign forwarding to the app (src/lib/utm-forward.ts), inlined in <head> so it also covers a click made before
+ * the page's JavaScript has loaded. App hosts: the known ones plus the configured sign-up / log-in hosts.
+ */
+const utmForwardScript = utmForwardBootScript({
+  appHosts: [
+    ...new Set([
+      ...APP_HOSTS,
+      new URL(siteConfig.signupUrl).hostname.toLowerCase(),
+      new URL(siteConfig.loginUrl).hostname.toLowerCase(),
+    ]),
+  ],
+  storageKey: FIRST_TOUCH_KEY,
+  maxAgeMs: FIRST_TOUCH_MAX_AGE_MS,
+  maxLength: MAX_VALUE_LENGTH,
+  utmKeys: [...UTM_KEYS],
+  consentKey: STATS_CONSENT_KEY,
+  consentYes: STATS_CONSENT_YES,
+  consentNo: STATS_CONSENT_NO,
+  optOutKey: STATS_OPT_OUT_KEY,
+  choiceEvent: STATS_CHOICE_EVENT,
+});
 
 type LayoutParams = { params: Promise<{ lang: string }> };
 
@@ -66,6 +104,7 @@ export default async function RootLayout({ children, params }: LayoutParams & { 
     <html lang={lang} className={inter.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: revealBootScript }} />
+        <script dangerouslySetInnerHTML={{ __html: utmForwardScript }} />
       </head>
       <body className="min-h-dvh">
         <AnalyticsListener />
