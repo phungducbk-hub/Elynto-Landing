@@ -297,7 +297,8 @@ export const trustEn: Pick<PagesDictionary, "collaboration" | "help-center" | "s
       {
         "heading": "6. Optional website statistics",
         "body": [
-          "Website statistics start only after you allow them. They include page views, trial/login clicks, work-creation milestones, time, broad device/browser/OS information, country, referring website and campaign labels. A random browser ID and visit ID connect events; these are pseudonymous identifiers, not a claim that all data is anonymous. The statistics event does not store your IP address, full user-agent string, work content, name or email. Hosting logs are separate."
+          "Website statistics start only after you allow them. They include page views, trial/login clicks, work-creation milestones, time, broad device/browser/OS information, country, referring website and campaign labels. A random browser ID and visit ID connect events; these are pseudonymous identifiers, not a claim that all data is anonymous. The statistics event does not store your IP address, full user-agent string, work content, name or email. Hosting logs are separate.",
+          "If you arrive from an ad or a post with campaign labels (utm_) and have allowed statistics, the website keeps those labels, your first page here and the referring website's domain for 30 days, and adds them to links into the Elynto app when you choose Start free trial or Log in, so Elynto knows which campaign brought you. Without that permission nothing is stored; a link carries only the campaign labels already in the address of the page you opened. Ad click IDs (such as fbclid, gclid) are never kept or forwarded."
         ],
         "links": [
           {
@@ -346,7 +347,8 @@ export const trustEn: Pick<PagesDictionary, "collaboration" | "help-center" | "s
       {
         "heading": "Optional statistics",
         "body": [
-          "Only after consent, elynto-vid stores a random browser ID and elynto-visit identifies a visit that expires after 30 minutes of inactivity. The browser ID stays until you withdraw consent or clear browser data. Server event records expire within 400 days. These IDs are pseudonymous; no name or email is required to create them."
+          "Only after consent, elynto-vid stores a random browser ID and elynto-visit identifies a visit that expires after 30 minutes of inactivity. The browser ID stays until you withdraw consent or clear browser data. Server event records expire within 400 days. These IDs are pseudonymous; no name or email is required to create them.",
+          "Also only after consent, ely_attr keeps the campaign labels (utm_) of your first visit, your first page and the referring domain for 30 days, to add them to links into the Elynto app. Withdrawing consent removes it."
         ]
       },
       {

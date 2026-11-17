@@ -297,7 +297,8 @@ export const trustVi: Pick<PagesDictionary, "collaboration" | "help-center" | "s
       {
         "heading": "6. Thống kê website không thiết yếu",
         "body": [
-          "Thống kê website chỉ bắt đầu sau khi bạn đồng ý. Dữ liệu gồm lượt xem trang, lượt bấm dùng thử/đăng nhập, các bước tạo việc, thời gian, thông tin khái quát về thiết bị/trình duyệt/hệ điều hành, quốc gia, website giới thiệu và nhãn chiến dịch. Mã trình duyệt và lượt truy cập ngẫu nhiên liên kết các sự kiện; đây là định danh giả danh, không phải khẳng định mọi dữ liệu đều ẩn danh. Bản ghi thống kê không lưu IP, chuỗi nhận diện trình duyệt đầy đủ, nội dung công việc, tên hoặc email. Nhật ký hạ tầng là phần riêng."
+          "Thống kê website chỉ bắt đầu sau khi bạn đồng ý. Dữ liệu gồm lượt xem trang, lượt bấm dùng thử/đăng nhập, các bước tạo việc, thời gian, thông tin khái quát về thiết bị/trình duyệt/hệ điều hành, quốc gia, website giới thiệu và nhãn chiến dịch. Mã trình duyệt và lượt truy cập ngẫu nhiên liên kết các sự kiện; đây là định danh giả danh, không phải khẳng định mọi dữ liệu đều ẩn danh. Bản ghi thống kê không lưu IP, chuỗi nhận diện trình duyệt đầy đủ, nội dung công việc, tên hoặc email. Nhật ký hạ tầng là phần riêng.",
+          "Nếu bạn đến từ một quảng cáo hay bài đăng có nhãn chiến dịch (utm_) và đã cho phép thống kê, website giữ nhãn đó, trang bạn đến đầu tiên và tên miền trang đã dẫn bạn tới trong 30 ngày, rồi gắn vào liên kết tới ứng dụng Elynto khi bạn bấm Dùng thử miễn phí hoặc Đăng nhập, để Elynto biết chiến dịch nào đưa khách hàng tới. Khi chưa cho phép, website không lưu gì; liên kết chỉ mang theo nhãn chiến dịch có sẵn trong địa chỉ trang bạn vừa mở. Không lưu hay chuyển tiếp mã nhấp quảng cáo (như fbclid, gclid)."
         ],
         "links": [
           {
@@ -346,7 +347,8 @@ export const trustVi: Pick<PagesDictionary, "collaboration" | "help-center" | "s
       {
         "heading": "Thống kê không thiết yếu",
         "body": [
-          "Chỉ sau khi đồng ý, elynto-vid mới lưu mã trình duyệt ngẫu nhiên và elynto-visit xác định lượt truy cập hết hạn sau 30 phút không hoạt động. Mã trình duyệt được giữ tới khi bạn rút đồng ý hoặc xóa dữ liệu trình duyệt. Bản ghi sự kiện trên máy chủ hết hạn trong tối đa 400 ngày. Các mã này là định danh giả danh, không cần tên hay email để tạo."
+          "Chỉ sau khi đồng ý, elynto-vid mới lưu mã trình duyệt ngẫu nhiên và elynto-visit xác định lượt truy cập hết hạn sau 30 phút không hoạt động. Mã trình duyệt được giữ tới khi bạn rút đồng ý hoặc xóa dữ liệu trình duyệt. Bản ghi sự kiện trên máy chủ hết hạn trong tối đa 400 ngày. Các mã này là định danh giả danh, không cần tên hay email để tạo.",
+          "Cũng chỉ sau khi đồng ý, ely_attr lưu nhãn chiến dịch (utm_) của lần đầu bạn đến, trang đến đầu tiên và tên miền trang giới thiệu trong 30 ngày, để gắn vào liên kết tới ứng dụng Elynto. Rút đồng ý sẽ xóa mục này."
         ]
       },
       {
