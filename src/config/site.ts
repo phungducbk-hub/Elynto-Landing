@@ -29,8 +29,8 @@ export const siteConfig = {
   /** Separate sign-up and sign-in routes, verified against the app source. */
   signupUrl: authUrl(process.env.NEXT_PUBLIC_SIGNUP_URL, "/sign-up"),
   loginUrl: authUrl(process.env.NEXT_PUBLIC_LOGIN_URL, "/sign-in"),
-  /** Shown on the Contact page. No address has been confirmed yet, so it stays empty until set. */
-  contactEmail: envOr(process.env.NEXT_PUBLIC_CONTACT_EMAIL, ""),
+  /** Address selected by the owner; mailbox activation is required before release. */
+  contactEmail: envOr(process.env.NEXT_PUBLIC_CONTACT_EMAIL, "support@elynto.io"),
 };
 
 /**

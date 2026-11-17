@@ -495,9 +495,9 @@ export const en: Dictionary = {
       { id: "trial", q: "Can I try it before signing up?", a: "Yes. Explore the work-creation journey on this page: choose a request, see the work card and follow the task in Delegated or My Work, depending on its owner." },
       { id: "teamwork", q: "Can our team discuss work inside Elynto?", a: "Yes. Chat, meetings and video calls let your team discuss work in one place, keeping conversations connected to the project instead of scattered across platforms." },
       { id: "tracking", q: "How do I follow work after assigning it?", a: "Open Delegated to see owners, due dates and statuses. List, Calendar and Gantt views help you follow each task in the context of the whole project." },
-      { id: "privacy", q: "Where can I learn about privacy?", a: "The Privacy page linked in the footer explains the information collected on this website. You can manage your statistics preferences on the Cookies page." },
+      { id: "privacy", q: "Where can I learn about privacy?", a: "The Privacy page linked in the footer explains how information is handled on the website and in the application. Use Privacy settings in the footer to manage optional website statistics." },
       { id: "language", q: "How does Elynto support Vietnamese and English?", a: "The website and on-page experience are available in Vietnamese and English. Use the language selector in the footer to switch." },
-      { id: "start", q: "How do I get started?", a: "Choose Start free trial to create an account, or Log in if you already have one. The Getting started and Writing effective requests guides help you find your way around Elynto." },
+      { id: "start", q: "How do I get started?", a: "Choose Start free trial to create an account, or Log in if you already have one. The Getting started and Writing clear requests guides help you find your way around Elynto." },
     ],
   },
   finalCta: {
@@ -529,7 +529,7 @@ export const en: Dictionary = {
       company: "More about Elynto",
       legal: "More legal information",
     },
-    updated: "Last updated: 4 October 2026",
+    updated: "Last updated:",
     step: "Step",
     contact: {
       emailLabel: "Email",
@@ -545,8 +545,8 @@ export const en: Dictionary = {
       on: "Statistics are on for this browser.",
       off: "Off. Visits from this browser are not recorded.",
       signal: "Your browser sends Do Not Track or Global Privacy Control, so your visits are not recorded.",
-      disable: "Don’t record my visits",
-      enable: "Turn statistics back on",
+      disable: "Stop statistics",
+      enable: "Allow statistics",
     },
   },
 };

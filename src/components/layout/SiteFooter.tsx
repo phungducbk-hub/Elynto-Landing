@@ -1,3 +1,7 @@
+import { Mail } from "lucide-react";
+import { PrivacyPreferences } from "@/components/privacy/PrivacyPreferences";
+import { siteConfig } from "@/config/site";
+import { getPrivacyCopy } from "@/content/privacy";
 import { Logo } from "@/components/brand/Logo";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
@@ -27,9 +31,9 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
   const track = (key: PageKey) => ({ "data-track": "nav_click", "data-track-target": key, "data-track-location": "footer" });
 
   return (
-    <footer className="border-t border-line bg-canvas">
+    <footer id="site-footer" className="border-t border-line bg-canvas">
       <Container className="pt-14 pb-10 sm:pt-16">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+        <div className="grid gap-12 xl:grid-cols-[minmax(0,0.85fr)_minmax(0,2.15fr)] xl:gap-14">
           <div className="max-w-sm">
             <a href={`/${lang}`} className="-m-1 inline-block rounded-md p-1 text-brand" aria-label={nav.home}>
               <Logo className="h-8 w-auto" title={null} />
@@ -51,17 +55,18 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
                 data-track="cta_click"
                 data-track-cta="login"
                 data-track-location="footer"
-                className="inline-flex min-h-9 items-center text-sm font-medium text-ink-muted transition-colors hover:text-ink"
+                className="inline-flex min-h-11 items-center text-sm font-medium text-ink-muted transition-colors hover:text-ink"
               >
                 {nav.login}
               </a>
             </div>
+            <a href={`mailto:${siteConfig.contactEmail}`} className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm text-ink-muted hover:text-brand">
+              <Mail aria-hidden="true" className="size-4" />{siteConfig.contactEmail}
+            </a>
           </div>
-
-          {/* Two columns on phones; from md up, one row of columns sized to their longest link. */}
-          <nav aria-label={footer.navLabel} className="grid grid-cols-2 gap-x-8 gap-y-10 md:flex md:justify-between md:gap-6">
+          <nav aria-label={footer.navLabel} className="grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-4 sm:gap-x-7">
             {pageGroups.map((group) => (
-              <div key={group.id}>
+              <div key={group.id} className="min-w-0">
                 <h2 className="text-[0.8125rem] font-semibold tracking-wide text-ink uppercase">{footer.groups[group.id]}</h2>
                 <ul className="mt-4 space-y-1">
                   {group.pages.map((key) => (
@@ -70,7 +75,7 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
                         href={href(key)}
                         aria-current={key === current ? "page" : undefined}
                         {...track(key)}
-                        className={`inline-block py-1 text-[0.9375rem] leading-snug md:whitespace-nowrap ${linkClass}`}
+                        className={`inline-flex min-h-11 items-center py-2 text-[0.9375rem] leading-snug ${linkClass}`}
                       >
                         {pages[key].navLabel}
                         {pages[key].badge ? (
@@ -87,20 +92,21 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
           </nav>
         </div>
 
-        <div className="mt-14 flex flex-col gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col gap-5 border-t border-line pt-6 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-sm text-ink-subtle">
             © {year} {footer.rights}
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
             <ul aria-label={footer.legalLabel} className="flex gap-5 text-sm">
-              {(["privacy", "cookies"] as const).map((key) => (
+              {(["terms", "privacy"] as const).map((key) => (
                 <li key={key}>
-                  <a href={href(key)} aria-current={key === current ? "page" : undefined} {...track(key)} className={linkClass}>
+                  <a href={href(key)} aria-current={key === current ? "page" : undefined} {...track(key)} className={`inline-flex min-h-11 items-center ${linkClass}`}>
                     {pages[key].navLabel}
                   </a>
                 </li>
               ))}
             </ul>
+            <PrivacyPreferences copy={getPrivacyCopy(lang)} stats={dict.subpage.stats} cookies={dict.subpage.cookies} policyHref={href("cookies")} />
             <LanguageSwitch current={lang} label={footer.languageLabel} location="footer" />
           </div>
         </div>

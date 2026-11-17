@@ -7,6 +7,8 @@ export type PageSection = {
   table?: { caption: string; columns: string[]; rows: string[][] };
   /** An interactive control shown after the section text. */
   action?: "clearLanguage" | "statsOptOut";
+  links?: { page: PageKey; label?: string }[];
+  emailSubject?: string;
 };
 
 export type SubPage = {
@@ -19,6 +21,7 @@ export type SubPage = {
   /** Lead paragraph; also the meta description. */
   description: string;
   sections: PageSection[];
+  updatedAt?: string;
 };
 
 export type PagesDictionary = Record<PageKey, SubPage>;

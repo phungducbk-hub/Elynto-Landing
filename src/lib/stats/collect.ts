@@ -30,6 +30,7 @@ export function toStatsEvent(
 ): StatsEvent | null {
   if (!body || typeof body !== "object") return null;
   const input = body as Partial<CollectPayload>;
+  if (input.consentVersion !== 1) return null;
 
   if (input.type !== "pageview" && input.type !== "cta" && input.type !== "demo") return null;
   if (typeof input.visitor !== "string" || !ID.test(input.visitor)) return null;

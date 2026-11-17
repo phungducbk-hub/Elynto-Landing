@@ -1,12 +1,14 @@
 import type { PagesDictionary } from "./types";
+import { guidesEn } from "./trust/guides-en";
+import { trustEn } from "./trust/en";
 
 /**
  * Subpage copy. Describes only what the product references or the brief confirm; nothing about
  * pricing, integrations, automation or security that has not been verified.
  */
-export const en: PagesDictionary = {
+const existingPages = {
   "natural-language-tasks": {
-    navLabel: "Tasks from a sentence",
+    navLabel: "Create & assign work",
     eyebrow: "Create and assign",
     title: "Write one sentence. Get a clear task.",
     description:
@@ -43,7 +45,6 @@ export const en: PagesDictionary = {
   },
   "ai-planning": {
     navLabel: "AI project planning",
-    badge: "AI",
     eyebrow: "Plan projects with AI",
     title: "From a goal to a plan with phases and tasks.",
     description:
@@ -138,7 +139,7 @@ export const en: PagesDictionary = {
     ],
   },
   "project-views": {
-    navLabel: "List, calendar, Gantt",
+    navLabel: "Project views",
     eyebrow: "Track projects",
     title: "Every project, three ways to see it.",
     description:
@@ -164,80 +165,8 @@ export const en: PagesDictionary = {
       },
     ],
   },
-  "getting-started": {
-    navLabel: "Getting started",
-    eyebrow: "Guide",
-    title: "Get started with Elynto in a few steps.",
-    description: "From your first task to your first project: the basics of finding your way around Elynto.",
-    sections: [
-      {
-        heading: "Open Elynto",
-        body: ["See how Elynto works on the homepage, or choose Start free trial to create an account. If you already have an account, choose Log in."],
-      },
-      {
-        heading: "Create your first task",
-        body: [
-          "Write a sentence describing the work, for example “Send the quote to the client by tomorrow.” Elynto creates a task with a name and a due date.",
-        ],
-      },
-      {
-        heading: "Check and adjust",
-        body: ["Review the owner, due date and priority. Edit directly if anything is off."],
-      },
-      {
-        heading: "Assign work to others",
-        body: [
-          "Name the owner in the sentence, for example “Assign Alex to prepare the report, due Friday.” The owner needs to be a member of your team. Follow everything you’ve assigned in Delegated.",
-        ],
-      },
-      {
-        heading: "Plan a project",
-        body: ["Enter a goal and let AI draft the phases and tasks. Adjust the draft, then create the project."],
-      },
-      {
-        heading: "Each day, open Today",
-        body: ["Start the day in Today or My Work to see what’s overdue, due and coming up."],
-      },
-    ],
-  },
-  "writing-tasks": {
-    navLabel: "Writing good requests",
-    eyebrow: "Guide",
-    title: "Write requests Elynto gets right the first time.",
-    description: "One sentence with a clear task, owner and deadline means a more accurate task and less fixing afterwards.",
-    sections: [
-      {
-        heading: "Three things to include",
-        points: [
-          "What: start with a verb such as send, write, check or prepare.",
-          "Who: the owner’s name. Leave it out if the task is yours.",
-          "When: “by Friday”, “tomorrow afternoon”, “end of this week”.",
-        ],
-      },
-      {
-        heading: "Examples",
-        points: [
-          "“Assign Alex to prepare the report, due Friday.”",
-          "“Ask Sam to draft the November campaign content by next Wednesday.”",
-          "“Send the quote to the client by tomorrow.”",
-        ],
-      },
-      {
-        heading: "Avoid",
-        points: [
-          "Packing several tasks into one sentence. Split them so each task gets its own owner and deadline.",
-          "Vague timing like “soon” or “when you can”.",
-          "Nicknames that differ from the names in your team.",
-        ],
-      },
-      {
-        heading: "Always check the result",
-        body: [
-          "Elynto shows you the task it created. If the name, owner or deadline isn’t right, edit it directly. You always have the final say.",
-        ],
-      },
-    ],
-  },
+
+
   faq: {
     navLabel: "FAQ",
     eyebrow: "FAQ",
@@ -245,147 +174,8 @@ export const en: PagesDictionary = {
     description: "Things you might want to know before getting started with Elynto.",
     sections: [],
   },
-  about: {
-    navLabel: "About Elynto",
-    eyebrow: "About Elynto",
-    title: "Clearer work, starting with a sentence.",
-    description:
-      "Elynto is AI-powered work management. Describe the work in plain words; Elynto turns it into tasks with a clear owner and deadline, and helps you track everything in one place.",
-    sections: [
-      {
-        heading: "Vision",
-        body: [
-          "“The interface between you and your work.” You describe what needs doing; Elynto helps turn it into tasks with an owner, a deadline and a status, so your energy goes into the work itself.",
-        ],
-      },
-      {
-        heading: "How Elynto is built",
-        points: [
-          "Getting started should be fast: one sentence instead of a form.",
-          "AI suggests, you decide: every draft can be reviewed and edited.",
-          "Clarity first: who’s doing what, by when, and how far along it is.",
-        ],
-      },
-      {
-        heading: "Who it’s for",
-        body: [
-          "Freelancers and solopreneurs juggling several projects, small teams who need to know who’s doing what, and small business owners who want the full picture without chasing each person.",
-        ],
-      },
-      {
-        heading: "Get started with Elynto",
-        body: ["Start your free trial to bring your team’s work, plans and conversations together in one place."],
-      },
-    ],
-  },
-  contact: {
-    navLabel: "Help & contact",
-    eyebrow: "Contact",
-    title: "Contact Elynto",
-    description: "Questions about the product, feedback or partnership ideas: get in touch.",
-    sections: [],
-  },
-  privacy: {
-    navLabel: "Privacy",
-    eyebrow: "Legal",
-    title: "Privacy on the Elynto website",
-    description: "What this website stores in your browser, which visit statistics it records, why, and for how long.",
-    sections: [
-      {
-        heading: "Scope",
-        body: [
-          "This page covers the Elynto marketing website. Data you enter in the Elynto app is outside its scope.",
-        ],
-      },
-      {
-        heading: "What is stored in your browser",
-        body: [
-          "The website stores your language choice (the elynto-lang cookie, for up to one year), a random ID used to count visitors, and the time of your current visit. None of these contain your name, email or contact details. Each item is listed on the Cookies page.",
-        ],
-      },
-      {
-        heading: "Visit statistics",
-        body: [
-          "To understand how the website is used, it records the pages viewed, clicks on Start free trial and Log in (with where the button was), and work-creation milestones for viewing the experience, work card and work list, the time, device type, browser, operating system, country and the website that referred you.",
-          "Country is derived from your IP address at the time of the visit. The IP address and the full browser identification string are not stored.",
-        ],
-      },
-      {
-        heading: "Storage and sharing",
-        body: [
-          "Statistics are kept in a database managed by Elynto, used only to view aggregated figures, never sold or shared with others, and deleted automatically after about 13 months.",
-        ],
-      },
-      {
-        heading: "No third-party tracking",
-        body: [
-          "The website uses no third-party analytics, advertising or social media tools, and sets no third-party cookies.",
-        ],
-      },
-      {
-        heading: "No forms collecting your details",
-        body: [
-          "There are no sign-up or log-in forms on this website. The Start free trial and Log in buttons take you to the Elynto app.",
-        ],
-      },
-      {
-        heading: "Technical logs",
-        body: [
-          "Like any website, the hosting server may keep technical access logs, such as IP address and time of visit, to run and protect the site.",
-        ],
-      },
-      {
-        heading: "Your choices",
-        body: [
-          "You can turn statistics off or clear your saved language on the Cookies page. Browsers that send Do Not Track or Global Privacy Control are not recorded.",
-        ],
-      },
-    ],
-  },
-  cookies: {
-    navLabel: "Cookies",
-    eyebrow: "Legal",
-    title: "Cookies on the Elynto website",
-    description: "The website uses one cookie to remember your language, and browser storage to count visits anonymously.",
-    sections: [
-      {
-        heading: "Cookies in use",
-        table: {
-          caption: "Cookies set by the Elynto website",
-          columns: ["Name", "Purpose", "Duration", "Type"],
-          rows: [["elynto-lang", "Remembers your language (Tiếng Việt or English)", "1 year", "Functional, set by Elynto"]],
-        },
-        body: ["When you open elynto.io, this cookie takes you straight to the language you chose."],
-      },
-      {
-        heading: "Browser storage",
-        table: {
-          caption: "Items kept in browser storage (localStorage)",
-          columns: ["Name", "Purpose", "Duration", "Type"],
-          rows: [
-            ["elynto-vid", "Random ID used to count visitors", "Until you clear your browser data", "Statistics"],
-            ["elynto-visit", "Recognises the current visit", "Expires after 30 minutes of inactivity", "Statistics"],
-            ["elynto-lang", "Copy of your language choice", "Until you clear your browser data", "Functional"],
-            ["elynto-stats-optout", "Remembers that you turned statistics off", "Until you turn them back on", "Functional"],
-          ],
-        },
-      },
-      {
-        heading: "No third-party cookies",
-        body: ["The website sets no third-party advertising, analytics or social media cookies."],
-      },
-      {
-        heading: "Turn off visit statistics",
-        body: ["Use the button below so the website stops recording visits from this browser."],
-        action: "statsOptOut",
-      },
-      {
-        heading: "Clear your saved language",
-        body: [
-          "Use the button below to remove the cookie and the saved language. Next time you open a website address without a language prefix, visitors in Vietnam will see Vietnamese and international visitors will see English. If the country is unavailable, the website will use your browser’s language settings.",
-        ],
-        action: "clearLanguage",
-      },
-    ],
-  },
-};
+
+
+} satisfies Partial<PagesDictionary>;
+
+export const en: PagesDictionary = { ...existingPages, ...trustEn, ...guidesEn };

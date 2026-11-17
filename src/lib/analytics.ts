@@ -14,7 +14,7 @@
  * Separately, page views, demo milestones and Free-trial / Log-in clicks are recorded in the site's own
  * statistics (lib/stats), shown on /stats.
  */
-import { recordCtaClick, recordDemoStage } from "@/lib/stats/client";
+import { recordCtaClick, recordDemoStage, statsOptedOut } from "@/lib/stats/client";
 
 export type AnalyticsEvent =
   | "cta_click"
@@ -41,7 +41,7 @@ declare global {
 }
 
 export function track(event: AnalyticsEvent, props: AnalyticsProps = {}) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || statsOptedOut()) return;
 
   const payload = {
     event,

@@ -1,12 +1,14 @@
 import type { PagesDictionary } from "./types";
+import { guidesVi } from "./trust/guides-vi";
+import { trustVi } from "./trust/vi";
 
 /**
  * Subpage copy. Describes only what the product references or the brief confirm; nothing about
  * pricing, integrations, automation or security that has not been verified.
  */
-export const vi: PagesDictionary = {
+const existingPages = {
   "natural-language-tasks": {
-    navLabel: "Tạo việc bằng câu nói",
+    navLabel: "Tạo và giao việc",
     eyebrow: "Tạo và giao việc",
     title: "Viết một câu, có ngay một công việc rõ ràng.",
     description:
@@ -43,7 +45,6 @@ export const vi: PagesDictionary = {
   },
   "ai-planning": {
     navLabel: "Lập kế hoạch với AI",
-    badge: "AI",
     eyebrow: "Lập kế hoạch dự án với AI",
     title: "Từ một mục tiêu đến bản kế hoạch có giai đoạn và đầu việc.",
     description:
@@ -140,7 +141,7 @@ export const vi: PagesDictionary = {
     ],
   },
   "project-views": {
-    navLabel: "Danh sách, Lịch, Gantt",
+    navLabel: "Các chế độ xem dự án",
     eyebrow: "Theo dõi dự án",
     title: "Mỗi dự án, ba cách nhìn.",
     description:
@@ -168,80 +169,8 @@ export const vi: PagesDictionary = {
       },
     ],
   },
-  "getting-started": {
-    navLabel: "Hướng dẫn bắt đầu",
-    eyebrow: "Hướng dẫn",
-    title: "Bắt đầu với Elynto trong vài bước.",
-    description: "Từ công việc đầu tiên đến dự án đầu tiên: những bước cơ bản để làm quen với Elynto.",
-    sections: [
-      {
-        heading: "Mở Elynto",
-        body: ["Khám phá cách Elynto hoạt động ngay trên trang chủ, hoặc chọn Dùng thử miễn phí để tạo tài khoản. Nếu đã có tài khoản, chọn Đăng nhập."],
-      },
-      {
-        heading: "Tạo công việc đầu tiên",
-        body: [
-          "Viết một câu mô tả việc cần làm, ví dụ “Gửi báo giá cho khách vào chiều mai”. Elynto tạo công việc có tên và thời hạn.",
-        ],
-      },
-      {
-        heading: "Kiểm tra và chỉnh sửa",
-        body: ["Xem lại người phụ trách, thời hạn và mức ưu tiên. Sửa trực tiếp nếu có thông tin chưa đúng."],
-      },
-      {
-        heading: "Giao việc cho người khác",
-        body: [
-          "Ghi tên người nhận trong câu, ví dụ “Giao Minh làm báo cáo, hoàn thành trước thứ sáu”. Người nhận cần là thành viên trong nhóm của bạn. Theo dõi các việc đã giao trong mục Việc đã giao.",
-        ],
-      },
-      {
-        heading: "Lập kế hoạch cho một dự án",
-        body: ["Nhập mục tiêu và để AI phác thảo giai đoạn, công việc. Chỉnh bản nháp cho đúng ý rồi tạo dự án."],
-      },
-      {
-        heading: "Mỗi ngày, mở Hôm nay",
-        body: ["Bắt đầu ngày ở Hôm nay hoặc Việc của tôi để thấy việc quá hạn, đến hạn và sắp tới."],
-      },
-    ],
-  },
-  "writing-tasks": {
-    navLabel: "Viết yêu cầu hiệu quả",
-    eyebrow: "Hướng dẫn",
-    title: "Viết yêu cầu để Elynto hiểu đúng ngay lần đầu.",
-    description: "Một câu rõ việc, rõ người, rõ hạn giúp công việc được tạo chính xác hơn và ít phải sửa lại.",
-    sections: [
-      {
-        heading: "Ba thành phần nên có",
-        points: [
-          "Việc gì: bắt đầu bằng động từ như gửi, viết, kiểm tra, chuẩn bị.",
-          "Ai làm: tên người phụ trách. Bỏ qua nếu là việc của bạn.",
-          "Khi nào xong: “trước thứ sáu”, “chiều mai”, “cuối tuần này”.",
-        ],
-      },
-      {
-        heading: "Ví dụ",
-        points: [
-          "“Giao Minh làm báo cáo, hoàn thành trước thứ sáu.”",
-          "“Nhờ Lan chuẩn bị nội dung chiến dịch tháng 11, xong trước thứ tư tuần sau.”",
-          "“Gửi báo giá cho khách hàng trước ngày mai.”",
-        ],
-      },
-      {
-        heading: "Nên tránh",
-        points: [
-          "Gộp nhiều việc vào một câu. Tách thành từng câu để mỗi việc có người và hạn riêng.",
-          "Thời hạn mơ hồ như “sớm” hay “khi nào rảnh”.",
-          "Gọi người phụ trách bằng biệt danh khác với tên trong nhóm.",
-        ],
-      },
-      {
-        heading: "Luôn kiểm tra kết quả",
-        body: [
-          "Elynto cho bạn thấy công việc vừa tạo. Nếu tên việc, người phụ trách hay thời hạn chưa đúng, sửa trực tiếp. Bạn luôn là người quyết định.",
-        ],
-      },
-    ],
-  },
+
+
   faq: {
     navLabel: "Câu hỏi thường gặp",
     eyebrow: "Hỏi đáp",
@@ -249,147 +178,8 @@ export const vi: PagesDictionary = {
     description: "Những điều bạn có thể muốn biết trước khi bắt đầu với Elynto.",
     sections: [],
   },
-  about: {
-    navLabel: "Về Elynto",
-    eyebrow: "Về Elynto",
-    title: "Công việc rõ ràng hơn, bắt đầu từ một câu nói.",
-    description:
-      "Elynto là hệ thống quản lý công việc bằng AI. Bạn mô tả việc cần làm bằng lời thường, Elynto biến nó thành công việc rõ người, rõ hạn và giúp bạn theo dõi tất cả trong một nơi.",
-    sections: [
-      {
-        heading: "Tầm nhìn",
-        body: [
-          "“The interface between you and your work.” Bạn chỉ cần mô tả điều cần làm; Elynto giúp biến nó thành công việc có người phụ trách, thời hạn và trạng thái, để bạn dành sức cho chính công việc.",
-        ],
-      },
-      {
-        heading: "Cách Elynto được làm ra",
-        points: [
-          "Bắt đầu phải nhanh: viết một câu thay vì điền nhiều ô.",
-          "AI đề xuất, bạn quyết định: mọi bản nháp đều xem lại và sửa được.",
-          "Rõ ràng trước hết: ai làm gì, khi nào xong, đang đến đâu.",
-        ],
-      },
-      {
-        heading: "Dành cho ai",
-        body: [
-          "Freelancer và solopreneur có nhiều dự án, nhóm nhỏ cần rõ ai làm gì, và chủ doanh nghiệp nhỏ muốn nắm tình hình mà không phải hỏi từng người.",
-        ],
-      },
-      {
-        heading: "Bắt đầu với Elynto",
-        body: ["Dùng thử miễn phí để đưa công việc, kế hoạch và trao đổi của đội nhóm vào cùng một nơi."],
-      },
-    ],
-  },
-  contact: {
-    navLabel: "Trợ giúp & liên hệ",
-    eyebrow: "Liên hệ",
-    title: "Liên hệ với Elynto",
-    description: "Câu hỏi về sản phẩm, góp ý hay đề xuất hợp tác, hãy gửi cho chúng tôi.",
-    sections: [],
-  },
-  privacy: {
-    navLabel: "Quyền riêng tư",
-    eyebrow: "Pháp lý",
-    title: "Quyền riêng tư trên website Elynto",
-    description: "Website này lưu gì trên trình duyệt của bạn, ghi nhận số liệu truy cập nào, vì sao và trong bao lâu.",
-    sections: [
-      {
-        heading: "Phạm vi",
-        body: [
-          "Trang này áp dụng cho website giới thiệu Elynto. Dữ liệu bạn nhập trong ứng dụng Elynto không thuộc phạm vi trang này.",
-        ],
-      },
-      {
-        heading: "Thông tin được lưu trên trình duyệt",
-        body: [
-          "Website lưu lựa chọn ngôn ngữ (cookie elynto-lang, tối đa 1 năm), một mã ngẫu nhiên để đếm số người truy cập và mốc thời gian của lượt truy cập hiện tại. Không mục nào chứa tên, email hay thông tin liên hệ của bạn. Chi tiết từng mục có trên trang Cookie.",
-        ],
-      },
-      {
-        heading: "Thống kê truy cập",
-        body: [
-          "Để biết website được dùng thế nào, website tự ghi nhận: trang được xem, lượt bấm Dùng thử miễn phí và Đăng nhập (kèm vị trí nút), các mốc trải nghiệm tạo việc, thấy thẻ công việc và mở danh sách công việc, thời điểm, loại thiết bị, trình duyệt, hệ điều hành, quốc gia và trang web đã dẫn bạn tới.",
-          "Quốc gia được suy ra từ địa chỉ IP lúc truy cập. Địa chỉ IP và chuỗi nhận dạng trình duyệt không được lưu.",
-        ],
-      },
-      {
-        heading: "Lưu trữ và chia sẻ",
-        body: [
-          "Số liệu thống kê được lưu trong cơ sở dữ liệu do Elynto quản lý, chỉ dùng để xem số liệu tổng hợp, không bán hay chia sẻ cho bên khác, và tự xóa sau khoảng 13 tháng.",
-        ],
-      },
-      {
-        heading: "Không có công cụ theo dõi của bên thứ ba",
-        body: [
-          "Website không dùng công cụ đo lường, quảng cáo hay mạng xã hội của bên thứ ba và không đặt cookie của bên thứ ba.",
-        ],
-      },
-      {
-        heading: "Không có biểu mẫu thu thập thông tin",
-        body: [
-          "Website không có biểu mẫu đăng ký hay đăng nhập. Các nút Dùng thử miễn phí và Đăng nhập chuyển bạn sang ứng dụng Elynto.",
-        ],
-      },
-      {
-        heading: "Nhật ký kỹ thuật",
-        body: [
-          "Như mọi website, máy chủ lưu trữ có thể ghi nhật ký truy cập kỹ thuật, ví dụ địa chỉ IP và thời điểm truy cập, để vận hành và bảo vệ website.",
-        ],
-      },
-      {
-        heading: "Lựa chọn của bạn",
-        body: [
-          "Bạn có thể tắt thống kê hoặc xóa lựa chọn ngôn ngữ đã lưu trên trang Cookie. Website tự bỏ qua trình duyệt bật Do Not Track hoặc Global Privacy Control.",
-        ],
-      },
-    ],
-  },
-  cookies: {
-    navLabel: "Cookie",
-    eyebrow: "Pháp lý",
-    title: "Cookie trên website Elynto",
-    description: "Website dùng một cookie để nhớ ngôn ngữ bạn chọn, và bộ nhớ trình duyệt để đếm lượt truy cập ẩn danh.",
-    sections: [
-      {
-        heading: "Cookie đang dùng",
-        table: {
-          caption: "Cookie của website Elynto",
-          columns: ["Tên", "Mục đích", "Thời hạn", "Loại"],
-          rows: [["elynto-lang", "Nhớ ngôn ngữ bạn chọn (Tiếng Việt hoặc English)", "1 năm", "Chức năng, của Elynto"]],
-        },
-        body: ["Khi bạn mở elynto.io, cookie này giúp chuyển thẳng tới phiên bản ngôn ngữ đã chọn."],
-      },
-      {
-        heading: "Bộ nhớ trình duyệt",
-        table: {
-          caption: "Mục lưu trong bộ nhớ trình duyệt (localStorage)",
-          columns: ["Tên", "Mục đích", "Thời hạn", "Loại"],
-          rows: [
-            ["elynto-vid", "Mã ngẫu nhiên để đếm số người truy cập", "Đến khi bạn xóa dữ liệu trình duyệt", "Thống kê"],
-            ["elynto-visit", "Nhận biết lượt truy cập hiện tại", "Hết hiệu lực sau 30 phút không hoạt động", "Thống kê"],
-            ["elynto-lang", "Bản sao lựa chọn ngôn ngữ", "Đến khi bạn xóa dữ liệu trình duyệt", "Chức năng"],
-            ["elynto-stats-optout", "Ghi nhớ bạn đã tắt thống kê", "Đến khi bạn bật lại", "Chức năng"],
-          ],
-        },
-      },
-      {
-        heading: "Không có cookie của bên thứ ba",
-        body: ["Website không đặt cookie quảng cáo, đo lường hay mạng xã hội của bên thứ ba."],
-      },
-      {
-        heading: "Tắt thống kê truy cập",
-        body: ["Nhấn nút bên dưới để website không ghi nhận lượt truy cập từ trình duyệt này."],
-        action: "statsOptOut",
-      },
-      {
-        heading: "Xóa lựa chọn ngôn ngữ",
-        body: [
-          "Nhấn nút bên dưới để xóa cookie và lựa chọn ngôn ngữ đã lưu. Lần tới khi mở địa chỉ website không có tiền tố ngôn ngữ, khách tại Việt Nam sẽ thấy tiếng Việt, khách quốc tế thấy tiếng Anh. Nếu không xác định được quốc gia, website sẽ dùng cài đặt ngôn ngữ của trình duyệt.",
-        ],
-        action: "clearLanguage",
-      },
-    ],
-  },
-};
+
+
+} satisfies Partial<PagesDictionary>;
+
+export const vi: PagesDictionary = { ...existingPages, ...trustVi, ...guidesVi };

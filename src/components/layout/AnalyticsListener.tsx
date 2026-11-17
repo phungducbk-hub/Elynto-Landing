@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { track, type AnalyticsEvent } from "@/lib/analytics";
-import { recordPageview } from "@/lib/stats/client";
+import { recordPageview, statsOptedOut, subscribeStatisticsChoice } from "@/lib/stats/client";
 
 // Strict Mode runs effects twice in development; don't count that as two views.
 let lastPageview = { path: "", at: 0 };
@@ -16,10 +16,20 @@ export function AnalyticsListener() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const now = Date.now();
-    if (lastPageview.path === pathname && now - lastPageview.at < 1000) return;
-    lastPageview = { path: pathname, at: now };
-    recordPageview();
+    let wasAllowed = !statsOptedOut();
+    const view = () => {
+      if (statsOptedOut()) return;
+      const now = Date.now();
+      if (lastPageview.path === pathname && now - lastPageview.at < 1000) return;
+      lastPageview = { path: pathname, at: now };
+      recordPageview();
+    };
+    view();
+    return subscribeStatisticsChoice(() => {
+      const allowed = !statsOptedOut();
+      if (allowed && !wasAllowed) view();
+      wasAllowed = allowed;
+    });
   }, [pathname]);
 
   useEffect(() => {

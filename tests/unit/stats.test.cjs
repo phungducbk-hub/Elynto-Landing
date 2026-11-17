@@ -10,7 +10,7 @@ require.extensions['.ts'] = (mod, filename) => {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
     fileName: filename,
   });
-  mod._compile(outputText, filename);
+  mod._compile(outputText.replace('require("@/lib/stats/client")', 'require("./stats/client.ts")'), filename);
 };
 
 process.env.STATS_TIMEZONE = 'Asia/Ho_Chi_Minh';
@@ -19,10 +19,11 @@ const { toStatsEvent } = require('../../src/lib/stats/collect.ts');
 const { aggregate, demoFunnel } = require('../../src/lib/stats/aggregate.ts');
 const now = Date.parse('2026-11-15T10:00:00Z');
 const context = { now, userAgent: 'Mozilla/5.0 Chrome/120.0', country: 'VN', host: 'elynto.io' };
-const input = { type: 'demo', stage: 'view', visitor: 'visitor-0001', visit: 'visit-000001', path: '/vi' };
+const input = { consentVersion: 1, type: 'demo', stage: 'view', visitor: 'visitor-0001', visit: 'visit-000001', path: '/vi' };
 const event = (type, extra = {}) => toStatsEvent({ ...input, type, ...extra }, context);
 
 test('collector rejects unsupported milestones and invalid identities', () => {
+  for (const consentVersion of [undefined, null, 0, 2, '1']) assert.equal(toStatsEvent({ ...input, consentVersion }, context), null);
   for (const stage of [null, 'registered', 'signup_success', '', 1]) {
     assert.equal(toStatsEvent({ ...input, stage }, context), null);
   }
@@ -89,11 +90,17 @@ test('client honors opt-out, DNT and GPC before storing an ID or sending demo ev
   const keys = ['window', 'document', 'navigator'];
   const original = new Map(keys.map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
   const navigatorMock = { maxTouchPoints: 0, sendBeacon: (_, blob) => { sent.push(blob); return true; } };
-  Object.defineProperty(globalThis, 'window', { configurable: true, value: { localStorage: { getItem: key => data.get(key) ?? null, setItem: (key, value) => data.set(key, value), removeItem: key => data.delete(key) }, location: { pathname: '/vi' } } });
+  Object.defineProperty(globalThis, 'window', { configurable: true, value: { localStorage: { getItem: key => data.get(key) ?? null, setItem: (key, value) => data.set(key, value), removeItem: key => data.delete(key) }, location: { pathname: '/vi', search: '' } } });
   Object.defineProperty(globalThis, 'document', { configurable: true, value: { documentElement: { lang: 'vi' } } });
   Object.defineProperty(globalThis, 'navigator', { configurable: true, value: navigatorMock });
   try {
     const client = require('../../src/lib/stats/client.ts');
+    assert.equal(client.statisticsChoice(), 'unset');
+    client.recordDemoStage('view');
+    client.recordCtaClick('signup', 'footer');
+    client.recordPageview();
+    assert.equal(sent.length, 0);
+    assert.equal(data.size, 0);
     client.setStatsOptOut(true);
     client.recordDemoStage('view');
     assert.equal(data.has('elynto-vid'), false);
@@ -107,6 +114,7 @@ test('client honors opt-out, DNT and GPC before storing an ID or sending demo ev
     navigatorMock.globalPrivacyControl = false;
     client.recordDemoStage('view');
     const payload = JSON.parse(await sent[0].text());
+    assert.equal(payload.consentVersion, 1);
     assert.equal(payload.type, 'demo');
     assert.equal(payload.stage, 'view');
     assert.equal(payload.path, '/vi');
@@ -114,6 +122,16 @@ test('client honors opt-out, DNT and GPC before storing an ID or sending demo ev
     assert.equal(typeof payload.occurredAt, 'number');
     assert.ok(payload.visitor);
     assert.equal('command' in payload, false);
+    assert.equal(data.has('elynto-vid'), true);
+    assert.equal(data.has('elynto-visit'), true);
+    client.setStatsOptOut(true);
+    assert.equal(data.has('elynto-vid'), false);
+    assert.equal(data.has('elynto-visit'), false);
+    client.recordDemoStage('work_card');
+    client.recordCtaClick('signup', 'footer');
+    assert.equal(sent.length, 1);
+    data.delete('elynto-stats-consent');
+    assert.equal(client.statisticsChoice(), 'deny', 'legacy refusal survives');
   } finally {
     for (const key of keys) {
       if (original.get(key)) Object.defineProperty(globalThis, key, original.get(key));
@@ -144,5 +162,66 @@ test('signup and login use distinct verified routes, including older beta-root o
       else process.env[key] = original.get(key);
     }
     delete require.cache[filename];
+  }
+});
+
+
+test('all analytics hooks stay silent before consent and after revocation, including dataLayer', () => {
+  const original = new Map(['window', 'document', 'navigator', 'CustomEvent'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
+  const data = new Map();
+  const events = new EventTarget();
+  let beacons = 0;
+  const win = { localStorage: { getItem: key => data.get(key) ?? null, setItem: (key, value) => data.set(key, value), removeItem: key => data.delete(key) }, location: { pathname: '/en', search: '' }, addEventListener: events.addEventListener.bind(events), removeEventListener: events.removeEventListener.bind(events), dispatchEvent: events.dispatchEvent.bind(events) };
+  Object.defineProperty(globalThis, 'window', { configurable: true, value: win });
+  Object.defineProperty(globalThis, 'document', { configurable: true, value: { documentElement: { lang: 'en' } } });
+  Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { maxTouchPoints: 0, sendBeacon: () => { beacons++; return true; } } });
+  Object.defineProperty(globalThis, 'CustomEvent', { configurable: true, value: class extends Event { constructor(type, init) { super(type); this.detail = init.detail; } } });
+  try {
+    const client = require('../../src/lib/stats/client.ts');
+    const { track } = require('../../src/lib/analytics.ts');
+    let notifications = 0;
+    const unsubscribe = client.subscribeStatisticsChoice(() => notifications++);
+    track('cta_click', { cta: 'signup' });
+    assert.equal(win.dataLayer, undefined);
+    assert.equal(beacons, 0);
+    client.setStatsOptOut(false);
+    track('cta_click', { cta: 'signup' });
+    assert.equal(win.dataLayer.length, 1);
+    assert.equal(beacons, 1);
+    client.setStatsOptOut(true);
+    track('demo_milestone', { stage: 'view' });
+    assert.equal(win.dataLayer.length, 1);
+    assert.equal(beacons, 1);
+    assert.equal(notifications, 2);
+    unsubscribe();
+    client.setStatsOptOut(true);
+    assert.equal(notifications, 2);
+  } finally {
+    for (const [key, descriptor] of original) {
+      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+      else delete globalThis[key];
+    }
+  }
+});
+
+test('privacy choices remain effective when storage can be read but writes are blocked', () => {
+  const original = new Map(['window', 'navigator'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
+  const file = require.resolve('../../src/lib/stats/client.ts');
+  delete require.cache[file];
+  Object.defineProperty(globalThis, 'window', { configurable: true, value: { localStorage: { getItem: () => null, setItem: () => { throw new Error('quota'); }, removeItem: () => {} } } });
+  Object.defineProperty(globalThis, 'navigator', { configurable: true, value: {} });
+  try {
+    const client = require(file);
+    assert.equal(client.statisticsChoice(), 'unset');
+    client.setStatsOptOut(false);
+    assert.equal(client.statisticsChoice(), 'allow');
+    client.setStatsOptOut(true);
+    assert.equal(client.statisticsChoice(), 'deny');
+  } finally {
+    delete require.cache[file];
+    for (const [key, descriptor] of original) {
+      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+      else delete globalThis[key];
+    }
   }
 });
