@@ -14,7 +14,7 @@ export function Confidence({ lang }: { lang: Locale }) {
       <Container className="py-16 sm:py-20">
         <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <div>
-            <SectionHeading id="proof-title" eyebrow={proof.eyebrow} title={proof.title} intro={proof.body} />
+            <SectionHeading id="proof-title" eyebrow={proof.eyebrow} title={lang === "vi" ? <span className="whitespace-pre-line">{proof.title.replace(". ", ".\n")}</span> : proof.title} intro={proof.body} />
             <div {...reveal()} className="mt-7"><ButtonLink href="#demo" dataAttrs={{ "data-track": "cta_click", "data-track-cta": "see_demo", "data-track-location": "proof" }}>{proof.cta}<ArrowRight aria-hidden="true" className="size-4" /></ButtonLink></div>
           </div>
           <ol {...reveal("from-right")} className="divide-y divide-line rounded-3xl border border-line bg-canvas px-5 sm:px-7">

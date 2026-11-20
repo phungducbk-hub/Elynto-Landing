@@ -37,7 +37,7 @@ export function ProductShell({ active, children, compact = false, lang = "en" }:
         <div className="space-y-0.5 p-2">
           {navigation.map(([Icon, label]) => <div key={label} className={cn("flex items-center gap-2.5 rounded-md px-2.5 py-2 text-xs", active === label ? "bg-[#e9eef0] font-medium text-[#234056]" : "text-ink-muted")}><Icon className="size-3.5 shrink-0" />{ui.nav[label]}</div>)}
         </div>
-        <div className="mt-auto border-t border-line p-4 text-xs text-ink-muted"><span className="flex items-center gap-2"><Settings className="size-3.5" />{ui.settings}</span><span className="mt-4 block font-mono text-[8px] tracking-widest">{ui.version}</span></div>
+        <div className="mt-auto border-t border-line p-4 text-xs text-ink-muted"><span className="flex items-center gap-2"><Settings className="size-3.5" />{ui.settings}</span><span aria-hidden="true" className="mt-4 block font-mono text-[8px] tracking-widest">&nbsp;</span></div>
       </aside>
       <div className="min-w-0">
         <div className="flex h-12 items-center justify-between gap-2 border-b border-line px-4 text-xs sm:px-5">

@@ -16,6 +16,7 @@ export function Logo({ variant = "lockup", className, title = "Elynto" }: Props)
       xmlns="http://www.w3.org/2000/svg"
       viewBox={isMark ? MARK_VIEWBOX : LOCKUP_VIEWBOX}
       fill="currentColor"
+      fillRule="evenodd"
       className={cn("block", className)}
       {...(title ? { role: "img", "aria-label": title } : { "aria-hidden": true, focusable: false })}
     >

@@ -31,7 +31,7 @@ export const vi: Dictionary = {
   hero: {
     eyebrow: "Elynto - Quản lý công việc bằng AI",
     description:
-      "Elynto giúp freelancer và nhóm nhỏ tạo việc, lập kế hoạch, trao đổi và theo dõi tiến độ trong cùng một nơi.",
+      "Elynto giúp bạn và đội nhóm tạo việc, lập kế hoạch, trao đổi và theo dõi tiến độ trong cùng một nơi.",
     primaryCta: "Dùng thử miễn phí",
     secondaryCta: "Xem Elynto hoạt động",
   },
