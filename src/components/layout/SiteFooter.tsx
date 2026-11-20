@@ -68,14 +68,14 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
             {pageGroups.map((group) => (
               <div key={group.id} className="min-w-0">
                 <h2 className="text-[0.8125rem] font-semibold tracking-wide text-ink uppercase">{footer.groups[group.id]}</h2>
-                <ul className="mt-4 space-y-1">
+                <ul className="mt-3 space-y-0.5">
                   {group.pages.map((key) => (
                     <li key={key}>
                       <a
                         href={href(key)}
                         aria-current={key === current ? "page" : undefined}
                         {...track(key)}
-                        className={`inline-flex min-h-11 items-center py-2 text-[0.9375rem] leading-snug ${linkClass}`}
+                        className={`inline-flex min-h-11 items-center py-1.5 text-sm leading-5 sm:min-h-10 ${linkClass}`}
                       >
                         {pages[key].navLabel}
                         {pages[key].badge ? (
