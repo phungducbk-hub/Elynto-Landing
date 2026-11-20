@@ -49,7 +49,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ lan
           color: navy,
         }}
       >
-        <svg width={(vbWidth / vbHeight) * logoHeight} height={logoHeight} viewBox={LOCKUP_VIEWBOX} fill={navy}>
+        <svg width={(vbWidth / vbHeight) * logoHeight} height={logoHeight} viewBox={LOCKUP_VIEWBOX} fill={navy} fillRule="evenodd">
           {LOCKUP_PATHS.map((d, i) => (
             <path key={i} d={d} />
           ))}
