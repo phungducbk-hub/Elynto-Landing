@@ -75,7 +75,7 @@ export function SiteFooter({ lang, dict, pages, vision, signupUrl, loginUrl, cur
                         href={href(key)}
                         aria-current={key === current ? "page" : undefined}
                         {...track(key)}
-                        className={`inline-flex min-h-11 items-center py-1.5 text-sm leading-5 sm:min-h-10 ${linkClass}`}
+                        className={`inline-flex min-h-11 items-center py-1.5 text-sm leading-5 sm:min-h-10 lg:min-h-9 lg:text-[0.8125rem] lg:leading-[1.125rem] ${linkClass}`}
                       >
                         {pages[key].navLabel}
                         {pages[key].badge ? (
