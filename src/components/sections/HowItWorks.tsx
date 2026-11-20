@@ -83,7 +83,7 @@ export function HowItWorks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               <div {...reveal()}><p className="text-sm font-semibold text-brand">{views.eyebrow}</p><h4 id="feature-views-title" className="mt-3 text-2xl font-semibold leading-tight text-ink text-balance sm:text-3xl">{views.title}</h4><p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">{views.body}</p></div>
               <ul {...reveal()} className="space-y-3 self-end">{views.points.map(point => <li key={point} className="flex gap-3 text-base leading-relaxed text-ink"><Check aria-hidden="true" className="mt-1 size-4 shrink-0 text-brand" />{point}</li>)}</ul>
             </div>
-            <div {...reveal("visual")} className="mt-9">{projectShot ? <ProductShot image={projectShot} /> : <ProjectWorkspace lang={lang} data={views.data} app={app} />}</div>
+            <div {...reveal("visual")} className="mt-9 [mask-image:linear-gradient(to_bottom,black_calc(100%_-_12rem),transparent_100%)]">{projectShot ? <ProductShot image={projectShot} /> : <ProjectWorkspace lang={lang} data={views.data} app={app} />}</div>
           </article>
         </Container>
       </section>
